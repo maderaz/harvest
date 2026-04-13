@@ -1,8 +1,7 @@
 import { Suspense } from "react";
 import { vaults } from "@/lib/data";
 import { SITE_NAME, SITE_DESCRIPTION, SITE_URL } from "@/lib/constants";
-import { VaultTable } from "@/components/vault-table";
-import { AssetFilter } from "@/components/asset-filter";
+import { VaultList } from "@/components/vault-list";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -25,34 +24,7 @@ export const metadata: Metadata = {
   },
 };
 
-function HomeContent({
-  searchParams,
-}: {
-  searchParams: Promise<{ asset?: string }>;
-}) {
-  return (
-    <HomeContentInner searchParamsPromise={searchParams} />
-  );
-}
-
-async function HomeContentInner({
-  searchParamsPromise,
-}: {
-  searchParamsPromise: Promise<{ asset?: string }>;
-}) {
-  const { asset } = await searchParamsPromise;
-  const filtered = asset
-    ? vaults.filter((v) => v.asset === asset)
-    : vaults;
-
-  return <VaultTable vaults={filtered} />;
-}
-
-export default async function Home({
-  searchParams,
-}: {
-  searchParams: Promise<{ asset?: string }>;
-}) {
+export default function Home() {
   const totalCount = vaults.length;
 
   return (
@@ -68,23 +40,15 @@ export default async function Home({
         </p>
       </div>
 
-      <div className="mb-6">
-        <Suspense fallback={null}>
-          <AssetFilter />
-        </Suspense>
-      </div>
-
-      <div className="rounded-xl border border-gray-200 bg-white shadow-sm">
-        <Suspense
-          fallback={
-            <div className="flex items-center justify-center py-20 text-gray-400">
-              Loading vaults...
-            </div>
-          }
-        >
-          <HomeContent searchParams={searchParams} />
-        </Suspense>
-      </div>
+      <Suspense
+        fallback={
+          <div className="flex items-center justify-center py-20 text-gray-400">
+            Loading vaults...
+          </div>
+        }
+      >
+        <VaultList vaults={vaults} />
+      </Suspense>
     </main>
   );
 }
