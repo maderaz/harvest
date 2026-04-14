@@ -1,5 +1,7 @@
 export type Asset = "USDC" | "USDT" | "ETH" | "WBTC" | "cbBTC" | "EURC";
 
+export type VaultType = "Autocompounder" | "Autopilot";
+
 export interface Protocol {
   name: string;
   slug: string;
@@ -11,6 +13,7 @@ export interface YieldVault {
   asset: Asset;
   productName: string;
   protocol: Protocol;
+  vaultType: VaultType;
   apy24h: number;
   apy30d: number;
   tvl: number;
@@ -20,4 +23,19 @@ export interface YieldVault {
   riskLevel: "low" | "medium" | "high";
   category: string;
   launchDate: string;
+}
+
+export interface VaultConfig {
+  address: string;
+  slug: string;
+  asset: Asset;
+  productName: string;
+  vaultType: VaultType;
+  chain: string;
+  category: string;
+  description: string;
+  riskLevel: "low" | "medium" | "high";
+  launchDate: string;
+  fallbackApy: number;
+  fallbackTvl: number;
 }

@@ -1,14 +1,15 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import type { Metadata } from "next";
-import { vaults, getVaultBySlug, getAllSlugs } from "@/lib/data";
+import { getVaults, getVaultBySlug, getAllSlugs } from "@/lib/data";
 import { formatAPY, formatTVL } from "@/lib/format";
 import { AssetBadge } from "@/components/asset-badge";
 import { SITE_NAME, SITE_URL } from "@/lib/constants";
 import { YieldVault } from "@/lib/types";
 
 export async function generateStaticParams() {
-  return getAllSlugs().map((slug) => ({ slug }));
+  const slugs = await getAllSlugs();
+  return slugs.map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({
@@ -17,7 +18,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const vault = getVaultBySlug(slug);
+  const vault = await getVaultBySlug(slug);
   if (!vault) return {};
 
   const title = `${vault.productName} by ${vault.protocol.name} — ${formatAPY(vault.apy24h)} APY | ${SITE_NAME}`;
@@ -93,10 +94,11 @@ export default async function ProductPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const vault = getVaultBySlug(slug);
+  const vault = await getVaultBySlug(slug);
   if (!vault) notFound();
 
-  const relatedVaults = vaults
+  const allVaults = await getVaults();
+  const relatedVaults = allVaults
     .filter((v) => v.asset === vault.asset && v.id !== vault.id)
     .slice(0, 4);
 
@@ -121,7 +123,7 @@ export default async function ProductPage({
               {vault.chain}
             </span>
             <span className="rounded-full bg-gray-100 px-2.5 py-0.5 text-xs font-medium text-gray-600">
-              {vault.category}
+              {vault.vaultType}
             </span>
           </div>
           <h1 className="text-3xl font-bold tracking-tight text-gray-900">
@@ -173,12 +175,8 @@ export default async function ProductPage({
               </dd>
             </div>
             <div className="rounded-lg border border-gray-200 bg-white p-4">
-              <dt className="text-sm font-medium text-gray-500">
-                Launch Date
-              </dt>
-              <dd className="mt-1 text-sm text-gray-900">
-                {vault.launchDate}
-              </dd>
+              <dt className="text-sm font-medium text-gray-500">Type</dt>
+              <dd className="mt-1 text-sm text-gray-900">{vault.vaultType}</dd>
             </div>
             <div className="rounded-lg border border-gray-200 bg-white p-4">
               <dt className="text-sm font-medium text-gray-500">Asset</dt>

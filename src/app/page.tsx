@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import { vaults } from "@/lib/data";
+import { getVaults } from "@/lib/data";
 import { SITE_NAME, SITE_DESCRIPTION, SITE_URL } from "@/lib/constants";
 import { VaultList } from "@/components/vault-list";
 import type { Metadata } from "next";
@@ -24,15 +24,15 @@ export const metadata: Metadata = {
   },
 };
 
-export default function Home() {
-  const totalCount = vaults.length;
+export default async function Home() {
+  const vaults = await getVaults();
 
   return (
     <main className="mx-auto w-full max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
       <div className="mb-8">
         <h1 className="text-3xl font-bold tracking-tight text-gray-900">
           Explore &amp; Compare over{" "}
-          <span className="text-blue-600">{totalCount}</span> Yield Sources
+          <span className="text-blue-600">{vaults.length}</span> Yield Sources
         </h1>
         <p className="mt-2 text-base text-gray-500">
           Credible, neutral data for onchain vaults. Find the best yield for

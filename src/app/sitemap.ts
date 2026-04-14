@@ -4,8 +4,8 @@ import { SITE_URL } from "@/lib/constants";
 
 export const dynamic = "force-static";
 
-export default function sitemap(): MetadataRoute.Sitemap {
-  const slugs = getAllSlugs();
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const slugs = await getAllSlugs();
 
   const vaultPages = slugs.map((slug) => ({
     url: `${SITE_URL}/${slug}`,

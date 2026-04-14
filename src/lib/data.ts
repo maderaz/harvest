@@ -1,318 +1,68 @@
-import { YieldVault } from "./types";
+import { YieldVault, VaultConfig } from "./types";
+import { fetchVaultData } from "./subgraph";
 
-export const vaults: YieldVault[] = [
+/**
+ * Vault configurations — add new vaults here.
+ * Live APY / TVL are fetched from the subgraph at build time;
+ * fallback values are used when the subgraph is unreachable.
+ */
+const VAULT_CONFIGS: VaultConfig[] = [
   {
-    id: "1",
-    slug: "hyperithm-private-credit-hyperithm",
+    address: "0x2d5fde3d24ed3e7c548a59039eee5af8200f9291",
+    slug: "usdc-autocompounder-ethereum",
     asset: "USDC",
-    productName: "Hyperithm (Private Credit)",
-    protocol: { name: "Hyperithm", slug: "hyperithm" },
-    apy24h: 15.0,
-    apy30d: 15.0,
-    tvl: 30_000_000,
-    description:
-      "Hyperithm Private Credit vault offers institutional-grade lending yields through diversified credit strategies. Capital is deployed across vetted borrowers with overcollateralized positions.",
+    productName: "USDC Autocompounder",
+    vaultType: "Autocompounder",
     chain: "Ethereum",
-    contractAddress: "0x1234...abcd",
-    riskLevel: "medium",
-    category: "Private Credit",
-    launchDate: "2024-06-15",
-  },
-  {
-    id: "2",
-    slug: "worusd-leveraged-looping-reservoir",
-    asset: "USDC",
-    productName: "worUSD (Leveraged Looping)",
-    protocol: { name: "Reservoir", slug: "reservoir" },
-    apy24h: 14.2,
-    apy30d: 12.46,
-    tvl: 4_000_000,
-    description:
-      "Reservoir's worUSD vault uses leveraged looping strategies on stablecoin lending markets to amplify yield. Automated rebalancing maintains target leverage ratios.",
-    chain: "Ethereum",
-    contractAddress: "0x2345...bcde",
-    riskLevel: "high",
-    category: "Leveraged Looping",
-    launchDate: "2024-08-01",
-  },
-  {
-    id: "3",
-    slug: "deltausd-smardex",
-    asset: "USDT",
-    productName: "DeltaUSD",
-    protocol: { name: "SmarDex", slug: "smardex" },
-    apy24h: 12.24,
-    apy30d: 14.89,
-    tvl: 890_000,
-    description:
-      "SmarDex DeltaUSD vault employs an optimized AMM strategy that mitigates impermanent loss through its proprietary algorithm. Yields are generated from trading fees and liquidity incentives.",
-    chain: "Ethereum",
-    contractAddress: "0x3456...cdef",
-    riskLevel: "medium",
-    category: "AMM",
-    launchDate: "2024-03-20",
-  },
-  {
-    id: "4",
-    slug: "earn-avusdc-avestis",
-    asset: "USDC",
-    productName: "Earn - avUSDC",
-    protocol: { name: "Avestis", slug: "avestis" },
-    apy24h: 10.91,
-    apy30d: 9.4,
-    tvl: 562_000_000,
-    description:
-      "Avestis avUSDC is a passive yield optimization vault that automatically allocates USDC across the highest-yielding lending protocols. Risk-adjusted returns with institutional-grade monitoring.",
-    chain: "Ethereum",
-    contractAddress: "0x4567...defg",
-    riskLevel: "low",
     category: "Yield Optimization",
-    launchDate: "2023-11-10",
-  },
-  {
-    id: "5",
-    slug: "gami-usdc-gami",
-    asset: "USDC",
-    productName: "Gami USDC",
-    protocol: { name: "Gami", slug: "gami" },
-    apy24h: 10.26,
-    apy30d: 10.47,
-    tvl: 2_800_000,
     description:
-      "Gami USDC vault combines DeFi lending with gamified reward mechanics. Depositors earn base yield plus bonus rewards through protocol participation incentives.",
-    chain: "Arbitrum",
-    contractAddress: "0x5678...efgh",
-    riskLevel: "medium",
-    category: "Lending",
-    launchDate: "2024-01-25",
-  },
-  {
-    id: "6",
-    slug: "gami-spectra-usdc-gami",
-    asset: "USDC",
-    productName: "Gami Spectra USDC",
-    protocol: { name: "Spectra", slug: "spectra" },
-    apy24h: 10.25,
-    apy30d: 8.27,
-    tvl: 5_200_000,
-    description:
-      "Spectra's Gami USDC vault leverages yield tokenization to offer fixed and variable rate exposure. Users benefit from optimized yield curve positioning.",
-    chain: "Ethereum",
-    contractAddress: "0x6789...fghi",
-    riskLevel: "medium",
-    category: "Yield Tokenization",
-    launchDate: "2024-04-12",
-  },
-  {
-    id: "7",
-    slug: "wintermute-trading-private-credit-wintermute",
-    asset: "USDC",
-    productName: "Wintermute Trading (Private Credit)",
-    protocol: { name: "Wintermute", slug: "wintermute" },
-    apy24h: 9.5,
-    apy30d: 9.57,
-    tvl: 832_000,
-    description:
-      "Wintermute's Private Credit vault provides exposure to market-making returns through a secured lending facility. Institutional-grade risk management with transparent reporting.",
-    chain: "Ethereum",
-    contractAddress: "0x789a...ghij",
+      "Harvest's USDC Autocompounder automatically compounds lending yields across top DeFi protocols. Smart contracts continuously harvest rewards and reinvest them, maximizing your USDC returns without manual intervention.",
     riskLevel: "low",
-    category: "Private Credit",
-    launchDate: "2024-02-28",
-  },
-  {
-    id: "8",
-    slug: "moon-digital-am-usdc-odyssey-digital-am",
-    asset: "USDC",
-    productName: "Moon Digital AM USDC",
-    protocol: { name: "Odyssey Digital AM", slug: "odyssey-digital-am" },
-    apy24h: 8.96,
-    apy30d: 5.23,
-    tvl: 892_000,
-    description:
-      "Odyssey Digital AM offers actively managed USDC strategies combining lending, liquidity provision, and basis trading across multiple DeFi protocols.",
-    chain: "Ethereum",
-    contractAddress: "0x89ab...hijk",
-    riskLevel: "medium",
-    category: "Active Management",
-    launchDate: "2024-07-05",
-  },
-  {
-    id: "9",
-    slug: "usdc-mev-capital",
-    asset: "USDC",
-    productName: "USDC",
-    protocol: { name: "MEV Capital", slug: "mev-capital" },
-    apy24h: 8.72,
-    apy30d: 6.17,
-    tvl: 6_000_000,
-    description:
-      "MEV Capital's USDC vault captures value from MEV extraction strategies, returning proceeds to depositors as yield. Automated, non-custodial, and fully on-chain.",
-    chain: "Ethereum",
-    contractAddress: "0x9abc...ijkl",
-    riskLevel: "high",
-    category: "MEV",
-    launchDate: "2024-05-18",
-  },
-  {
-    id: "10",
-    slug: "ethena-susde",
-    asset: "USDC",
-    productName: "Ethena sUSDe",
-    protocol: { name: "Ethena", slug: "ethena" },
-    apy24h: 8.45,
-    apy30d: 7.92,
-    tvl: 1_200_000_000,
-    description:
-      "Ethena's sUSDe is a synthetic dollar yield vault that generates returns through delta-neutral hedging strategies using perpetual futures funding rates.",
-    chain: "Ethereum",
-    contractAddress: "0xabcd...jklm",
-    riskLevel: "medium",
-    category: "Synthetic",
-    launchDate: "2024-02-19",
-  },
-  {
-    id: "11",
-    slug: "aave-v3-usdc",
-    asset: "USDC",
-    productName: "Aave V3 USDC",
-    protocol: { name: "Aave", slug: "aave" },
-    apy24h: 5.12,
-    apy30d: 4.87,
-    tvl: 3_400_000_000,
-    description:
-      "Aave V3 USDC supply pool offers battle-tested lending yields. As the largest lending protocol, it provides deep liquidity and robust risk parameters.",
-    chain: "Ethereum",
-    contractAddress: "0xbcde...klmn",
-    riskLevel: "low",
-    category: "Lending",
-    launchDate: "2023-01-27",
-  },
-  {
-    id: "12",
-    slug: "compound-v3-usdc",
-    asset: "USDC",
-    productName: "Compound V3 USDC",
-    protocol: { name: "Compound", slug: "compound" },
-    apy24h: 4.88,
-    apy30d: 4.65,
-    tvl: 1_800_000_000,
-    description:
-      "Compound V3 (Comet) USDC market provides isolated lending with simplified risk. Single-asset markets reduce cross-collateral risk.",
-    chain: "Ethereum",
-    contractAddress: "0xcdef...lmno",
-    riskLevel: "low",
-    category: "Lending",
-    launchDate: "2022-08-26",
-  },
-  {
-    id: "13",
-    slug: "lido-steth",
-    asset: "ETH",
-    productName: "Lido stETH",
-    protocol: { name: "Lido", slug: "lido" },
-    apy24h: 3.2,
-    apy30d: 3.15,
-    tvl: 14_500_000_000,
-    description:
-      "Lido's stETH is the leading liquid staking token for Ethereum. Earn ETH staking rewards while maintaining liquidity and DeFi composability.",
-    chain: "Ethereum",
-    contractAddress: "0xae7a...mnop",
-    riskLevel: "low",
-    category: "Liquid Staking",
-    launchDate: "2020-12-19",
-  },
-  {
-    id: "14",
-    slug: "rocketpool-reth",
-    asset: "ETH",
-    productName: "Rocket Pool rETH",
-    protocol: { name: "Rocket Pool", slug: "rocket-pool" },
-    apy24h: 3.05,
-    apy30d: 3.0,
-    tvl: 3_200_000_000,
-    description:
-      "Rocket Pool rETH provides decentralized liquid staking with a permissionless node operator set. The most trust-minimized ETH staking solution.",
-    chain: "Ethereum",
-    contractAddress: "0xae7b...nopq",
-    riskLevel: "low",
-    category: "Liquid Staking",
-    launchDate: "2021-11-08",
-  },
-  {
-    id: "15",
-    slug: "maker-dai-savings-rate",
-    asset: "USDC",
-    productName: "Maker DAI Savings Rate",
-    protocol: { name: "Maker", slug: "maker" },
-    apy24h: 6.0,
-    apy30d: 6.0,
-    tvl: 2_100_000_000,
-    description:
-      "The DAI Savings Rate (DSR) offers a governance-set yield on DAI deposits. Fully backed by overcollateralized positions in the Maker protocol.",
-    chain: "Ethereum",
-    contractAddress: "0x197E...opqr",
-    riskLevel: "low",
-    category: "Savings",
-    launchDate: "2019-11-18",
-  },
-  {
-    id: "16",
-    slug: "morpho-blue-wbtc",
-    asset: "WBTC",
-    productName: "Morpho Blue WBTC",
-    protocol: { name: "Morpho", slug: "morpho" },
-    apy24h: 2.45,
-    apy30d: 2.31,
-    tvl: 450_000_000,
-    description:
-      "Morpho Blue WBTC market provides optimized lending rates through peer-to-peer matching. Better rates than traditional pooled lending for both sides.",
-    chain: "Ethereum",
-    contractAddress: "0xBBBB...pqrs",
-    riskLevel: "low",
-    category: "Lending",
-    launchDate: "2024-01-10",
-  },
-  {
-    id: "17",
-    slug: "cbbtc-coinbase-earn",
-    asset: "cbBTC",
-    productName: "cbBTC Coinbase Earn",
-    protocol: { name: "Coinbase", slug: "coinbase" },
-    apy24h: 1.85,
-    apy30d: 1.92,
-    tvl: 780_000_000,
-    description:
-      "Coinbase's cbBTC earn program offers yield on wrapped Bitcoin through institutional lending strategies. Centralized custody with transparent reserves.",
-    chain: "Base",
-    contractAddress: "0xcbBT...qrst",
-    riskLevel: "low",
-    category: "CeFi Lending",
-    launchDate: "2024-09-01",
-  },
-  {
-    id: "18",
-    slug: "circle-eurc-yield",
-    asset: "EURC",
-    productName: "Circle EURC Yield",
-    protocol: { name: "Circle", slug: "circle" },
-    apy24h: 3.75,
-    apy30d: 3.68,
-    tvl: 120_000_000,
-    description:
-      "Circle's EURC yield vault provides Euro-denominated stablecoin returns through regulated lending facilities. Ideal for EUR-denominated portfolios.",
-    chain: "Ethereum",
-    contractAddress: "0xEURC...rstu",
-    riskLevel: "low",
-    category: "Savings",
-    launchDate: "2024-06-01",
+    launchDate: "2026-03-01",
+    fallbackApy: 0,
+    fallbackTvl: 0,
   },
 ];
 
-export function getVaultBySlug(slug: string): YieldVault | undefined {
+const PROTOCOL = { name: "Harvest Finance", slug: "harvest-finance" };
+
+async function buildVault(config: VaultConfig): Promise<YieldVault> {
+  const live = await fetchVaultData(config.address);
+
+  return {
+    id: config.address,
+    slug: config.slug,
+    asset: config.asset,
+    productName: config.productName,
+    protocol: PROTOCOL,
+    vaultType: config.vaultType,
+    apy24h: live.apy ?? config.fallbackApy,
+    apy30d: live.apy ?? config.fallbackApy, // subgraph gives latest; 30d needs historical calc
+    tvl: live.tvl ?? config.fallbackTvl,
+    description: config.description,
+    chain: config.chain,
+    contractAddress: config.address,
+    riskLevel: config.riskLevel,
+    category: config.category,
+    launchDate: config.launchDate,
+  };
+}
+
+let _cache: YieldVault[] | null = null;
+
+export async function getVaults(): Promise<YieldVault[]> {
+  if (_cache) return _cache;
+  _cache = await Promise.all(VAULT_CONFIGS.map(buildVault));
+  return _cache;
+}
+
+export async function getVaultBySlug(
+  slug: string,
+): Promise<YieldVault | undefined> {
+  const vaults = await getVaults();
   return vaults.find((v) => v.slug === slug);
 }
 
-export function getAllSlugs(): string[] {
-  return vaults.map((v) => v.slug);
+export async function getAllSlugs(): Promise<string[]> {
+  return VAULT_CONFIGS.map((c) => c.slug);
 }
