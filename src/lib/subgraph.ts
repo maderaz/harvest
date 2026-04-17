@@ -1,3 +1,5 @@
+import { writeFileSync } from "fs";
+
 const SUBGRAPH_URL =
   "https://gateway.thegraph.com/api/subgraphs/id/H5QTRq1z4NFaZdZVECpLjCAMxcEYiRR6kmu2RrogCSGC";
 
@@ -40,6 +42,14 @@ export interface SubgraphVaultData {
   tvl: number | null;
   sharePrice: string | null;
   timestamp: number | null;
+}
+
+function log(msg: string) {
+  try {
+    writeFileSync("/dev/stderr", msg + "\n");
+  } catch {
+    console.log(msg);
+  }
 }
 
 export async function fetchVaultData(
@@ -85,15 +95,16 @@ export async function fetchVaultData(
   const tvlArr = data.tvls as { value: string; timestamp: string }[] | undefined;
   const histArr = data.vaultHistories as { sharePrice: string; timestamp: string }[] | undefined;
 
-  console.log(`[subgraph] vault=${addr}`);
-  console.log(`[subgraph] raw apyAutoCompounds:`, JSON.stringify(apyArr));
-  console.log(`[subgraph] raw tvls:`, JSON.stringify(tvlArr));
-  console.log(`[subgraph] raw vaultHistories:`, JSON.stringify(histArr));
+  log(`[subgraph] vault=${addr}`);
+  log(`[subgraph] raw apyAutoCompounds: ${JSON.stringify(apyArr)}`);
+  log(`[subgraph] raw tvls: ${JSON.stringify(tvlArr)}`);
+  log(`[subgraph] raw vaultHistories: ${JSON.stringify(histArr)}`);
 
   const rawApy = apyArr?.[0] ? parseFloat(apyArr[0].apy) : null;
+  const apy = rawApy !== null && rawApy >= 0 ? rawApy : null;
 
   return {
-    apy: rawApy,
+    apy,
     tvl: tvlArr?.[0] ? parseFloat(tvlArr[0].value) : null,
     sharePrice: histArr?.[0]?.sharePrice ?? null,
     timestamp: histArr?.[0] ? parseInt(histArr[0].timestamp, 10) : null,
