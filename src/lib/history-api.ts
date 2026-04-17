@@ -254,12 +254,14 @@ export async function fetchFullVaultHistory(
     })),
   );
 
-  const sharePriceHistory = deduplicateByDay(
+  const allSharePrice = deduplicateByDay(
     (rawSharePrice ?? []).map((r) => ({
       sharePrice: parseFloat(r.sharePrice),
       timestamp: parseInt(r.timestamp, 10),
     })),
   );
+  const firstAboveOne = allSharePrice.findIndex((p) => p.sharePrice >= 1.0);
+  const sharePriceHistory = firstAboveOne >= 0 ? allSharePrice.slice(firstAboveOne) : [];
 
   const apyHistory = deduplicateByDay(
     (rawApy ?? []).map((r) => ({

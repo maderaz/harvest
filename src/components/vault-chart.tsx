@@ -189,15 +189,15 @@ export function VaultChart({
     : 0;
 
   return (
-    <div className="rounded-xl bg-[#0f1117] p-4 sm:p-5">
+    <div className="rounded-xl border border-gray-200 bg-white p-4 sm:p-5">
       {/* Header */}
       <div className="flex items-start justify-between mb-1">
         <div>
-          <p className="text-xs text-gray-500 uppercase tracking-wider">{title}</p>
-          <p className="text-xl font-semibold text-white sm:text-2xl">
+          <p className="text-xs text-gray-400 uppercase tracking-wider">{title}</p>
+          <p className="text-xl font-semibold text-gray-900 sm:text-2xl">
             {formatValue(displayVal, format)}
           </p>
-          <p className="text-[11px] text-gray-500">{displayDate}</p>
+          <p className="text-[11px] text-gray-400">{displayDate}</p>
         </div>
         <div className="flex gap-1">
           {WINDOWS.map((w) => (
@@ -206,8 +206,8 @@ export function VaultChart({
               onClick={() => setActiveWindow(w.label)}
               className={`rounded-full px-2.5 py-1 text-[11px] font-medium transition-colors ${
                 activeWindow === w.label
-                  ? "bg-gray-700 text-white"
-                  : "text-gray-500 hover:text-gray-300"
+                  ? "bg-gray-900 text-white"
+                  : "text-gray-400 hover:text-gray-600"
               }`}
             >
               {w.label}
@@ -241,10 +241,10 @@ export function VaultChart({
               y1={t.y}
               x2={W - PR}
               y2={t.y}
-              stroke="#1f2937"
+              stroke="#f0f0f0"
               strokeWidth="1"
             />
-            <text x={PL + 4} y={t.y - 4} fontSize="9" fill="#4b5563">
+            <text x={PL + 4} y={t.y - 4} fontSize="9" fill="#9ca3af">
               {formatAxisVal(t.val, format)}
             </text>
           </g>
@@ -276,7 +276,7 @@ export function VaultChart({
               y1={PT}
               x2={scrub.x}
               y2={H - PB}
-              stroke="#6b7280"
+              stroke="#d1d5db"
               strokeWidth="1"
               strokeDasharray="3 3"
             />
@@ -293,7 +293,7 @@ export function VaultChart({
             y={H - 6}
             textAnchor="middle"
             fontSize="9"
-            fill="#4b5563"
+            fill="#9ca3af"
           >
             {t.label}
           </text>
