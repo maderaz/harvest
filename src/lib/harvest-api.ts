@@ -1,7 +1,26 @@
 import { writeFileSync } from "fs";
-import { YieldVault } from "./types";
+import { YieldVault, Asset } from "./types";
 
 const HARVEST_API = "https://api.harvest.finance/vaults?key=harvest-key";
+
+const CHAIN_NAMES: Record<string, string> = {
+  eth: "Ethereum",
+  matic: "Polygon",
+  arbitrum: "Arbitrum",
+  base: "Base",
+  zksync: "zkSync",
+  hyperevm: "HyperEVM",
+};
+
+const SUPPORTED_ASSETS: Record<string, Asset> = {
+  USDC: "USDC",
+  USDT: "USDT",
+  ETH: "ETH",
+  WETH: "ETH",
+  WBTC: "WBTC",
+  cbBTC: "cbBTC",
+  EURC: "EURC",
+};
 
 function log(msg: string) {
   try {
@@ -12,30 +31,33 @@ function log(msg: string) {
 }
 
 interface HarvestVault {
-  id?: string;
-  vault?: string;
-  vaultAddress?: string;
-  address?: string;
-  name?: string;
-  displayName?: string;
-  chain?: string;
-  network?: string;
-  underlying?: { symbol?: string };
-  symbol?: string;
-  token?: string;
-  tvl?: number | string;
-  apy?: number | string;
-  apyAutoCompound?: number | string;
-  boostedApy?: number | string;
-  category?: string;
-  type?: string;
-  status?: string;
-  active?: boolean;
+  id: string;
+  chain: string;
+  tokenNames: string[];
+  platform: string[];
+  tags: string[];
+  vaultAddress: string;
+  tokenAddress: string;
+  strategyAddress: string;
+  estimatedApy: string;
+  estimatedApyBreakdown: (string | number)[];
+  boostedEstimatedAPY: string;
+  totalValueLocked: string | number;
+  underlyingBalanceWithInvestment: string;
+  usdPrice: string;
+  pricePerFullShare: string;
+  decimals: string;
+  inactive: boolean;
+  logoUrl: string[];
+  apyIconUrls: string[];
+  apyTokenSymbols: string[];
+  _sourceChain: string;
+  _vaultKey: string;
   [key: string]: unknown;
 }
 
-function slugify(name: string, chain: string): string {
-  return `${name}-${chain}`
+function slugify(text: string): string {
+  return text
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-|-$/g, "");
@@ -61,96 +83,70 @@ export async function fetchHarvestVaults(): Promise<YieldVault[]> {
     }
 
     const raw = await res.json();
-    log(`[harvest-api] response type: ${typeof raw}, isArray: ${Array.isArray(raw)}`);
 
-    let vaultList: HarvestVault[] = [];
+    const chainKeys = Object.keys(CHAIN_NAMES);
+    const allVaults: HarvestVault[] = [];
 
-    if (Array.isArray(raw)) {
-      vaultList = raw;
-    } else if (typeof raw === "object" && raw !== null) {
-      const keys = Object.keys(raw);
-      log(`[harvest-api] response keys: ${keys.join(", ")}`);
+    for (const key of chainKeys) {
+      const chainData = raw[key];
+      if (!chainData || typeof chainData !== "object") continue;
 
-      const chainKeys = ["eth", "matic", "arbitrum", "base", "zksync", "hyperevm"];
-
-      for (const key of keys) {
-        const val = raw[key];
-        if (Array.isArray(val)) {
-          for (const item of val) {
-            if (typeof item === "object" && item !== null) {
-              vaultList.push({ ...item, _sourceChain: key });
-            }
-          }
-        } else if (chainKeys.includes(key) && typeof val === "object" && val !== null) {
-          // Handle { eth: { "0xabc": {...}, "0xdef": {...} } }
-          const entries = Object.entries(val as Record<string, unknown>);
-          log(`[harvest-api] chain=${key} entries=${entries.length}`);
-          if (entries.length > 0) {
-            const [sampleKey, sampleVal] = entries[0];
-            log(`[harvest-api] chain=${key} sampleKey=${sampleKey} sampleType=${typeof sampleVal}`);
-            log(`[harvest-api] chain=${key} sample: ${JSON.stringify(sampleVal).slice(0, 500)}`);
-          }
-          for (const [addr, vaultData] of entries) {
-            if (typeof vaultData === "object" && vaultData !== null) {
-              vaultList.push({ ...(vaultData as HarvestVault), _vaultKey: addr, _sourceChain: key });
-            }
-          }
+      const entries = Object.entries(chainData as Record<string, unknown>);
+      for (const [vaultKey, vaultData] of entries) {
+        if (typeof vaultData === "object" && vaultData !== null) {
+          allVaults.push({
+            ...(vaultData as HarvestVault),
+            _sourceChain: key,
+            _vaultKey: vaultKey,
+          });
         }
       }
     }
 
-    log(`[harvest-api] total vaults found: ${vaultList.length}`);
+    log(`[harvest-api] total vaults: ${allVaults.length}`);
 
-    // Log first 5 vaults raw structure for debugging
-    for (const v of vaultList.slice(0, 5)) {
-      log(`[harvest-api] sample vault keys: ${Object.keys(v).join(", ")}`);
-      log(`[harvest-api] sample vault: ${JSON.stringify(v).slice(0, 500)}`);
-    }
+    // Filter: active vaults with supported assets only
+    const activeVaults = allVaults.filter((v) => !v.inactive);
+    log(`[harvest-api] active vaults: ${activeVaults.length}`);
 
-    // Filter for USDC vaults
-    const usdcVaults = vaultList.filter((v) => {
-      const sym = (v.symbol || v.token || v.underlying?.symbol || v.name || "").toUpperCase();
-      return sym.includes("USDC");
+    // For now, filter to USDC only as requested
+    const usdcVaults = activeVaults.filter((v) => {
+      const names = v.tokenNames || [];
+      return names.some((n) => n.toUpperCase() === "USDC");
     });
 
     log(`[harvest-api] USDC vaults: ${usdcVaults.length}`);
-
-    for (const v of usdcVaults.slice(0, 10)) {
-      log(`[harvest-api] USDC vault: ${JSON.stringify(v).slice(0, 500)}`);
+    for (const v of usdcVaults) {
+      log(`[harvest-api] USDC: id=${v.id} chain=${v._sourceChain} platform=${v.platform?.[0]} apy=${v.estimatedApy} tvl=${v.totalValueLocked}`);
     }
 
-    // Convert to our YieldVault type
-    const results: YieldVault[] = [];
-    for (const v of usdcVaults) {
-      const addr = v.vaultAddress || v.vault || v.address || v.id || "";
-      const name = v.displayName || v.name || `USDC Vault ${addr.slice(0, 8)}`;
-      const chain = v.chain || v.network || (v as Record<string, unknown>)._sourceChain as string || "Ethereum";
-      const apy = parseNumber(v.apy || v.apyAutoCompound || v.boostedApy);
-      const tvl = parseNumber(v.tvl);
-      const isActive = v.active !== false && v.status !== "inactive";
+    const results: YieldVault[] = usdcVaults.map((v) => {
+      const chain = CHAIN_NAMES[v._sourceChain] || v._sourceChain;
+      const platform = v.platform?.[0] || "Harvest";
+      const productName = `${v.id}`;
+      const apy = parseNumber(v.estimatedApy);
+      const tvl = parseNumber(v.totalValueLocked);
 
-      if (!isActive) continue;
-
-      results.push({
-        id: addr || `vault-${results.length}`,
-        slug: slugify(name, chain),
-        asset: "USDC",
-        productName: name,
+      return {
+        id: v.vaultAddress,
+        slug: slugify(`${v.id}-${chain}`),
+        asset: "USDC" as Asset,
+        productName,
         protocol: { name: "Harvest Finance", slug: "harvest-finance" },
-        vaultType: (v.type || v.category || "").toLowerCase().includes("pilot") ? "Autopilot" : "Autocompounder",
+        vaultType: v.tags?.some((t) => t.toLowerCase().includes("pilot")) ? "Autopilot" as const : "Autocompounder" as const,
         apy24h: apy,
         apy30d: apy,
         tvl,
-        description: `${name} on ${chain} — automatically optimizes your USDC yield across top DeFi protocols via Harvest Finance.`,
+        description: `${productName} on ${platform} (${chain}) — automatically optimizes your USDC yield via Harvest Finance.`,
         chain,
-        contractAddress: addr,
-        riskLevel: "low",
-        category: v.category || v.type || "Yield Optimization",
+        contractAddress: v.vaultAddress,
+        riskLevel: "low" as const,
+        category: platform,
         launchDate: "",
-      });
-    }
+      };
+    });
 
-    log(`[harvest-api] final vault count: ${results.length}`);
+    log(`[harvest-api] final count: ${results.length}`);
     return results;
   } catch (err) {
     log(`[harvest-api] error: ${err}`);
