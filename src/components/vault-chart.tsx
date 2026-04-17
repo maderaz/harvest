@@ -13,9 +13,33 @@ interface VaultChartProps {
   title: string;
   data: DataPoint[];
   format: ValueFormat;
+  color?: string;
 }
 
+const WINDOWS = [
+  { label: "7D", days: 7 },
+  { label: "30D", days: 30 },
+  { label: "90D", days: 90 },
+  { label: "All", days: 0 },
+];
+
 function formatValue(value: number, format: ValueFormat): string {
+  switch (format) {
+    case "dollar":
+      if (value >= 1_000_000_000) return `$${(value / 1_000_000_000).toFixed(2)}B`;
+      if (value >= 1_000_000) return `$${(value / 1_000_000).toFixed(2)}M`;
+      if (value >= 1_000) return `$${(value / 1_000).toFixed(1)}K`;
+      return `$${value.toFixed(2)}`;
+    case "percent":
+      return `${value.toFixed(2)}%`;
+    case "number":
+      if (value >= 1_000_000) return (value / 1_000_000).toFixed(6);
+      if (value >= 1) return value.toFixed(4);
+      return value.toFixed(6);
+  }
+}
+
+function formatAxisVal(value: number, format: ValueFormat): string {
   switch (format) {
     case "dollar":
       if (value >= 1_000_000_000) return `$${(value / 1_000_000_000).toFixed(1)}B`;
@@ -23,22 +47,22 @@ function formatValue(value: number, format: ValueFormat): string {
       if (value >= 1_000) return `$${(value / 1_000).toFixed(0)}K`;
       return `$${value.toFixed(0)}`;
     case "percent":
-      return `${value.toFixed(2)}%`;
+      return `${value.toFixed(1)}%`;
     case "number":
-      if (value >= 1_000_000) return (value / 1_000_000).toFixed(4);
-      if (value >= 1_000) return value.toFixed(2);
-      return value.toFixed(6);
+      if (value >= 1) return value.toFixed(2);
+      return value.toFixed(4);
   }
 }
 
 function formatDate(ts: number): string {
-  const d = new Date(ts * 1000);
-  return d.toLocaleDateString("en-US", { month: "short", day: "numeric" });
+  return new Date(ts * 1000).toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+  });
 }
 
 function formatDateFull(ts: number): string {
-  const d = new Date(ts * 1000);
-  return d.toLocaleDateString("en-US", {
+  return new Date(ts * 1000).toLocaleDateString("en-US", {
     month: "short",
     day: "numeric",
     year: "numeric",
@@ -46,249 +70,234 @@ function formatDateFull(ts: number): string {
 }
 
 const W = 600;
-const H = 180;
-const PT = 16;
-const PB = 24;
-const PL = 48;
-const PR = 12;
+const H = 220;
+const PT = 12;
+const PB = 28;
+const PL = 0;
+const PR = 0;
+const DRAW_W = W - PL - PR;
+const DRAW_H = H - PT - PB;
 
-export function VaultChart({ title, data, format }: VaultChartProps) {
+export function VaultChart({
+  title,
+  data,
+  format,
+  color = "#3b82f6",
+}: VaultChartProps) {
   const gradientId = useId();
-  const [tooltip, setTooltip] = useState<{
+  const [activeWindow, setActiveWindow] = useState("All");
+  const [scrub, setScrub] = useState<{
     x: number;
     y: number;
     value: number;
     timestamp: number;
   } | null>(null);
 
-  const chartData = useMemo(() => {
-    if (data.length === 0) return null;
+  const filteredData = useMemo(() => {
+    const win = WINDOWS.find((w) => w.label === activeWindow);
+    if (!win || win.days === 0 || data.length === 0) return data;
+    const cutoff = Math.floor(Date.now() / 1000) - win.days * 86400;
+    const filtered = data.filter((d) => d.timestamp >= cutoff);
+    return filtered.length >= 2 ? filtered : data;
+  }, [data, activeWindow]);
 
-    const values = data.map((d) => d.value);
-    const timestamps = data.map((d) => d.timestamp);
-
+  const chartCalc = useMemo(() => {
+    if (filteredData.length < 2) return null;
+    const values = filteredData.map((d) => d.value);
     const minVal = Math.min(...values);
     const maxVal = Math.max(...values);
-    const minTs = Math.min(...timestamps);
-    const maxTs = Math.max(...timestamps);
-
-    const valRange = maxVal - minVal || 1;
-    const yMin = minVal - valRange * 0.05;
-    const yMax = maxVal + valRange * 0.05;
-    const tsRange = maxTs - minTs || 1;
-
-    return { yMin, yMax, minTs, tsRange };
-  }, [data]);
+    const range = maxVal - minVal || 1;
+    return {
+      yMin: minVal - range * 0.04,
+      yMax: maxVal + range * 0.04,
+      minTs: filteredData[0].timestamp,
+      tsRange: filteredData[filteredData.length - 1].timestamp - filteredData[0].timestamp || 1,
+    };
+  }, [filteredData]);
 
   const xPos = useCallback(
-    (ts: number) => {
-      if (!chartData) return 0;
-      return PL + ((ts - chartData.minTs) / chartData.tsRange) * (W - PL - PR);
-    },
-    [chartData],
+    (ts: number) =>
+      chartCalc ? PL + ((ts - chartCalc.minTs) / chartCalc.tsRange) * DRAW_W : 0,
+    [chartCalc],
   );
 
   const yPos = useCallback(
-    (val: number) => {
-      if (!chartData) return 0;
-      const drawH = H - PT - PB;
-      return PT + (1 - (val - chartData.yMin) / (chartData.yMax - chartData.yMin)) * drawH;
-    },
-    [chartData],
+    (val: number) =>
+      chartCalc
+        ? PT + (1 - (val - chartCalc.yMin) / (chartCalc.yMax - chartCalc.yMin)) * DRAW_H
+        : 0,
+    [chartCalc],
   );
 
-  if (!chartData || data.length < 2) return null;
+  if (!chartCalc || filteredData.length < 2) return null;
 
-  const { yMin, yMax } = chartData;
+  const { yMin, yMax } = chartCalc;
+  const lastPoint = filteredData[filteredData.length - 1];
 
-  const lineParts: string[] = [];
-  const areaParts: string[] = [];
+  // Build smooth path
+  const points = filteredData.map((d) => ({ x: xPos(d.timestamp), y: yPos(d.value) }));
+  const linePath = points.map((p, i) => `${i === 0 ? "M" : "L"} ${p.x} ${p.y}`).join(" ");
+  const areaPath = `${linePath} L ${points[points.length - 1].x} ${H - PB} L ${points[0].x} ${H - PB} Z`;
 
-  data.forEach((d, i) => {
-    const x = xPos(d.timestamp);
-    const y = yPos(d.value);
-    if (i === 0) {
-      lineParts.push(`M ${x} ${y}`);
-      areaParts.push(`M ${x} ${H - PB}`);
-      areaParts.push(`L ${x} ${y}`);
-    } else {
-      lineParts.push(`L ${x} ${y}`);
-      areaParts.push(`L ${x} ${y}`);
-    }
-  });
-
-  const lastX = xPos(data[data.length - 1].timestamp);
-  areaParts.push(`L ${lastX} ${H - PB}`);
-  areaParts.push("Z");
-
-  const linePath = lineParts.join(" ");
-  const areaPath = areaParts.join(" ");
-
-  const yTicks = Array.from({ length: 4 }, (_, i) => {
-    const val = yMin + ((yMax - yMin) * (3 - i)) / 3;
+  // Y grid (3 lines)
+  const yTicks = Array.from({ length: 3 }, (_, i) => {
+    const val = yMin + ((yMax - yMin) * (2 - i)) / 2;
     return { val, y: yPos(val) };
   });
 
-  const xTickCount = Math.min(4, data.length);
+  // X labels (4 evenly spaced)
+  const xTickCount = Math.min(4, filteredData.length);
   const xTicks = Array.from({ length: xTickCount }, (_, i) => {
-    const idx = Math.round((i * (data.length - 1)) / (xTickCount - 1));
-    const d = data[idx];
+    const idx = Math.round((i * (filteredData.length - 1)) / (xTickCount - 1));
+    const d = filteredData[idx];
     return { label: formatDate(d.timestamp), x: xPos(d.timestamp) };
   });
 
   function findClosest(svgX: number) {
-    let closest = data[0];
-    let closestDist = Infinity;
-    for (const d of data) {
-      const dist = Math.abs(xPos(d.timestamp) - svgX);
-      if (dist < closestDist) {
-        closestDist = dist;
+    let closest = filteredData[0];
+    let dist = Infinity;
+    for (const d of filteredData) {
+      const dx = Math.abs(xPos(d.timestamp) - svgX);
+      if (dx < dist) {
+        dist = dx;
         closest = d;
       }
     }
     return closest;
   }
 
-  function handleMouseMove(e: React.MouseEvent<SVGSVGElement>) {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const svgX = ((e.clientX - rect.left) / rect.width) * W;
-    const closest = findClosest(svgX);
-    setTooltip({
-      x: xPos(closest.timestamp),
-      y: yPos(closest.value),
-      value: closest.value,
-      timestamp: closest.timestamp,
-    });
+  function handlePointer(clientX: number, rect: DOMRect) {
+    const svgX = ((clientX - rect.left) / rect.width) * W;
+    const c = findClosest(svgX);
+    setScrub({ x: xPos(c.timestamp), y: yPos(c.value), value: c.value, timestamp: c.timestamp });
   }
 
-  function handleTouchMove(e: React.TouchEvent<SVGSVGElement>) {
-    const touch = e.touches[0];
-    const rect = e.currentTarget.getBoundingClientRect();
-    const svgX = ((touch.clientX - rect.left) / rect.width) * W;
-    const closest = findClosest(svgX);
-    setTooltip({
-      x: xPos(closest.timestamp),
-      y: yPos(closest.value),
-      value: closest.value,
-      timestamp: closest.timestamp,
-    });
+  function onMouseMove(e: React.MouseEvent<SVGSVGElement>) {
+    handlePointer(e.clientX, e.currentTarget.getBoundingClientRect());
+  }
+  function onTouchMove(e: React.TouchEvent<SVGSVGElement>) {
+    handlePointer(e.touches[0].clientX, e.currentTarget.getBoundingClientRect());
   }
 
-  function handleLeave() {
-    setTooltip(null);
-  }
+  const displayVal = scrub ? scrub.value : lastPoint.value;
+  const displayDate = scrub ? formatDateFull(scrub.timestamp) : formatDateFull(lastPoint.timestamp);
 
-  const tooltipW = 110;
-  const tooltipX = tooltip
-    ? Math.max(PL, Math.min(tooltip.x - tooltipW / 2, W - PR - tooltipW))
+  // Badge position clamped to chart bounds
+  const badgeW = 120;
+  const badgeX = scrub
+    ? Math.max(0, Math.min(scrub.x - badgeW / 2, W - badgeW))
     : 0;
 
   return (
-    <div className="rounded-lg border border-gray-200 bg-white p-3 sm:p-5">
-      <h3 className="mb-2 text-sm font-semibold text-gray-900 sm:text-base sm:mb-3">
-        {title}
-      </h3>
+    <div className="rounded-xl bg-[#0f1117] p-4 sm:p-5">
+      {/* Header */}
+      <div className="flex items-start justify-between mb-1">
+        <div>
+          <p className="text-xs text-gray-500 uppercase tracking-wider">{title}</p>
+          <p className="text-xl font-semibold text-white sm:text-2xl">
+            {formatValue(displayVal, format)}
+          </p>
+          <p className="text-[11px] text-gray-500">{displayDate}</p>
+        </div>
+        <div className="flex gap-1">
+          {WINDOWS.map((w) => (
+            <button
+              key={w.label}
+              onClick={() => setActiveWindow(w.label)}
+              className={`rounded-full px-2.5 py-1 text-[11px] font-medium transition-colors ${
+                activeWindow === w.label
+                  ? "bg-gray-700 text-white"
+                  : "text-gray-500 hover:text-gray-300"
+              }`}
+            >
+              {w.label}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Chart */}
       <svg
         viewBox={`0 0 ${W} ${H}`}
-        className="w-full touch-none"
+        className="w-full touch-none cursor-crosshair"
         preserveAspectRatio="xMidYMid meet"
-        onMouseMove={handleMouseMove}
-        onMouseLeave={handleLeave}
-        onTouchMove={handleTouchMove}
-        onTouchEnd={handleLeave}
+        onMouseMove={onMouseMove}
+        onMouseLeave={() => setScrub(null)}
+        onTouchMove={onTouchMove}
+        onTouchEnd={() => setScrub(null)}
       >
-        {yTicks.map((tick, i) => (
-          <line
-            key={i}
-            x1={PL}
-            y1={tick.y}
-            x2={W - PR}
-            y2={tick.y}
-            stroke="#f0f0f0"
-            strokeWidth="1"
-          />
-        ))}
-
-        <path d={areaPath} fill={`url(#${gradientId})`} opacity="0.3" />
-        <path d={linePath} fill="none" stroke="#2563eb" strokeWidth="2" />
-
         <defs>
           <linearGradient id={gradientId} x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#2563eb" stopOpacity="0.4" />
-            <stop offset="100%" stopColor="#2563eb" stopOpacity="0" />
+            <stop offset="0%" stopColor={color} stopOpacity="0.25" />
+            <stop offset="100%" stopColor={color} stopOpacity="0" />
           </linearGradient>
         </defs>
 
-        {yTicks.map((tick, i) => (
-          <text
-            key={i}
-            x={PL - 6}
-            y={tick.y + 3}
-            textAnchor="end"
-            fontSize="9"
-            fill="#9ca3af"
-          >
-            {formatValue(tick.val, format)}
-          </text>
+        {/* Grid lines */}
+        {yTicks.map((t, i) => (
+          <g key={i}>
+            <line
+              x1={PL}
+              y1={t.y}
+              x2={W - PR}
+              y2={t.y}
+              stroke="#1f2937"
+              strokeWidth="1"
+            />
+            <text x={PL + 4} y={t.y - 4} fontSize="9" fill="#4b5563">
+              {formatAxisVal(t.val, format)}
+            </text>
+          </g>
         ))}
 
-        {xTicks.map((tick, i) => (
+        {/* Area + Line */}
+        <path d={areaPath} fill={`url(#${gradientId})`} />
+        <path d={linePath} fill="none" stroke={color} strokeWidth="2" strokeLinejoin="round" />
+
+        {/* Live dot */}
+        {!scrub && (
+          <>
+            <circle cx={xPos(lastPoint.timestamp)} cy={yPos(lastPoint.value)} r="4" fill={color} />
+            <circle
+              cx={xPos(lastPoint.timestamp)}
+              cy={yPos(lastPoint.value)}
+              r="8"
+              fill={color}
+              opacity="0.2"
+            />
+          </>
+        )}
+
+        {/* Scrub crosshair */}
+        {scrub && (
+          <>
+            <line
+              x1={scrub.x}
+              y1={PT}
+              x2={scrub.x}
+              y2={H - PB}
+              stroke="#6b7280"
+              strokeWidth="1"
+              strokeDasharray="3 3"
+            />
+            <circle cx={scrub.x} cy={scrub.y} r="5" fill={color} />
+            <circle cx={scrub.x} cy={scrub.y} r="5" fill="none" stroke="white" strokeWidth="2" />
+          </>
+        )}
+
+        {/* X axis labels */}
+        {xTicks.map((t, i) => (
           <text
             key={i}
-            x={tick.x}
+            x={t.x}
             y={H - 6}
             textAnchor="middle"
             fontSize="9"
-            fill="#9ca3af"
+            fill="#4b5563"
           >
-            {tick.label}
+            {t.label}
           </text>
         ))}
-
-        {tooltip && (
-          <>
-            <line
-              x1={tooltip.x}
-              y1={PT}
-              x2={tooltip.x}
-              y2={H - PB}
-              stroke="#2563eb"
-              strokeWidth="1"
-              strokeDasharray="4 2"
-              opacity="0.5"
-            />
-            <circle cx={tooltip.x} cy={tooltip.y} r="4" fill="#2563eb" />
-            <rect
-              x={tooltipX}
-              y={Math.max(2, tooltip.y - 34)}
-              width={tooltipW}
-              height="26"
-              rx="4"
-              fill="white"
-              stroke="#e5e7eb"
-              strokeWidth="1"
-            />
-            <text
-              x={tooltipX + tooltipW / 2}
-              y={Math.max(2, tooltip.y - 34) + 11}
-              textAnchor="middle"
-              fontSize="10"
-              fontWeight="600"
-              fill="#111827"
-            >
-              {formatValue(tooltip.value, format)}
-            </text>
-            <text
-              x={tooltipX + tooltipW / 2}
-              y={Math.max(2, tooltip.y - 34) + 22}
-              textAnchor="middle"
-              fontSize="9"
-              fill="#6b7280"
-            >
-              {formatDateFull(tooltip.timestamp)}
-            </text>
-          </>
-        )}
       </svg>
     </div>
   );
