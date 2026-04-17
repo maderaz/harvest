@@ -142,14 +142,22 @@ export async function fetchHarvestVaults(): Promise<YieldVault[]> {
     const results: YieldVault[] = usdcVaults.map((v) => {
       const chain = CHAIN_NAMES[v._sourceChain] || v._sourceChain;
       const platform = v.platform?.[0] || "Harvest";
-      const productName = `${v.id}`;
+
+      // Build a human-readable product name from platform
+      // e.g. "Morpho - Gauntlet Core V2" -> "USDC Gauntlet Core V2"
+      // e.g. "Aave" -> "USDC Aave"
+      const platformParts = platform.split(" - ");
+      const protocol = platformParts[0].trim();
+      const strategy = platformParts.length > 1 ? platformParts.slice(1).join(" - ").trim() : "";
+      const productName = strategy ? `USDC ${strategy}` : `USDC ${protocol}`;
+      const categoryDisplay = `${protocol} - ${chain}`;
       const currentApy = parseNumber(v.estimatedApy);
       const tvl = parseNumber(v.totalValueLocked);
       const history = historyMap.get(v.vaultAddress);
 
-      let slug = slugify(`${v.id}-${chain}`);
+      let slug = slugify(`${productName}-${chain}`);
       if (seenSlugs.has(slug)) {
-        slug = slugify(`${v.id}-${chain}-${v.vaultAddress.slice(2, 8)}`);
+        slug = slugify(`${productName}-${chain}-${v.vaultAddress.slice(2, 8)}`);
       }
       seenSlugs.add(slug);
 
@@ -163,11 +171,11 @@ export async function fetchHarvestVaults(): Promise<YieldVault[]> {
         apy24h: history?.apy24h ?? currentApy,
         apy30d: history?.apy30d ?? currentApy,
         tvl,
-        description: `${productName} on ${platform} (${chain}) — automatically optimizes your USDC yield via Harvest Finance.`,
+        description: `${productName} on ${protocol} (${chain}) — automatically optimizes your USDC yield via Harvest Finance.`,
         chain,
         contractAddress: v.vaultAddress,
         riskLevel: "low" as const,
-        category: platform,
+        category: categoryDisplay,
         launchDate: "",
       };
     });
