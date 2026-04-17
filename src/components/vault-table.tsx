@@ -1,9 +1,47 @@
+"use client";
+
+import { useState, useMemo } from "react";
 import Link from "next/link";
 import { YieldVault } from "@/lib/types";
 import { formatAPY, formatTVL } from "@/lib/format";
 import { AssetBadge } from "./asset-badge";
 
+type SortKey = "apy24h" | "apy30d" | "tvl";
+type SortDir = "asc" | "desc";
+
+function SortIcon({ active, dir }: { active: boolean; dir: SortDir }) {
+  return (
+    <span className={`inline-block ml-0.5 ${active ? "text-gray-900" : "text-gray-300"}`}>
+      {active && dir === "asc" ? "▲" : "▼"}
+    </span>
+  );
+}
+
 export function VaultTable({ vaults }: { vaults: YieldVault[] }) {
+  const [sortKey, setSortKey] = useState<SortKey>("apy24h");
+  const [sortDir, setSortDir] = useState<SortDir>("desc");
+
+  const sorted = useMemo(() => {
+    const copy = [...vaults];
+    copy.sort((a, b) => {
+      const av = a[sortKey];
+      const bv = b[sortKey];
+      return sortDir === "desc" ? bv - av : av - bv;
+    });
+    return copy;
+  }, [vaults, sortKey, sortDir]);
+
+  function toggleSort(key: SortKey) {
+    if (sortKey === key) {
+      setSortDir((d) => (d === "desc" ? "asc" : "desc"));
+    } else {
+      setSortKey(key);
+      setSortDir("desc");
+    }
+  }
+
+  const thBase = "py-3 select-none cursor-pointer hover:text-gray-700 transition-colors";
+
   return (
     <div className="overflow-x-auto">
       <table className="w-full">
@@ -12,13 +50,28 @@ export function VaultTable({ vaults }: { vaults: YieldVault[] }) {
             <th className="px-2 py-3 w-8 sm:px-4 sm:w-12">#</th>
             <th className="hidden sm:table-cell px-4 py-3">Asset</th>
             <th className="px-2 py-3 sm:px-4">Product</th>
-            <th className="px-2 py-3 sm:px-4 text-right">24H APY</th>
-            <th className="hidden sm:table-cell px-4 py-3 text-right">30D APY</th>
-            <th className="px-2 py-3 sm:px-4 text-right">TVL</th>
+            <th
+              className={`px-2 sm:px-4 text-right ${thBase}`}
+              onClick={() => toggleSort("apy24h")}
+            >
+              24H APY <SortIcon active={sortKey === "apy24h"} dir={sortDir} />
+            </th>
+            <th
+              className={`hidden sm:table-cell px-4 text-right ${thBase}`}
+              onClick={() => toggleSort("apy30d")}
+            >
+              30D APY <SortIcon active={sortKey === "apy30d"} dir={sortDir} />
+            </th>
+            <th
+              className={`px-2 sm:px-4 text-right ${thBase}`}
+              onClick={() => toggleSort("tvl")}
+            >
+              TVL <SortIcon active={sortKey === "tvl"} dir={sortDir} />
+            </th>
           </tr>
         </thead>
         <tbody>
-          {vaults.map((vault, index) => (
+          {sorted.map((vault, index) => (
             <tr
               key={vault.id}
               className="border-b border-gray-100 transition-colors hover:bg-gray-50"

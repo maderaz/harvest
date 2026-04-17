@@ -180,8 +180,8 @@ export async function fetchHarvestVaults(): Promise<YieldVault[]> {
       };
     });
 
-    // Sort by TVL descending so highest-TVL vaults appear first
-    results.sort((a, b) => b.tvl - a.tvl);
+    // Sort by APY descending (highest yield first)
+    results.sort((a, b) => b.apy24h - a.apy24h);
 
     log(`[harvest-api] final count: ${results.length}`);
     return results;
