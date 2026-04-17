@@ -22,7 +22,7 @@ async function queryGraphQL(
   chainId: string,
   query: string,
 ): Promise<Record<string, unknown> | null> {
-  for (let attempt = 0; attempt < 3; attempt++) {
+  for (let attempt = 0; attempt < 2; attempt++) {
     try {
       const res = await fetch(`${BASE_URL}/${chainId}`, {
         method: "POST",
@@ -32,7 +32,7 @@ async function queryGraphQL(
 
       if (!res.ok) {
         log(`[history] chain=${chainId} attempt=${attempt} failed: ${res.status}`);
-        if (attempt < 2) { await new Promise((r) => setTimeout(r, 1000 * (attempt + 1))); continue; }
+        if (attempt < 1) { await new Promise((r) => setTimeout(r, 1000 * (attempt + 1))); continue; }
         return null;
       }
 
@@ -44,7 +44,7 @@ async function queryGraphQL(
       return json.data;
     } catch (err) {
       log(`[history] chain=${chainId} attempt=${attempt} error: ${err}`);
-      if (attempt < 2) { await new Promise((r) => setTimeout(r, 1000 * (attempt + 1))); continue; }
+      if (attempt < 1) { await new Promise((r) => setTimeout(r, 1000 * (attempt + 1))); continue; }
       return null;
     }
   }

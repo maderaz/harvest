@@ -5,7 +5,8 @@ import {
   chainNameToKey,
   type FullVaultHistory,
 } from "./history-api";
-import { writeFileSync } from "fs";
+import { writeFileSync, readFileSync, existsSync } from "fs";
+import { join } from "path";
 
 function log(msg: string) {
   try { writeFileSync("/dev/stderr", msg + "\n"); } catch { console.log(msg); }
@@ -30,65 +31,84 @@ const FALLBACK_VAULT: YieldVault = {
   launchDate: "",
 };
 
-let _cache: YieldVault[] | null = null;
-let _historyCache: Map<string, FullVaultHistory> | null = null;
+const HISTORY_CACHE_FILE = join(process.cwd(), ".history-cache.json");
 
 async function sleep(ms: number) {
   return new Promise((r) => setTimeout(r, ms));
 }
 
-async function prefetchAllHistory(vaults: YieldVault[]): Promise<Map<string, FullVaultHistory>> {
-  const map = new Map<string, FullVaultHistory>();
-  const BATCH_SIZE = 3;
+async function prefetchAllHistory(vaults: YieldVault[]): Promise<Record<string, FullVaultHistory>> {
+  const map: Record<string, FullVaultHistory> = {};
 
-  log(`[prefetch] starting history fetch for ${vaults.length} vaults, batch=${BATCH_SIZE}`);
+  log(`[prefetch] fetching history for ${vaults.length} vaults sequentially`);
 
-  for (let i = 0; i < vaults.length; i += BATCH_SIZE) {
-    const batch = vaults.slice(i, i + BATCH_SIZE);
-    const results = await Promise.all(
-      batch.map(async (v) => {
-        const chainKey = chainNameToKey(v.chain);
-        if (!chainKey || !v.contractAddress) {
-          return { addr: v.contractAddress, history: { tvlHistory: [], sharePriceHistory: [], apyHistory: [] } as FullVaultHistory };
-        }
-        const history = await fetchFullVaultHistory(v.contractAddress, chainKey);
-        return { addr: v.contractAddress, history };
-      }),
-    );
-    for (const r of results) {
-      map.set(r.addr, r.history);
+  for (let i = 0; i < vaults.length; i++) {
+    const v = vaults[i];
+    const chainKey = chainNameToKey(v.chain);
+    if (!chainKey || !v.contractAddress) {
+      map[v.contractAddress] = { tvlHistory: [], sharePriceHistory: [], apyHistory: [] };
+      continue;
     }
-    if (i + BATCH_SIZE < vaults.length) {
-      await sleep(200);
+
+    try {
+      const history = await fetchFullVaultHistory(v.contractAddress, chainKey);
+      map[v.contractAddress] = history;
+    } catch {
+      map[v.contractAddress] = { tvlHistory: [], sharePriceHistory: [], apyHistory: [] };
+    }
+
+    if (i % 10 === 9) {
+      log(`[prefetch] progress: ${i + 1}/${vaults.length}`);
+      await sleep(500);
+    } else {
+      await sleep(100);
     }
   }
 
   let withData = 0;
-  for (const [, h] of map) {
+  for (const h of Object.values(map)) {
     if (h.tvlHistory.length > 0 || h.apyHistory.length > 0) withData++;
   }
-  log(`[prefetch] done. ${withData}/${map.size} vaults have chart data`);
+  log(`[prefetch] done. ${withData}/${Object.keys(map).length} vaults have chart data`);
 
   return map;
 }
 
+let _vaultCache: YieldVault[] | null = null;
+
 export async function getVaults(): Promise<YieldVault[]> {
-  if (_cache) return _cache;
+  if (_vaultCache) return _vaultCache;
   const live = await fetchHarvestVaults();
-  _cache = live.length > 0 ? live : [FALLBACK_VAULT];
-  return _cache;
+  _vaultCache = live.length > 0 ? live : [FALLBACK_VAULT];
+  return _vaultCache;
 }
 
-export async function getHistoryMap(): Promise<Map<string, FullVaultHistory>> {
-  if (_historyCache) return _historyCache;
+export async function ensureHistoryCache(): Promise<void> {
+  if (existsSync(HISTORY_CACHE_FILE)) return;
+
   const vaults = await getVaults();
-  _historyCache = await prefetchAllHistory(vaults);
-  return _historyCache;
+  const history = await prefetchAllHistory(vaults);
+  try {
+    writeFileSync(HISTORY_CACHE_FILE, JSON.stringify(history));
+    log(`[prefetch] wrote cache to ${HISTORY_CACHE_FILE}`);
+  } catch (err) {
+    log(`[prefetch] failed to write cache: ${err}`);
+  }
 }
 
 export async function getVaultHistory(contractAddress: string): Promise<FullVaultHistory> {
-  const map = await getHistoryMap();
-  return map.get(contractAddress) ?? { tvlHistory: [], sharePriceHistory: [], apyHistory: [] };
+  const empty: FullVaultHistory = { tvlHistory: [], sharePriceHistory: [], apyHistory: [] };
+
+  await ensureHistoryCache();
+
+  try {
+    if (!existsSync(HISTORY_CACHE_FILE)) return empty;
+    const raw = readFileSync(HISTORY_CACHE_FILE, "utf-8");
+    const map = JSON.parse(raw) as Record<string, FullVaultHistory>;
+    return map[contractAddress] ?? empty;
+  } catch {
+    return empty;
+  }
 }
 
 export async function getVaultBySlug(
