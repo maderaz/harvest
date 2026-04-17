@@ -6,6 +6,12 @@ import { formatAPY, formatTVL } from "@/lib/format";
 import { AssetBadge } from "@/components/asset-badge";
 import { SITE_NAME, SITE_URL } from "@/lib/constants";
 import { YieldVault } from "@/lib/types";
+import {
+  fetchFullVaultHistory,
+  chainNameToKey,
+  type FullVaultHistory,
+} from "@/lib/history-api";
+import { VaultChart } from "@/components/vault-chart";
 
 export async function generateStaticParams() {
   const slugs = await getAllSlugs();
@@ -97,6 +103,35 @@ export default async function ProductPage({
   const vault = await getVaultBySlug(slug);
   if (!vault) notFound();
 
+  // Fetch full vault history at build time
+  const chainKey = chainNameToKey(vault.chain);
+  let history: FullVaultHistory = {
+    tvlHistory: [],
+    sharePriceHistory: [],
+    apyHistory: [],
+  };
+  if (chainKey && vault.contractAddress) {
+    history = await fetchFullVaultHistory(vault.contractAddress, chainKey);
+  }
+
+  const tvlChartData = history.tvlHistory.map((p) => ({
+    timestamp: p.timestamp,
+    value: p.value,
+  }));
+  const apyChartData = history.apyHistory.map((p) => ({
+    timestamp: p.timestamp,
+    value: p.apy,
+  }));
+  const sharePriceChartData = history.sharePriceHistory.map((p) => ({
+    timestamp: p.timestamp,
+    value: p.sharePrice,
+  }));
+
+  const hasCharts =
+    tvlChartData.length >= 2 ||
+    apyChartData.length >= 2 ||
+    sharePriceChartData.length >= 2;
+
   const allVaults = await getVaults();
   const relatedVaults = allVaults
     .filter((v) => v.asset === vault.asset && v.id !== vault.id)
@@ -151,6 +186,38 @@ export default async function ProductPage({
             value={vault.riskLevel.charAt(0).toUpperCase() + vault.riskLevel.slice(1)}
           />
         </div>
+
+        {/* History Charts */}
+        {hasCharts && (
+          <section className="mb-10">
+            <h2 className="mb-4 text-lg font-semibold text-gray-900">
+              Performance History
+            </h2>
+            <div className="grid gap-4">
+              {tvlChartData.length >= 2 && (
+                <VaultChart
+                  title="TVL History"
+                  data={tvlChartData}
+                  format="dollar"
+                />
+              )}
+              {apyChartData.length >= 2 && (
+                <VaultChart
+                  title="APY History"
+                  data={apyChartData}
+                  format="percent"
+                />
+              )}
+              {sharePriceChartData.length >= 2 && (
+                <VaultChart
+                  title="Share Price History"
+                  data={sharePriceChartData}
+                  format="number"
+                />
+              )}
+            </div>
+          </section>
+        )}
 
         {/* Description */}
         <section className="mb-10">

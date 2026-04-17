@@ -147,3 +147,126 @@ export async function fetchVaultHistory(
 export function getChainKey(sourceChain: string): string {
   return sourceChain;
 }
+
+/**
+ * Reverse mapping from chain display name (e.g. "Base") to chain key (e.g. "base").
+ */
+const CHAIN_NAME_TO_KEY: Record<string, string> = {
+  Ethereum: "eth",
+  Polygon: "matic",
+  Arbitrum: "arbitrum",
+  Base: "base",
+  zkSync: "zksync",
+  HyperEVM: "hyperevm",
+};
+
+export function chainNameToKey(chainDisplayName: string): string | null {
+  return CHAIN_NAME_TO_KEY[chainDisplayName] ?? null;
+}
+
+export interface SharePriceHistoryPoint {
+  sharePrice: number;
+  timestamp: number;
+}
+
+export interface FullVaultHistory {
+  tvlHistory: TvlHistoryPoint[];
+  sharePriceHistory: SharePriceHistoryPoint[];
+  apyHistory: ApyHistoryPoint[];
+}
+
+/**
+ * Deduplicate data points to one per day, keeping the last value for each day.
+ */
+function deduplicateByDay<T extends { timestamp: number }>(points: T[]): T[] {
+  const byDay = new Map<string, T>();
+  for (const p of points) {
+    const day = new Date(p.timestamp * 1000).toISOString().slice(0, 10);
+    byDay.set(day, p);
+  }
+  return Array.from(byDay.values()).sort((a, b) => a.timestamp - b.timestamp);
+}
+
+/**
+ * Fetch full vault history (up to 1000 records each) for TVL, share price, and APY.
+ * Returns one data point per day (last value of each day).
+ */
+export async function fetchFullVaultHistory(
+  vaultAddress: string,
+  chainKey: string,
+): Promise<FullVaultHistory> {
+  const empty: FullVaultHistory = {
+    tvlHistory: [],
+    sharePriceHistory: [],
+    apyHistory: [],
+  };
+
+  const chainId = CHAIN_IDS[chainKey];
+  if (!chainId) return empty;
+
+  const addr = vaultAddress.toLowerCase();
+
+  const query = `{
+    tvls(
+      where: { vault: "${addr}" }
+      orderBy: timestamp
+      orderDirection: asc
+      first: 1000
+    ) {
+      value
+      timestamp
+    }
+    vaultHistories(
+      where: { vault: "${addr}" }
+      orderBy: timestamp
+      orderDirection: asc
+      first: 1000
+    ) {
+      sharePrice
+      timestamp
+    }
+    apyAutoCompounds(
+      where: { vault: "${addr}" }
+      orderBy: timestamp
+      orderDirection: asc
+      first: 1000
+    ) {
+      apy
+      timestamp
+    }
+  }`;
+
+  const data = await queryGraphQL(chainId, query);
+  if (!data) return empty;
+
+  const rawTvl = data.tvls as { value: string; timestamp: string }[] | undefined;
+  const rawSharePrice = data.vaultHistories as { sharePrice: string; timestamp: string }[] | undefined;
+  const rawApy = data.apyAutoCompounds as { apy: string; timestamp: string }[] | undefined;
+
+  log(
+    `[history-full] vault=${addr} chain=${chainKey} tvl=${rawTvl?.length ?? 0} sharePrice=${rawSharePrice?.length ?? 0} apy=${rawApy?.length ?? 0}`,
+  );
+
+  const tvlHistory = deduplicateByDay(
+    (rawTvl ?? []).map((r) => ({
+      value: parseFloat(r.value),
+      timestamp: parseInt(r.timestamp, 10),
+    })),
+  );
+
+  const sharePriceHistory = deduplicateByDay(
+    (rawSharePrice ?? []).map((r) => ({
+      sharePrice: parseFloat(r.sharePrice),
+      timestamp: parseInt(r.timestamp, 10),
+    })),
+  );
+
+  const apyHistory = deduplicateByDay(
+    (rawApy ?? []).map((r) => ({
+      apy: parseFloat(r.apy),
+      timestamp: parseInt(r.timestamp, 10),
+    })),
+  );
+
+  return { tvlHistory, sharePriceHistory, apyHistory };
+}
