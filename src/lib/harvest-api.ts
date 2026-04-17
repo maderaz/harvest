@@ -138,7 +138,6 @@ export async function fetchHarvestVaults(): Promise<YieldVault[]> {
       });
     });
 
-    const seenSlugs = new Set<string>();
     const results: YieldVault[] = usdcVaults.map((v) => {
       const chain = CHAIN_NAMES[v._sourceChain] || v._sourceChain;
       const platform = v.platform?.[0] || "Harvest";
@@ -155,11 +154,8 @@ export async function fetchHarvestVaults(): Promise<YieldVault[]> {
       const tvl = parseNumber(v.totalValueLocked);
       const history = historyMap.get(v.vaultAddress);
 
-      let slug = slugify(`${productName}-${chain}`);
-      if (seenSlugs.has(slug)) {
-        slug = slugify(`${productName}-${chain}-${v.vaultAddress.slice(2, 8)}`);
-      }
-      seenSlugs.add(slug);
+      const addrSuffix = v.vaultAddress.slice(2, 10).toLowerCase();
+      const slug = slugify(`${productName}-${chain}-${addrSuffix}`);
 
       return {
         id: v.vaultAddress,
