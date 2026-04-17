@@ -211,7 +211,7 @@ export async function fetchFullVaultHistory(
       where: { vault: "${addr}" }
       orderBy: timestamp
       orderDirection: asc
-      first: 1000
+      first: 5000
     ) {
       value
       timestamp
@@ -220,7 +220,7 @@ export async function fetchFullVaultHistory(
       where: { vault: "${addr}" }
       orderBy: timestamp
       orderDirection: asc
-      first: 1000
+      first: 5000
     ) {
       sharePrice
       timestamp
@@ -229,7 +229,7 @@ export async function fetchFullVaultHistory(
       where: { vault: "${addr}" }
       orderBy: timestamp
       orderDirection: asc
-      first: 1000
+      first: 5000
     ) {
       apy
       timestamp

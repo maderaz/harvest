@@ -78,6 +78,61 @@ const PR = 0;
 const DRAW_W = W - PL - PR;
 const DRAW_H = H - PT - PB;
 
+function monotoneSplinePath(pts: { x: number; y: number }[]): string {
+  if (pts.length < 2) return "";
+  if (pts.length === 2) return `M ${pts[0].x} ${pts[0].y} L ${pts[1].x} ${pts[1].y}`;
+
+  const n = pts.length;
+  const dx: number[] = [];
+  const dy: number[] = [];
+  const m: number[] = [];
+
+  for (let i = 0; i < n - 1; i++) {
+    dx.push(pts[i + 1].x - pts[i].x);
+    dy.push(pts[i + 1].y - pts[i].y);
+    m.push(dx[i] === 0 ? 0 : dy[i] / dx[i]);
+  }
+
+  // Fritsch-Carlson tangents
+  const tangents: number[] = [m[0]];
+  for (let i = 1; i < n - 1; i++) {
+    if (m[i - 1] * m[i] <= 0) {
+      tangents.push(0);
+    } else {
+      tangents.push((m[i - 1] + m[i]) / 2);
+    }
+  }
+  tangents.push(m[n - 2]);
+
+  // Clamp tangents to preserve monotonicity
+  for (let i = 0; i < n - 1; i++) {
+    if (m[i] === 0) {
+      tangents[i] = 0;
+      tangents[i + 1] = 0;
+    } else {
+      const a = tangents[i] / m[i];
+      const b = tangents[i + 1] / m[i];
+      const s = a * a + b * b;
+      if (s > 9) {
+        const t = 3 / Math.sqrt(s);
+        tangents[i] = t * a * m[i];
+        tangents[i + 1] = t * b * m[i];
+      }
+    }
+  }
+
+  let path = `M ${pts[0].x} ${pts[0].y}`;
+  for (let i = 0; i < n - 1; i++) {
+    const d = dx[i] / 3;
+    const cp1x = pts[i].x + d;
+    const cp1y = pts[i].y + tangents[i] * d;
+    const cp2x = pts[i + 1].x - d;
+    const cp2y = pts[i + 1].y - tangents[i + 1] * d;
+    path += ` C ${cp1x} ${cp1y}, ${cp2x} ${cp2y}, ${pts[i + 1].x} ${pts[i + 1].y}`;
+  }
+  return path;
+}
+
 export function VaultChart({
   title,
   data,
@@ -134,9 +189,9 @@ export function VaultChart({
   const { yMin, yMax } = chartCalc;
   const lastPoint = filteredData[filteredData.length - 1];
 
-  // Build smooth path
+  // Build monotone cubic spline path for smooth curves
   const points = filteredData.map((d) => ({ x: xPos(d.timestamp), y: yPos(d.value) }));
-  const linePath = points.map((p, i) => `${i === 0 ? "M" : "L"} ${p.x} ${p.y}`).join(" ");
+  const linePath = monotoneSplinePath(points);
   const areaPath = `${linePath} L ${points[points.length - 1].x} ${H - PB} L ${points[0].x} ${H - PB} Z`;
 
   // Y grid (3 lines)
