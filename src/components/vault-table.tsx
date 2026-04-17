@@ -29,20 +29,25 @@ export function VaultTable({ vaults }: { vaults: YieldVault[] }) {
               <td className="hidden sm:table-cell px-4 py-4">
                 <AssetBadge asset={vault.asset} />
               </td>
-              <td className="px-2 py-3 sm:px-4 sm:py-4 max-w-[140px] sm:max-w-none">
+              <td className="px-2 py-3 sm:px-4 sm:py-4 max-w-[160px] sm:max-w-none">
                 <Link
                   href={`/${vault.slug}`}
-                  className="group flex flex-col"
+                  className="group flex items-center gap-2"
                 >
-                  <span className="text-xs font-medium text-gray-900 group-hover:text-blue-600 truncate sm:text-sm">
-                    {vault.productName}
-                    <span className="hidden sm:inline">
-                      {" "}<span className="text-gray-400">&bull;</span>{" "}
-                      <span className="text-gray-500">{vault.protocol.name}</span>
-                    </span>
+                  <span className="shrink-0 sm:hidden">
+                    <AssetBadge asset={vault.asset} iconOnly />
                   </span>
-                  <span className="text-[10px] text-gray-400 truncate sm:text-xs">
-                    {vault.category}
+                  <span className="flex flex-col min-w-0">
+                    <span className="text-xs font-medium text-gray-900 group-hover:text-blue-600 truncate sm:text-sm">
+                      {vault.productName}
+                      <span className="hidden sm:inline">
+                        {" "}<span className="text-gray-400">&bull;</span>{" "}
+                        <span className="text-gray-500">{vault.protocol.name}</span>
+                      </span>
+                    </span>
+                    <span className="text-[10px] text-gray-400 truncate sm:text-xs">
+                      {vault.category}
+                    </span>
                   </span>
                 </Link>
               </td>

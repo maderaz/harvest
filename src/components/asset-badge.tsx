@@ -23,7 +23,9 @@ function AssetIcon({ asset }: { asset: Asset }) {
   );
 }
 
-export function AssetBadge({ asset }: { asset: Asset }) {
+export function AssetBadge({ asset, iconOnly }: { asset: Asset; iconOnly?: boolean }) {
+  if (iconOnly) return <AssetIcon asset={asset} />;
+
   return (
     <span className="inline-flex items-center gap-1.5">
       <AssetIcon asset={asset} />
