@@ -1,16 +1,12 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import type { Metadata } from "next";
-import { getVaults, getVaultBySlug, getAllSlugs } from "@/lib/data";
+import { getVaults, getVaultBySlug, getAllSlugs, getVaultHistory } from "@/lib/data";
 import { formatAPY, formatTVL } from "@/lib/format";
 import { AssetBadge } from "@/components/asset-badge";
 import { SITE_NAME, SITE_URL } from "@/lib/constants";
 import { YieldVault } from "@/lib/types";
-import {
-  fetchFullVaultHistory,
-  chainNameToKey,
-  type FullVaultHistory,
-} from "@/lib/history-api";
+import type { FullVaultHistory } from "@/lib/history-api";
 import { VaultChart } from "@/components/vault-chart";
 
 export async function generateStaticParams() {
@@ -103,18 +99,7 @@ export default async function ProductPage({
   const vault = await getVaultBySlug(slug);
   if (!vault) notFound();
 
-  // Fetch full vault history at build time
-  const chainKey = chainNameToKey(vault.chain);
-  let history: FullVaultHistory = {
-    tvlHistory: [],
-    sharePriceHistory: [],
-    apyHistory: [],
-  };
-  console.error(`[page] slug=${slug} chain=${vault.chain} chainKey=${chainKey} addr=${vault.contractAddress}`);
-  if (chainKey && vault.contractAddress) {
-    history = await fetchFullVaultHistory(vault.contractAddress, chainKey);
-  }
-  console.error(`[page] slug=${slug} tvl=${history.tvlHistory.length} apy=${history.apyHistory.length} sp=${history.sharePriceHistory.length}`);
+  const history = await getVaultHistory(vault.contractAddress);
 
   const tvlChartData = history.tvlHistory.map((p) => ({
     timestamp: p.timestamp,
