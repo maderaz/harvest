@@ -207,9 +207,13 @@ export async function fetchFullVaultHistory(
   };
 
   const chainId = CHAIN_IDS[chainKey];
-  if (!chainId) return empty;
+  if (!chainId) {
+    log(`[history-full] SKIP: no chainId for chainKey="${chainKey}"`);
+    return empty;
+  }
 
   const addr = vaultAddress.toLowerCase();
+  log(`[history-full] FETCHING vault=${addr} chainKey=${chainKey} chainId=${chainId}`);
 
   const query = `{
     tvls(

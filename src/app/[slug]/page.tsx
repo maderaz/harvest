@@ -110,9 +110,11 @@ export default async function ProductPage({
     sharePriceHistory: [],
     apyHistory: [],
   };
+  console.error(`[page] slug=${slug} chain=${vault.chain} chainKey=${chainKey} addr=${vault.contractAddress}`);
   if (chainKey && vault.contractAddress) {
     history = await fetchFullVaultHistory(vault.contractAddress, chainKey);
   }
+  console.error(`[page] slug=${slug} tvl=${history.tvlHistory.length} apy=${history.apyHistory.length} sp=${history.sharePriceHistory.length}`);
 
   const tvlChartData = history.tvlHistory.map((p) => ({
     timestamp: p.timestamp,
