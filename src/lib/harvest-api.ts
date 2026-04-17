@@ -146,6 +146,9 @@ export async function fetchHarvestVaults(): Promise<YieldVault[]> {
       };
     });
 
+    // Sort by TVL descending so highest-TVL vaults appear first
+    results.sort((a, b) => b.tvl - a.tvl);
+
     log(`[harvest-api] final count: ${results.length}`);
     return results;
   } catch (err) {
