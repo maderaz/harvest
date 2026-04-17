@@ -1,0 +1,149 @@
+import { writeFileSync } from "fs";
+
+const BASE_URL = "https://clownfish-app-2dsdk.ondigitalocean.app";
+
+const CHAIN_IDS: Record<string, string> = {
+  eth: "1",
+  matic: "137",
+  arbitrum: "42161",
+  base: "8453",
+  zksync: "324",
+};
+
+function log(msg: string) {
+  try {
+    writeFileSync("/dev/stderr", msg + "\n");
+  } catch {
+    console.log(msg);
+  }
+}
+
+async function queryGraphQL(
+  chainId: string,
+  query: string,
+): Promise<Record<string, unknown> | null> {
+  try {
+    const res = await fetch(`${BASE_URL}/${chainId}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ query }),
+    });
+
+    if (!res.ok) {
+      log(`[history] chain=${chainId} failed: ${res.status}`);
+      return null;
+    }
+
+    const json = await res.json();
+    if (json.errors) {
+      log(`[history] chain=${chainId} errors: ${JSON.stringify(json.errors)}`);
+      return null;
+    }
+    return json.data;
+  } catch (err) {
+    log(`[history] chain=${chainId} error: ${err}`);
+    return null;
+  }
+}
+
+export interface ApyHistoryPoint {
+  apy: number;
+  timestamp: number;
+}
+
+export interface TvlHistoryPoint {
+  value: number;
+  timestamp: number;
+}
+
+export interface VaultHistoryData {
+  apyHistory: ApyHistoryPoint[];
+  tvlHistory: TvlHistoryPoint[];
+  apy24h: number | null;
+  apy30d: number | null;
+}
+
+function nowSeconds(): number {
+  return Math.floor(Date.now() / 1000);
+}
+
+export async function fetchVaultHistory(
+  vaultAddress: string,
+  chainKey: string,
+): Promise<VaultHistoryData> {
+  const chainId = CHAIN_IDS[chainKey];
+  if (!chainId) {
+    return { apyHistory: [], tvlHistory: [], apy24h: null, apy30d: null };
+  }
+
+  const addr = vaultAddress.toLowerCase();
+  const thirtyDaysAgo = nowSeconds() - 30 * 24 * 60 * 60;
+
+  const query = `{
+    apyAutoCompounds(
+      where: { vault: "${addr}", timestamp_gte: "${thirtyDaysAgo}" }
+      orderBy: timestamp
+      orderDirection: desc
+      first: 500
+    ) {
+      apy
+      timestamp
+    }
+    tvls(
+      where: { vault: "${addr}", timestamp_gte: "${thirtyDaysAgo}" }
+      orderBy: timestamp
+      orderDirection: desc
+      first: 500
+    ) {
+      value
+      timestamp
+    }
+  }`;
+
+  const data = await queryGraphQL(chainId, query);
+  if (!data) {
+    return { apyHistory: [], tvlHistory: [], apy24h: null, apy30d: null };
+  }
+
+  const rawApy = data.apyAutoCompounds as { apy: string; timestamp: string }[] | undefined;
+  const rawTvl = data.tvls as { value: string; timestamp: string }[] | undefined;
+
+  log(`[history] vault=${addr} chain=${chainKey} apyRecords=${rawApy?.length ?? 0} tvlRecords=${rawTvl?.length ?? 0}`);
+
+  const apyHistory: ApyHistoryPoint[] = (rawApy ?? []).map((r) => ({
+    apy: parseFloat(r.apy),
+    timestamp: parseInt(r.timestamp, 10),
+  }));
+
+  const tvlHistory: TvlHistoryPoint[] = (rawTvl ?? []).map((r) => ({
+    value: parseFloat(r.value),
+    timestamp: parseInt(r.timestamp, 10),
+  }));
+
+  const now = nowSeconds();
+  const oneDayAgo = now - 24 * 60 * 60;
+
+  // 24h APY: average of APY records from last 24 hours
+  const recentApy = apyHistory.filter((p) => p.timestamp >= oneDayAgo && p.apy >= 0);
+  const apy24h =
+    recentApy.length > 0
+      ? recentApy.reduce((sum, p) => sum + p.apy, 0) / recentApy.length
+      : apyHistory.find((p) => p.apy >= 0)?.apy ?? null;
+
+  // 30d APY: average of all APY records (already filtered to 30d window)
+  const validApy = apyHistory.filter((p) => p.apy >= 0);
+  const apy30d =
+    validApy.length > 0
+      ? validApy.reduce((sum, p) => sum + p.apy, 0) / validApy.length
+      : null;
+
+  if (apy24h !== null || apy30d !== null) {
+    log(`[history] vault=${addr} apy24h=${apy24h?.toFixed(2)} apy30d=${apy30d?.toFixed(2)}`);
+  }
+
+  return { apyHistory, tvlHistory, apy24h, apy30d };
+}
+
+export function getChainKey(sourceChain: string): string {
+  return sourceChain;
+}

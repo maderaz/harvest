@@ -1,5 +1,6 @@
 import { writeFileSync } from "fs";
 import { YieldVault, Asset } from "./types";
+import { fetchVaultHistory } from "./history-api";
 
 const HARVEST_API = "https://api.harvest.finance/vaults?key=harvest-key";
 
@@ -120,12 +121,30 @@ export async function fetchHarvestVaults(): Promise<YieldVault[]> {
       log(`[harvest-api] USDC: id=${v.id} chain=${v._sourceChain} platform=${v.platform?.[0]} apy=${v.estimatedApy} tvl=${v.totalValueLocked}`);
     }
 
+    // Fetch historical APY data for top vaults (limit to top 20 by TVL to avoid too many requests)
+    const sortedByTvl = [...usdcVaults].sort(
+      (a, b) => parseNumber(b.totalValueLocked) - parseNumber(a.totalValueLocked),
+    );
+    const topVaults = sortedByTvl.slice(0, 20);
+    const historyMap = new Map<string, { apy24h: number | null; apy30d: number | null }>();
+
+    const historyResults = await Promise.all(
+      topVaults.map((v) => fetchVaultHistory(v.vaultAddress, v._sourceChain)),
+    );
+    topVaults.forEach((v, i) => {
+      historyMap.set(v.vaultAddress, {
+        apy24h: historyResults[i].apy24h,
+        apy30d: historyResults[i].apy30d,
+      });
+    });
+
     const results: YieldVault[] = usdcVaults.map((v) => {
       const chain = CHAIN_NAMES[v._sourceChain] || v._sourceChain;
       const platform = v.platform?.[0] || "Harvest";
       const productName = `${v.id}`;
-      const apy = parseNumber(v.estimatedApy);
+      const currentApy = parseNumber(v.estimatedApy);
       const tvl = parseNumber(v.totalValueLocked);
+      const history = historyMap.get(v.vaultAddress);
 
       return {
         id: v.vaultAddress,
@@ -134,8 +153,8 @@ export async function fetchHarvestVaults(): Promise<YieldVault[]> {
         productName,
         protocol: { name: "Harvest Finance", slug: "harvest-finance" },
         vaultType: v.tags?.some((t) => t.toLowerCase().includes("pilot")) ? "Autopilot" as const : "Autocompounder" as const,
-        apy24h: apy,
-        apy30d: apy,
+        apy24h: history?.apy24h ?? currentApy,
+        apy30d: history?.apy30d ?? currentApy,
         tvl,
         description: `${productName} on ${platform} (${chain}) — automatically optimizes your USDC yield via Harvest Finance.`,
         chain,
