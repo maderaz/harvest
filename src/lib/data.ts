@@ -8,7 +8,7 @@ import { fetchVaultData } from "./subgraph";
  */
 const VAULT_CONFIGS: VaultConfig[] = [
   {
-    address: "0x2d5fde3d24ed3e7c548a59039eee5af8200f9291",
+    address: "0xA0200EEeD8D90aa01dE741DAEfab5F86C09D5785",
     slug: "usdc-autocompounder-ethereum",
     asset: "USDC",
     productName: "USDC Autocompounder",
