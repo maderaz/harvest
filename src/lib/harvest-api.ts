@@ -68,20 +68,31 @@ export async function fetchHarvestVaults(): Promise<YieldVault[]> {
     if (Array.isArray(raw)) {
       vaultList = raw;
     } else if (typeof raw === "object" && raw !== null) {
-      // API might return { eth: [...], base: [...] } or { data: [...] }
       const keys = Object.keys(raw);
       log(`[harvest-api] response keys: ${keys.join(", ")}`);
 
-      if (raw.data && Array.isArray(raw.data)) {
-        vaultList = raw.data;
-      } else {
-        // Try flattening all arrays from the response
-        for (const key of keys) {
-          if (Array.isArray(raw[key])) {
-            for (const item of raw[key]) {
-              if (typeof item === "object" && item !== null) {
-                vaultList.push({ ...item, _sourceChain: key });
-              }
+      const chainKeys = ["eth", "matic", "arbitrum", "base", "zksync", "hyperevm"];
+
+      for (const key of keys) {
+        const val = raw[key];
+        if (Array.isArray(val)) {
+          for (const item of val) {
+            if (typeof item === "object" && item !== null) {
+              vaultList.push({ ...item, _sourceChain: key });
+            }
+          }
+        } else if (chainKeys.includes(key) && typeof val === "object" && val !== null) {
+          // Handle { eth: { "0xabc": {...}, "0xdef": {...} } }
+          const entries = Object.entries(val as Record<string, unknown>);
+          log(`[harvest-api] chain=${key} entries=${entries.length}`);
+          if (entries.length > 0) {
+            const [sampleKey, sampleVal] = entries[0];
+            log(`[harvest-api] chain=${key} sampleKey=${sampleKey} sampleType=${typeof sampleVal}`);
+            log(`[harvest-api] chain=${key} sample: ${JSON.stringify(sampleVal).slice(0, 500)}`);
+          }
+          for (const [addr, vaultData] of entries) {
+            if (typeof vaultData === "object" && vaultData !== null) {
+              vaultList.push({ ...(vaultData as HarvestVault), _vaultKey: addr, _sourceChain: key });
             }
           }
         }
