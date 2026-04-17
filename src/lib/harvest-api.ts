@@ -138,6 +138,7 @@ export async function fetchHarvestVaults(): Promise<YieldVault[]> {
       });
     });
 
+    const seenSlugs = new Set<string>();
     const results: YieldVault[] = usdcVaults.map((v) => {
       const chain = CHAIN_NAMES[v._sourceChain] || v._sourceChain;
       const platform = v.platform?.[0] || "Harvest";
@@ -146,9 +147,15 @@ export async function fetchHarvestVaults(): Promise<YieldVault[]> {
       const tvl = parseNumber(v.totalValueLocked);
       const history = historyMap.get(v.vaultAddress);
 
+      let slug = slugify(`${v.id}-${chain}`);
+      if (seenSlugs.has(slug)) {
+        slug = slugify(`${v.id}-${chain}-${v.vaultAddress.slice(2, 8)}`);
+      }
+      seenSlugs.add(slug);
+
       return {
         id: v.vaultAddress,
-        slug: slugify(`${v.id}-${chain}`),
+        slug,
         asset: "USDC" as Asset,
         productName,
         protocol: { name: "Harvest Finance", slug: "harvest-finance" },
