@@ -1,6 +1,6 @@
 "use client";
 
-import { useId, useMemo, useRef, useState } from "react";
+import { useId, useMemo, useState, useCallback } from "react";
 
 interface DataPoint {
   timestamp: number;
@@ -45,15 +45,15 @@ function formatDateFull(ts: number): string {
   });
 }
 
-const CHART_HEIGHT = 200;
-const PADDING_TOP = 20;
-const PADDING_BOTTOM = 30;
-const PADDING_LEFT = 60;
-const PADDING_RIGHT = 20;
+const W = 600;
+const H = 180;
+const PT = 16;
+const PB = 24;
+const PL = 48;
+const PR = 12;
 
 export function VaultChart({ title, data, format }: VaultChartProps) {
   const gradientId = useId();
-  const containerRef = useRef<HTMLDivElement>(null);
   const [tooltip, setTooltip] = useState<{
     x: number;
     y: number;
@@ -72,29 +72,35 @@ export function VaultChart({ title, data, format }: VaultChartProps) {
     const minTs = Math.min(...timestamps);
     const maxTs = Math.max(...timestamps);
 
-    // Add some padding to y range
     const valRange = maxVal - minVal || 1;
     const yMin = minVal - valRange * 0.05;
     const yMax = maxVal + valRange * 0.05;
     const tsRange = maxTs - minTs || 1;
 
-    return { values, timestamps, yMin, yMax, minTs, tsRange };
+    return { yMin, yMax, minTs, tsRange };
   }, [data]);
+
+  const xPos = useCallback(
+    (ts: number) => {
+      if (!chartData) return 0;
+      return PL + ((ts - chartData.minTs) / chartData.tsRange) * (W - PL - PR);
+    },
+    [chartData],
+  );
+
+  const yPos = useCallback(
+    (val: number) => {
+      if (!chartData) return 0;
+      const drawH = H - PT - PB;
+      return PT + (1 - (val - chartData.yMin) / (chartData.yMax - chartData.yMin)) * drawH;
+    },
+    [chartData],
+  );
 
   if (!chartData || data.length < 2) return null;
 
-  const { yMin, yMax, minTs, tsRange } = chartData;
-  const drawHeight = CHART_HEIGHT - PADDING_TOP - PADDING_BOTTOM;
+  const { yMin, yMax } = chartData;
 
-  function xPos(ts: number): number {
-    return PADDING_LEFT + ((ts - minTs) / tsRange) * (800 - PADDING_LEFT - PADDING_RIGHT);
-  }
-
-  function yPos(val: number): number {
-    return PADDING_TOP + (1 - (val - yMin) / (yMax - yMin)) * drawHeight;
-  }
-
-  // Build SVG path
   const lineParts: string[] = [];
   const areaParts: string[] = [];
 
@@ -103,7 +109,7 @@ export function VaultChart({ title, data, format }: VaultChartProps) {
     const y = yPos(d.value);
     if (i === 0) {
       lineParts.push(`M ${x} ${y}`);
-      areaParts.push(`M ${x} ${CHART_HEIGHT - PADDING_BOTTOM}`);
+      areaParts.push(`M ${x} ${H - PB}`);
       areaParts.push(`L ${x} ${y}`);
     } else {
       lineParts.push(`L ${x} ${y}`);
@@ -111,44 +117,42 @@ export function VaultChart({ title, data, format }: VaultChartProps) {
     }
   });
 
-  // Close area path
   const lastX = xPos(data[data.length - 1].timestamp);
-  areaParts.push(`L ${lastX} ${CHART_HEIGHT - PADDING_BOTTOM}`);
+  areaParts.push(`L ${lastX} ${H - PB}`);
   areaParts.push("Z");
 
   const linePath = lineParts.join(" ");
   const areaPath = areaParts.join(" ");
 
-  // Y axis labels (5 ticks)
-  const yTicks = Array.from({ length: 5 }, (_, i) => {
-    const val = yMin + ((yMax - yMin) * (4 - i)) / 4;
+  const yTicks = Array.from({ length: 4 }, (_, i) => {
+    const val = yMin + ((yMax - yMin) * (3 - i)) / 3;
     return { val, y: yPos(val) };
   });
 
-  // X axis labels (up to 6 dates)
-  const xTickCount = Math.min(6, data.length);
+  const xTickCount = Math.min(4, data.length);
   const xTicks = Array.from({ length: xTickCount }, (_, i) => {
     const idx = Math.round((i * (data.length - 1)) / (xTickCount - 1));
     const d = data[idx];
     return { label: formatDate(d.timestamp), x: xPos(d.timestamp) };
   });
 
-  function handleMouseMove(e: React.MouseEvent<SVGSVGElement>) {
-    const svg = e.currentTarget;
-    const rect = svg.getBoundingClientRect();
-    const mouseX = ((e.clientX - rect.left) / rect.width) * 800;
-
-    // Find closest data point
+  function findClosest(svgX: number) {
     let closest = data[0];
     let closestDist = Infinity;
     for (const d of data) {
-      const dist = Math.abs(xPos(d.timestamp) - mouseX);
+      const dist = Math.abs(xPos(d.timestamp) - svgX);
       if (dist < closestDist) {
         closestDist = dist;
         closest = d;
       }
     }
+    return closest;
+  }
 
+  function handleMouseMove(e: React.MouseEvent<SVGSVGElement>) {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const svgX = ((e.clientX - rect.left) / rect.width) * W;
+    const closest = findClosest(svgX);
     setTooltip({
       x: xPos(closest.timestamp),
       y: yPos(closest.value),
@@ -157,40 +161,57 @@ export function VaultChart({ title, data, format }: VaultChartProps) {
     });
   }
 
-  function handleMouseLeave() {
+  function handleTouchMove(e: React.TouchEvent<SVGSVGElement>) {
+    const touch = e.touches[0];
+    const rect = e.currentTarget.getBoundingClientRect();
+    const svgX = ((touch.clientX - rect.left) / rect.width) * W;
+    const closest = findClosest(svgX);
+    setTooltip({
+      x: xPos(closest.timestamp),
+      y: yPos(closest.value),
+      value: closest.value,
+      timestamp: closest.timestamp,
+    });
+  }
+
+  function handleLeave() {
     setTooltip(null);
   }
 
+  const tooltipW = 110;
+  const tooltipX = tooltip
+    ? Math.max(PL, Math.min(tooltip.x - tooltipW / 2, W - PR - tooltipW))
+    : 0;
+
   return (
-    <div ref={containerRef} className="rounded-lg border border-gray-200 bg-white p-5">
-      <h3 className="mb-3 text-base font-semibold text-gray-900">{title}</h3>
+    <div className="rounded-lg border border-gray-200 bg-white p-3 sm:p-5">
+      <h3 className="mb-2 text-sm font-semibold text-gray-900 sm:text-base sm:mb-3">
+        {title}
+      </h3>
       <svg
-        viewBox={`0 0 800 ${CHART_HEIGHT}`}
-        className="w-full"
+        viewBox={`0 0 ${W} ${H}`}
+        className="w-full touch-none"
         preserveAspectRatio="xMidYMid meet"
         onMouseMove={handleMouseMove}
-        onMouseLeave={handleMouseLeave}
+        onMouseLeave={handleLeave}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleLeave}
       >
-        {/* Grid lines */}
         {yTicks.map((tick, i) => (
           <line
             key={i}
-            x1={PADDING_LEFT}
+            x1={PL}
             y1={tick.y}
-            x2={800 - PADDING_RIGHT}
+            x2={W - PR}
             y2={tick.y}
             stroke="#f0f0f0"
             strokeWidth="1"
           />
         ))}
 
-        {/* Area fill */}
         <path d={areaPath} fill={`url(#${gradientId})`} opacity="0.3" />
-
-        {/* Line */}
         <path d={linePath} fill="none" stroke="#2563eb" strokeWidth="2" />
 
-        {/* Gradient definition */}
         <defs>
           <linearGradient id={gradientId} x1="0" y1="0" x2="0" y2="1">
             <stop offset="0%" stopColor="#2563eb" stopOpacity="0.4" />
@@ -198,42 +219,39 @@ export function VaultChart({ title, data, format }: VaultChartProps) {
           </linearGradient>
         </defs>
 
-        {/* Y axis labels */}
         {yTicks.map((tick, i) => (
           <text
             key={i}
-            x={PADDING_LEFT - 8}
-            y={tick.y + 4}
+            x={PL - 6}
+            y={tick.y + 3}
             textAnchor="end"
-            fontSize="11"
+            fontSize="9"
             fill="#9ca3af"
           >
             {formatValue(tick.val, format)}
           </text>
         ))}
 
-        {/* X axis labels */}
         {xTicks.map((tick, i) => (
           <text
             key={i}
             x={tick.x}
-            y={CHART_HEIGHT - 8}
+            y={H - 6}
             textAnchor="middle"
-            fontSize="11"
+            fontSize="9"
             fill="#9ca3af"
           >
             {tick.label}
           </text>
         ))}
 
-        {/* Tooltip */}
         {tooltip && (
           <>
             <line
               x1={tooltip.x}
-              y1={PADDING_TOP}
+              y1={PT}
               x2={tooltip.x}
-              y2={CHART_HEIGHT - PADDING_BOTTOM}
+              y2={H - PB}
               stroke="#2563eb"
               strokeWidth="1"
               strokeDasharray="4 2"
@@ -241,30 +259,30 @@ export function VaultChart({ title, data, format }: VaultChartProps) {
             />
             <circle cx={tooltip.x} cy={tooltip.y} r="4" fill="#2563eb" />
             <rect
-              x={tooltip.x - 60}
-              y={tooltip.y - 36}
-              width="120"
-              height="28"
+              x={tooltipX}
+              y={Math.max(2, tooltip.y - 34)}
+              width={tooltipW}
+              height="26"
               rx="4"
               fill="white"
               stroke="#e5e7eb"
               strokeWidth="1"
             />
             <text
-              x={tooltip.x}
-              y={tooltip.y - 22}
+              x={tooltipX + tooltipW / 2}
+              y={Math.max(2, tooltip.y - 34) + 11}
               textAnchor="middle"
-              fontSize="11"
+              fontSize="10"
               fontWeight="600"
               fill="#111827"
             >
               {formatValue(tooltip.value, format)}
             </text>
             <text
-              x={tooltip.x}
-              y={tooltip.y - 11}
+              x={tooltipX + tooltipW / 2}
+              y={Math.max(2, tooltip.y - 34) + 22}
               textAnchor="middle"
-              fontSize="10"
+              fontSize="9"
               fill="#6b7280"
             >
               {formatDateFull(tooltip.timestamp)}
