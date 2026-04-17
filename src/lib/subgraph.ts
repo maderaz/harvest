@@ -85,8 +85,15 @@ export async function fetchVaultData(
   const tvlArr = data.tvls as { value: string; timestamp: string }[] | undefined;
   const histArr = data.vaultHistories as { sharePrice: string; timestamp: string }[] | undefined;
 
+  console.log(`[subgraph] vault=${addr}`);
+  console.log(`[subgraph] raw apyAutoCompounds:`, JSON.stringify(apyArr));
+  console.log(`[subgraph] raw tvls:`, JSON.stringify(tvlArr));
+  console.log(`[subgraph] raw vaultHistories:`, JSON.stringify(histArr));
+
+  const rawApy = apyArr?.[0] ? parseFloat(apyArr[0].apy) : null;
+
   return {
-    apy: apyArr?.[0] ? parseFloat(apyArr[0].apy) : null,
+    apy: rawApy,
     tvl: tvlArr?.[0] ? parseFloat(tvlArr[0].value) : null,
     sharePrice: histArr?.[0]?.sharePrice ?? null,
     timestamp: histArr?.[0] ? parseInt(histArr[0].timestamp, 10) : null,
