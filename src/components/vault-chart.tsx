@@ -244,22 +244,25 @@ export function VaultChart({
     : 0;
 
   return (
-    <div className="rounded-xl border border-gray-200 bg-white p-4 sm:p-5">
+    <div className="rounded-xl border border-gray-200 bg-white p-3 sm:p-5">
       {/* Header */}
-      <div className="flex items-start justify-between mb-1">
-        <div>
-          <p className="text-xs text-gray-400 uppercase tracking-wider">{title}</p>
-          <p className="text-xl font-semibold text-gray-900 sm:text-2xl">
+      <div className="flex items-start justify-between gap-2 mb-1">
+        <div className="min-w-0">
+          <p className="text-[10px] text-gray-400 uppercase tracking-wider sm:text-xs">{title}</p>
+          <p className="text-lg font-semibold text-gray-900 truncate sm:text-2xl">
             {formatValue(displayVal, format)}
           </p>
-          <p className="text-[11px] text-gray-400">{displayDate}</p>
+          <p className="text-[10px] text-gray-400 sm:text-[11px]">{displayDate}</p>
         </div>
-        <div className="flex gap-1">
+        <div className="flex gap-0.5 shrink-0">
           {WINDOWS.map((w) => (
             <button
               key={w.label}
-              onClick={() => setActiveWindow(w.label)}
-              className={`rounded-full px-2.5 py-1 text-[11px] font-medium transition-colors ${
+              onPointerDown={(e) => {
+                e.stopPropagation();
+                setActiveWindow(w.label);
+              }}
+              className={`rounded-full px-2 py-1 text-[10px] font-medium transition-colors sm:px-2.5 sm:text-[11px] ${
                 activeWindow === w.label
                   ? "bg-gray-900 text-white"
                   : "text-gray-400 hover:text-gray-600"
@@ -274,7 +277,8 @@ export function VaultChart({
       {/* Chart */}
       <svg
         viewBox={`0 0 ${W} ${H}`}
-        className="w-full touch-none cursor-crosshair"
+        className="w-full cursor-crosshair"
+        style={{ touchAction: "pan-y" }}
         preserveAspectRatio="xMidYMid meet"
         onMouseMove={onMouseMove}
         onMouseLeave={() => setScrub(null)}
