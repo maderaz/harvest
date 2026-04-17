@@ -22,28 +22,33 @@ async function queryGraphQL(
   chainId: string,
   query: string,
 ): Promise<Record<string, unknown> | null> {
-  try {
-    const res = await fetch(`${BASE_URL}/${chainId}`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ query }),
-    });
+  for (let attempt = 0; attempt < 3; attempt++) {
+    try {
+      const res = await fetch(`${BASE_URL}/${chainId}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ query }),
+      });
 
-    if (!res.ok) {
-      log(`[history] chain=${chainId} failed: ${res.status}`);
+      if (!res.ok) {
+        log(`[history] chain=${chainId} attempt=${attempt} failed: ${res.status}`);
+        if (attempt < 2) { await new Promise((r) => setTimeout(r, 1000 * (attempt + 1))); continue; }
+        return null;
+      }
+
+      const json = await res.json();
+      if (json.errors) {
+        log(`[history] chain=${chainId} errors: ${JSON.stringify(json.errors)}`);
+        return null;
+      }
+      return json.data;
+    } catch (err) {
+      log(`[history] chain=${chainId} attempt=${attempt} error: ${err}`);
+      if (attempt < 2) { await new Promise((r) => setTimeout(r, 1000 * (attempt + 1))); continue; }
       return null;
     }
-
-    const json = await res.json();
-    if (json.errors) {
-      log(`[history] chain=${chainId} errors: ${JSON.stringify(json.errors)}`);
-      return null;
-    }
-    return json.data;
-  } catch (err) {
-    log(`[history] chain=${chainId} error: ${err}`);
-    return null;
   }
+  return null;
 }
 
 export interface ApyHistoryPoint {

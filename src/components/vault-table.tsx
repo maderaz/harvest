@@ -2,6 +2,7 @@
 
 import { useState, useMemo } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { YieldVault } from "@/lib/types";
 import { formatAPY, formatTVL } from "@/lib/format";
 import { AssetBadge } from "./asset-badge";
@@ -18,6 +19,7 @@ function SortIcon({ active, dir }: { active: boolean; dir: SortDir }) {
 }
 
 export function VaultTable({ vaults }: { vaults: YieldVault[] }) {
+  const router = useRouter();
   const [sortKey, setSortKey] = useState<SortKey>("apy24h");
   const [sortDir, setSortDir] = useState<SortDir>("desc");
 
@@ -74,7 +76,8 @@ export function VaultTable({ vaults }: { vaults: YieldVault[] }) {
           {sorted.map((vault, index) => (
             <tr
               key={vault.id}
-              className="border-b border-gray-100 transition-colors hover:bg-gray-50"
+              onClick={() => router.push(`/${vault.slug}`)}
+              className="border-b border-gray-100 transition-colors hover:bg-gray-50 cursor-pointer"
             >
               <td className="px-2 py-3 text-xs text-gray-400 sm:px-4 sm:py-4 sm:text-sm">
                 {index + 1}
