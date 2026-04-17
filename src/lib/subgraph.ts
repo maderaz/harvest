@@ -52,6 +52,48 @@ function log(msg: string) {
   }
 }
 
+export async function discoverVaults(): Promise<void> {
+  const query = `{
+    tvls(
+      orderBy: value
+      orderDirection: desc
+      first: 50
+    ) {
+      vault { id }
+      value
+      timestamp
+    }
+    apyAutoCompounds(
+      orderBy: timestamp
+      orderDirection: desc
+      first: 50
+    ) {
+      vault { id }
+      apy
+      timestamp
+    }
+  }`;
+
+  const data = await querySubgraph(query);
+  if (!data) {
+    log("[discover] subgraph unreachable");
+    return;
+  }
+
+  const tvls = data.tvls as { vault: { id: string }; value: string; timestamp: string }[] | undefined;
+  const apys = data.apyAutoCompounds as { vault: { id: string }; apy: string; timestamp: string }[] | undefined;
+
+  log("[discover] === TOP VAULTS BY TVL ===");
+  const seen = new Set<string>();
+  for (const t of tvls ?? []) {
+    if (seen.has(t.vault.id)) continue;
+    seen.add(t.vault.id);
+    const matchingApy = apys?.find((a) => a.vault.id === t.vault.id);
+    log(`[discover] vault=${t.vault.id} tvl=${t.value} apy=${matchingApy?.apy ?? "N/A"} ts=${t.timestamp}`);
+  }
+  log("[discover] === END ===");
+}
+
 export async function fetchVaultData(
   vaultAddress: string,
 ): Promise<SubgraphVaultData> {

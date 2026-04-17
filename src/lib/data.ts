@@ -1,5 +1,5 @@
 import { YieldVault, VaultConfig } from "./types";
-import { fetchVaultData } from "./subgraph";
+import { fetchVaultData, discoverVaults } from "./subgraph";
 
 /**
  * Vault configurations — add new vaults here.
@@ -52,6 +52,7 @@ let _cache: YieldVault[] | null = null;
 
 export async function getVaults(): Promise<YieldVault[]> {
   if (_cache) return _cache;
+  await discoverVaults();
   _cache = await Promise.all(VAULT_CONFIGS.map(buildVault));
   return _cache;
 }
