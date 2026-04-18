@@ -11,6 +11,10 @@ import { VaultChart } from "@/components/vault-chart";
 import { VaultCommentary } from "@/components/vault-commentary";
 import { VaultFaq } from "@/components/vault-faq";
 import { YieldBreakdown } from "@/components/yield-breakdown";
+import { VaultStatistics } from "@/components/vault-statistics";
+import { ConsistencyScore } from "@/components/consistency-score";
+import { VaultHistoryTable } from "@/components/vault-history-table";
+import { EarningsCalculator } from "@/components/earnings-calculator";
 
 export async function generateStaticParams() {
   const slugs = await getAllSlugs();
@@ -361,6 +365,18 @@ export default async function ProductPage({
           allVaults={allVaults}
           history={history}
         />
+
+        {/* Statistics Block */}
+        <VaultStatistics history={history} currentTvl={vault.tvl} />
+
+        {/* Consistency Score */}
+        <ConsistencyScore history={history} spotAPY={vault.apy24h} />
+
+        {/* History Table */}
+        <VaultHistoryTable history={history} />
+
+        {/* Earnings Calculator */}
+        <EarningsCalculator apy={vault.apy24h} asset={vault.asset} />
 
         {/* Description */}
         <section className="mb-10">
