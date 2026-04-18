@@ -70,31 +70,59 @@ export function VaultCommentary({
   }
 
   // 30D APY Performance
+  const nowSeconds = Math.floor(Date.now() / 1000);
+  const thirtyDaysAgo = nowSeconds - 30 * 24 * 60 * 60;
+
   if (history.apyHistory.length >= 2) {
-    const apyValues = history.apyHistory
-      .filter((p) => p.apy >= 0)
-      .map((p) => p.apy);
-    if (apyValues.length > 0) {
-      const avg = apyValues.reduce((s, v) => s + v, 0) / apyValues.length;
+    const recent = history.apyHistory.filter(
+      (p) => p.apy >= 0 && p.timestamp >= thirtyDaysAgo,
+    );
+    if (recent.length >= 2) {
+      const avg =
+        recent.reduce((s, p) => s + p.apy, 0) / recent.length;
       paragraphs.push(
-        `APY has averaged ${avg.toFixed(2)}% over the available history period.`,
+        `APY has averaged ${avg.toFixed(2)}% over the past 30 days.`,
       );
+    } else {
+      const allValid = history.apyHistory.filter((p) => p.apy >= 0);
+      if (allValid.length > 0) {
+        const avg =
+          allValid.reduce((s, p) => s + p.apy, 0) / allValid.length;
+        paragraphs.push(
+          `APY has averaged ${avg.toFixed(2)}% over the available history period.`,
+        );
+      }
     }
   }
 
   // TVL Trend (30D)
   if (history.tvlHistory.length >= 2) {
-    const sorted = [...history.tvlHistory].sort(
-      (a, b) => a.timestamp - b.timestamp,
-    );
-    const oldest = sorted[0].value;
-    const newest = sorted[sorted.length - 1].value;
-    if (oldest > 0) {
-      const changePct = ((newest - oldest) / oldest) * 100;
-      const direction = changePct >= 0 ? "grew" : "declined";
-      paragraphs.push(
-        `TVL ${direction} ${Math.abs(changePct).toFixed(1)}% over the tracked period, from ${formatTVL(oldest)} to ${formatTVL(newest)}.`,
+    const recent = [...history.tvlHistory]
+      .filter((p) => p.timestamp >= thirtyDaysAgo)
+      .sort((a, b) => a.timestamp - b.timestamp);
+    if (recent.length >= 2) {
+      const oldest = recent[0].value;
+      const newest = recent[recent.length - 1].value;
+      if (oldest > 0) {
+        const changePct = ((newest - oldest) / oldest) * 100;
+        const direction = changePct >= 0 ? "grew" : "declined";
+        paragraphs.push(
+          `TVL ${direction} ${Math.abs(changePct).toFixed(1)}% in the last 30 days, from ${formatTVL(oldest)} to ${formatTVL(newest)}.`,
+        );
+      }
+    } else {
+      const sorted = [...history.tvlHistory].sort(
+        (a, b) => a.timestamp - b.timestamp,
       );
+      const oldest = sorted[0].value;
+      const newest = sorted[sorted.length - 1].value;
+      if (oldest > 0) {
+        const changePct = ((newest - oldest) / oldest) * 100;
+        const direction = changePct >= 0 ? "grew" : "declined";
+        paragraphs.push(
+          `TVL ${direction} ${Math.abs(changePct).toFixed(1)}% over the tracked period, from ${formatTVL(oldest)} to ${formatTVL(newest)}.`,
+        );
+      }
     }
   }
 
@@ -107,8 +135,9 @@ export function VaultCommentary({
     const last = sorted[sorted.length - 1].sharePrice;
     if (first > 0) {
       const growth = ((last - first) / first) * 100;
+      const verb = growth >= 0 ? "grown" : "declined";
       paragraphs.push(
-        `Share price has grown from ${first.toFixed(3)} to ${last.toFixed(3)} since inception, representing a ${growth.toFixed(2)}% cumulative return.`,
+        `Share price has ${verb} from ${first.toFixed(3)} to ${last.toFixed(3)} since inception, representing a ${Math.abs(growth).toFixed(2)}% cumulative ${growth >= 0 ? "return" : "decline"}.`,
       );
     }
   }

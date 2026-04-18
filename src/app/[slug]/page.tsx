@@ -350,15 +350,26 @@ export default async function ProductPage({
             {vault.chain} by {vault.protocol.name} that accepts {vault.asset}{" "}
             deposits.{" "}
             {vault.vaultType === "Autocompounder"
-              ? "As an autocompounder, it automatically reinvests earned yields to compound returns over time."
-              : "As an autopilot vault, it automatically allocates deposits across optimized yield strategies."}{" "}
+              ? `As an autocompounder, it automatically reinvests earned ${vault.asset} yields to compound returns over time without requiring manual harvesting or restaking.`
+              : `As an autopilot vault, it automatically allocates ${vault.asset} deposits across optimized yield strategies managed by ${vault.protocol.name}.`}{" "}
             {vault.description}
           </p>
           {vault.tvl > 0 && vault.apy24h > 0 && (
             <p className="mt-2 leading-relaxed text-gray-600">
               The vault currently holds {formatTVL(vault.tvl)} in total value
-              locked and is generating {formatAPY(vault.apy24h)} APY (24h). The
-              risk level is classified as {vault.riskLevel}.
+              locked and is generating {formatAPY(vault.apy24h)} APY (24h).
+              {vault.apy30d > 0 &&
+                ` The 30-day average APY is ${formatAPY(vault.apy30d)}.`}{" "}
+              The risk level is classified as {vault.riskLevel}. {vault.productName}{" "}
+              is categorized under {vault.category} and deployed on the{" "}
+              {vault.chain} network.
+            </p>
+          )}
+          {(vault.tvl <= 0 || vault.apy24h <= 0) && (
+            <p className="mt-2 leading-relaxed text-gray-600">
+              {vault.productName} is categorized under {vault.category},{" "}
+              deployed on the {vault.chain} network, and classified as{" "}
+              {vault.riskLevel} risk.
             </p>
           )}
         </section>
