@@ -198,7 +198,7 @@
       "slug": "harvest-finance"
     },
     "vaultType": "Autocompounder",
-    "apy24h": 6.158899667747082,
+    "apy24h": 6.125855660714179,
     "apy30d": 6.043660898253295,
     "tvl": 110404.32540168763,
     "description": "USDC Steakhouse High Yield Instant V2 on Morpho (Base) — automatically optimizes your USDC yield via Harvest Finance.",
