@@ -138,6 +138,7 @@ export async function fetchHarvestVaults(): Promise<YieldVault[]> {
       });
     });
 
+    const seenSlugs = new Set<string>();
     const results: YieldVault[] = usdcVaults.map((v) => {
       const chain = CHAIN_NAMES[v._sourceChain] || v._sourceChain;
       const platform = v.platform?.[0] || "Harvest";
@@ -154,9 +155,20 @@ export async function fetchHarvestVaults(): Promise<YieldVault[]> {
       const tvl = parseNumber(v.totalValueLocked);
       const history = historyMap.get(v.vaultAddress);
 
-      // Slug based on stable API id + chain + address prefix (never changes between deploys)
-      const addrSuffix = v.vaultAddress.slice(2, 10).toLowerCase();
-      const slug = slugify(`${v.id}-${chain}-${addrSuffix}`);
+      // Clean slug: /usdc-{strategy}-{chain}
+      const strategySlug = strategy
+        ? slugify(strategy.replace(/\s*V\d+$/i, ""))
+        : slugify(protocol);
+      const baseSlug = `usdc-${strategySlug}-${slugify(chain)}`;
+
+      // Deduplicate with -2, -3 etc
+      let slug = baseSlug;
+      let counter = 1;
+      while (seenSlugs.has(slug)) {
+        counter++;
+        slug = `${baseSlug}-${counter}`;
+      }
+      seenSlugs.add(slug);
 
       // Build APY breakdown from token symbols and breakdown values
       const breakdownValues = v.estimatedApyBreakdown || [];

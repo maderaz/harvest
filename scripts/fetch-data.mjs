@@ -17,6 +17,21 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, "..");
 const VAULTS_FILE = join(ROOT, "data", "vaults.json");
 const HISTORY_FILE = join(ROOT, "data", "history.json");
+const SLUGS_FILE = join(ROOT, "data", "slugs.json");
+
+// Load persisted slug map (contractAddress -> slug) so URLs never change
+function loadSlugMap() {
+  try {
+    if (existsSync(SLUGS_FILE)) {
+      return JSON.parse(readFileSync(SLUGS_FILE, "utf-8"));
+    }
+  } catch {}
+  return {};
+}
+
+function saveSlugMap(map) {
+  writeFileSync(SLUGS_FILE, JSON.stringify(map, null, 2));
+}
 
 const HARVEST_API = "https://api.harvest.finance/vaults?key=harvest-key";
 const HISTORY_BASE_URL = "https://clownfish-app-2dsdk.ondigitalocean.app";
@@ -134,6 +149,10 @@ async function fetchHarvestVaults() {
     });
   });
 
+  const persistedSlugs = loadSlugMap();
+  const seenSlugs = new Set(Object.values(persistedSlugs));
+  const newSlugMap = { ...persistedSlugs };
+
   const results = usdcVaults.map((v) => {
     const chain = CHAIN_NAMES[v._sourceChain] || v._sourceChain;
     const platform = v.platform?.[0] || "Harvest";
@@ -150,8 +169,24 @@ async function fetchHarvestVaults() {
     const tvl = parseNumber(v.totalValueLocked);
     const history = historyMap.get(v.vaultAddress);
 
-    const addrSuffix = v.vaultAddress.slice(2, 10).toLowerCase();
-    const slug = slugify(`${v.id}-${chain}-${addrSuffix}`);
+    // Use persisted slug if vault was seen before (URL stability)
+    let slug;
+    if (persistedSlugs[v.vaultAddress]) {
+      slug = persistedSlugs[v.vaultAddress];
+    } else {
+      const strategySlug = strategy
+        ? slugify(strategy.replace(/\s*V\d+$/i, ""))
+        : slugify(protocol);
+      const baseSlug = `usdc-${strategySlug}-${slugify(chain)}`;
+      slug = baseSlug;
+      let counter = 1;
+      while (seenSlugs.has(slug)) {
+        counter++;
+        slug = `${baseSlug}-${counter}`;
+      }
+      seenSlugs.add(slug);
+      newSlugMap[v.vaultAddress] = slug;
+    }
 
     const breakdownValues = v.estimatedApyBreakdown || [];
     const tokenSymbols = v.apyTokenSymbols || [];
@@ -463,6 +498,9 @@ async function main() {
 
   writeFileSync(HISTORY_FILE, JSON.stringify(historyMap, null, 2));
   log(`Wrote ${HISTORY_FILE}`);
+
+  saveSlugMap(newSlugMap);
+  log(`Wrote ${SLUGS_FILE} (${Object.keys(newSlugMap).length} slugs persisted)`);
 
   log("\nDone!");
 }
