@@ -1,0 +1,470 @@
+#!/usr/bin/env node
+
+/**
+ * Fetch all vault and history data from Harvest Finance APIs
+ * and write to data/vaults.json and data/history.json.
+ *
+ * Usage: node scripts/fetch-data.mjs
+ *
+ * Requires Node 18+ (native fetch).
+ */
+
+import { writeFileSync, readFileSync, existsSync } from "fs";
+import { join, dirname } from "path";
+import { fileURLToPath } from "url";
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const ROOT = join(__dirname, "..");
+const VAULTS_FILE = join(ROOT, "data", "vaults.json");
+const HISTORY_FILE = join(ROOT, "data", "history.json");
+
+const HARVEST_API = "https://api.harvest.finance/vaults?key=harvest-key";
+const HISTORY_BASE_URL = "https://clownfish-app-2dsdk.ondigitalocean.app";
+
+const CHAIN_NAMES = {
+  eth: "Ethereum",
+  matic: "Polygon",
+  arbitrum: "Arbitrum",
+  base: "Base",
+  zksync: "zkSync",
+  hyperevm: "HyperEVM",
+};
+
+const CHAIN_IDS = {
+  eth: "1",
+  matic: "137",
+  arbitrum: "42161",
+  base: "8453",
+  zksync: "324",
+};
+
+const CHAIN_NAME_TO_KEY = {
+  Ethereum: "eth",
+  Polygon: "matic",
+  Arbitrum: "arbitrum",
+  Base: "base",
+  zkSync: "zksync",
+  HyperEVM: "hyperevm",
+};
+
+function log(msg) {
+  console.log(msg);
+}
+
+function slugify(text) {
+  return text
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
+}
+
+function parseNumber(val) {
+  if (typeof val === "number") return val;
+  if (typeof val === "string") {
+    const n = parseFloat(val);
+    return isNaN(n) ? 0 : n;
+  }
+  return 0;
+}
+
+function sleep(ms) {
+  return new Promise((r) => setTimeout(r, ms));
+}
+
+function nowSeconds() {
+  return Math.floor(Date.now() / 1000);
+}
+
+// ─── Vault fetching (mirrors harvest-api.ts) ────────────────────────────────
+
+async function fetchHarvestVaults() {
+  log("[harvest-api] fetching vaults...");
+  const res = await fetch(HARVEST_API);
+
+  if (!res.ok) {
+    throw new Error(`[harvest-api] failed: ${res.status}`);
+  }
+
+  const raw = await res.json();
+
+  const chainKeys = Object.keys(CHAIN_NAMES);
+  const allVaults = [];
+
+  for (const key of chainKeys) {
+    const chainData = raw[key];
+    if (!chainData || typeof chainData !== "object") continue;
+
+    for (const [vaultKey, vaultData] of Object.entries(chainData)) {
+      if (typeof vaultData === "object" && vaultData !== null) {
+        allVaults.push({
+          ...vaultData,
+          _sourceChain: key,
+          _vaultKey: vaultKey,
+        });
+      }
+    }
+  }
+
+  log(`[harvest-api] total vaults: ${allVaults.length}`);
+
+  const activeVaults = allVaults.filter((v) => !v.inactive);
+  log(`[harvest-api] active vaults: ${activeVaults.length}`);
+
+  const usdcVaults = activeVaults.filter((v) => {
+    const names = v.tokenNames || [];
+    return names.some((n) => n.toUpperCase() === "USDC");
+  });
+
+  log(`[harvest-api] USDC vaults: ${usdcVaults.length}`);
+
+  // Fetch historical APY data for top vaults (limit to top 20 by TVL)
+  const sortedByTvl = [...usdcVaults].sort(
+    (a, b) => parseNumber(b.totalValueLocked) - parseNumber(a.totalValueLocked)
+  );
+  const topVaults = sortedByTvl.slice(0, 20);
+  const historyMap = new Map();
+
+  const historyResults = await Promise.all(
+    topVaults.map((v) => fetchVaultHistoryShort(v.vaultAddress, v._sourceChain))
+  );
+  topVaults.forEach((v, i) => {
+    historyMap.set(v.vaultAddress, {
+      apy24h: historyResults[i].apy24h,
+      apy30d: historyResults[i].apy30d,
+    });
+  });
+
+  const results = usdcVaults.map((v) => {
+    const chain = CHAIN_NAMES[v._sourceChain] || v._sourceChain;
+    const platform = v.platform?.[0] || "Harvest";
+
+    const platformParts = platform.split(" - ");
+    const protocol = platformParts[0].trim();
+    const strategy =
+      platformParts.length > 1
+        ? platformParts.slice(1).join(" - ").trim()
+        : "";
+    const productName = strategy ? `USDC ${strategy}` : `USDC ${protocol}`;
+    const categoryDisplay = `${protocol} - ${chain}`;
+    const currentApy = parseNumber(v.estimatedApy);
+    const tvl = parseNumber(v.totalValueLocked);
+    const history = historyMap.get(v.vaultAddress);
+
+    const addrSuffix = v.vaultAddress.slice(2, 10).toLowerCase();
+    const slug = slugify(`${productName}-${chain}-${addrSuffix}`);
+
+    const breakdownValues = v.estimatedApyBreakdown || [];
+    const tokenSymbols = v.apyTokenSymbols || [];
+    const apyBreakdown = breakdownValues.map((val, i) => ({
+      source:
+        tokenSymbols[i] ||
+        (breakdownValues.length === 1 ? "Base Rate" : `Source ${i + 1}`),
+      apy: parseNumber(val),
+    }));
+
+    const boostedApy = v.boostedEstimatedAPY
+      ? parseNumber(v.boostedEstimatedAPY)
+      : null;
+
+    return {
+      id: v.vaultAddress,
+      slug,
+      asset: "USDC",
+      productName,
+      protocol: { name: "Harvest Finance", slug: "harvest-finance" },
+      vaultType: v.tags?.some((t) => t.toLowerCase().includes("pilot"))
+        ? "Autopilot"
+        : "Autocompounder",
+      apy24h: history?.apy24h ?? currentApy,
+      apy30d: history?.apy30d ?? currentApy,
+      tvl,
+      description: `${productName} on ${protocol} (${chain}) — automatically optimizes your USDC yield via Harvest Finance.`,
+      chain,
+      contractAddress: v.vaultAddress,
+      riskLevel: "low",
+      category: categoryDisplay,
+      launchDate: "",
+      apyBreakdown,
+      boostedApy: boostedApy && boostedApy > 0 ? boostedApy : null,
+    };
+  });
+
+  results.sort((a, b) => b.apy24h - a.apy24h);
+
+  log(`[harvest-api] final count: ${results.length}`);
+  return results;
+}
+
+// ─── Short history (30d APY only, for vault listing) ─────────────────────────
+
+async function queryGraphQL(chainId, query) {
+  try {
+    const res = await fetch(`${HISTORY_BASE_URL}/${chainId}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ query }),
+      signal: AbortSignal.timeout(10000),
+    });
+
+    if (!res.ok) {
+      log(`[history] chain=${chainId} failed: ${res.status}`);
+      return null;
+    }
+
+    const json = await res.json();
+    if (json.errors) {
+      log(`[history] chain=${chainId} errors: ${JSON.stringify(json.errors)}`);
+      return null;
+    }
+    return json.data;
+  } catch (err) {
+    log(`[history] chain=${chainId} error: ${err}`);
+    return null;
+  }
+}
+
+async function fetchVaultHistoryShort(vaultAddress, chainKey) {
+  const chainId = CHAIN_IDS[chainKey];
+  if (!chainId) {
+    return { apy24h: null, apy30d: null };
+  }
+
+  const addr = vaultAddress.toLowerCase();
+  const thirtyDaysAgo = nowSeconds() - 30 * 24 * 60 * 60;
+
+  const query = `{
+    apyAutoCompounds(
+      where: { vault: "${addr}", timestamp_gte: "${thirtyDaysAgo}" }
+      orderBy: timestamp
+      orderDirection: desc
+      first: 500
+    ) {
+      apy
+      timestamp
+    }
+  }`;
+
+  const data = await queryGraphQL(chainId, query);
+  if (!data) {
+    return { apy24h: null, apy30d: null };
+  }
+
+  const rawApy = data.apyAutoCompounds || [];
+
+  const apyHistory = rawApy.map((r) => ({
+    apy: parseFloat(r.apy),
+    timestamp: parseInt(r.timestamp, 10),
+  }));
+
+  const now = nowSeconds();
+  const oneDayAgo = now - 24 * 60 * 60;
+
+  const recentApy = apyHistory.filter((p) => p.timestamp >= oneDayAgo && p.apy >= 0);
+  const apy24h =
+    recentApy.length > 0
+      ? recentApy.reduce((sum, p) => sum + p.apy, 0) / recentApy.length
+      : apyHistory.find((p) => p.apy >= 0)?.apy ?? null;
+
+  const validApy = apyHistory.filter((p) => p.apy >= 0);
+  const apy30d =
+    validApy.length > 0
+      ? validApy.reduce((sum, p) => sum + p.apy, 0) / validApy.length
+      : null;
+
+  return { apy24h, apy30d };
+}
+
+// ─── Full history (for detail pages) ─────────────────────────────────────────
+
+function deduplicateByDay(points) {
+  const byDay = new Map();
+  for (const p of points) {
+    const day = new Date(p.timestamp * 1000).toISOString().slice(0, 10);
+    byDay.set(day, p);
+  }
+  return Array.from(byDay.values()).sort((a, b) => a.timestamp - b.timestamp);
+}
+
+async function fetchFullVaultHistory(vaultAddress, chainKey) {
+  const empty = { tvlHistory: [], sharePriceHistory: [], apyHistory: [] };
+
+  const chainId = CHAIN_IDS[chainKey];
+  if (!chainId) {
+    log(`[history-full] SKIP: no chainId for chainKey="${chainKey}"`);
+    return empty;
+  }
+
+  const addr = vaultAddress.toLowerCase();
+  log(`[history-full] FETCHING vault=${addr} chainKey=${chainKey} chainId=${chainId}`);
+
+  const query = `{
+    tvls(
+      where: { vault: "${addr}" }
+      orderBy: timestamp
+      orderDirection: asc
+      first: 1000
+    ) {
+      value
+      timestamp
+    }
+    vaultHistories(
+      where: { vault: "${addr}" }
+      orderBy: timestamp
+      orderDirection: asc
+      first: 1000
+    ) {
+      sharePrice
+      timestamp
+    }
+    apyAutoCompounds(
+      where: { vault: "${addr}" }
+      orderBy: timestamp
+      orderDirection: asc
+      first: 1000
+    ) {
+      apy
+      timestamp
+    }
+  }`;
+
+  const data = await queryGraphQL(chainId, query);
+  if (!data) return empty;
+
+  const rawTvl = data.tvls || [];
+  const rawSharePrice = data.vaultHistories || [];
+  const rawApy = data.apyAutoCompounds || [];
+
+  log(
+    `[history-full] vault=${addr} chain=${chainKey} tvl=${rawTvl.length} sharePrice=${rawSharePrice.length} apy=${rawApy.length}`
+  );
+
+  const tvlHistory = deduplicateByDay(
+    rawTvl.map((r) => ({
+      value: parseFloat(r.value),
+      timestamp: parseInt(r.timestamp, 10),
+    }))
+  );
+
+  const rawSharePriceParsed = deduplicateByDay(
+    rawSharePrice.map((r) => ({
+      sharePrice: parseFloat(r.sharePrice),
+      timestamp: parseInt(r.timestamp, 10),
+    }))
+  );
+
+  // Normalize: divide all values by the first value so chart starts at 1.0
+  let sharePriceHistory = [];
+  if (rawSharePriceParsed.length > 0) {
+    const base = rawSharePriceParsed[0].sharePrice;
+    if (base > 0) {
+      sharePriceHistory = rawSharePriceParsed.map((p) => ({
+        sharePrice: p.sharePrice / base,
+        timestamp: p.timestamp,
+      }));
+    }
+  }
+
+  // Filter negative APY values
+  const apyHistory = deduplicateByDay(
+    rawApy
+      .map((r) => ({
+        apy: parseFloat(r.apy),
+        timestamp: parseInt(r.timestamp, 10),
+      }))
+      .filter((p) => p.apy >= 0)
+  );
+
+  return { tvlHistory, sharePriceHistory, apyHistory };
+}
+
+// ─── Main ────────────────────────────────────────────────────────────────────
+
+async function main() {
+  log("=== Harvest Data Fetch ===");
+  log(`Time: ${new Date().toISOString()}`);
+
+  // 1. Fetch vaults
+  let vaults;
+  try {
+    vaults = await fetchHarvestVaults();
+  } catch (err) {
+    log(`[FATAL] Failed to fetch vaults: ${err}`);
+    log("Keeping existing data files unchanged.");
+    process.exit(1);
+  }
+
+  if (vaults.length === 0) {
+    log("[WARN] No vaults returned. Keeping existing data files unchanged.");
+    process.exit(1);
+  }
+
+  // 2. Fetch full history for each vault (sequential, 100ms delay)
+  log(`\n=== Fetching full history for ${vaults.length} vaults ===`);
+  const historyMap = {};
+  const emptyHistory = { tvlHistory: [], sharePriceHistory: [], apyHistory: [] };
+  let consecutiveFails = 0;
+
+  for (let i = 0; i < vaults.length; i++) {
+    const v = vaults[i];
+    const chainKey = CHAIN_NAME_TO_KEY[v.chain];
+    if (!chainKey || !v.contractAddress) {
+      historyMap[v.contractAddress] = emptyHistory;
+      continue;
+    }
+
+    log(`[${i + 1}/${vaults.length}] ${v.productName} (${v.chain})`);
+
+    try {
+      const history = await fetchFullVaultHistory(v.contractAddress, chainKey);
+      const hasData =
+        history.tvlHistory.length > 0 || history.apyHistory.length > 0;
+      historyMap[v.contractAddress] = history;
+      if (hasData) {
+        consecutiveFails = 0;
+      } else {
+        consecutiveFails++;
+      }
+    } catch (err) {
+      log(`[ERROR] Failed to fetch history for ${v.contractAddress}: ${err}`);
+      historyMap[v.contractAddress] = emptyHistory;
+      consecutiveFails++;
+    }
+
+    if (consecutiveFails >= 5) {
+      log(
+        `[WARN] API appears down (5 consecutive fails). Skipping remaining ${vaults.length - i - 1} vaults.`
+      );
+      for (let j = i + 1; j < vaults.length; j++) {
+        historyMap[vaults[j].contractAddress] = emptyHistory;
+      }
+      break;
+    }
+
+    // Rate limit: 100ms between requests
+    if (i < vaults.length - 1) {
+      await sleep(100);
+    }
+  }
+
+  // 3. Write data files
+  let withData = 0;
+  for (const h of Object.values(historyMap)) {
+    if (h.tvlHistory.length > 0 || h.apyHistory.length > 0) withData++;
+  }
+  log(`\n=== Results ===`);
+  log(`Vaults: ${vaults.length}`);
+  log(`Vaults with history data: ${withData}/${Object.keys(historyMap).length}`);
+
+  writeFileSync(VAULTS_FILE, JSON.stringify(vaults, null, 2));
+  log(`Wrote ${VAULTS_FILE}`);
+
+  writeFileSync(HISTORY_FILE, JSON.stringify(historyMap, null, 2));
+  log(`Wrote ${HISTORY_FILE}`);
+
+  log("\nDone!");
+}
+
+main().catch((err) => {
+  console.error("Unhandled error:", err);
+  process.exit(1);
+});
