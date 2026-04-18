@@ -83,8 +83,19 @@ export async function getVaults(): Promise<YieldVault[]> {
   return _vaultCache;
 }
 
+let _historyFetching = false;
+
 export async function ensureHistoryCache(): Promise<void> {
   if (existsSync(HISTORY_CACHE_FILE)) return;
+  if (_historyFetching) {
+    // Another call is already fetching, wait for file to appear
+    for (let i = 0; i < 300; i++) {
+      await sleep(1000);
+      if (existsSync(HISTORY_CACHE_FILE)) return;
+    }
+    return;
+  }
+  _historyFetching = true;
 
   const vaults = await getVaults();
   const history = await prefetchAllHistory(vaults);
@@ -93,6 +104,8 @@ export async function ensureHistoryCache(): Promise<void> {
     log(`[prefetch] wrote cache to ${HISTORY_CACHE_FILE}`);
   } catch (err) {
     log(`[prefetch] failed to write cache: ${err}`);
+    // Write empty cache so other workers don't retry
+    try { writeFileSync(HISTORY_CACHE_FILE, "{}"); } catch {}
   }
 }
 
