@@ -151,7 +151,7 @@ async function fetchHarvestVaults() {
     const history = historyMap.get(v.vaultAddress);
 
     const addrSuffix = v.vaultAddress.slice(2, 10).toLowerCase();
-    const slug = slugify(`${productName}-${chain}-${addrSuffix}`);
+    const slug = slugify(`${v.id}-${chain}-${addrSuffix}`);
 
     const breakdownValues = v.estimatedApyBreakdown || [];
     const tokenSymbols = v.apyTokenSymbols || [];

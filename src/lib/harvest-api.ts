@@ -154,8 +154,9 @@ export async function fetchHarvestVaults(): Promise<YieldVault[]> {
       const tvl = parseNumber(v.totalValueLocked);
       const history = historyMap.get(v.vaultAddress);
 
+      // Slug based on stable API id + chain + address prefix (never changes between deploys)
       const addrSuffix = v.vaultAddress.slice(2, 10).toLowerCase();
-      const slug = slugify(`${productName}-${chain}-${addrSuffix}`);
+      const slug = slugify(`${v.id}-${chain}-${addrSuffix}`);
 
       // Build APY breakdown from token symbols and breakdown values
       const breakdownValues = v.estimatedApyBreakdown || [];
