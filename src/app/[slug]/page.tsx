@@ -8,6 +8,8 @@ import { SITE_NAME, SITE_URL } from "@/lib/constants";
 import { YieldVault } from "@/lib/types";
 import type { FullVaultHistory } from "@/lib/history-api";
 import { VaultChart } from "@/components/vault-chart";
+import { VaultCommentary } from "@/components/vault-commentary";
+import { VaultFaq } from "@/components/vault-faq";
 
 export async function generateStaticParams() {
   const slugs = await getAllSlugs();
@@ -90,6 +92,118 @@ function StructuredData({ vault }: { vault: YieldVault }) {
   );
 }
 
+function BreadcrumbSchema({ vault }: { vault: YieldVault }) {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: SITE_URL,
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: `${vault.asset} Vaults`,
+        item: `${SITE_URL}/?asset=${vault.asset}`,
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: vault.chain,
+        item: `${SITE_URL}/?asset=${vault.asset}&chain=${vault.chain}`,
+      },
+      {
+        "@type": "ListItem",
+        position: 4,
+        name: vault.productName,
+        item: `${SITE_URL}/${vault.slug}`,
+      },
+    ],
+  };
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+    />
+  );
+}
+
+interface FaqItem {
+  question: string;
+  answer: string;
+}
+
+function FaqSchema({ items }: { items: FaqItem[] }) {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: items.map((item) => ({
+      "@type": "Question",
+      name: item.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: item.answer,
+      },
+    })),
+  };
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+    />
+  );
+}
+
+function generateFaqItems(vault: YieldVault): FaqItem[] {
+  const items: FaqItem[] = [];
+
+  items.push({
+    question: `What is the current APY for ${vault.productName}?`,
+    answer:
+      vault.apy24h > 0
+        ? `${vault.productName} currently offers a 24-hour APY of ${formatAPY(vault.apy24h)} and a 30-day average APY of ${formatAPY(vault.apy30d)}. APY rates are variable and change based on market conditions.`
+        : `${vault.productName} APY data is currently unavailable. APY rates are variable and change based on market conditions.`,
+  });
+
+  items.push({
+    question: `What chain is ${vault.productName} on?`,
+    answer: `${vault.productName} is deployed on ${vault.chain}. It is operated by ${vault.protocol.name} and accepts ${vault.asset} deposits.`,
+  });
+
+  items.push({
+    question: `How does ${vault.productName} work?`,
+    answer:
+      vault.vaultType === "Autocompounder"
+        ? `${vault.productName} is an Autocompounder vault. It automatically reinvests earned yields back into the vault, compounding returns over time without requiring manual action from depositors. ${vault.description}`
+        : `${vault.productName} is an Autopilot vault. It automatically allocates deposits across optimized yield strategies managed by ${vault.protocol.name}. ${vault.description}`,
+  });
+
+  items.push({
+    question: `What is the TVL of ${vault.productName}?`,
+    answer:
+      vault.tvl > 0
+        ? `${vault.productName} currently has a total value locked (TVL) of ${formatTVL(vault.tvl)}. TVL represents the total amount of ${vault.asset} deposited in this vault.`
+        : `${vault.productName} TVL data is currently unavailable. TVL represents the total amount of ${vault.asset} deposited in this vault.`,
+  });
+
+  items.push({
+    question: `Is ${vault.productName} an Autocompounder or Autopilot?`,
+    answer: `${vault.productName} is a${vault.vaultType === "Autocompounder" ? "n Autocompounder" : "n Autopilot"} vault. ${vault.vaultType === "Autocompounder" ? "Autocompounder vaults automatically reinvest yields, compounding returns over time." : "Autopilot vaults automatically allocate deposits across optimized yield strategies."}`,
+  });
+
+  items.push({
+    question: `What is the risk level of ${vault.productName}?`,
+    answer: `${vault.productName} is classified as ${vault.riskLevel} risk. Risk levels are determined based on factors such as the underlying protocol, smart contract complexity, and asset volatility. Always do your own research before depositing.`,
+  });
+
+  return items;
+}
+
 export default async function ProductPage({
   params,
 }: {
@@ -124,15 +238,28 @@ export default async function ProductPage({
     .filter((v) => v.asset === vault.asset && v.id !== vault.id)
     .slice(0, 4);
 
+  const faqItems = generateFaqItems(vault);
+
   return (
     <>
       <StructuredData vault={vault} />
+      <BreadcrumbSchema vault={vault} />
+      <FaqSchema items={faqItems} />
       <main className="mx-auto w-full max-w-4xl px-4 py-10 sm:px-6 lg:px-8">
         {/* Breadcrumb */}
         <nav className="mb-6 text-sm text-gray-500">
           <Link href="/" className="hover:text-gray-700">
             Home
           </Link>
+          <span className="mx-2">/</span>
+          <Link
+            href={`/?asset=${vault.asset}`}
+            className="hover:text-gray-700"
+          >
+            {vault.asset} Vaults
+          </Link>
+          <span className="mx-2">/</span>
+          <span className="text-gray-600">{vault.chain}</span>
           <span className="mx-2">/</span>
           <span className="text-gray-900">{vault.productName}</span>
         </nav>
@@ -206,12 +333,34 @@ export default async function ProductPage({
           </section>
         )}
 
+        {/* Performance Commentary */}
+        <VaultCommentary
+          vault={vault}
+          allVaults={allVaults}
+          history={history}
+        />
+
         {/* Description */}
         <section className="mb-10">
           <h2 className="mb-3 text-lg font-semibold text-gray-900">
-            About this Vault
+            About {vault.productName}
           </h2>
-          <p className="leading-relaxed text-gray-600">{vault.description}</p>
+          <p className="leading-relaxed text-gray-600">
+            {vault.productName} is a {vault.vaultType.toLowerCase()} vault on{" "}
+            {vault.chain} by {vault.protocol.name} that accepts {vault.asset}{" "}
+            deposits.{" "}
+            {vault.vaultType === "Autocompounder"
+              ? "As an autocompounder, it automatically reinvests earned yields to compound returns over time."
+              : "As an autopilot vault, it automatically allocates deposits across optimized yield strategies."}{" "}
+            {vault.description}
+          </p>
+          {vault.tvl > 0 && vault.apy24h > 0 && (
+            <p className="mt-2 leading-relaxed text-gray-600">
+              The vault currently holds {formatTVL(vault.tvl)} in total value
+              locked and is generating {formatAPY(vault.apy24h)} APY (24h). The
+              risk level is classified as {vault.riskLevel}.
+            </p>
+          )}
         </section>
 
         {/* Details */}
@@ -238,6 +387,20 @@ export default async function ProductPage({
             </div>
           </dl>
         </section>
+
+        {/* FAQ */}
+        <VaultFaq
+          productName={vault.productName}
+          protocolName={vault.protocol.name}
+          asset={vault.asset}
+          chain={vault.chain}
+          vaultType={vault.vaultType}
+          apy24h={formatAPY(vault.apy24h)}
+          tvl={formatTVL(vault.tvl)}
+          riskLevel={vault.riskLevel}
+          description={vault.description}
+          faqItems={faqItems}
+        />
 
         {/* Related Vaults */}
         {relatedVaults.length > 0 && (
