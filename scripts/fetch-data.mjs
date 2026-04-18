@@ -9,7 +9,7 @@
  * Requires Node 18+ (native fetch).
  */
 
-import { writeFileSync, readFileSync, existsSync } from "fs";
+import { writeFileSync, readFileSync, existsSync, mkdirSync } from "fs";
 import { join, dirname } from "path";
 import { fileURLToPath } from "url";
 
@@ -447,6 +447,7 @@ async function main() {
   }
 
   // 3. Write data files
+  mkdirSync(join(ROOT, "data"), { recursive: true });
   let withData = 0;
   for (const h of Object.values(historyMap)) {
     if (h.tvlHistory.length > 0 || h.apyHistory.length > 0) withData++;
