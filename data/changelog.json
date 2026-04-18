@@ -1,0 +1,91 @@
+[
+  {
+    "date": "2026-04-18",
+    "changes": [
+      {
+        "type": "added",
+        "description": "SEO admin panel and changelog page",
+        "reasoning": "Internal tooling to monitor meta titles/descriptions across all vault pages and track project changes over time.",
+        "files": ["src/app/admin/page.tsx", "src/app/admin/changelog/page.tsx", "src/app/admin/layout.tsx"]
+      },
+      {
+        "type": "added",
+        "description": "APY outlier filtering — cap at 100%",
+        "reasoning": "Some vaults report extremely high APY values due to short-term spikes or data anomalies. Capping at 100% prevents misleading data from appearing on the site.",
+        "files": ["src/lib/harvest-api.ts"]
+      }
+    ]
+  },
+  {
+    "date": "2026-04-15",
+    "changes": [
+      {
+        "type": "added",
+        "description": "File-based data cache for GitHub Actions",
+        "reasoning": "Moved from live API calls at build time to pre-fetched JSON files. This decouples data freshness from site builds and avoids API rate limits during static export.",
+        "files": ["src/lib/data.ts", "data/vaults.json", "data/history.json"]
+      }
+    ]
+  },
+  {
+    "date": "2026-04-12",
+    "changes": [
+      {
+        "type": "added",
+        "description": "SEO content — commentary, FAQ, statistics, and earnings calculator",
+        "reasoning": "Rich, unique content on each vault page improves search engine rankings and provides genuine value to users evaluating yield options.",
+        "files": ["src/components/vault-commentary.tsx", "src/components/vault-faq.tsx", "src/components/vault-statistics.tsx", "src/components/earnings-calculator.tsx"]
+      }
+    ]
+  },
+  {
+    "date": "2026-04-10",
+    "changes": [
+      {
+        "type": "changed",
+        "description": "Clean URL structure — /[slug] instead of /vault/[id]",
+        "reasoning": "SEO-friendly URLs with descriptive slugs rank better and are more shareable. Each slug contains the asset, protocol, and chain for keyword relevance.",
+        "files": ["src/app/[slug]/page.tsx", "src/lib/data.ts"]
+      }
+    ]
+  },
+  {
+    "date": "2026-04-08",
+    "changes": [
+      {
+        "type": "added",
+        "description": "Charts for TVL, APY, and Share Price history",
+        "reasoning": "Visual performance data helps users evaluate vault stability and trends over time, increasing page engagement and time-on-site.",
+        "files": ["src/components/vault-chart.tsx"]
+      },
+      {
+        "type": "added",
+        "description": "Historical data from Clownfish API",
+        "reasoning": "Added time-series data for TVL, APY, and share price to support charts and statistical analysis on each vault page.",
+        "files": ["src/lib/history-api.ts"]
+      }
+    ]
+  },
+  {
+    "date": "2026-04-05",
+    "changes": [
+      {
+        "type": "changed",
+        "description": "Switch to Harvest Finance REST API",
+        "reasoning": "Replaced dummy/seed data with live vault data from the Harvest Finance API, providing real APY, TVL, and protocol information.",
+        "files": ["src/lib/harvest-api.ts", "src/lib/data.ts"]
+      }
+    ]
+  },
+  {
+    "date": "2026-04-01",
+    "changes": [
+      {
+        "type": "added",
+        "description": "Initial launch with dummy data",
+        "reasoning": "Established the core Next.js application with static export, Tailwind CSS styling, and placeholder vault data to validate the page structure and design.",
+        "files": ["src/app/page.tsx", "src/app/[slug]/page.tsx", "src/lib/types.ts", "src/lib/data.ts"]
+      }
+    ]
+  }
+]
