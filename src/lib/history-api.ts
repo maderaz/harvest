@@ -111,10 +111,12 @@ export async function fetchVaultHistory(
 
   log(`[history] vault=${addr} chain=${chainKey} apyRecords=${rawApy?.length ?? 0} tvlRecords=${rawTvl?.length ?? 0}`);
 
-  const apyHistory: ApyHistoryPoint[] = (rawApy ?? []).map((r) => ({
-    apy: parseFloat(r.apy),
-    timestamp: parseInt(r.timestamp, 10),
-  }));
+  const apyHistory: ApyHistoryPoint[] = (rawApy ?? [])
+    .map((r) => ({
+      apy: parseFloat(r.apy),
+      timestamp: parseInt(r.timestamp, 10),
+    }))
+    .filter((p) => p.apy >= 0 && p.apy <= 100 && isFinite(p.apy));
 
   const tvlHistory: TvlHistoryPoint[] = (rawTvl ?? []).map((r) => ({
     value: parseFloat(r.value),
@@ -278,11 +280,14 @@ export async function fetchFullVaultHistory(
     }
   }
 
+  const MAX_REASONABLE_APY = 100;
   const apyHistory = deduplicateByDay(
-    (rawApy ?? []).map((r) => ({
-      apy: parseFloat(r.apy),
-      timestamp: parseInt(r.timestamp, 10),
-    })),
+    (rawApy ?? [])
+      .map((r) => ({
+        apy: parseFloat(r.apy),
+        timestamp: parseInt(r.timestamp, 10),
+      }))
+      .filter((p) => p.apy >= 0 && p.apy <= MAX_REASONABLE_APY && isFinite(p.apy)),
   );
 
   return { tvlHistory, sharePriceHistory, apyHistory };

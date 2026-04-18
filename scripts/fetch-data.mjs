@@ -251,10 +251,12 @@ async function fetchVaultHistoryShort(vaultAddress, chainKey) {
 
   const rawApy = data.apyAutoCompounds || [];
 
-  const apyHistory = rawApy.map((r) => ({
-    apy: parseFloat(r.apy),
-    timestamp: parseInt(r.timestamp, 10),
-  }));
+  const apyHistory = rawApy
+    .map((r) => ({
+      apy: parseFloat(r.apy),
+      timestamp: parseInt(r.timestamp, 10),
+    }))
+    .filter((p) => p.apy >= 0 && p.apy <= 100 && isFinite(p.apy));
 
   const now = nowSeconds();
   const oneDayAgo = now - 24 * 60 * 60;
@@ -371,7 +373,7 @@ async function fetchFullVaultHistory(vaultAddress, chainKey) {
         apy: parseFloat(r.apy),
         timestamp: parseInt(r.timestamp, 10),
       }))
-      .filter((p) => p.apy >= 0)
+      .filter((p) => p.apy >= 0 && p.apy <= 100 && isFinite(p.apy))
   );
 
   return { tvlHistory, sharePriceHistory, apyHistory };
