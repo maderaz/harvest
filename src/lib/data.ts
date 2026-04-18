@@ -39,30 +39,43 @@ async function sleep(ms: number) {
 
 async function prefetchAllHistory(vaults: YieldVault[]): Promise<Record<string, FullVaultHistory>> {
   const map: Record<string, FullVaultHistory> = {};
+  const empty: FullVaultHistory = { tvlHistory: [], sharePriceHistory: [], apyHistory: [] };
 
-  log(`[prefetch] fetching history for ${vaults.length} vaults sequentially`);
+  log(`[prefetch] fetching history for ${vaults.length} vaults`);
+
+  let consecutiveFails = 0;
 
   for (let i = 0; i < vaults.length; i++) {
     const v = vaults[i];
     const chainKey = chainNameToKey(v.chain);
     if (!chainKey || !v.contractAddress) {
-      map[v.contractAddress] = { tvlHistory: [], sharePriceHistory: [], apyHistory: [] };
+      map[v.contractAddress] = empty;
       continue;
     }
 
     try {
       const history = await fetchFullVaultHistory(v.contractAddress, chainKey);
+      const hasData = history.tvlHistory.length > 0 || history.apyHistory.length > 0;
       map[v.contractAddress] = history;
+      if (hasData) {
+        consecutiveFails = 0;
+      } else {
+        consecutiveFails++;
+      }
     } catch {
-      map[v.contractAddress] = { tvlHistory: [], sharePriceHistory: [], apyHistory: [] };
+      map[v.contractAddress] = empty;
+      consecutiveFails++;
     }
 
-    if (i % 10 === 9) {
-      log(`[prefetch] progress: ${i + 1}/${vaults.length}`);
-      await sleep(500);
-    } else {
-      await sleep(100);
+    if (consecutiveFails >= 5) {
+      log(`[prefetch] API appears down (5 consecutive fails). Skipping remaining ${vaults.length - i - 1} vaults.`);
+      for (let j = i + 1; j < vaults.length; j++) {
+        map[vaults[j].contractAddress] = empty;
+      }
+      break;
     }
+
+    await sleep(100);
   }
 
   let withData = 0;
