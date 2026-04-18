@@ -8,27 +8,18 @@ interface VaultCommentaryProps {
   history: FullVaultHistory;
 }
 
-function getTvlCategory(tvl: number): string {
-  if (tvl >= 1_000_000) return "mega";
-  if (tvl >= 100_000) return "large";
-  if (tvl >= 10_000) return "mid";
-  if (tvl >= 1_000) return "small";
-  return "micro";
+function stdDev(values: number[]): number {
+  if (values.length < 2) return 0;
+  const avg = values.reduce((s, v) => s + v, 0) / values.length;
+  const sqDiffs = values.map((v) => (v - avg) ** 2);
+  return Math.sqrt(sqDiffs.reduce((s, v) => s + v, 0) / values.length);
 }
 
-function getTvlLabel(category: string): string {
-  switch (category) {
-    case "mega":
-      return "one of the largest";
-    case "large":
-      return "a large";
-    case "mid":
-      return "a mid-sized";
-    case "small":
-      return "a small";
-    default:
-      return "a micro";
-  }
+function getStabilityLabel(sd: number): string {
+  if (sd < 0.5) return "very stable";
+  if (sd < 1.5) return "stable";
+  if (sd < 3) return "moderately volatile";
+  return "volatile";
 }
 
 export function VaultCommentary({
@@ -43,7 +34,12 @@ export function VaultCommentary({
 
   const paragraphs: string[] = [];
 
-  // APY Ranking among same-asset vaults
+  const nowSeconds = Math.floor(Date.now() / 1000);
+  const oneDayAgo = nowSeconds - 24 * 60 * 60;
+  const sevenDaysAgo = nowSeconds - 7 * 24 * 60 * 60;
+  const thirtyDaysAgo = nowSeconds - 30 * 24 * 60 * 60;
+
+  // APY Ranking
   if (vault.apy24h > 0 && sameAssetVaults.length > 1) {
     const sorted = [...sameAssetVaults]
       .filter((v) => v.apy24h > 0)
@@ -60,42 +56,78 @@ export function VaultCommentary({
     }
   }
 
-  // TVL Context
-  if (vault.tvl > 0) {
-    const category = getTvlCategory(vault.tvl);
-    const label = getTvlLabel(category);
-    paragraphs.push(
-      `With ${formatTVL(vault.tvl)} TVL, this is ${label} ${vault.asset} vault on Harvest.`,
-    );
-  }
+  // APY Stability Analysis
+  if (history.apyHistory.length >= 5) {
+    const validApy = history.apyHistory.filter((p) => p.apy >= 0);
 
-  // 30D APY Performance
-  const nowSeconds = Math.floor(Date.now() / 1000);
-  const thirtyDaysAgo = nowSeconds - 30 * 24 * 60 * 60;
+    // 24h deviation check
+    const recent24h = validApy.filter((p) => p.timestamp >= oneDayAgo);
+    const recent7d = validApy.filter((p) => p.timestamp >= sevenDaysAgo);
+    const recent30d = validApy.filter((p) => p.timestamp >= thirtyDaysAgo);
 
-  if (history.apyHistory.length >= 2) {
-    const recent = history.apyHistory.filter(
-      (p) => p.apy >= 0 && p.timestamp >= thirtyDaysAgo,
-    );
-    if (recent.length >= 2) {
-      const avg =
-        recent.reduce((s, p) => s + p.apy, 0) / recent.length;
+    // 30d stability
+    if (recent30d.length >= 5) {
+      const apyValues = recent30d.map((p) => p.apy);
+      const avg = apyValues.reduce((s, v) => s + v, 0) / apyValues.length;
+      const sd = stdDev(apyValues);
+      const min = Math.min(...apyValues);
+      const max = Math.max(...apyValues);
+      const label = getStabilityLabel(sd);
+
       paragraphs.push(
-        `APY has averaged ${avg.toFixed(2)}% over the past 30 days.`,
+        `Over the past 30 days, APY has been ${label}, averaging ${avg.toFixed(2)}% with a range of ${min.toFixed(2)}% to ${max.toFixed(2)}%.`,
       );
-    } else {
-      const allValid = history.apyHistory.filter((p) => p.apy >= 0);
-      if (allValid.length > 0) {
-        const avg =
-          allValid.reduce((s, p) => s + p.apy, 0) / allValid.length;
+
+      // Check if current APY is an outlier vs 30d average
+      if (vault.apy24h > 0 && avg > 0) {
+        const deviationFromAvg = vault.apy24h - avg;
+        const deviationPct = (deviationFromAvg / avg) * 100;
+
+        if (Math.abs(deviationPct) > 30) {
+          const direction = deviationPct > 0 ? "above" : "below";
+          paragraphs.push(
+            `Current 24h APY of ${formatAPY(vault.apy24h)} is ${Math.abs(deviationPct).toFixed(0)}% ${direction} the 30-day average, suggesting a potential short-term deviation.`,
+          );
+        }
+      }
+    }
+
+    // 7d trend
+    if (recent7d.length >= 3) {
+      const sorted7d = [...recent7d].sort((a, b) => a.timestamp - b.timestamp);
+      const firstHalf = sorted7d.slice(0, Math.floor(sorted7d.length / 2));
+      const secondHalf = sorted7d.slice(Math.floor(sorted7d.length / 2));
+      const firstAvg = firstHalf.reduce((s, p) => s + p.apy, 0) / firstHalf.length;
+      const secondAvg = secondHalf.reduce((s, p) => s + p.apy, 0) / secondHalf.length;
+      const trendDiff = secondAvg - firstAvg;
+
+      if (Math.abs(trendDiff) > 0.5) {
+        const direction = trendDiff > 0 ? "trending upward" : "trending downward";
         paragraphs.push(
-          `APY has averaged ${avg.toFixed(2)}% over the available history period.`,
+          `Over the past 7 days, APY has been ${direction}, moving from an average of ${firstAvg.toFixed(2)}% to ${secondAvg.toFixed(2)}%.`,
         );
       }
     }
   }
 
-  // TVL Trend (30D)
+  // TVL Context
+  if (vault.tvl > 0) {
+    const tvlRank = [...sameAssetVaults]
+      .filter((v) => v.tvl > 0)
+      .sort((a, b) => b.tvl - a.tvl);
+    const rank = tvlRank.findIndex((v) => v.id === vault.id) + 1;
+    if (rank > 0 && rank <= 5) {
+      paragraphs.push(
+        `With ${formatTVL(vault.tvl)} TVL, this is the #${rank} most deposited ${vault.asset} vault on Harvest.`,
+      );
+    } else if (vault.tvl > 0) {
+      paragraphs.push(
+        `This vault holds ${formatTVL(vault.tvl)} in total value locked.`,
+      );
+    }
+  }
+
+  // TVL Trend
   if (history.tvlHistory.length >= 2) {
     const recent = [...history.tvlHistory]
       .filter((p) => p.timestamp >= thirtyDaysAgo)
@@ -105,28 +137,15 @@ export function VaultCommentary({
       const newest = recent[recent.length - 1].value;
       if (oldest > 0) {
         const changePct = ((newest - oldest) / oldest) * 100;
-        const direction = changePct >= 0 ? "grew" : "declined";
+        const direction = changePct >= 0 ? "increased" : "decreased";
         paragraphs.push(
-          `TVL ${direction} ${Math.abs(changePct).toFixed(1)}% in the last 30 days, from ${formatTVL(oldest)} to ${formatTVL(newest)}.`,
-        );
-      }
-    } else {
-      const sorted = [...history.tvlHistory].sort(
-        (a, b) => a.timestamp - b.timestamp,
-      );
-      const oldest = sorted[0].value;
-      const newest = sorted[sorted.length - 1].value;
-      if (oldest > 0) {
-        const changePct = ((newest - oldest) / oldest) * 100;
-        const direction = changePct >= 0 ? "grew" : "declined";
-        paragraphs.push(
-          `TVL ${direction} ${Math.abs(changePct).toFixed(1)}% over the tracked period, from ${formatTVL(oldest)} to ${formatTVL(newest)}.`,
+          `TVL has ${direction} ${Math.abs(changePct).toFixed(1)}% over the past 30 days, from ${formatTVL(oldest)} to ${formatTVL(newest)}.`,
         );
       }
     }
   }
 
-  // Share Price Growth
+  // Share Price
   if (history.sharePriceHistory.length >= 2) {
     const sorted = [...history.sharePriceHistory].sort(
       (a, b) => a.timestamp - b.timestamp,
@@ -135,14 +154,13 @@ export function VaultCommentary({
     const last = sorted[sorted.length - 1].sharePrice;
     if (first > 0) {
       const growth = ((last - first) / first) * 100;
-      const verb = growth >= 0 ? "grown" : "declined";
       paragraphs.push(
-        `Share price has ${verb} from ${first.toFixed(3)} to ${last.toFixed(3)} since inception, representing a ${Math.abs(growth).toFixed(2)}% cumulative ${growth >= 0 ? "return" : "decline"}.`,
+        `Share price stands at ${last.toFixed(4)}, representing a ${growth.toFixed(2)}% cumulative return since inception.`,
       );
     }
   }
 
-  // Yield Source Breakdown
+  // Yield Sources
   if (vault.apyBreakdown.length > 0) {
     const sources = vault.apyBreakdown.filter((s) => s.apy > 0);
     if (sources.length === 1) {
@@ -153,7 +171,7 @@ export function VaultCommentary({
       const parts = sources.map((s) =>
         s.source === "Base Rate"
           ? `${s.apy.toFixed(2)}% base lending rate`
-          : `${s.apy.toFixed(2)}% in ${s.source} token rewards`,
+          : `${s.apy.toFixed(2)}% in ${s.source} rewards`,
       );
       paragraphs.push(
         `Yield is generated from ${sources.length} sources: ${parts.join(" and ")}.`,
@@ -161,24 +179,29 @@ export function VaultCommentary({
     }
   }
 
-  // Chain Context
-  if (sameAssetChainVaults.length > 0) {
-    paragraphs.push(
-      `${vault.productName} is one of ${sameAssetChainVaults.length} ${vault.asset} vault${sameAssetChainVaults.length !== 1 ? "s" : ""} available on ${vault.chain}.`,
-    );
+  // Comparison with highest-TVL vault on same chain
+  if (sameAssetChainVaults.length > 1 && vault.apy24h > 0) {
+    const others = sameAssetChainVaults.filter((v) => v.id !== vault.id && v.apy24h > 0);
+    const mostPopular = others.sort((a, b) => b.tvl - a.tvl)[0];
+    if (mostPopular) {
+      const diff = vault.apy24h - mostPopular.apy24h;
+      if (diff > 0) {
+        paragraphs.push(
+          `Compared to ${mostPopular.productName} (${formatTVL(mostPopular.tvl)} TVL, ${formatAPY(mostPopular.apy24h)}), this vault offers +${diff.toFixed(2)}% higher APY.`,
+        );
+      } else if (diff < -0.5) {
+        paragraphs.push(
+          `${mostPopular.productName}, the most deposited vault on ${vault.chain}, currently offers ${formatAPY(mostPopular.apy24h)} compared to this vault's ${formatAPY(vault.apy24h)}.`,
+        );
+      }
+    }
   }
 
-  // Comparison with most popular vault (highest TVL) on same asset + chain
+  // Chain context
   if (sameAssetChainVaults.length > 1) {
-    const others = sameAssetChainVaults.filter((v) => v.id !== vault.id);
-    const mostPopular = others.sort((a, b) => b.tvl - a.tvl)[0];
-    if (mostPopular && mostPopular.apy24h > 0 && vault.apy24h > 0) {
-      const diff = vault.apy24h - mostPopular.apy24h;
-      const sign = diff >= 0 ? "+" : "";
-      paragraphs.push(
-        `Compared to ${mostPopular.productName} (${formatAPY(mostPopular.apy24h)}), this vault offers a ${sign}${diff.toFixed(2)}% APY difference.`,
-      );
-    }
+    paragraphs.push(
+      `There are ${sameAssetChainVaults.length} ${vault.asset} vaults available on ${vault.chain} through Harvest.`,
+    );
   }
 
   if (paragraphs.length === 0) return null;

@@ -198,9 +198,25 @@ function generateFaqItems(vault: YieldVault): FaqItem[] {
   });
 
   items.push({
-    question: `What is the risk level of ${vault.productName}?`,
-    answer: `${vault.productName} is classified as ${vault.riskLevel} risk. Risk levels are determined based on factors such as the underlying protocol, smart contract complexity, and asset volatility. Always do your own research before depositing.`,
+    question: `How stable is the APY for ${vault.productName}?`,
+    answer:
+      vault.apy24h > 0 && vault.apy30d > 0
+        ? `${vault.productName} currently shows a 24-hour APY of ${formatAPY(vault.apy24h)} compared to a 30-day average of ${formatAPY(vault.apy30d)}. ${Math.abs(vault.apy24h - vault.apy30d) < 1 ? "The APY has been relatively consistent over this period." : "There is notable variation between the short-term and longer-term rate, which is common in DeFi yield sources."}`
+        : `APY stability data for ${vault.productName} is currently limited. DeFi yields are variable and fluctuate based on supply, demand, and protocol incentives.`,
   });
+
+  if (vault.apyBreakdown.length > 0) {
+    const sources = vault.apyBreakdown.filter((s) => s.apy > 0);
+    if (sources.length > 0) {
+      const breakdown = sources
+        .map((s) => `${s.apy.toFixed(2)}% from ${s.source}`)
+        .join(", ");
+      items.push({
+        question: `Where does the yield come from for ${vault.productName}?`,
+        answer: `The yield for ${vault.productName} is composed of: ${breakdown}. Yield sources may include base lending rates, protocol token rewards, and liquidity incentives.`,
+      });
+    }
+  }
 
   return items;
 }
@@ -296,10 +312,7 @@ export default async function ProductPage({
           />
           <StatCard label="30D APY" value={formatAPY(vault.apy30d)} />
           <StatCard label="TVL" value={formatTVL(vault.tvl)} />
-          <StatCard
-            label="Risk Level"
-            value={vault.riskLevel.charAt(0).toUpperCase() + vault.riskLevel.slice(1)}
-          />
+          <StatCard label="Chain" value={vault.chain} />
         </div>
 
         {/* Yield Breakdown */}
