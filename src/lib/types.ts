@@ -23,6 +23,8 @@ export interface YieldVault {
   riskLevel: "low" | "medium" | "high";
   category: string;
   launchDate: string;
+  apyBreakdown: { source: string; apy: number }[];
+  boostedApy: number | null;
 }
 
 export interface VaultConfig {

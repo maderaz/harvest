@@ -142,6 +142,25 @@ export function VaultCommentary({
     }
   }
 
+  // Yield Source Breakdown
+  if (vault.apyBreakdown.length > 0) {
+    const sources = vault.apyBreakdown.filter((s) => s.apy > 0);
+    if (sources.length === 1) {
+      paragraphs.push(
+        `Yield is generated from a single source: ${sources[0].apy.toFixed(2)}% ${sources[0].source === "Base Rate" ? "base rate" : `from ${sources[0].source}`}.`,
+      );
+    } else if (sources.length > 1) {
+      const parts = sources.map((s) =>
+        s.source === "Base Rate"
+          ? `${s.apy.toFixed(2)}% base lending rate`
+          : `${s.apy.toFixed(2)}% in ${s.source} token rewards`,
+      );
+      paragraphs.push(
+        `Yield is generated from ${sources.length} sources: ${parts.join(" and ")}.`,
+      );
+    }
+  }
+
   // Chain Context
   if (sameAssetChainVaults.length > 0) {
     paragraphs.push(

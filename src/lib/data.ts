@@ -29,6 +29,8 @@ const FALLBACK_VAULT: YieldVault = {
   riskLevel: "low",
   category: "Yield Optimization",
   launchDate: "",
+  apyBreakdown: [],
+  boostedApy: null,
 };
 
 const HISTORY_CACHE_FILE = join(process.cwd(), ".history-cache.json");

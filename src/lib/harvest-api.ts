@@ -157,6 +157,22 @@ export async function fetchHarvestVaults(): Promise<YieldVault[]> {
       const addrSuffix = v.vaultAddress.slice(2, 10).toLowerCase();
       const slug = slugify(`${productName}-${chain}-${addrSuffix}`);
 
+      // Build APY breakdown from token symbols and breakdown values
+      const breakdownValues = v.estimatedApyBreakdown || [];
+      const tokenSymbols = v.apyTokenSymbols || [];
+      const apyBreakdown: { source: string; apy: number }[] = breakdownValues.map(
+        (val, i) => ({
+          source:
+            tokenSymbols[i] ||
+            (breakdownValues.length === 1 ? "Base Rate" : `Source ${i + 1}`),
+          apy: parseNumber(val),
+        }),
+      );
+
+      const boostedApy = v.boostedEstimatedAPY
+        ? parseNumber(v.boostedEstimatedAPY)
+        : null;
+
       return {
         id: v.vaultAddress,
         slug,
@@ -173,6 +189,8 @@ export async function fetchHarvestVaults(): Promise<YieldVault[]> {
         riskLevel: "low" as const,
         category: categoryDisplay,
         launchDate: "",
+        apyBreakdown,
+        boostedApy: boostedApy && boostedApy > 0 ? boostedApy : null,
       };
     });
 

@@ -10,6 +10,7 @@ import type { FullVaultHistory } from "@/lib/history-api";
 import { VaultChart } from "@/components/vault-chart";
 import { VaultCommentary } from "@/components/vault-commentary";
 import { VaultFaq } from "@/components/vault-faq";
+import { YieldBreakdown } from "@/components/yield-breakdown";
 
 export async function generateStaticParams() {
   const slugs = await getAllSlugs();
@@ -300,6 +301,14 @@ export default async function ProductPage({
             value={vault.riskLevel.charAt(0).toUpperCase() + vault.riskLevel.slice(1)}
           />
         </div>
+
+        {/* Yield Breakdown */}
+        {vault.apyBreakdown.length > 0 && (
+          <YieldBreakdown
+            apyBreakdown={vault.apyBreakdown}
+            boostedApy={vault.boostedApy}
+          />
+        )}
 
         {/* History Charts */}
         {hasCharts && (
