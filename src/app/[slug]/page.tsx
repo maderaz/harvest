@@ -319,33 +319,47 @@ export default async function ProductPage({
           <StatCard label="Chain" value={vault.chain} />
         </div>
 
-        {/* Yield Breakdown */}
-        {vault.apyBreakdown.length > 0 && (
-          <YieldBreakdown
-            apyBreakdown={vault.apyBreakdown}
-            boostedApy={vault.boostedApy}
-          />
-        )}
+        {/* About — high up for SEO, Google reads first paragraphs */}
+        <section className="mb-10">
+          <h2 className="mb-3 text-lg font-semibold text-gray-900">
+            About {vault.productName}
+          </h2>
+          <p className="leading-relaxed text-gray-600">
+            {vault.productName} is a {vault.vaultType.toLowerCase()} vault on{" "}
+            {vault.chain} that accepts {vault.asset} deposits.{" "}
+            {vault.vaultType === "Autocompounder"
+              ? `It automatically reinvests earned ${vault.asset} yields, compounding returns over time without manual harvesting or restaking.`
+              : `It automatically allocates ${vault.asset} deposits across optimized yield strategies, rebalancing to capture the best available rates.`}
+          </p>
+          {vault.tvl > 0 && vault.apy24h > 0 && (
+            <p className="mt-2 leading-relaxed text-gray-600">
+              The vault currently holds {formatTVL(vault.tvl)} in deposits
+              and is generating {formatAPY(vault.apy24h)} APY over the last 24 hours.
+              {vault.apy30d > 0 &&
+                ` The 30-day average sits at ${formatAPY(vault.apy30d)}.`}
+            </p>
+          )}
+        </section>
 
-        {/* History Charts */}
+        {/* Charts */}
         {hasCharts && (
           <section className="mb-10">
             <h2 className="mb-4 text-lg font-semibold text-gray-900">
               Performance History
             </h2>
             <div className="grid gap-4">
-              {tvlChartData.length >= 2 && (
-                <VaultChart
-                  title="TVL History"
-                  data={tvlChartData}
-                  format="dollar"
-                />
-              )}
               {apyChartData.length >= 2 && (
                 <VaultChart
                   title="APY History"
                   data={apyChartData}
                   format="percent"
+                />
+              )}
+              {tvlChartData.length >= 2 && (
+                <VaultChart
+                  title="TVL History"
+                  data={tvlChartData}
+                  format="dollar"
                 />
               )}
               {sharePriceChartData.length >= 2 && (
@@ -366,51 +380,25 @@ export default async function ProductPage({
           history={history}
         />
 
-        {/* Statistics Block */}
-        <VaultStatistics history={history} currentTvl={vault.tvl} />
-
         {/* Consistency Score */}
         <ConsistencyScore history={history} spotAPY={vault.apy24h} />
 
-        {/* History Table */}
-        <VaultHistoryTable history={history} />
+        {/* Statistics Block */}
+        <VaultStatistics history={history} currentTvl={vault.tvl} />
+
+        {/* Yield Breakdown */}
+        {vault.apyBreakdown.length > 0 && (
+          <YieldBreakdown
+            apyBreakdown={vault.apyBreakdown}
+            boostedApy={vault.boostedApy}
+          />
+        )}
 
         {/* Earnings Calculator */}
         <EarningsCalculator apy={vault.apy24h} asset={vault.asset} />
 
-        {/* Description */}
-        <section className="mb-10">
-          <h2 className="mb-3 text-lg font-semibold text-gray-900">
-            About {vault.productName}
-          </h2>
-          <p className="leading-relaxed text-gray-600">
-            {vault.productName} is a {vault.vaultType.toLowerCase()} vault on{" "}
-            {vault.chain} by {vault.protocol.name} that accepts {vault.asset}{" "}
-            deposits.{" "}
-            {vault.vaultType === "Autocompounder"
-              ? `As an autocompounder, it automatically reinvests earned ${vault.asset} yields to compound returns over time without requiring manual harvesting or restaking.`
-              : `As an autopilot vault, it automatically allocates ${vault.asset} deposits across optimized yield strategies managed by ${vault.protocol.name}.`}{" "}
-            {vault.description}
-          </p>
-          {vault.tvl > 0 && vault.apy24h > 0 && (
-            <p className="mt-2 leading-relaxed text-gray-600">
-              The vault currently holds {formatTVL(vault.tvl)} in total value
-              locked and is generating {formatAPY(vault.apy24h)} APY (24h).
-              {vault.apy30d > 0 &&
-                ` The 30-day average APY is ${formatAPY(vault.apy30d)}.`}{" "}
-              The risk level is classified as {vault.riskLevel}. {vault.productName}{" "}
-              is categorized under {vault.category} and deployed on the{" "}
-              {vault.chain} network.
-            </p>
-          )}
-          {(vault.tvl <= 0 || vault.apy24h <= 0) && (
-            <p className="mt-2 leading-relaxed text-gray-600">
-              {vault.productName} is categorized under {vault.category},{" "}
-              deployed on the {vault.chain} network, and classified as{" "}
-              {vault.riskLevel} risk.
-            </p>
-          )}
-        </section>
+        {/* History Table */}
+        <VaultHistoryTable history={history} />
 
         {/* Details */}
         <section className="mb-10">
