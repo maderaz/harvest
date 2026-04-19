@@ -5,12 +5,18 @@ interface ConsistencyScoreProps {
   spotAPY: number;
 }
 
+const DAY = 24 * 60 * 60;
+const STALE_THRESHOLD_DAYS = 7;
+
 function computeScore(history: FullVaultHistory, spotAPY: number) {
-  const nowSeconds = Math.floor(Date.now() / 1000);
-  const thirtyDaysAgo = nowSeconds - 30 * 24 * 60 * 60;
-  const recent = history.apyHistory.filter(
-    (p) => p.timestamp >= thirtyDaysAgo && p.apy >= 0,
-  );
+  const valid = history.apyHistory.filter((p) => p.apy >= 0);
+  if (valid.length === 0) return null;
+
+  // Anchor the 30-day window to the latest available data point so we keep
+  // producing a score even when the subgraph has stopped emitting APY rows.
+  const latestTs = valid[valid.length - 1].timestamp;
+  const windowStart = latestTs - 30 * DAY;
+  const recent = valid.filter((p) => p.timestamp >= windowStart);
 
   if (recent.length < 5) return null;
 
@@ -47,7 +53,21 @@ function computeScore(history: FullVaultHistory, spotAPY: number) {
     label = "Highly Variable";
   }
 
-  return { score, label, cv, mean, stdDev, dataPoints: values.length };
+  const nowSeconds = Math.floor(Date.now() / 1000);
+  const staleDays = Math.floor((nowSeconds - latestTs) / DAY);
+  const isStale = staleDays > STALE_THRESHOLD_DAYS;
+
+  return {
+    score,
+    label,
+    cv,
+    mean,
+    stdDev,
+    dataPoints: values.length,
+    latestTs,
+    isStale,
+    staleDays,
+  };
 }
 
 function scoreColor(score: number): string {
@@ -84,12 +104,16 @@ export function ConsistencyScore({
     );
   }
 
+  const windowLabel = result.isStale
+    ? `the 30 days ending ${new Date(result.latestTs * 1000).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}`
+    : "the past 30 days";
+
   const explanation =
     result.score >= 70
-      ? `APY averaged ${result.mean.toFixed(2)}% over ${result.dataPoints} data points with a standard deviation of ${result.stdDev.toFixed(2)}%, indicating reliable yield generation.`
+      ? `Over ${windowLabel}, APY averaged ${result.mean.toFixed(2)}% across ${result.dataPoints} data points with a standard deviation of ${result.stdDev.toFixed(2)}%, indicating reliable yield generation.`
       : result.score >= 40
-        ? `APY averaged ${result.mean.toFixed(2)}% with a standard deviation of ${result.stdDev.toFixed(2)}% across ${result.dataPoints} data points, showing moderate fluctuation.`
-        : `APY averaged ${result.mean.toFixed(2)}% but showed ${result.stdDev.toFixed(2)}% standard deviation across ${result.dataPoints} data points, indicating significant rate volatility.`;
+        ? `Over ${windowLabel}, APY averaged ${result.mean.toFixed(2)}% with a standard deviation of ${result.stdDev.toFixed(2)}% across ${result.dataPoints} data points, showing moderate fluctuation.`
+        : `Over ${windowLabel}, APY averaged ${result.mean.toFixed(2)}% but showed ${result.stdDev.toFixed(2)}% standard deviation across ${result.dataPoints} data points, indicating significant rate volatility.`;
 
   return (
     <section className="mb-10">
