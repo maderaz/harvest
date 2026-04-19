@@ -23727,6 +23727,10 @@
       {
         "sharePrice": 1.0851257231141533,
         "timestamp": 1776344099
+      },
+      {
+        "sharePrice": 1.085720714189287,
+        "timestamp": 1776621755
       }
     ],
     "apyHistory": [
@@ -24185,6 +24189,10 @@
       {
         "apy": 4.912634092306084,
         "timestamp": 1776344099
+      },
+      {
+        "apy": 6.995839277132992,
+        "timestamp": 1776621755
       }
     ]
   },
@@ -27300,8 +27308,8 @@
         "timestamp": 1776121533
       },
       {
-        "value": 230502.0776645261,
-        "timestamp": 1776619365
+        "value": 307260.3221257087,
+        "timestamp": 1776622963
       }
     ],
     "sharePriceHistory": [
@@ -99136,6 +99144,10 @@
       {
         "sharePrice": 1,
         "timestamp": 1776344327
+      },
+      {
+        "sharePrice": 1,
+        "timestamp": 1776621959
       }
     ],
     "apyHistory": []
