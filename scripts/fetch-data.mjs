@@ -227,7 +227,7 @@ async function fetchHarvestVaults() {
   results.sort((a, b) => b.apy24h - a.apy24h);
 
   log(`[harvest-api] final count: ${results.length}`);
-  return results;
+  return { vaults: results, slugMap: newSlugMap };
 }
 
 // ─── Short history (30d APY only, for vault listing) ─────────────────────────
@@ -423,7 +423,9 @@ async function main() {
   // 1. Fetch vaults
   let vaults;
   try {
-    vaults = await fetchHarvestVaults();
+    const result = await fetchHarvestVaults();
+    vaults = result.vaults;
+    var slugMap = result.slugMap;
   } catch (err) {
     log(`[FATAL] Failed to fetch vaults: ${err}`);
     log("Keeping existing data files unchanged.");
@@ -499,8 +501,8 @@ async function main() {
   writeFileSync(HISTORY_FILE, JSON.stringify(historyMap, null, 2));
   log(`Wrote ${HISTORY_FILE}`);
 
-  saveSlugMap(newSlugMap);
-  log(`Wrote ${SLUGS_FILE} (${Object.keys(newSlugMap).length} slugs persisted)`);
+  saveSlugMap(slugMap);
+  log(`Wrote ${SLUGS_FILE} (${Object.keys(slugMap).length} slugs persisted)`);
 
   log("\nDone!");
 }
