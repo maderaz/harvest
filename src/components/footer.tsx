@@ -8,7 +8,7 @@ export function Footer() {
           </p>
           <p className="text-xs text-gray-400">
             Data is provided for informational purposes only. Not financial
-            advice.
+            advice..
           </p>
         </div>
       </div>
