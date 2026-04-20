@@ -20346,6 +20346,4218 @@
       }
     ]
   },
+  "0xf0358e8c3CD5Fa238a29301d0bEa3D63A17bEdBE": {
+    "tvlHistory": [
+      {
+        "value": 113787778.12004967,
+        "timestamp": 1603238368
+      },
+      {
+        "value": 125602088.77063838,
+        "timestamp": 1603324738
+      },
+      {
+        "value": 141262923.04369634,
+        "timestamp": 1603411149
+      },
+      {
+        "value": 132568401.7697707,
+        "timestamp": 1603479807
+      }
+    ],
+    "sharePriceHistory": [
+      {
+        "sharePrice": 1,
+        "timestamp": 1603206280
+      },
+      {
+        "sharePrice": 0.843610101010101,
+        "timestamp": 1605194985
+      },
+      {
+        "sharePrice": 0.8436141414141414,
+        "timestamp": 1605228787
+      },
+      {
+        "sharePrice": 0.8442,
+        "timestamp": 1605668775
+      },
+      {
+        "sharePrice": 0.8449060606060607,
+        "timestamp": 1606153862
+      },
+      {
+        "sharePrice": 0.8454020202020202,
+        "timestamp": 1606542378
+      },
+      {
+        "sharePrice": 0.8456858585858585,
+        "timestamp": 1606769690
+      },
+      {
+        "sharePrice": 0.845819191919192,
+        "timestamp": 1606815130
+      },
+      {
+        "sharePrice": 0.8460040404040404,
+        "timestamp": 1606920165
+      },
+      {
+        "sharePrice": 0.8464717171717172,
+        "timestamp": 1607031622
+      },
+      {
+        "sharePrice": 0.8466919191919192,
+        "timestamp": 1607095622
+      },
+      {
+        "sharePrice": 0.8468565656565656,
+        "timestamp": 1607169743
+      },
+      {
+        "sharePrice": 0.8472626262626263,
+        "timestamp": 1607294403
+      },
+      {
+        "sharePrice": 0.847720202020202,
+        "timestamp": 1607377017
+      },
+      {
+        "sharePrice": 0.8489878787878787,
+        "timestamp": 1607556123
+      },
+      {
+        "sharePrice": 0.8499040404040404,
+        "timestamp": 1607639316
+      },
+      {
+        "sharePrice": 0.8506070707070708,
+        "timestamp": 1607715855
+      },
+      {
+        "sharePrice": 0.851350505050505,
+        "timestamp": 1607803766
+      },
+      {
+        "sharePrice": 0.8521808080808081,
+        "timestamp": 1607899583
+      },
+      {
+        "sharePrice": 0.8528111111111111,
+        "timestamp": 1607987627
+      },
+      {
+        "sharePrice": 0.8533646464646465,
+        "timestamp": 1608073263
+      },
+      {
+        "sharePrice": 0.8539666666666667,
+        "timestamp": 1608156562
+      },
+      {
+        "sharePrice": 0.8545818181818182,
+        "timestamp": 1608247001
+      },
+      {
+        "sharePrice": 0.8550515151515151,
+        "timestamp": 1608326592
+      },
+      {
+        "sharePrice": 0.8555979797979798,
+        "timestamp": 1608419718
+      },
+      {
+        "sharePrice": 0.856110101010101,
+        "timestamp": 1608496874
+      },
+      {
+        "sharePrice": 0.8567020202020202,
+        "timestamp": 1608593886
+      },
+      {
+        "sharePrice": 0.8569646464646464,
+        "timestamp": 1608643869
+      },
+      {
+        "sharePrice": 0.8576252525252526,
+        "timestamp": 1608766232
+      },
+      {
+        "sharePrice": 0.8579111111111111,
+        "timestamp": 1608813418
+      },
+      {
+        "sharePrice": 0.858119191919192,
+        "timestamp": 1608990529
+      },
+      {
+        "sharePrice": 0.8582747474747475,
+        "timestamp": 1609065307
+      },
+      {
+        "sharePrice": 0.8587515151515152,
+        "timestamp": 1609281663
+      },
+      {
+        "sharePrice": 0.8591343434343435,
+        "timestamp": 1609402261
+      },
+      {
+        "sharePrice": 0.8595121212121212,
+        "timestamp": 1609517508
+      },
+      {
+        "sharePrice": 0.8608555555555556,
+        "timestamp": 1610028402
+      },
+      {
+        "sharePrice": 0.8610454545454546,
+        "timestamp": 1610102705
+      },
+      {
+        "sharePrice": 0.8618747474747475,
+        "timestamp": 1610459345
+      },
+      {
+        "sharePrice": 0.8623222222222222,
+        "timestamp": 1610616138
+      },
+      {
+        "sharePrice": 0.8627494949494949,
+        "timestamp": 1610746048
+      },
+      {
+        "sharePrice": 0.8629393939393939,
+        "timestamp": 1610803624
+      },
+      {
+        "sharePrice": 0.8631515151515151,
+        "timestamp": 1610871585
+      },
+      {
+        "sharePrice": 0.8633616161616161,
+        "timestamp": 1610945802
+      },
+      {
+        "sharePrice": 0.8637656565656565,
+        "timestamp": 1611088190
+      },
+      {
+        "sharePrice": 0.8639535353535354,
+        "timestamp": 1611166818
+      },
+      {
+        "sharePrice": 0.8648434343434344,
+        "timestamp": 1611316059
+      },
+      {
+        "sharePrice": 0.8654353535353535,
+        "timestamp": 1611446815
+      },
+      {
+        "sharePrice": 0.8662434343434343,
+        "timestamp": 1611615432
+      },
+      {
+        "sharePrice": 0.8665484848484849,
+        "timestamp": 1611687299
+      },
+      {
+        "sharePrice": 0.8668323232323233,
+        "timestamp": 1611743824
+      },
+      {
+        "sharePrice": 0.8671171717171717,
+        "timestamp": 1611803397
+      },
+      {
+        "sharePrice": 0.8674676767676768,
+        "timestamp": 1611881284
+      },
+      {
+        "sharePrice": 0.8679848484848485,
+        "timestamp": 1611975408
+      },
+      {
+        "sharePrice": 0.869029292929293,
+        "timestamp": 1612132556
+      },
+      {
+        "sharePrice": 0.8698050505050505,
+        "timestamp": 1612261981
+      },
+      {
+        "sharePrice": 0.870340404040404,
+        "timestamp": 1612349331
+      },
+      {
+        "sharePrice": 0.8708434343434344,
+        "timestamp": 1612427578
+      },
+      {
+        "sharePrice": 0.8716161616161616,
+        "timestamp": 1612522616
+      },
+      {
+        "sharePrice": 0.8722121212121212,
+        "timestamp": 1612607399
+      },
+      {
+        "sharePrice": 0.8734878787878788,
+        "timestamp": 1612804397
+      },
+      {
+        "sharePrice": 0.8759080808080808,
+        "timestamp": 1613080096
+      },
+      {
+        "sharePrice": 0.8775141414141414,
+        "timestamp": 1613290419
+      },
+      {
+        "sharePrice": 0.8785080808080808,
+        "timestamp": 1613411782
+      },
+      {
+        "sharePrice": 0.8794808080808081,
+        "timestamp": 1613569367
+      },
+      {
+        "sharePrice": 0.8802595959595959,
+        "timestamp": 1613664076
+      },
+      {
+        "sharePrice": 0.881219191919192,
+        "timestamp": 1613814181
+      },
+      {
+        "sharePrice": 0.8817838383838383,
+        "timestamp": 1613899514
+      },
+      {
+        "sharePrice": 0.8826717171717172,
+        "timestamp": 1614048973
+      },
+      {
+        "sharePrice": 0.883210101010101,
+        "timestamp": 1614137912
+      },
+      {
+        "sharePrice": 0.8835979797979798,
+        "timestamp": 1614219890
+      },
+      {
+        "sharePrice": 0.8840818181818182,
+        "timestamp": 1614336991
+      },
+      {
+        "sharePrice": 0.884320202020202,
+        "timestamp": 1614395369
+      },
+      {
+        "sharePrice": 0.8845949494949495,
+        "timestamp": 1614475214
+      },
+      {
+        "sharePrice": 0.8849030303030303,
+        "timestamp": 1614568517
+      },
+      {
+        "sharePrice": 0.8853737373737374,
+        "timestamp": 1614698331
+      },
+      {
+        "sharePrice": 0.8857262626262626,
+        "timestamp": 1614785564
+      },
+      {
+        "sharePrice": 0.8864060606060606,
+        "timestamp": 1614955332
+      },
+      {
+        "sharePrice": 0.886969696969697,
+        "timestamp": 1615079721
+      },
+      {
+        "sharePrice": 0.8874171717171717,
+        "timestamp": 1615166084
+      },
+      {
+        "sharePrice": 0.8881191919191919,
+        "timestamp": 1615301334
+      },
+      {
+        "sharePrice": 0.8885909090909091,
+        "timestamp": 1615403559
+      },
+      {
+        "sharePrice": 0.8889090909090909,
+        "timestamp": 1615456851
+      },
+      {
+        "sharePrice": 0.8894242424242425,
+        "timestamp": 1615562470
+      },
+      {
+        "sharePrice": 0.8898666666666667,
+        "timestamp": 1615729554
+      },
+      {
+        "sharePrice": 0.8904090909090909,
+        "timestamp": 1615867206
+      },
+      {
+        "sharePrice": 0.8914030303030303,
+        "timestamp": 1616073305
+      },
+      {
+        "sharePrice": 0.8919373737373737,
+        "timestamp": 1616159223
+      },
+      {
+        "sharePrice": 0.8923616161616161,
+        "timestamp": 1616226867
+      },
+      {
+        "sharePrice": 0.892869696969697,
+        "timestamp": 1616320414
+      },
+      {
+        "sharePrice": 0.893639393939394,
+        "timestamp": 1616492458
+      },
+      {
+        "sharePrice": 0.8942121212121212,
+        "timestamp": 1616622012
+      },
+      {
+        "sharePrice": 0.895,
+        "timestamp": 1616841639
+      },
+      {
+        "sharePrice": 0.8959717171717172,
+        "timestamp": 1617045734
+      },
+      {
+        "sharePrice": 0.8986323232323232,
+        "timestamp": 1617613219
+      },
+      {
+        "sharePrice": 0.8994181818181818,
+        "timestamp": 1617755765
+      },
+      {
+        "sharePrice": 0.8999717171717172,
+        "timestamp": 1617939711
+      },
+      {
+        "sharePrice": 0.9011090909090909,
+        "timestamp": 1618226271
+      },
+      {
+        "sharePrice": 0.901639393939394,
+        "timestamp": 1618338380
+      },
+      {
+        "sharePrice": 0.9024111111111112,
+        "timestamp": 1618494093
+      },
+      {
+        "sharePrice": 0.9030515151515152,
+        "timestamp": 1618614744
+      },
+      {
+        "sharePrice": 0.9039020202020202,
+        "timestamp": 1618778281
+      },
+      {
+        "sharePrice": 0.9043595959595959,
+        "timestamp": 1618912538
+      },
+      {
+        "sharePrice": 0.9049525252525252,
+        "timestamp": 1619087985
+      },
+      {
+        "sharePrice": 0.9053222222222223,
+        "timestamp": 1619188436
+      },
+      {
+        "sharePrice": 0.9055484848484848,
+        "timestamp": 1619255388
+      },
+      {
+        "sharePrice": 0.9057090909090909,
+        "timestamp": 1619321362
+      },
+      {
+        "sharePrice": 0.9059787878787878,
+        "timestamp": 1619419665
+      },
+      {
+        "sharePrice": 0.906180808080808,
+        "timestamp": 1619486411
+      },
+      {
+        "sharePrice": 0.9064414141414141,
+        "timestamp": 1619570687
+      },
+      {
+        "sharePrice": 0.9067343434343434,
+        "timestamp": 1619672389
+      },
+      {
+        "sharePrice": 0.9069434343434344,
+        "timestamp": 1619744147
+      },
+      {
+        "sharePrice": 0.907289898989899,
+        "timestamp": 1619854549
+      },
+      {
+        "sharePrice": 0.9076333333333333,
+        "timestamp": 1619959332
+      },
+      {
+        "sharePrice": 0.9081444444444444,
+        "timestamp": 1620094528
+      },
+      {
+        "sharePrice": 0.9087232323232324,
+        "timestamp": 1620240873
+      },
+      {
+        "sharePrice": 0.9098818181818182,
+        "timestamp": 1620542452
+      },
+      {
+        "sharePrice": 0.9112989898989899,
+        "timestamp": 1620928422
+      },
+      {
+        "sharePrice": 0.9116050505050505,
+        "timestamp": 1621003165
+      },
+      {
+        "sharePrice": 0.912110101010101,
+        "timestamp": 1621128087
+      },
+      {
+        "sharePrice": 0.9126898989898989,
+        "timestamp": 1621314157
+      },
+      {
+        "sharePrice": 0.9133080808080808,
+        "timestamp": 1621552147
+      },
+      {
+        "sharePrice": 0.9144676767676768,
+        "timestamp": 1621747158
+      },
+      {
+        "sharePrice": 0.9153505050505051,
+        "timestamp": 1622031435
+      },
+      {
+        "sharePrice": 0.9155434343434343,
+        "timestamp": 1622192963
+      },
+      {
+        "sharePrice": 0.915750505050505,
+        "timestamp": 1622321421
+      },
+      {
+        "sharePrice": 0.915950505050505,
+        "timestamp": 1622419004
+      },
+      {
+        "sharePrice": 0.916279797979798,
+        "timestamp": 1622623473
+      },
+      {
+        "sharePrice": 0.9165323232323233,
+        "timestamp": 1622783304
+      },
+      {
+        "sharePrice": 0.9167323232323232,
+        "timestamp": 1622914881
+      },
+      {
+        "sharePrice": 0.916839393939394,
+        "timestamp": 1622981030
+      },
+      {
+        "sharePrice": 0.9170858585858586,
+        "timestamp": 1623157938
+      },
+      {
+        "sharePrice": 0.9172535353535354,
+        "timestamp": 1623306579
+      },
+      {
+        "sharePrice": 0.9174595959595959,
+        "timestamp": 1623491382
+      },
+      {
+        "sharePrice": 0.9177929292929293,
+        "timestamp": 1623740168
+      },
+      {
+        "sharePrice": 0.9179212121212121,
+        "timestamp": 1623841509
+      },
+      {
+        "sharePrice": 0.918070707070707,
+        "timestamp": 1623974793
+      },
+      {
+        "sharePrice": 0.9182161616161616,
+        "timestamp": 1624108320
+      },
+      {
+        "sharePrice": 0.9183585858585859,
+        "timestamp": 1624242978
+      },
+      {
+        "sharePrice": 0.9185797979797979,
+        "timestamp": 1624502533
+      },
+      {
+        "sharePrice": 0.9187282828282828,
+        "timestamp": 1624677998
+      },
+      {
+        "sharePrice": 0.9189919191919191,
+        "timestamp": 1624967595
+      },
+      {
+        "sharePrice": 0.919040404040404,
+        "timestamp": 1625038875
+      },
+      {
+        "sharePrice": 0.9191444444444444,
+        "timestamp": 1625147084
+      },
+      {
+        "sharePrice": 0.9192111111111111,
+        "timestamp": 1625218426
+      },
+      {
+        "sharePrice": 0.9192828282828283,
+        "timestamp": 1625289377
+      },
+      {
+        "sharePrice": 0.9194343434343434,
+        "timestamp": 1625433490
+      },
+      {
+        "sharePrice": 0.9195777777777778,
+        "timestamp": 1625578521
+      },
+      {
+        "sharePrice": 0.9198828282828283,
+        "timestamp": 1625910846
+      },
+      {
+        "sharePrice": 0.9199888888888889,
+        "timestamp": 1626022006
+      },
+      {
+        "sharePrice": 0.9201040404040404,
+        "timestamp": 1626131584
+      },
+      {
+        "sharePrice": 0.920169696969697,
+        "timestamp": 1626203173
+      },
+      {
+        "sharePrice": 0.9202727272727272,
+        "timestamp": 1626310551
+      },
+      {
+        "sharePrice": 0.9203727272727272,
+        "timestamp": 1626415219
+      },
+      {
+        "sharePrice": 0.9204424242424243,
+        "timestamp": 1626488901
+      },
+      {
+        "sharePrice": 0.920539393939394,
+        "timestamp": 1626594010
+      },
+      {
+        "sharePrice": 0.9206060606060606,
+        "timestamp": 1626667091
+      },
+      {
+        "sharePrice": 0.9207383838383838,
+        "timestamp": 1626815589
+      },
+      {
+        "sharePrice": 0.9209686868686868,
+        "timestamp": 1627072584
+      },
+      {
+        "sharePrice": 0.9210020202020202,
+        "timestamp": 1627108158
+      },
+      {
+        "sharePrice": 0.9211020202020203,
+        "timestamp": 1627217614
+      },
+      {
+        "sharePrice": 0.9211767676767677,
+        "timestamp": 1627290428
+      },
+      {
+        "sharePrice": 0.9214626262626263,
+        "timestamp": 1627598910
+      },
+      {
+        "sharePrice": 0.9215666666666666,
+        "timestamp": 1627706577
+      },
+      {
+        "sharePrice": 0.9216929292929293,
+        "timestamp": 1627828095
+      },
+      {
+        "sharePrice": 0.9217707070707071,
+        "timestamp": 1627900417
+      },
+      {
+        "sharePrice": 0.9219212121212121,
+        "timestamp": 1628046637
+      },
+      {
+        "sharePrice": 0.9221010101010101,
+        "timestamp": 1628193812
+      },
+      {
+        "sharePrice": 0.9225989898989899,
+        "timestamp": 1628624530
+      },
+      {
+        "sharePrice": 0.9229282828282829,
+        "timestamp": 1628896132
+      },
+      {
+        "sharePrice": 0.9232373737373737,
+        "timestamp": 1629154769
+      },
+      {
+        "sharePrice": 0.9237808080808081,
+        "timestamp": 1629552236
+      },
+      {
+        "sharePrice": 0.9239848484848485,
+        "timestamp": 1629647347
+      },
+      {
+        "sharePrice": 0.9252565656565657,
+        "timestamp": 1630312121
+      },
+      {
+        "sharePrice": 0.9262010101010101,
+        "timestamp": 1630732511
+      },
+      {
+        "sharePrice": 0.9271484848484849,
+        "timestamp": 1631243575
+      },
+      {
+        "sharePrice": 0.9276919191919192,
+        "timestamp": 1631532692
+      },
+      {
+        "sharePrice": 0.9284222222222223,
+        "timestamp": 1631877325
+      },
+      {
+        "sharePrice": 0.9290101010101011,
+        "timestamp": 1632290080
+      },
+      {
+        "sharePrice": 0.9295454545454546,
+        "timestamp": 1632560998
+      },
+      {
+        "sharePrice": 0.9302868686868687,
+        "timestamp": 1632913927
+      },
+      {
+        "sharePrice": 0.9311111111111111,
+        "timestamp": 1633270073
+      },
+      {
+        "sharePrice": 0.9317111111111112,
+        "timestamp": 1633523560
+      },
+      {
+        "sharePrice": 0.9324474747474748,
+        "timestamp": 1633839434
+      },
+      {
+        "sharePrice": 0.9333454545454546,
+        "timestamp": 1634106336
+      },
+      {
+        "sharePrice": 0.9343919191919192,
+        "timestamp": 1634447670
+      },
+      {
+        "sharePrice": 0.9352777777777778,
+        "timestamp": 1634721057
+      },
+      {
+        "sharePrice": 0.9363666666666667,
+        "timestamp": 1635136199
+      },
+      {
+        "sharePrice": 0.9376646464646464,
+        "timestamp": 1635754458
+      },
+      {
+        "sharePrice": 0.9385313131313131,
+        "timestamp": 1636255424
+      },
+      {
+        "sharePrice": 0.9395616161616162,
+        "timestamp": 1636834216
+      },
+      {
+        "sharePrice": 0.9405151515151515,
+        "timestamp": 1637230663
+      },
+      {
+        "sharePrice": 0.9414272727272728,
+        "timestamp": 1637839228
+      },
+      {
+        "sharePrice": 0.9422848484848485,
+        "timestamp": 1638413441
+      },
+      {
+        "sharePrice": 0.9430282828282829,
+        "timestamp": 1639001357
+      },
+      {
+        "sharePrice": 0.9436929292929293,
+        "timestamp": 1639493799
+      },
+      {
+        "sharePrice": 0.9442131313131313,
+        "timestamp": 1639910673
+      },
+      {
+        "sharePrice": 0.9448707070707071,
+        "timestamp": 1640330093
+      },
+      {
+        "sharePrice": 0.9453131313131313,
+        "timestamp": 1640603926
+      },
+      {
+        "sharePrice": 0.9461676767676768,
+        "timestamp": 1641116403
+      },
+      {
+        "sharePrice": 0.9469828282828283,
+        "timestamp": 1641607501
+      },
+      {
+        "sharePrice": 0.9478646464646464,
+        "timestamp": 1642156151
+      },
+      {
+        "sharePrice": 0.9485424242424242,
+        "timestamp": 1642566851
+      },
+      {
+        "sharePrice": 0.9491545454545455,
+        "timestamp": 1643012514
+      },
+      {
+        "sharePrice": 0.9498080808080808,
+        "timestamp": 1643545830
+      },
+      {
+        "sharePrice": 0.950369696969697,
+        "timestamp": 1643958959
+      },
+      {
+        "sharePrice": 0.9508414141414141,
+        "timestamp": 1644327915
+      },
+      {
+        "sharePrice": 0.9512121212121212,
+        "timestamp": 1644663207
+      },
+      {
+        "sharePrice": 0.9515929292929293,
+        "timestamp": 1645004423
+      },
+      {
+        "sharePrice": 0.9523010101010101,
+        "timestamp": 1645534952
+      },
+      {
+        "sharePrice": 0.9526868686868687,
+        "timestamp": 1645875052
+      },
+      {
+        "sharePrice": 0.9529454545454545,
+        "timestamp": 1646119420
+      },
+      {
+        "sharePrice": 0.9532949494949495,
+        "timestamp": 1646390075
+      },
+      {
+        "sharePrice": 0.9536969696969697,
+        "timestamp": 1646731829
+      },
+      {
+        "sharePrice": 0.9540525252525253,
+        "timestamp": 1646999789
+      },
+      {
+        "sharePrice": 0.9543414141414142,
+        "timestamp": 1647232718
+      },
+      {
+        "sharePrice": 0.9549242424242425,
+        "timestamp": 1647664241
+      },
+      {
+        "sharePrice": 0.9552545454545455,
+        "timestamp": 1647957956
+      },
+      {
+        "sharePrice": 0.9557808080808081,
+        "timestamp": 1648290453
+      },
+      {
+        "sharePrice": 0.9567454545454546,
+        "timestamp": 1648808866
+      },
+      {
+        "sharePrice": 0.9568616161616161,
+        "timestamp": 1648878375
+      },
+      {
+        "sharePrice": 0.9570232323232323,
+        "timestamp": 1648983100
+      },
+      {
+        "sharePrice": 0.9577969696969697,
+        "timestamp": 1649550616
+      },
+      {
+        "sharePrice": 0.9584363636363636,
+        "timestamp": 1650090689
+      },
+      {
+        "sharePrice": 0.9591333333333333,
+        "timestamp": 1650663986
+      },
+      {
+        "sharePrice": 0.9598242424242425,
+        "timestamp": 1651614166
+      },
+      {
+        "sharePrice": 0.9598878787878787,
+        "timestamp": 1651702594
+      },
+      {
+        "sharePrice": 0.9600989898989899,
+        "timestamp": 1652027957
+      },
+      {
+        "sharePrice": 0.9604888888888888,
+        "timestamp": 1652600182
+      },
+      {
+        "sharePrice": 0.9608424242424243,
+        "timestamp": 1653169326
+      },
+      {
+        "sharePrice": 0.9610939393939394,
+        "timestamp": 1653716825
+      },
+      {
+        "sharePrice": 0.9613222222222222,
+        "timestamp": 1654306020
+      },
+      {
+        "sharePrice": 0.9615333333333334,
+        "timestamp": 1654905447
+      },
+      {
+        "sharePrice": 0.9620252525252525,
+        "timestamp": 1656341978
+      },
+      {
+        "sharePrice": 0.9621636363636363,
+        "timestamp": 1656957621
+      },
+      {
+        "sharePrice": 0.962270707070707,
+        "timestamp": 1657337005
+      },
+      {
+        "sharePrice": 0.9623575757575757,
+        "timestamp": 1657625922
+      },
+      {
+        "sharePrice": 0.9624616161616162,
+        "timestamp": 1657959028
+      },
+      {
+        "sharePrice": 0.9626090909090909,
+        "timestamp": 1658379813
+      },
+      {
+        "sharePrice": 0.9627,
+        "timestamp": 1658624856
+      },
+      {
+        "sharePrice": 0.9629010101010101,
+        "timestamp": 1658848621
+      },
+      {
+        "sharePrice": 0.9630232323232323,
+        "timestamp": 1659117629
+      },
+      {
+        "sharePrice": 0.9630787878787879,
+        "timestamp": 1659234776
+      },
+      {
+        "sharePrice": 0.9631888888888889,
+        "timestamp": 1659483271
+      },
+      {
+        "sharePrice": 0.963269696969697,
+        "timestamp": 1659672240
+      },
+      {
+        "sharePrice": 0.9633454545454545,
+        "timestamp": 1659841425
+      },
+      {
+        "sharePrice": 0.9634323232323232,
+        "timestamp": 1660032952
+      },
+      {
+        "sharePrice": 0.9635666666666667,
+        "timestamp": 1660296915
+      },
+      {
+        "sharePrice": 0.9636505050505051,
+        "timestamp": 1660465352
+      },
+      {
+        "sharePrice": 0.9637404040404041,
+        "timestamp": 1660681720
+      },
+      {
+        "sharePrice": 0.9638606060606061,
+        "timestamp": 1660996413
+      },
+      {
+        "sharePrice": 0.9639040404040404,
+        "timestamp": 1661117385
+      },
+      {
+        "sharePrice": 0.9640161616161617,
+        "timestamp": 1661407362
+      },
+      {
+        "sharePrice": 0.9640838383838384,
+        "timestamp": 1661600033
+      },
+      {
+        "sharePrice": 0.964289898989899,
+        "timestamp": 1662378932
+      },
+      {
+        "sharePrice": 0.9643959595959596,
+        "timestamp": 1662774380
+      },
+      {
+        "sharePrice": 0.9644747474747475,
+        "timestamp": 1663044055
+      },
+      {
+        "sharePrice": 0.9645525252525252,
+        "timestamp": 1663313543
+      },
+      {
+        "sharePrice": 0.9646060606060606,
+        "timestamp": 1663465115
+      },
+      {
+        "sharePrice": 0.9646474747474747,
+        "timestamp": 1663588199
+      },
+      {
+        "sharePrice": 0.9647878787878787,
+        "timestamp": 1664018975
+      },
+      {
+        "sharePrice": 0.9654666666666667,
+        "timestamp": 1665742319
+      },
+      {
+        "sharePrice": 0.9661777777777778,
+        "timestamp": 1667147111
+      },
+      {
+        "sharePrice": 0.967189898989899,
+        "timestamp": 1668419159
+      },
+      {
+        "sharePrice": 0.9678535353535354,
+        "timestamp": 1669213475
+      },
+      {
+        "sharePrice": 0.969050505050505,
+        "timestamp": 1670329571
+      },
+      {
+        "sharePrice": 0.9694676767676768,
+        "timestamp": 1670956943
+      },
+      {
+        "sharePrice": 0.9700040404040404,
+        "timestamp": 1672227935
+      },
+      {
+        "sharePrice": 0.9710636363636364,
+        "timestamp": 1674035183
+      },
+      {
+        "sharePrice": 0.9714121212121212,
+        "timestamp": 1674566447
+      },
+      {
+        "sharePrice": 0.9722252525252525,
+        "timestamp": 1675561187
+      },
+      {
+        "sharePrice": 0.973310101010101,
+        "timestamp": 1676548895
+      },
+      {
+        "sharePrice": 0.9740656565656566,
+        "timestamp": 1677548807
+      },
+      {
+        "sharePrice": 0.9750909090909091,
+        "timestamp": 1678576655
+      },
+      {
+        "sharePrice": 0.9755111111111111,
+        "timestamp": 1682608271
+      },
+      {
+        "sharePrice": 0.9767989898989899,
+        "timestamp": 1684016675
+      },
+      {
+        "sharePrice": 0.977580808080808,
+        "timestamp": 1685009267
+      },
+      {
+        "sharePrice": 0.9783474747474747,
+        "timestamp": 1685999123
+      },
+      {
+        "sharePrice": 0.9792555555555555,
+        "timestamp": 1687004543
+      },
+      {
+        "sharePrice": 0.9804474747474747,
+        "timestamp": 1687989359
+      },
+      {
+        "sharePrice": 0.9818767676767677,
+        "timestamp": 1688985767
+      },
+      {
+        "sharePrice": 0.9832020202020202,
+        "timestamp": 1689999275
+      },
+      {
+        "sharePrice": 0.9846202020202021,
+        "timestamp": 1690991291
+      },
+      {
+        "sharePrice": 0.9857454545454546,
+        "timestamp": 1691982335
+      },
+      {
+        "sharePrice": 0.98700101010101,
+        "timestamp": 1693007939
+      },
+      {
+        "sharePrice": 0.9880787878787879,
+        "timestamp": 1693993931
+      },
+      {
+        "sharePrice": 0.9893363636363637,
+        "timestamp": 1694979863
+      },
+      {
+        "sharePrice": 0.9905929292929293,
+        "timestamp": 1695975491
+      },
+      {
+        "sharePrice": 0.991869696969697,
+        "timestamp": 1696971383
+      },
+      {
+        "sharePrice": 0.9930585858585859,
+        "timestamp": 1697966987
+      },
+      {
+        "sharePrice": 0.9948060606060606,
+        "timestamp": 1698943847
+      },
+      {
+        "sharePrice": 0.9963444444444445,
+        "timestamp": 1699922723
+      },
+      {
+        "sharePrice": 0.9982171717171717,
+        "timestamp": 1700911835
+      },
+      {
+        "sharePrice": 0.9998565656565657,
+        "timestamp": 1701920303
+      },
+      {
+        "sharePrice": 1.0016424242424242,
+        "timestamp": 1702900271
+      },
+      {
+        "sharePrice": 1.004039393939394,
+        "timestamp": 1703887403
+      },
+      {
+        "sharePrice": 1.0059838383838384,
+        "timestamp": 1704877895
+      },
+      {
+        "sharePrice": 1.0085363636363636,
+        "timestamp": 1705852403
+      },
+      {
+        "sharePrice": 1.0101616161616163,
+        "timestamp": 1706845187
+      },
+      {
+        "sharePrice": 1.012059595959596,
+        "timestamp": 1707869783
+      },
+      {
+        "sharePrice": 1.0141707070707071,
+        "timestamp": 1708859867
+      },
+      {
+        "sharePrice": 1.0187757575757577,
+        "timestamp": 1710538523
+      },
+      {
+        "sharePrice": 1.0218626262626263,
+        "timestamp": 1711535339
+      },
+      {
+        "sharePrice": 1.0235232323232324,
+        "timestamp": 1712139563
+      },
+      {
+        "sharePrice": 1.024079797979798,
+        "timestamp": 1712498411
+      },
+      {
+        "sharePrice": 1.025570707070707,
+        "timestamp": 1713441431
+      },
+      {
+        "sharePrice": 1.0292060606060607,
+        "timestamp": 1715593595
+      },
+      {
+        "sharePrice": 1.0344080808080809,
+        "timestamp": 1718618819
+      },
+      {
+        "sharePrice": 1.0367777777777778,
+        "timestamp": 1719918227
+      },
+      {
+        "sharePrice": 1.037659595959596,
+        "timestamp": 1720465319
+      },
+      {
+        "sharePrice": 1.0424636363636364,
+        "timestamp": 1723537607
+      },
+      {
+        "sharePrice": 1.0429777777777778,
+        "timestamp": 1724222675
+      },
+      {
+        "sharePrice": 1.0437262626262627,
+        "timestamp": 1724917343
+      },
+      {
+        "sharePrice": 1.0443646464646466,
+        "timestamp": 1725608375
+      },
+      {
+        "sharePrice": 1.046888888888889,
+        "timestamp": 1727692991
+      },
+      {
+        "sharePrice": 1.0481909090909092,
+        "timestamp": 1728979379
+      },
+      {
+        "sharePrice": 1.0488121212121213,
+        "timestamp": 1729249739
+      },
+      {
+        "sharePrice": 1.0493646464646464,
+        "timestamp": 1729500659
+      },
+      {
+        "sharePrice": 1.0505414141414142,
+        "timestamp": 1729979759
+      },
+      {
+        "sharePrice": 1.05139898989899,
+        "timestamp": 1730309243
+      },
+      {
+        "sharePrice": 1.0525565656565656,
+        "timestamp": 1730720051
+      },
+      {
+        "sharePrice": 1.0549424242424243,
+        "timestamp": 1731498167
+      },
+      {
+        "sharePrice": 1.0566737373737374,
+        "timestamp": 1731857891
+      },
+      {
+        "sharePrice": 1.0589323232323233,
+        "timestamp": 1732523663
+      },
+      {
+        "sharePrice": 1.0599959595959596,
+        "timestamp": 1732781399
+      },
+      {
+        "sharePrice": 1.0624030303030303,
+        "timestamp": 1733306711
+      },
+      {
+        "sharePrice": 1.0638242424242423,
+        "timestamp": 1733652923
+      },
+      {
+        "sharePrice": 1.0672030303030302,
+        "timestamp": 1734269183
+      },
+      {
+        "sharePrice": 1.0685535353535354,
+        "timestamp": 1734590999
+      },
+      {
+        "sharePrice": 1.0699020202020202,
+        "timestamp": 1734864431
+      },
+      {
+        "sharePrice": 1.0730727272727272,
+        "timestamp": 1735563155
+      },
+      {
+        "sharePrice": 1.0749373737373737,
+        "timestamp": 1736081783
+      },
+      {
+        "sharePrice": 1.0771969696969697,
+        "timestamp": 1736685083
+      },
+      {
+        "sharePrice": 1.0790535353535353,
+        "timestamp": 1737231767
+      },
+      {
+        "sharePrice": 1.0810131313131313,
+        "timestamp": 1737803543
+      },
+      {
+        "sharePrice": 1.0812747474747475,
+        "timestamp": 1737890099
+      },
+      {
+        "sharePrice": 1.0831080808080809,
+        "timestamp": 1738530803
+      },
+      {
+        "sharePrice": 1.084589898989899,
+        "timestamp": 1739110571
+      },
+      {
+        "sharePrice": 1.086031313131313,
+        "timestamp": 1739732615
+      },
+      {
+        "sharePrice": 1.0870838383838384,
+        "timestamp": 1740319955
+      },
+      {
+        "sharePrice": 1.0884181818181817,
+        "timestamp": 1741045655
+      },
+      {
+        "sharePrice": 1.0900151515151515,
+        "timestamp": 1742291735
+      },
+      {
+        "sharePrice": 1.0906868686868687,
+        "timestamp": 1742763011
+      },
+      {
+        "sharePrice": 1.0915222222222223,
+        "timestamp": 1743689699
+      },
+      {
+        "sharePrice": 1.0916,
+        "timestamp": 1743769847
+      },
+      {
+        "sharePrice": 1.0917151515151515,
+        "timestamp": 1743894167
+      },
+      {
+        "sharePrice": 1.0917535353535353,
+        "timestamp": 1743935555
+      },
+      {
+        "sharePrice": 1.0918454545454546,
+        "timestamp": 1744059743
+      },
+      {
+        "sharePrice": 1.091890909090909,
+        "timestamp": 1744142567
+      },
+      {
+        "sharePrice": 1.091921212121212,
+        "timestamp": 1744184003
+      },
+      {
+        "sharePrice": 1.0919676767676767,
+        "timestamp": 1744267307
+      },
+      {
+        "sharePrice": 1.0920171717171716,
+        "timestamp": 1744350527
+      },
+      {
+        "sharePrice": 1.0920767676767678,
+        "timestamp": 1744433399
+      },
+      {
+        "sharePrice": 1.0921555555555555,
+        "timestamp": 1744557491
+      },
+      {
+        "sharePrice": 1.0921828282828283,
+        "timestamp": 1744598927
+      },
+      {
+        "sharePrice": 1.092231313131313,
+        "timestamp": 1744681787
+      },
+      {
+        "sharePrice": 1.0923242424242425,
+        "timestamp": 1744847423
+      },
+      {
+        "sharePrice": 1.0923747474747474,
+        "timestamp": 1744924199
+      },
+      {
+        "sharePrice": 1.0924333333333334,
+        "timestamp": 1745006699
+      },
+      {
+        "sharePrice": 1.0924969696969697,
+        "timestamp": 1745088695
+      },
+      {
+        "sharePrice": 1.092559595959596,
+        "timestamp": 1745170547
+      },
+      {
+        "sharePrice": 1.0926181818181817,
+        "timestamp": 1745252363
+      },
+      {
+        "sharePrice": 1.0926515151515153,
+        "timestamp": 1745293427
+      },
+      {
+        "sharePrice": 1.092710101010101,
+        "timestamp": 1745375303
+      },
+      {
+        "sharePrice": 1.0927707070707071,
+        "timestamp": 1745457503
+      },
+      {
+        "sharePrice": 1.0928737373737374,
+        "timestamp": 1745621147
+      },
+      {
+        "sharePrice": 1.092920202020202,
+        "timestamp": 1745702831
+      },
+      {
+        "sharePrice": 1.0929717171717173,
+        "timestamp": 1745784503
+      },
+      {
+        "sharePrice": 1.093020202020202,
+        "timestamp": 1745866187
+      },
+      {
+        "sharePrice": 1.0930717171717172,
+        "timestamp": 1745947859
+      },
+      {
+        "sharePrice": 1.0930989898989898,
+        "timestamp": 1745988659
+      },
+      {
+        "sharePrice": 1.093158585858586,
+        "timestamp": 1746070835
+      },
+      {
+        "sharePrice": 1.0932151515151516,
+        "timestamp": 1746153299
+      },
+      {
+        "sharePrice": 1.0932949494949495,
+        "timestamp": 1746276815
+      },
+      {
+        "sharePrice": 1.093379797979798,
+        "timestamp": 1746400403
+      },
+      {
+        "sharePrice": 1.0934434343434343,
+        "timestamp": 1746482795
+      },
+      {
+        "sharePrice": 1.0935242424242424,
+        "timestamp": 1746565187
+      },
+      {
+        "sharePrice": 1.0935626262626263,
+        "timestamp": 1746606791
+      },
+      {
+        "sharePrice": 1.093630303030303,
+        "timestamp": 1746689759
+      },
+      {
+        "sharePrice": 1.0937272727272727,
+        "timestamp": 1746822323
+      },
+      {
+        "sharePrice": 1.093879797979798,
+        "timestamp": 1747027703
+      },
+      {
+        "sharePrice": 1.094039393939394,
+        "timestamp": 1747191311
+      },
+      {
+        "sharePrice": 1.0941888888888889,
+        "timestamp": 1747316543
+      },
+      {
+        "sharePrice": 1.103419191919192,
+        "timestamp": 1747525091
+      },
+      {
+        "sharePrice": 1.1035181818181818,
+        "timestamp": 1747566875
+      },
+      {
+        "sharePrice": 1.104031313131313,
+        "timestamp": 1747692383
+      },
+      {
+        "sharePrice": 1.1044070707070708,
+        "timestamp": 1747859795
+      },
+      {
+        "sharePrice": 1.1048646464646465,
+        "timestamp": 1748027411
+      },
+      {
+        "sharePrice": 1.105050505050505,
+        "timestamp": 1748110979
+      },
+      {
+        "sharePrice": 1.1051555555555554,
+        "timestamp": 1748152835
+      },
+      {
+        "sharePrice": 1.1053535353535353,
+        "timestamp": 1748236655
+      },
+      {
+        "sharePrice": 1.1055111111111111,
+        "timestamp": 1748320439
+      },
+      {
+        "sharePrice": 1.1060737373737373,
+        "timestamp": 1748571863
+      },
+      {
+        "sharePrice": 1.1063767676767677,
+        "timestamp": 1748739155
+      },
+      {
+        "sharePrice": 1.1065232323232324,
+        "timestamp": 1748822831
+      },
+      {
+        "sharePrice": 1.1069121212121211,
+        "timestamp": 1748990219
+      },
+      {
+        "sharePrice": 1.1072717171717172,
+        "timestamp": 1749127067
+      },
+      {
+        "sharePrice": 1.1073949494949495,
+        "timestamp": 1749187115
+      },
+      {
+        "sharePrice": 1.1077343434343434,
+        "timestamp": 1749325871
+      },
+      {
+        "sharePrice": 1.107919191919192,
+        "timestamp": 1749409967
+      },
+      {
+        "sharePrice": 1.1082222222222222,
+        "timestamp": 1749535979
+      },
+      {
+        "sharePrice": 1.1088373737373738,
+        "timestamp": 1749772307
+      },
+      {
+        "sharePrice": 1.1091818181818183,
+        "timestamp": 1749935231
+      },
+      {
+        "sharePrice": 1.109278787878788,
+        "timestamp": 1749975911
+      },
+      {
+        "sharePrice": 1.109560606060606,
+        "timestamp": 1750117451
+      },
+      {
+        "sharePrice": 1.109790909090909,
+        "timestamp": 1750198247
+      },
+      {
+        "sharePrice": 1.109970707070707,
+        "timestamp": 1750279319
+      },
+      {
+        "sharePrice": 1.1100636363636365,
+        "timestamp": 1750319783
+      },
+      {
+        "sharePrice": 1.110329292929293,
+        "timestamp": 1750461719
+      },
+      {
+        "sharePrice": 1.110421212121212,
+        "timestamp": 1750502411
+      },
+      {
+        "sharePrice": 1.1105434343434344,
+        "timestamp": 1750562939
+      },
+      {
+        "sharePrice": 1.1106919191919191,
+        "timestamp": 1750643903
+      },
+      {
+        "sharePrice": 1.1115656565656566,
+        "timestamp": 1751070779
+      },
+      {
+        "sharePrice": 1.1121838383838383,
+        "timestamp": 1751356211
+      },
+      {
+        "sharePrice": 1.112309090909091,
+        "timestamp": 1751417555
+      },
+      {
+        "sharePrice": 1.1134434343434343,
+        "timestamp": 1751947199
+      },
+      {
+        "sharePrice": 1.1136181818181818,
+        "timestamp": 1752029459
+      },
+      {
+        "sharePrice": 1.1143646464646464,
+        "timestamp": 1752355511
+      },
+      {
+        "sharePrice": 1.114579797979798,
+        "timestamp": 1752457319
+      },
+      {
+        "sharePrice": 1.114839393939394,
+        "timestamp": 1752559715
+      },
+      {
+        "sharePrice": 1.1150858585858585,
+        "timestamp": 1752641243
+      },
+      {
+        "sharePrice": 1.1156676767676768,
+        "timestamp": 1752885863
+      },
+      {
+        "sharePrice": 1.115960606060606,
+        "timestamp": 1752987515
+      },
+      {
+        "sharePrice": 1.1163343434343433,
+        "timestamp": 1753130111
+      },
+      {
+        "sharePrice": 1.116840404040404,
+        "timestamp": 1753313423
+      },
+      {
+        "sharePrice": 1.1169717171717173,
+        "timestamp": 1753354103
+      },
+      {
+        "sharePrice": 1.1173393939393939,
+        "timestamp": 1753476383
+      },
+      {
+        "sharePrice": 1.1175626262626264,
+        "timestamp": 1753558127
+      },
+      {
+        "sharePrice": 1.1178252525252526,
+        "timestamp": 1753659911
+      },
+      {
+        "sharePrice": 1.1180525252525253,
+        "timestamp": 1753741355
+      },
+      {
+        "sharePrice": 1.1181717171717171,
+        "timestamp": 1753782095
+      },
+      {
+        "sharePrice": 1.118681818181818,
+        "timestamp": 1753986779
+      },
+      {
+        "sharePrice": 1.1187777777777779,
+        "timestamp": 1754027555
+      },
+      {
+        "sharePrice": 1.1191030303030303,
+        "timestamp": 1754171591
+      },
+      {
+        "sharePrice": 1.1192777777777778,
+        "timestamp": 1754252831
+      },
+      {
+        "sharePrice": 1.1193676767676768,
+        "timestamp": 1754293391
+      },
+      {
+        "sharePrice": 1.1197242424242424,
+        "timestamp": 1754436635
+      },
+      {
+        "sharePrice": 1.1199373737373737,
+        "timestamp": 1754519711
+      },
+      {
+        "sharePrice": 1.120131313131313,
+        "timestamp": 1754601191
+      },
+      {
+        "sharePrice": 1.1203232323232324,
+        "timestamp": 1754682971
+      },
+      {
+        "sharePrice": 1.1207333333333334,
+        "timestamp": 1754866115
+      },
+      {
+        "sharePrice": 1.1210323232323232,
+        "timestamp": 1754983187
+      },
+      {
+        "sharePrice": 1.1214454545454546,
+        "timestamp": 1755133895
+      },
+      {
+        "sharePrice": 1.1219222222222223,
+        "timestamp": 1755298811
+      },
+      {
+        "sharePrice": 1.1221040404040403,
+        "timestamp": 1755380219
+      },
+      {
+        "sharePrice": 1.1223404040404041,
+        "timestamp": 1755462023
+      },
+      {
+        "sharePrice": 1.1225676767676767,
+        "timestamp": 1755543479
+      },
+      {
+        "sharePrice": 1.122839393939394,
+        "timestamp": 1755641951
+      },
+      {
+        "sharePrice": 1.1230818181818183,
+        "timestamp": 1755727955
+      },
+      {
+        "sharePrice": 1.1233121212121213,
+        "timestamp": 1755803963
+      },
+      {
+        "sharePrice": 1.1234474747474748,
+        "timestamp": 1755850619
+      },
+      {
+        "sharePrice": 1.123790909090909,
+        "timestamp": 1755953411
+      },
+      {
+        "sharePrice": 1.1241545454545454,
+        "timestamp": 1756076075
+      },
+      {
+        "sharePrice": 1.1242767676767678,
+        "timestamp": 1756116899
+      },
+      {
+        "sharePrice": 1.1244353535353535,
+        "timestamp": 1756178555
+      },
+      {
+        "sharePrice": 1.1246626262626263,
+        "timestamp": 1756261151
+      },
+      {
+        "sharePrice": 1.1250616161616163,
+        "timestamp": 1756425275
+      },
+      {
+        "sharePrice": 1.125860606060606,
+        "timestamp": 1756718579
+      },
+      {
+        "sharePrice": 1.1268,
+        "timestamp": 1756827107
+      },
+      {
+        "sharePrice": 1.1270444444444445,
+        "timestamp": 1756923683
+      },
+      {
+        "sharePrice": 1.1272979797979799,
+        "timestamp": 1757019731
+      },
+      {
+        "sharePrice": 1.1275050505050506,
+        "timestamp": 1757096447
+      },
+      {
+        "sharePrice": 1.1278272727272727,
+        "timestamp": 1757202983
+      },
+      {
+        "sharePrice": 1.1280686868686869,
+        "timestamp": 1757287331
+      },
+      {
+        "sharePrice": 1.1282828282828283,
+        "timestamp": 1757366075
+      },
+      {
+        "sharePrice": 1.1285282828282828,
+        "timestamp": 1757452895
+      },
+      {
+        "sharePrice": 1.1287454545454545,
+        "timestamp": 1757538119
+      },
+      {
+        "sharePrice": 1.1289909090909092,
+        "timestamp": 1757629367
+      },
+      {
+        "sharePrice": 1.1292474747474748,
+        "timestamp": 1757720879
+      },
+      {
+        "sharePrice": 1.1294515151515152,
+        "timestamp": 1757801927
+      },
+      {
+        "sharePrice": 1.1296333333333333,
+        "timestamp": 1757882903
+      },
+      {
+        "sharePrice": 1.129679797979798,
+        "timestamp": 1757903375
+      },
+      {
+        "sharePrice": 1.1300838383838383,
+        "timestamp": 1758066803
+      },
+      {
+        "sharePrice": 1.130321212121212,
+        "timestamp": 1758147875
+      },
+      {
+        "sharePrice": 1.1305676767676767,
+        "timestamp": 1758229019
+      },
+      {
+        "sharePrice": 1.1307171717171718,
+        "timestamp": 1758269567
+      },
+      {
+        "sharePrice": 1.1310838383838384,
+        "timestamp": 1758411287
+      },
+      {
+        "sharePrice": 1.1312828282828282,
+        "timestamp": 1758492167
+      },
+      {
+        "sharePrice": 1.131480808080808,
+        "timestamp": 1758572819
+      },
+      {
+        "sharePrice": 1.1316979797979798,
+        "timestamp": 1758653831
+      },
+      {
+        "sharePrice": 1.1319323232323233,
+        "timestamp": 1758754763
+      },
+      {
+        "sharePrice": 1.132139393939394,
+        "timestamp": 1758855503
+      },
+      {
+        "sharePrice": 1.1325232323232324,
+        "timestamp": 1759017083
+      },
+      {
+        "sharePrice": 1.1326353535353535,
+        "timestamp": 1759057319
+      },
+      {
+        "sharePrice": 1.132761616161616,
+        "timestamp": 1759117295
+      },
+      {
+        "sharePrice": 1.1333575757575758,
+        "timestamp": 1759355855
+      },
+      {
+        "sharePrice": 1.1336595959595959,
+        "timestamp": 1759476359
+      },
+      {
+        "sharePrice": 1.1338434343434343,
+        "timestamp": 1759556603
+      },
+      {
+        "sharePrice": 1.1341686868686869,
+        "timestamp": 1759696607
+      },
+      {
+        "sharePrice": 1.1342676767676767,
+        "timestamp": 1759736759
+      },
+      {
+        "sharePrice": 1.1345808080808082,
+        "timestamp": 1759873547
+      },
+      {
+        "sharePrice": 1.1346969696969698,
+        "timestamp": 1759913975
+      },
+      {
+        "sharePrice": 1.1348535353535354,
+        "timestamp": 1759974983
+      },
+      {
+        "sharePrice": 1.135140404040404,
+        "timestamp": 1760076083
+      },
+      {
+        "sharePrice": 1.1354626262626262,
+        "timestamp": 1760180003
+      },
+      {
+        "sharePrice": 1.1356696969696969,
+        "timestamp": 1760261027
+      },
+      {
+        "sharePrice": 1.1358080808080808,
+        "timestamp": 1760321639
+      },
+      {
+        "sharePrice": 1.1361616161616162,
+        "timestamp": 1760483543
+      },
+      {
+        "sharePrice": 1.136350505050505,
+        "timestamp": 1760565035
+      },
+      {
+        "sharePrice": 1.1365454545454545,
+        "timestamp": 1760645927
+      },
+      {
+        "sharePrice": 1.1367686868686868,
+        "timestamp": 1760726651
+      },
+      {
+        "sharePrice": 1.1370060606060606,
+        "timestamp": 1760828039
+      },
+      {
+        "sharePrice": 1.1371686868686868,
+        "timestamp": 1760908799
+      },
+      {
+        "sharePrice": 1.1373333333333333,
+        "timestamp": 1760989739
+      },
+      {
+        "sharePrice": 1.1374141414141414,
+        "timestamp": 1761030803
+      },
+      {
+        "sharePrice": 1.137680808080808,
+        "timestamp": 1761172283
+      },
+      {
+        "sharePrice": 1.1378555555555556,
+        "timestamp": 1761253331
+      },
+      {
+        "sharePrice": 1.138029292929293,
+        "timestamp": 1761334379
+      },
+      {
+        "sharePrice": 1.138220202020202,
+        "timestamp": 1761435635
+      },
+      {
+        "sharePrice": 1.138341414141414,
+        "timestamp": 1761496235
+      },
+      {
+        "sharePrice": 1.1385323232323232,
+        "timestamp": 1761597647
+      },
+      {
+        "sharePrice": 1.1387727272727273,
+        "timestamp": 1761679355
+      },
+      {
+        "sharePrice": 1.1390262626262626,
+        "timestamp": 1761781499
+      },
+      {
+        "sharePrice": 1.139249494949495,
+        "timestamp": 1761863075
+      },
+      {
+        "sharePrice": 1.1394363636363636,
+        "timestamp": 1761944963
+      },
+      {
+        "sharePrice": 1.1396272727272727,
+        "timestamp": 1762026239
+      },
+      {
+        "sharePrice": 1.1398333333333333,
+        "timestamp": 1762108139
+      },
+      {
+        "sharePrice": 1.1401121212121212,
+        "timestamp": 1762209875
+      },
+      {
+        "sharePrice": 1.140180808080808,
+        "timestamp": 1762230143
+      },
+      {
+        "sharePrice": 1.1411030303030303,
+        "timestamp": 1762373195
+      },
+      {
+        "sharePrice": 1.1418838383838383,
+        "timestamp": 1762556531
+      },
+      {
+        "sharePrice": 1.1421959595959597,
+        "timestamp": 1762637891
+      },
+      {
+        "sharePrice": 1.14240101010101,
+        "timestamp": 1762718963
+      },
+      {
+        "sharePrice": 1.142620202020202,
+        "timestamp": 1762800119
+      },
+      {
+        "sharePrice": 1.1428575757575758,
+        "timestamp": 1762901723
+      },
+      {
+        "sharePrice": 1.1431444444444445,
+        "timestamp": 1762982567
+      },
+      {
+        "sharePrice": 1.1432434343434343,
+        "timestamp": 1763022851
+      },
+      {
+        "sharePrice": 1.1435838383838384,
+        "timestamp": 1763163575
+      },
+      {
+        "sharePrice": 1.1437727272727272,
+        "timestamp": 1763244083
+      },
+      {
+        "sharePrice": 1.1439414141414141,
+        "timestamp": 1763324543
+      },
+      {
+        "sharePrice": 1.1440676767676767,
+        "timestamp": 1763385047
+      },
+      {
+        "sharePrice": 1.1443232323232324,
+        "timestamp": 1763506367
+      },
+      {
+        "sharePrice": 1.14440101010101,
+        "timestamp": 1763546447
+      },
+      {
+        "sharePrice": 1.1445050505050505,
+        "timestamp": 1763606855
+      },
+      {
+        "sharePrice": 1.1447808080808082,
+        "timestamp": 1763767823
+      },
+      {
+        "sharePrice": 1.144940404040404,
+        "timestamp": 1763848187
+      },
+      {
+        "sharePrice": 1.145091919191919,
+        "timestamp": 1763928611
+      },
+      {
+        "sharePrice": 1.1451686868686868,
+        "timestamp": 1763969075
+      },
+      {
+        "sharePrice": 1.1454737373737374,
+        "timestamp": 1764110519
+      },
+      {
+        "sharePrice": 1.1456525252525251,
+        "timestamp": 1764191279
+      },
+      {
+        "sharePrice": 1.1458494949494948,
+        "timestamp": 1764273311
+      },
+      {
+        "sharePrice": 1.1460262626262627,
+        "timestamp": 1764354887
+      },
+      {
+        "sharePrice": 1.146210101010101,
+        "timestamp": 1764455675
+      },
+      {
+        "sharePrice": 1.1463484848484848,
+        "timestamp": 1764536531
+      },
+      {
+        "sharePrice": 1.1464919191919192,
+        "timestamp": 1764617375
+      },
+      {
+        "sharePrice": 1.1467272727272728,
+        "timestamp": 1764718247
+      },
+      {
+        "sharePrice": 1.1468858585858586,
+        "timestamp": 1764799691
+      },
+      {
+        "sharePrice": 1.147049494949495,
+        "timestamp": 1764883379
+      },
+      {
+        "sharePrice": 1.1472141414141415,
+        "timestamp": 1764965735
+      },
+      {
+        "sharePrice": 1.1473575757575758,
+        "timestamp": 1765046555
+      },
+      {
+        "sharePrice": 1.1475363636363636,
+        "timestamp": 1765147307
+      },
+      {
+        "sharePrice": 1.1476272727272727,
+        "timestamp": 1765207559
+      },
+      {
+        "sharePrice": 1.1477929292929292,
+        "timestamp": 1765308611
+      },
+      {
+        "sharePrice": 1.1479353535353536,
+        "timestamp": 1765389551
+      },
+      {
+        "sharePrice": 1.1481080808080808,
+        "timestamp": 1765490195
+      },
+      {
+        "sharePrice": 1.1482444444444444,
+        "timestamp": 1765571027
+      },
+      {
+        "sharePrice": 1.148390909090909,
+        "timestamp": 1765651463
+      },
+      {
+        "sharePrice": 1.1485676767676767,
+        "timestamp": 1765751939
+      },
+      {
+        "sharePrice": 1.148709090909091,
+        "timestamp": 1765832423
+      },
+      {
+        "sharePrice": 1.1488585858585858,
+        "timestamp": 1765914155
+      },
+      {
+        "sharePrice": 1.1490414141414143,
+        "timestamp": 1766015411
+      },
+      {
+        "sharePrice": 1.1491969696969697,
+        "timestamp": 1766096855
+      },
+      {
+        "sharePrice": 1.149340404040404,
+        "timestamp": 1766177699
+      },
+      {
+        "sharePrice": 1.1494737373737374,
+        "timestamp": 1766258651
+      },
+      {
+        "sharePrice": 1.1496373737373737,
+        "timestamp": 1766359763
+      },
+      {
+        "sharePrice": 1.149778787878788,
+        "timestamp": 1766440703
+      },
+      {
+        "sharePrice": 1.1499383838383839,
+        "timestamp": 1766521463
+      },
+      {
+        "sharePrice": 1.1500929292929294,
+        "timestamp": 1766602019
+      },
+      {
+        "sharePrice": 1.1502575757575757,
+        "timestamp": 1766703011
+      },
+      {
+        "sharePrice": 1.1503939393939393,
+        "timestamp": 1766782883
+      },
+      {
+        "sharePrice": 1.1505272727272726,
+        "timestamp": 1766863367
+      },
+      {
+        "sharePrice": 1.1507,
+        "timestamp": 1766964395
+      },
+      {
+        "sharePrice": 1.1508444444444443,
+        "timestamp": 1767044927
+      },
+      {
+        "sharePrice": 1.1509969696969697,
+        "timestamp": 1767125099
+      },
+      {
+        "sharePrice": 1.1511979797979799,
+        "timestamp": 1767224171
+      },
+      {
+        "sharePrice": 1.1513343434343435,
+        "timestamp": 1767303227
+      },
+      {
+        "sharePrice": 1.151470707070707,
+        "timestamp": 1767382319
+      },
+      {
+        "sharePrice": 1.1516464646464646,
+        "timestamp": 1767481715
+      },
+      {
+        "sharePrice": 1.151778787878788,
+        "timestamp": 1767561119
+      },
+      {
+        "sharePrice": 1.1519060606060607,
+        "timestamp": 1767640319
+      },
+      {
+        "sharePrice": 1.1520727272727274,
+        "timestamp": 1767739199
+      },
+      {
+        "sharePrice": 1.1522181818181818,
+        "timestamp": 1767818495
+      },
+      {
+        "sharePrice": 1.1523535353535355,
+        "timestamp": 1767897827
+      },
+      {
+        "sharePrice": 1.1525444444444444,
+        "timestamp": 1767996875
+      },
+      {
+        "sharePrice": 1.1526969696969698,
+        "timestamp": 1768076675
+      },
+      {
+        "sharePrice": 1.152879797979798,
+        "timestamp": 1768175567
+      },
+      {
+        "sharePrice": 1.1530444444444445,
+        "timestamp": 1768254923
+      },
+      {
+        "sharePrice": 1.1531989898989898,
+        "timestamp": 1768334183
+      },
+      {
+        "sharePrice": 1.1532646464646465,
+        "timestamp": 1768373687
+      }
+    ],
+    "apyHistory": [
+      {
+        "apy": 4.688153814805069,
+        "timestamp": 1605228607
+      },
+      {
+        "apy": 84.49543068667548,
+        "timestamp": 1606542378
+      },
+      {
+        "apy": 98.34296218237884,
+        "timestamp": 1606815130
+      },
+      {
+        "apy": 94.8082424511163,
+        "timestamp": 1607620594
+      },
+      {
+        "apy": 79.13764985326449,
+        "timestamp": 1607715855
+      },
+      {
+        "apy": 95.8757141047975,
+        "timestamp": 1607758848
+      },
+      {
+        "apy": 99.68816366534894,
+        "timestamp": 1608342891
+      },
+      {
+        "apy": 78.05468489972874,
+        "timestamp": 1608435136
+      },
+      {
+        "apy": 39.13608502992048,
+        "timestamp": 1608709297
+      },
+      {
+        "apy": 95.42161274454853,
+        "timestamp": 1609065307
+      },
+      {
+        "apy": 32.08623434365724,
+        "timestamp": 1609517508
+      },
+      {
+        "apy": 92.30074870028771,
+        "timestamp": 1610102705
+      },
+      {
+        "apy": 68.91271406022658,
+        "timestamp": 1610803624
+      },
+      {
+        "apy": 25.637407228466,
+        "timestamp": 1611022361
+      },
+      {
+        "apy": 97.39764247295075,
+        "timestamp": 1619255388
+      },
+      {
+        "apy": 55.30007459223923,
+        "timestamp": 1619321362
+      },
+      {
+        "apy": 26.270136323176644,
+        "timestamp": 1619959332
+      },
+      {
+        "apy": 88.14417972444832,
+        "timestamp": 1620542452
+      },
+      {
+        "apy": 91.33461279468597,
+        "timestamp": 1621003165
+      },
+      {
+        "apy": 88.25634629159347,
+        "timestamp": 1622981030
+      },
+      {
+        "apy": 59.59432464122831,
+        "timestamp": 1623157938
+      },
+      {
+        "apy": 9.500214446351013,
+        "timestamp": 1623306579
+      },
+      {
+        "apy": 10.869448864646131,
+        "timestamp": 1623974793
+      },
+      {
+        "apy": 45.987063960909744,
+        "timestamp": 1624502533
+      },
+      {
+        "apy": 50.722317098824604,
+        "timestamp": 1624931941
+      },
+      {
+        "apy": 4.453593502753381,
+        "timestamp": 1625038875
+      },
+      {
+        "apy": 54.205848853898374,
+        "timestamp": 1625218426
+      },
+      {
+        "apy": 25.089080978867266,
+        "timestamp": 1625289377
+      },
+      {
+        "apy": 23.572979258732072,
+        "timestamp": 1625433490
+      },
+      {
+        "apy": 9.40733578496982,
+        "timestamp": 1625578521
+      },
+      {
+        "apy": 81.61011536283377,
+        "timestamp": 1625910846
+      },
+      {
+        "apy": 29.276408130608495,
+        "timestamp": 1626022006
+      },
+      {
+        "apy": 80.86655691090719,
+        "timestamp": 1626058417
+      },
+      {
+        "apy": 25.1825446393543,
+        "timestamp": 1626310551
+      },
+      {
+        "apy": 12.295666383799498,
+        "timestamp": 1626488901
+      },
+      {
+        "apy": 9.894215164978332,
+        "timestamp": 1626594010
+      },
+      {
+        "apy": 28.02744785441746,
+        "timestamp": 1626667091
+      },
+      {
+        "apy": 18.609635793619177,
+        "timestamp": 1626815589
+      },
+      {
+        "apy": 41.84563958001035,
+        "timestamp": 1627072584
+      },
+      {
+        "apy": 6.22513522542087,
+        "timestamp": 1627108158
+      },
+      {
+        "apy": 34.8305492221454,
+        "timestamp": 1627290428
+      },
+      {
+        "apy": 27.076166809884,
+        "timestamp": 1627598910
+      },
+      {
+        "apy": 64.31154766091758,
+        "timestamp": 1627706577
+      },
+      {
+        "apy": 84.1608958892996,
+        "timestamp": 1627900417
+      },
+      {
+        "apy": 41.94405702777101,
+        "timestamp": 1628046637
+      },
+      {
+        "apy": 26.040393307607733,
+        "timestamp": 1628193812
+      },
+      {
+        "apy": 15.57129075773908,
+        "timestamp": 1628896132
+      },
+      {
+        "apy": 9.72355320975118,
+        "timestamp": 1629647347
+      },
+      {
+        "apy": 54.322886340448854,
+        "timestamp": 1630312121
+      },
+      {
+        "apy": 17.615313005634576,
+        "timestamp": 1630732511
+      },
+      {
+        "apy": 46.036580789676385,
+        "timestamp": 1631243575
+      },
+      {
+        "apy": 11.745461744342172,
+        "timestamp": 1631532692
+      },
+      {
+        "apy": 62.24411843201302,
+        "timestamp": 1631877325
+      },
+      {
+        "apy": 41.46490271647809,
+        "timestamp": 1632560998
+      },
+      {
+        "apy": 19.19647792163096,
+        "timestamp": 1633523560
+      },
+      {
+        "apy": 87.53212297805034,
+        "timestamp": 1633839434
+      },
+      {
+        "apy": 91.04916447827776,
+        "timestamp": 1637230663
+      },
+      {
+        "apy": 57.170108926878754,
+        "timestamp": 1638413441
+      },
+      {
+        "apy": 65.01614520200157,
+        "timestamp": 1639001357
+      },
+      {
+        "apy": 70.54363440027512,
+        "timestamp": 1640603926
+      },
+      {
+        "apy": 47.536095951722764,
+        "timestamp": 1641607501
+      },
+      {
+        "apy": 21.22830736918789,
+        "timestamp": 1642156151
+      },
+      {
+        "apy": 78.37432903758278,
+        "timestamp": 1642566851
+      },
+      {
+        "apy": 25.08080907197177,
+        "timestamp": 1643012514
+      },
+      {
+        "apy": 66.31538853970288,
+        "timestamp": 1643545830
+      },
+      {
+        "apy": 26.669011391412376,
+        "timestamp": 1643958959
+      },
+      {
+        "apy": 14.388067633642557,
+        "timestamp": 1645875052
+      },
+      {
+        "apy": 60.390211859110444,
+        "timestamp": 1646119420
+      },
+      {
+        "apy": 7.354396418222079,
+        "timestamp": 1646390075
+      },
+      {
+        "apy": 16.25950898011349,
+        "timestamp": 1647232718
+      },
+      {
+        "apy": 88.29698607976904,
+        "timestamp": 1647664241
+      },
+      {
+        "apy": 78.93866742325127,
+        "timestamp": 1648878375
+      },
+      {
+        "apy": 81.4069856274896,
+        "timestamp": 1648983100
+      },
+      {
+        "apy": 3.767812577939096,
+        "timestamp": 1650090689
+      },
+      {
+        "apy": 59.49145722498287,
+        "timestamp": 1650663986
+      },
+      {
+        "apy": 11.689394279398263,
+        "timestamp": 1651702594
+      },
+      {
+        "apy": 77.77964573052719,
+        "timestamp": 1652027957
+      },
+      {
+        "apy": 42.24617372693125,
+        "timestamp": 1653169326
+      },
+      {
+        "apy": 30.81712823217476,
+        "timestamp": 1653716825
+      },
+      {
+        "apy": 11.818515353992858,
+        "timestamp": 1654306020
+      },
+      {
+        "apy": 10.73173195495113,
+        "timestamp": 1654905447
+      },
+      {
+        "apy": 91.14803829884487,
+        "timestamp": 1656341978
+      },
+      {
+        "apy": 15.514281583022164,
+        "timestamp": 1656957621
+      },
+      {
+        "apy": 5.213677322557848,
+        "timestamp": 1657337005
+      },
+      {
+        "apy": 21.168947364740838,
+        "timestamp": 1657625922
+      },
+      {
+        "apy": 2.020048476384333,
+        "timestamp": 1657959028
+      },
+      {
+        "apy": 4.976788997878303,
+        "timestamp": 1658379813
+      },
+      {
+        "apy": 5.62760847697431,
+        "timestamp": 1658624856
+      },
+      {
+        "apy": 4.833442464007853,
+        "timestamp": 1658848621
+      },
+      {
+        "apy": 13.007061675909396,
+        "timestamp": 1659117629
+      },
+      {
+        "apy": 56.80676268271378,
+        "timestamp": 1659234776
+      },
+      {
+        "apy": 3.291085388775774,
+        "timestamp": 1659672240
+      },
+      {
+        "apy": 75.84572463328276,
+        "timestamp": 1659841425
+      },
+      {
+        "apy": 5.1644371755477705,
+        "timestamp": 1660296915
+      },
+      {
+        "apy": 40.04816581954917,
+        "timestamp": 1660465352
+      },
+      {
+        "apy": 6.104461889327469,
+        "timestamp": 1660681720
+      },
+      {
+        "apy": 32.73220996869786,
+        "timestamp": 1660996413
+      },
+      {
+        "apy": 46.575421358275776,
+        "timestamp": 1661117385
+      },
+      {
+        "apy": 6.131743970903565,
+        "timestamp": 1661407362
+      },
+      {
+        "apy": 20.878217818006203,
+        "timestamp": 1661600033
+      },
+      {
+        "apy": 11.006936600001907,
+        "timestamp": 1662378932
+      },
+      {
+        "apy": 9.611701915181063,
+        "timestamp": 1662774380
+      },
+      {
+        "apy": 1.5464109074364176,
+        "timestamp": 1663044055
+      },
+      {
+        "apy": 4.375657290197692,
+        "timestamp": 1663313543
+      },
+      {
+        "apy": 3.6834645001994333,
+        "timestamp": 1663465115
+      },
+      {
+        "apy": 8.082986742711855,
+        "timestamp": 1663588199
+      },
+      {
+        "apy": 8.305587970687402,
+        "timestamp": 1664018975
+      },
+      {
+        "apy": 23.28642345901406,
+        "timestamp": 1665742319
+      },
+      {
+        "apy": 49.85434985667327,
+        "timestamp": 1667147111
+      },
+      {
+        "apy": 58.608828302461376,
+        "timestamp": 1668419159
+      },
+      {
+        "apy": 73.63878489666818,
+        "timestamp": 1669213475
+      },
+      {
+        "apy": 8.015950504329345,
+        "timestamp": 1670329571
+      },
+      {
+        "apy": 3.83864029407979,
+        "timestamp": 1672227935
+      },
+      {
+        "apy": 3.2435309993466137,
+        "timestamp": 1674566447
+      },
+      {
+        "apy": 13.766211694934203,
+        "timestamp": 1675561187
+      },
+      {
+        "apy": 19.697286089575123,
+        "timestamp": 1677548807
+      },
+      {
+        "apy": 15.076283049008723,
+        "timestamp": 1684016675
+      },
+      {
+        "apy": 28.983512900027907,
+        "timestamp": 1685009267
+      },
+      {
+        "apy": 4.913410775624901,
+        "timestamp": 1685999123
+      },
+      {
+        "apy": 14.31445166975178,
+        "timestamp": 1687004543
+      },
+      {
+        "apy": 4.166762380984653,
+        "timestamp": 1687989359
+      },
+      {
+        "apy": 8.702573319907414,
+        "timestamp": 1688985767
+      },
+      {
+        "apy": 12.349814835014607,
+        "timestamp": 1689999275
+      },
+      {
+        "apy": 20.599947979036774,
+        "timestamp": 1690991291
+      },
+      {
+        "apy": 4.408939969793952,
+        "timestamp": 1691982335
+      },
+      {
+        "apy": 71.9534407601586,
+        "timestamp": 1693007939
+      },
+      {
+        "apy": 6.237212302076515,
+        "timestamp": 1693993931
+      },
+      {
+        "apy": 4.530340818205804,
+        "timestamp": 1694979863
+      },
+      {
+        "apy": 4.428833460963749,
+        "timestamp": 1695975491
+      },
+      {
+        "apy": 11.606563379173295,
+        "timestamp": 1696971383
+      },
+      {
+        "apy": 11.858606922780318,
+        "timestamp": 1697966987
+      },
+      {
+        "apy": 11.256010183480491,
+        "timestamp": 1698943847
+      },
+      {
+        "apy": 62.50948216150432,
+        "timestamp": 1699922723
+      },
+      {
+        "apy": 76.26036690106218,
+        "timestamp": 1701920303
+      },
+      {
+        "apy": 28.65882125302515,
+        "timestamp": 1703887403
+      },
+      {
+        "apy": 14.361992080158258,
+        "timestamp": 1704877895
+      },
+      {
+        "apy": 5.2471975343220985,
+        "timestamp": 1706845187
+      },
+      {
+        "apy": 23.35754928535366,
+        "timestamp": 1707869783
+      },
+      {
+        "apy": 22.630982011060656,
+        "timestamp": 1708859867
+      },
+      {
+        "apy": 34.65639965365019,
+        "timestamp": 1710538523
+      },
+      {
+        "apy": 16.5327932046881,
+        "timestamp": 1711535339
+      },
+      {
+        "apy": 8.96464091005568,
+        "timestamp": 1712139563
+      },
+      {
+        "apy": 4.964551478799782,
+        "timestamp": 1712498411
+      },
+      {
+        "apy": 5.074954406630167,
+        "timestamp": 1713441431
+      },
+      {
+        "apy": 5.567961328796539,
+        "timestamp": 1715593595
+      },
+      {
+        "apy": 4.876990872029871,
+        "timestamp": 1718618819
+      },
+      {
+        "apy": 5.862492960571586,
+        "timestamp": 1719918227
+      },
+      {
+        "apy": 5.164257018150114,
+        "timestamp": 1720465319
+      },
+      {
+        "apy": 5.584678793077941,
+        "timestamp": 1723537607
+      },
+      {
+        "apy": 2.332431109555819,
+        "timestamp": 1724222675
+      },
+      {
+        "apy": 3.1421050801172665,
+        "timestamp": 1724917343
+      },
+      {
+        "apy": 2.827486904696473,
+        "timestamp": 1725608375
+      },
+      {
+        "apy": 4.186083050510316,
+        "timestamp": 1727692991
+      },
+      {
+        "apy": 3.142863226025505,
+        "timestamp": 1728979379
+      },
+      {
+        "apy": 7.441725672093604,
+        "timestamp": 1729249739
+      },
+      {
+        "apy": 7.120949722096715,
+        "timestamp": 1729500659
+      },
+      {
+        "apy": 7.974914515606155,
+        "timestamp": 1729979759
+      },
+      {
+        "apy": 52.387980525484274,
+        "timestamp": 1730309243
+      },
+      {
+        "apy": 10.03704672101249,
+        "timestamp": 1730720051
+      },
+      {
+        "apy": 55.41500325940362,
+        "timestamp": 1731498167
+      },
+      {
+        "apy": 38.4452301317597,
+        "timestamp": 1731857891
+      },
+      {
+        "apy": 13.758569479282425,
+        "timestamp": 1732781399
+      },
+      {
+        "apy": 38.85854105114075,
+        "timestamp": 1733652923
+      },
+      {
+        "apy": 66.94700088435101,
+        "timestamp": 1734269183
+      },
+      {
+        "apy": 14.006356643527136,
+        "timestamp": 1734590999
+      },
+      {
+        "apy": 29.49434381008475,
+        "timestamp": 1734864431
+      },
+      {
+        "apy": 11.885805037070156,
+        "timestamp": 1736081783
+      },
+      {
+        "apy": 38.76945355056411,
+        "timestamp": 1736685083
+      },
+      {
+        "apy": 11.191530344987545,
+        "timestamp": 1737231767
+      },
+      {
+        "apy": 11.299797152365311,
+        "timestamp": 1737803543
+      },
+      {
+        "apy": 9.90179847477002,
+        "timestamp": 1737890099
+      },
+      {
+        "apy": 9.350277469320837,
+        "timestamp": 1738530803
+      },
+      {
+        "apy": 10.596430187401445,
+        "timestamp": 1739110571
+      },
+      {
+        "apy": 12.842146330728323,
+        "timestamp": 1739732615
+      },
+      {
+        "apy": 8.266527431949367,
+        "timestamp": 1740319955
+      },
+      {
+        "apy": 5.912186956867376,
+        "timestamp": 1741045655
+      },
+      {
+        "apy": 4.083110836203099,
+        "timestamp": 1742291735
+      },
+      {
+        "apy": 4.553324460575105,
+        "timestamp": 1742763011
+      },
+      {
+        "apy": 2.8562010490376113,
+        "timestamp": 1743689699
+      },
+      {
+        "apy": 3.078107739173649,
+        "timestamp": 1743769847
+      },
+      {
+        "apy": 2.935379477628643,
+        "timestamp": 1743894167
+      },
+      {
+        "apy": 2.939696657293516,
+        "timestamp": 1743935555
+      },
+      {
+        "apy": 2.339283356533821,
+        "timestamp": 1744059743
+      },
+      {
+        "apy": 3.649858215097939,
+        "timestamp": 1744142567
+      },
+      {
+        "apy": 2.3110240582169705,
+        "timestamp": 1744184003
+      },
+      {
+        "apy": 1.7578223145122265,
+        "timestamp": 1744267307
+      },
+      {
+        "apy": 13.47763763199642,
+        "timestamp": 1744350527
+      },
+      {
+        "apy": 2.272073925778042,
+        "timestamp": 1744433399
+      },
+      {
+        "apy": 2.0824192073708048,
+        "timestamp": 1744557491
+      },
+      {
+        "apy": 2.0476161485090807,
+        "timestamp": 1744598927
+      },
+      {
+        "apy": 1.8448668167098088,
+        "timestamp": 1744681787
+      },
+      {
+        "apy": 2.002179069648236,
+        "timestamp": 1744847423
+      },
+      {
+        "apy": 2.0977996989898164,
+        "timestamp": 1744924199
+      },
+      {
+        "apy": 2.4180189127126184,
+        "timestamp": 1745006699
+      },
+      {
+        "apy": 2.410868547728212,
+        "timestamp": 1745088695
+      },
+      {
+        "apy": 2.420172299983323,
+        "timestamp": 1745170547
+      },
+      {
+        "apy": 2.1632267604029174,
+        "timestamp": 1745252363
+      },
+      {
+        "apy": 2.568384040400549,
+        "timestamp": 1745293427
+      },
+      {
+        "apy": 2.2606080623480036,
+        "timestamp": 1745375303
+      },
+      {
+        "apy": 2.3301349321184084,
+        "timestamp": 1745457503
+      },
+      {
+        "apy": 1.8702870787826693,
+        "timestamp": 1745621147
+      },
+      {
+        "apy": 1.7929942178437666,
+        "timestamp": 1745702831
+      },
+      {
+        "apy": 2.03011811700107,
+        "timestamp": 1745784503
+      },
+      {
+        "apy": 1.8708414476889215,
+        "timestamp": 1745866187
+      },
+      {
+        "apy": 2.3033326973968737,
+        "timestamp": 1745947859
+      },
+      {
+        "apy": 2.1102686403846675,
+        "timestamp": 1745988659
+      },
+      {
+        "apy": 2.291535767546781,
+        "timestamp": 1746070835
+      },
+      {
+        "apy": 2.166090237771939,
+        "timestamp": 1746153299
+      },
+      {
+        "apy": 2.0139734814166137,
+        "timestamp": 1746276815
+      },
+      {
+        "apy": 2.24497064165948,
+        "timestamp": 1746400403
+      },
+      {
+        "apy": 2.4829853617763233,
+        "timestamp": 1746482795
+      },
+      {
+        "apy": 3.346668536095032,
+        "timestamp": 1746565187
+      },
+      {
+        "apy": 2.924213924293479,
+        "timestamp": 1746606791
+      },
+      {
+        "apy": 2.5810613831256606,
+        "timestamp": 1746689759
+      },
+      {
+        "apy": 2.311574197684427,
+        "timestamp": 1746822323
+      },
+      {
+        "apy": 2.3472360242072514,
+        "timestamp": 1747027703
+      },
+      {
+        "apy": 3.094373081664648,
+        "timestamp": 1747191311
+      },
+      {
+        "apy": 4.3723346822603535,
+        "timestamp": 1747316543
+      },
+      {
+        "apy": 6.650159471462219,
+        "timestamp": 1747525091
+      },
+      {
+        "apy": 7.681493048184544,
+        "timestamp": 1747566875
+      },
+      {
+        "apy": 13.622190858075585,
+        "timestamp": 1747692383
+      },
+      {
+        "apy": 37.869134302444714,
+        "timestamp": 1747859795
+      },
+      {
+        "apy": 48.85636593274297,
+        "timestamp": 1748027411
+      },
+      {
+        "apy": 78.9303213183741,
+        "timestamp": 1748110979
+      },
+      {
+        "apy": 8.1558489400416,
+        "timestamp": 1748152835
+      },
+      {
+        "apy": 7.6575390645722745,
+        "timestamp": 1748236655
+      },
+      {
+        "apy": 6.05136164950903,
+        "timestamp": 1748320439
+      },
+      {
+        "apy": 7.240674691092327,
+        "timestamp": 1748571863
+      },
+      {
+        "apy": 10.158935967219165,
+        "timestamp": 1748739155
+      },
+      {
+        "apy": 5.620390833562312,
+        "timestamp": 1748822831
+      },
+      {
+        "apy": 7.527527305956422,
+        "timestamp": 1748990219
+      },
+      {
+        "apy": 7.156791573822227,
+        "timestamp": 1749127067
+      },
+      {
+        "apy": 6.620988511041125,
+        "timestamp": 1749187115
+      },
+      {
+        "apy": 6.367586738956835,
+        "timestamp": 1749325871
+      },
+      {
+        "apy": 7.107792098563347,
+        "timestamp": 1749409967
+      },
+      {
+        "apy": 7.801593725031436,
+        "timestamp": 1749535979
+      },
+      {
+        "apy": 7.140057770381397,
+        "timestamp": 1749772307
+      },
+      {
+        "apy": 6.911846692398118,
+        "timestamp": 1749935231
+      },
+      {
+        "apy": 7.730722342101164,
+        "timestamp": 1749975911
+      },
+      {
+        "apy": 6.891609321131054,
+        "timestamp": 1750117451
+      },
+      {
+        "apy": 9.312680713351153,
+        "timestamp": 1750198247
+      },
+      {
+        "apy": 7.173693478082109,
+        "timestamp": 1750279319
+      },
+      {
+        "apy": 7.437932923462167,
+        "timestamp": 1750319783
+      },
+      {
+        "apy": 5.533323389587837,
+        "timestamp": 1750461719
+      },
+      {
+        "apy": 7.311519066618489,
+        "timestamp": 1750502411
+      },
+      {
+        "apy": 6.5112632685365766,
+        "timestamp": 1750562939
+      },
+      {
+        "apy": 5.896516148707407,
+        "timestamp": 1750643903
+      },
+      {
+        "apy": 6.602963792956257,
+        "timestamp": 1751070779
+      },
+      {
+        "apy": 38.502428592414596,
+        "timestamp": 1751356211
+      },
+      {
+        "apy": 6.586275230577294,
+        "timestamp": 1751417555
+      },
+      {
+        "apy": 12.286879729428652,
+        "timestamp": 1751947199
+      },
+      {
+        "apy": 6.861388001922439,
+        "timestamp": 1752029459
+      },
+      {
+        "apy": 6.461040540561227,
+        "timestamp": 1752355511
+      },
+      {
+        "apy": 6.824594948049215,
+        "timestamp": 1752457319
+      },
+      {
+        "apy": 8.241719212327308,
+        "timestamp": 1752559715
+      },
+      {
+        "apy": 9.90372065936072,
+        "timestamp": 1752641243
+      },
+      {
+        "apy": 7.713016710195365,
+        "timestamp": 1752885863
+      },
+      {
+        "apy": 11.627921154408552,
+        "timestamp": 1752987515
+      },
+      {
+        "apy": 10.165475744872767,
+        "timestamp": 1753313423
+      },
+      {
+        "apy": 12.43689168621691,
+        "timestamp": 1753354103
+      },
+      {
+        "apy": 13.750061009913434,
+        "timestamp": 1753476383
+      },
+      {
+        "apy": 7.343158764463548,
+        "timestamp": 1753558127
+      },
+      {
+        "apy": 7.650063702573058,
+        "timestamp": 1753659911
+      },
+      {
+        "apy": 8.213062684737944,
+        "timestamp": 1753741355
+      },
+      {
+        "apy": 9.569898723701854,
+        "timestamp": 1753782095
+      },
+      {
+        "apy": 8.096176512863778,
+        "timestamp": 1753986779
+      },
+      {
+        "apy": 7.62852735396692,
+        "timestamp": 1754027555
+      },
+      {
+        "apy": 6.850092681788027,
+        "timestamp": 1754171591
+      },
+      {
+        "apy": 6.900496441478018,
+        "timestamp": 1754252831
+      },
+      {
+        "apy": 7.169300457219951,
+        "timestamp": 1754293391
+      },
+      {
+        "apy": 8.418122073052714,
+        "timestamp": 1754436635
+      },
+      {
+        "apy": 8.344150291249992,
+        "timestamp": 1754519711
+      },
+      {
+        "apy": 7.7189095732575534,
+        "timestamp": 1754601191
+      },
+      {
+        "apy": 7.606472395760752,
+        "timestamp": 1754682971
+      },
+      {
+        "apy": 7.873844077770838,
+        "timestamp": 1754866115
+      },
+      {
+        "apy": 9.145012746806223,
+        "timestamp": 1754983187
+      },
+      {
+        "apy": 61.37758415130822,
+        "timestamp": 1755133895
+      },
+      {
+        "apy": 8.872540896061416,
+        "timestamp": 1755298811
+      },
+      {
+        "apy": 7.329426066315795,
+        "timestamp": 1755380219
+      },
+      {
+        "apy": 10.168617827596737,
+        "timestamp": 1755462023
+      },
+      {
+        "apy": 9.106999559681483,
+        "timestamp": 1755543479
+      },
+      {
+        "apy": 9.689699608484833,
+        "timestamp": 1755641951
+      },
+      {
+        "apy": 8.898982211571534,
+        "timestamp": 1755727955
+      },
+      {
+        "apy": 10.511874698708429,
+        "timestamp": 1755803963
+      },
+      {
+        "apy": 9.485820275209662,
+        "timestamp": 1755850619
+      },
+      {
+        "apy": 13.33200318970661,
+        "timestamp": 1755953411
+      },
+      {
+        "apy": 9.28135087241933,
+        "timestamp": 1756076075
+      },
+      {
+        "apy": 10.266689257589947,
+        "timestamp": 1756116899
+      },
+      {
+        "apy": 8.508307314433566,
+        "timestamp": 1756178555
+      },
+      {
+        "apy": 8.97584068022575,
+        "timestamp": 1756261151
+      },
+      {
+        "apy": 8.000064860858759,
+        "timestamp": 1756425275
+      },
+      {
+        "apy": 92.21766813143584,
+        "timestamp": 1756718579
+      },
+      {
+        "apy": 8.932094322256512,
+        "timestamp": 1756827107
+      },
+      {
+        "apy": 9.66210043167562,
+        "timestamp": 1756923683
+      },
+      {
+        "apy": 9.23324412747904,
+        "timestamp": 1757019731
+      },
+      {
+        "apy": 8.845287925179193,
+        "timestamp": 1757096447
+      },
+      {
+        "apy": 8.876261812216123,
+        "timestamp": 1757202983
+      },
+      {
+        "apy": 8.294286549191169,
+        "timestamp": 1757287331
+      },
+      {
+        "apy": 9.567980680998684,
+        "timestamp": 1757366075
+      },
+      {
+        "apy": 17.859789124122912,
+        "timestamp": 1757452895
+      },
+      {
+        "apy": 8.144865102813958,
+        "timestamp": 1757538119
+      },
+      {
+        "apy": 9.89537773430567,
+        "timestamp": 1757629367
+      },
+      {
+        "apy": 8.479869300006092,
+        "timestamp": 1757720879
+      },
+      {
+        "apy": 7.5614283499885016,
+        "timestamp": 1757801927
+      },
+      {
+        "apy": 4.480197370156382,
+        "timestamp": 1757882903
+      },
+      {
+        "apy": 7.347617041545188,
+        "timestamp": 1757903375
+      },
+      {
+        "apy": 8.954366617438946,
+        "timestamp": 1758066803
+      },
+      {
+        "apy": 8.32667050800651,
+        "timestamp": 1758147875
+      },
+      {
+        "apy": 9.287214108634075,
+        "timestamp": 1758229019
+      },
+      {
+        "apy": 12.206070887417706,
+        "timestamp": 1758269567
+      },
+      {
+        "apy": 9.132157828358768,
+        "timestamp": 1758411287
+      },
+      {
+        "apy": 7.627503698467038,
+        "timestamp": 1758492167
+      },
+      {
+        "apy": 7.739767366420925,
+        "timestamp": 1758572819
+      },
+      {
+        "apy": 8.617171167164786,
+        "timestamp": 1758653831
+      },
+      {
+        "apy": 7.457411715247643,
+        "timestamp": 1758754763
+      },
+      {
+        "apy": 6.631866806258907,
+        "timestamp": 1758855503
+      },
+      {
+        "apy": 10.68215288688335,
+        "timestamp": 1759017083
+      },
+      {
+        "apy": 7.48392827480637,
+        "timestamp": 1759057319
+      },
+      {
+        "apy": 6.797612283571521,
+        "timestamp": 1759117295
+      },
+      {
+        "apy": 11.000769689226178,
+        "timestamp": 1759355855
+      },
+      {
+        "apy": 9.040380007967773,
+        "timestamp": 1759476359
+      },
+      {
+        "apy": 7.855752114797438,
+        "timestamp": 1759556603
+      },
+      {
+        "apy": 9.358848688762595,
+        "timestamp": 1759696607
+      },
+      {
+        "apy": 8.005860682654086,
+        "timestamp": 1759736759
+      },
+      {
+        "apy": 7.4130366756681445,
+        "timestamp": 1759873547
+      },
+      {
+        "apy": 9.390793936895532,
+        "timestamp": 1759913975
+      },
+      {
+        "apy": 8.346910188115656,
+        "timestamp": 1759974983
+      },
+      {
+        "apy": 10.90962057459993,
+        "timestamp": 1760076083
+      },
+      {
+        "apy": 10.17045078432264,
+        "timestamp": 1760180003
+      },
+      {
+        "apy": 9.331509612486077,
+        "timestamp": 1760261027
+      },
+      {
+        "apy": 7.392697023024549,
+        "timestamp": 1760321639
+      },
+      {
+        "apy": 6.963592006569136,
+        "timestamp": 1760483543
+      },
+      {
+        "apy": 7.12116697720895,
+        "timestamp": 1760565035
+      },
+      {
+        "apy": 7.448614551818978,
+        "timestamp": 1760645927
+      },
+      {
+        "apy": 9.219412423370676,
+        "timestamp": 1760726651
+      },
+      {
+        "apy": 7.01127632700376,
+        "timestamp": 1760828039
+      },
+      {
+        "apy": 6.782509694423854,
+        "timestamp": 1760908799
+      },
+      {
+        "apy": 6.436012453955571,
+        "timestamp": 1760989739
+      },
+      {
+        "apy": 6.340354865546689,
+        "timestamp": 1761030803
+      },
+      {
+        "apy": 43.69903845218382,
+        "timestamp": 1761172283
+      },
+      {
+        "apy": 7.006930684735406,
+        "timestamp": 1761253331
+      },
+      {
+        "apy": 6.740912699688301,
+        "timestamp": 1761334379
+      },
+      {
+        "apy": 6.094690133877211,
+        "timestamp": 1761435635
+      },
+      {
+        "apy": 6.613567748866471,
+        "timestamp": 1761496235
+      },
+      {
+        "apy": 6.11495265640193,
+        "timestamp": 1761597647
+      },
+      {
+        "apy": 9.818693119055524,
+        "timestamp": 1761679355
+      },
+      {
+        "apy": 7.939171736879777,
+        "timestamp": 1761781499
+      },
+      {
+        "apy": 10.360812725914263,
+        "timestamp": 1761863075
+      },
+      {
+        "apy": 6.879513988621555,
+        "timestamp": 1761944963
+      },
+      {
+        "apy": 7.721269239385925,
+        "timestamp": 1762026239
+      },
+      {
+        "apy": 8.133413431551304,
+        "timestamp": 1762108139
+      },
+      {
+        "apy": 9.317052747504508,
+        "timestamp": 1762209875
+      },
+      {
+        "apy": 21.65620991504914,
+        "timestamp": 1762230143
+      },
+      {
+        "apy": 28.036785252794555,
+        "timestamp": 1762373195
+      },
+      {
+        "apy": 12.425991480337856,
+        "timestamp": 1762556531
+      },
+      {
+        "apy": 10.912279884495344,
+        "timestamp": 1762637891
+      },
+      {
+        "apy": 9.171844105935772,
+        "timestamp": 1762718963
+      },
+      {
+        "apy": 8.917829373728287,
+        "timestamp": 1762800119
+      },
+      {
+        "apy": 6.899794965229931,
+        "timestamp": 1762901723
+      },
+      {
+        "apy": 13.510449926413697,
+        "timestamp": 1762982567
+      },
+      {
+        "apy": 6.974953470274265,
+        "timestamp": 1763022851
+      },
+      {
+        "apy": 8.048303827837806,
+        "timestamp": 1763163575
+      },
+      {
+        "apy": 7.31092367283856,
+        "timestamp": 1763244083
+      },
+      {
+        "apy": 6.644122520322941,
+        "timestamp": 1763324543
+      },
+      {
+        "apy": 7.120837607264194,
+        "timestamp": 1763385047
+      },
+      {
+        "apy": 6.784372800355761,
+        "timestamp": 1763506367
+      },
+      {
+        "apy": 6.2497311192876515,
+        "timestamp": 1763546447
+      },
+      {
+        "apy": 5.527776847035971,
+        "timestamp": 1763606855
+      },
+      {
+        "apy": 5.5874727333353436,
+        "timestamp": 1763767823
+      },
+      {
+        "apy": 6.139610136999208,
+        "timestamp": 1763848187
+      },
+      {
+        "apy": 6.135841535640432,
+        "timestamp": 1763928611
+      },
+      {
+        "apy": 6.465010143061469,
+        "timestamp": 1763969075
+      },
+      {
+        "apy": 7.787930416024301,
+        "timestamp": 1764110519
+      },
+      {
+        "apy": 7.563740934288773,
+        "timestamp": 1764191279
+      },
+      {
+        "apy": 7.125220720258351,
+        "timestamp": 1764273311
+      },
+      {
+        "apy": 7.112087533010501,
+        "timestamp": 1764354887
+      },
+      {
+        "apy": 5.638075070912023,
+        "timestamp": 1764455675
+      },
+      {
+        "apy": 5.4460105802642005,
+        "timestamp": 1764536531
+      },
+      {
+        "apy": 6.433389190017385,
+        "timestamp": 1764617375
+      },
+      {
+        "apy": 8.598521309628774,
+        "timestamp": 1764718247
+      },
+      {
+        "apy": 6.391274460708556,
+        "timestamp": 1764799691
+      },
+      {
+        "apy": 6.413782644314046,
+        "timestamp": 1764883379
+      },
+      {
+        "apy": 6.158522777220107,
+        "timestamp": 1764965735
+      },
+      {
+        "apy": 5.416326543341109,
+        "timestamp": 1765046555
+      },
+      {
+        "apy": 5.7895450780666895,
+        "timestamp": 1765147307
+      },
+      {
+        "apy": 4.826390822882211,
+        "timestamp": 1765207559
+      },
+      {
+        "apy": 6.032360940281736,
+        "timestamp": 1765308611
+      },
+      {
+        "apy": 5.715621824047977,
+        "timestamp": 1765389551
+      },
+      {
+        "apy": 5.465981317789407,
+        "timestamp": 1765490195
+      },
+      {
+        "apy": 6.378790283442476,
+        "timestamp": 1765571027
+      },
+      {
+        "apy": 5.803738009339211,
+        "timestamp": 1765651463
+      },
+      {
+        "apy": 5.459308154767706,
+        "timestamp": 1765751939
+      },
+      {
+        "apy": 5.935077704932227,
+        "timestamp": 1765832423
+      },
+      {
+        "apy": 6.113326699254082,
+        "timestamp": 1765914155
+      },
+      {
+        "apy": 6.199458795277793,
+        "timestamp": 1766015411
+      },
+      {
+        "apy": 6.529772334218783,
+        "timestamp": 1766096855
+      },
+      {
+        "apy": 5.0494955426448,
+        "timestamp": 1766177699
+      },
+      {
+        "apy": 5.426185210395563,
+        "timestamp": 1766258651
+      },
+      {
+        "apy": 5.086695569844984,
+        "timestamp": 1766359763
+      },
+      {
+        "apy": 5.800183258390299,
+        "timestamp": 1766440703
+      },
+      {
+        "apy": 83.6084266037821,
+        "timestamp": 1766521463
+      },
+      {
+        "apy": 5.7895450780666895,
+        "timestamp": 1766602019
+      },
+      {
+        "apy": 5.265668969575123,
+        "timestamp": 1766703011
+      },
+      {
+        "apy": 5.525074739118946,
+        "timestamp": 1766782883
+      },
+      {
+        "apy": 5.272065320061917,
+        "timestamp": 1766863367
+      },
+      {
+        "apy": 5.413048275223582,
+        "timestamp": 1766964395
+      },
+      {
+        "apy": 5.929653921091067,
+        "timestamp": 1767044927
+      },
+      {
+        "apy": 6.333407416015253,
+        "timestamp": 1767125099
+      },
+      {
+        "apy": 5.393264561073106,
+        "timestamp": 1767224171
+      },
+      {
+        "apy": 5.255009659554517,
+        "timestamp": 1767303227
+      },
+      {
+        "apy": 5.919836028943527,
+        "timestamp": 1767382319
+      },
+      {
+        "apy": 5.307524826313212,
+        "timestamp": 1767481715
+      },
+      {
+        "apy": 5.346755836142534,
+        "timestamp": 1767561119
+      },
+      {
+        "apy": 5.089870754175983,
+        "timestamp": 1767640319
+      },
+      {
+        "apy": 5.578491722624633,
+        "timestamp": 1767739199
+      },
+      {
+        "apy": 5.835269440644165,
+        "timestamp": 1767818495
+      },
+      {
+        "apy": 5.761566704353332,
+        "timestamp": 1767897827
+      },
+      {
+        "apy": 6.428652557045689,
+        "timestamp": 1767996875
+      },
+      {
+        "apy": 6.081561981243855,
+        "timestamp": 1768076675
+      },
+      {
+        "apy": 6.2666239589933035,
+        "timestamp": 1768175567
+      },
+      {
+        "apy": 7.667170497421984,
+        "timestamp": 1768254923
+      },
+      {
+        "apy": 5.396617586062099,
+        "timestamp": 1768334183
+      },
+      {
+        "apy": 5.066153024525661,
+        "timestamp": 1768433075
+      },
+      {
+        "apy": 5.190236432806132,
+        "timestamp": 1768512659
+      },
+      {
+        "apy": 5.340177118003029,
+        "timestamp": 1768592039
+      },
+      {
+        "apy": 5.036425957309935,
+        "timestamp": 1768691579
+      },
+      {
+        "apy": 17.93820788345786,
+        "timestamp": 1768770947
+      },
+      {
+        "apy": 5.3865709925956855,
+        "timestamp": 1768850363
+      },
+      {
+        "apy": 6.752266378081995,
+        "timestamp": 1768949771
+      },
+      {
+        "apy": 6.429458299978613,
+        "timestamp": 1769034023
+      },
+      {
+        "apy": 4.72731739183995,
+        "timestamp": 1769108495
+      },
+      {
+        "apy": 5.13715650561895,
+        "timestamp": 1769207759
+      },
+      {
+        "apy": 5.345109637813879,
+        "timestamp": 1769293139
+      },
+      {
+        "apy": 5.379894014569889,
+        "timestamp": 1769366423
+      },
+      {
+        "apy": 5.890378351083919,
+        "timestamp": 1769465939
+      },
+      {
+        "apy": 6.6853039634815925,
+        "timestamp": 1769545511
+      },
+      {
+        "apy": 5.700916670803751,
+        "timestamp": 1769644799
+      },
+      {
+        "apy": 5.164725255520995,
+        "timestamp": 1769724563
+      },
+      {
+        "apy": 4.560655686676087,
+        "timestamp": 1769764247
+      },
+      {
+        "apy": 5.916137720753153,
+        "timestamp": 1769863499
+      },
+      {
+        "apy": 4.925498834546979,
+        "timestamp": 1769983619
+      },
+      {
+        "apy": 4.594146565826522,
+        "timestamp": 1770063599
+      },
+      {
+        "apy": 5.15152949673864,
+        "timestamp": 1770162671
+      },
+      {
+        "apy": 4.724389449171654,
+        "timestamp": 1770202343
+      },
+      {
+        "apy": 5.176795808655101,
+        "timestamp": 1770300467
+      },
+      {
+        "apy": 4.295872035137376,
+        "timestamp": 1770420155
+      },
+      {
+        "apy": 3.8293042507342068,
+        "timestamp": 1770499199
+      },
+      {
+        "apy": 3.5552690410064796,
+        "timestamp": 1770579479
+      },
+      {
+        "apy": 3.2378451145139375,
+        "timestamp": 1770678755
+      },
+      {
+        "apy": 3.397221923917072,
+        "timestamp": 1770758063
+      },
+      {
+        "apy": 3.4035023447549477,
+        "timestamp": 1770797639
+      },
+      {
+        "apy": 3.2378451145139375,
+        "timestamp": 1770937019
+      },
+      {
+        "apy": 3.3549182766950154,
+        "timestamp": 1771016867
+      },
+      {
+        "apy": 3.1590889843886325,
+        "timestamp": 1771097315
+      },
+      {
+        "apy": 3.396652125607132,
+        "timestamp": 1771178339
+      },
+      {
+        "apy": 3.343747155337178,
+        "timestamp": 1771279283
+      },
+      {
+        "apy": 3.743490329063446,
+        "timestamp": 1771361219
+      },
+      {
+        "apy": 3.9786827762893644,
+        "timestamp": 1771422371
+      },
+      {
+        "apy": 3.6612963991615346,
+        "timestamp": 1771544495
+      }
+    ]
+  },
   "0xe5e22bf58Af97cd21138AF8Af06AC70b25204454": {
     "tvlHistory": [],
     "sharePriceHistory": [],
@@ -28436,4218 +32648,6 @@
       {
         "apy": 7.825115327263948,
         "timestamp": 1776716667
-      }
-    ]
-  },
-  "0xf0358e8c3CD5Fa238a29301d0bEa3D63A17bEdBE": {
-    "tvlHistory": [
-      {
-        "value": 113787778.12004967,
-        "timestamp": 1603238368
-      },
-      {
-        "value": 125602088.77063838,
-        "timestamp": 1603324738
-      },
-      {
-        "value": 141262923.04369634,
-        "timestamp": 1603411149
-      },
-      {
-        "value": 132568401.7697707,
-        "timestamp": 1603479807
-      }
-    ],
-    "sharePriceHistory": [
-      {
-        "sharePrice": 1,
-        "timestamp": 1603206280
-      },
-      {
-        "sharePrice": 0.843610101010101,
-        "timestamp": 1605194985
-      },
-      {
-        "sharePrice": 0.8436141414141414,
-        "timestamp": 1605228787
-      },
-      {
-        "sharePrice": 0.8442,
-        "timestamp": 1605668775
-      },
-      {
-        "sharePrice": 0.8449060606060607,
-        "timestamp": 1606153862
-      },
-      {
-        "sharePrice": 0.8454020202020202,
-        "timestamp": 1606542378
-      },
-      {
-        "sharePrice": 0.8456858585858585,
-        "timestamp": 1606769690
-      },
-      {
-        "sharePrice": 0.845819191919192,
-        "timestamp": 1606815130
-      },
-      {
-        "sharePrice": 0.8460040404040404,
-        "timestamp": 1606920165
-      },
-      {
-        "sharePrice": 0.8464717171717172,
-        "timestamp": 1607031622
-      },
-      {
-        "sharePrice": 0.8466919191919192,
-        "timestamp": 1607095622
-      },
-      {
-        "sharePrice": 0.8468565656565656,
-        "timestamp": 1607169743
-      },
-      {
-        "sharePrice": 0.8472626262626263,
-        "timestamp": 1607294403
-      },
-      {
-        "sharePrice": 0.847720202020202,
-        "timestamp": 1607377017
-      },
-      {
-        "sharePrice": 0.8489878787878787,
-        "timestamp": 1607556123
-      },
-      {
-        "sharePrice": 0.8499040404040404,
-        "timestamp": 1607639316
-      },
-      {
-        "sharePrice": 0.8506070707070708,
-        "timestamp": 1607715855
-      },
-      {
-        "sharePrice": 0.851350505050505,
-        "timestamp": 1607803766
-      },
-      {
-        "sharePrice": 0.8521808080808081,
-        "timestamp": 1607899583
-      },
-      {
-        "sharePrice": 0.8528111111111111,
-        "timestamp": 1607987627
-      },
-      {
-        "sharePrice": 0.8533646464646465,
-        "timestamp": 1608073263
-      },
-      {
-        "sharePrice": 0.8539666666666667,
-        "timestamp": 1608156562
-      },
-      {
-        "sharePrice": 0.8545818181818182,
-        "timestamp": 1608247001
-      },
-      {
-        "sharePrice": 0.8550515151515151,
-        "timestamp": 1608326592
-      },
-      {
-        "sharePrice": 0.8555979797979798,
-        "timestamp": 1608419718
-      },
-      {
-        "sharePrice": 0.856110101010101,
-        "timestamp": 1608496874
-      },
-      {
-        "sharePrice": 0.8567020202020202,
-        "timestamp": 1608593886
-      },
-      {
-        "sharePrice": 0.8569646464646464,
-        "timestamp": 1608643869
-      },
-      {
-        "sharePrice": 0.8576252525252526,
-        "timestamp": 1608766232
-      },
-      {
-        "sharePrice": 0.8579111111111111,
-        "timestamp": 1608813418
-      },
-      {
-        "sharePrice": 0.858119191919192,
-        "timestamp": 1608990529
-      },
-      {
-        "sharePrice": 0.8582747474747475,
-        "timestamp": 1609065307
-      },
-      {
-        "sharePrice": 0.8587515151515152,
-        "timestamp": 1609281663
-      },
-      {
-        "sharePrice": 0.8591343434343435,
-        "timestamp": 1609402261
-      },
-      {
-        "sharePrice": 0.8595121212121212,
-        "timestamp": 1609517508
-      },
-      {
-        "sharePrice": 0.8608555555555556,
-        "timestamp": 1610028402
-      },
-      {
-        "sharePrice": 0.8610454545454546,
-        "timestamp": 1610102705
-      },
-      {
-        "sharePrice": 0.8618747474747475,
-        "timestamp": 1610459345
-      },
-      {
-        "sharePrice": 0.8623222222222222,
-        "timestamp": 1610616138
-      },
-      {
-        "sharePrice": 0.8627494949494949,
-        "timestamp": 1610746048
-      },
-      {
-        "sharePrice": 0.8629393939393939,
-        "timestamp": 1610803624
-      },
-      {
-        "sharePrice": 0.8631515151515151,
-        "timestamp": 1610871585
-      },
-      {
-        "sharePrice": 0.8633616161616161,
-        "timestamp": 1610945802
-      },
-      {
-        "sharePrice": 0.8637656565656565,
-        "timestamp": 1611088190
-      },
-      {
-        "sharePrice": 0.8639535353535354,
-        "timestamp": 1611166818
-      },
-      {
-        "sharePrice": 0.8648434343434344,
-        "timestamp": 1611316059
-      },
-      {
-        "sharePrice": 0.8654353535353535,
-        "timestamp": 1611446815
-      },
-      {
-        "sharePrice": 0.8662434343434343,
-        "timestamp": 1611615432
-      },
-      {
-        "sharePrice": 0.8665484848484849,
-        "timestamp": 1611687299
-      },
-      {
-        "sharePrice": 0.8668323232323233,
-        "timestamp": 1611743824
-      },
-      {
-        "sharePrice": 0.8671171717171717,
-        "timestamp": 1611803397
-      },
-      {
-        "sharePrice": 0.8674676767676768,
-        "timestamp": 1611881284
-      },
-      {
-        "sharePrice": 0.8679848484848485,
-        "timestamp": 1611975408
-      },
-      {
-        "sharePrice": 0.869029292929293,
-        "timestamp": 1612132556
-      },
-      {
-        "sharePrice": 0.8698050505050505,
-        "timestamp": 1612261981
-      },
-      {
-        "sharePrice": 0.870340404040404,
-        "timestamp": 1612349331
-      },
-      {
-        "sharePrice": 0.8708434343434344,
-        "timestamp": 1612427578
-      },
-      {
-        "sharePrice": 0.8716161616161616,
-        "timestamp": 1612522616
-      },
-      {
-        "sharePrice": 0.8722121212121212,
-        "timestamp": 1612607399
-      },
-      {
-        "sharePrice": 0.8734878787878788,
-        "timestamp": 1612804397
-      },
-      {
-        "sharePrice": 0.8759080808080808,
-        "timestamp": 1613080096
-      },
-      {
-        "sharePrice": 0.8775141414141414,
-        "timestamp": 1613290419
-      },
-      {
-        "sharePrice": 0.8785080808080808,
-        "timestamp": 1613411782
-      },
-      {
-        "sharePrice": 0.8794808080808081,
-        "timestamp": 1613569367
-      },
-      {
-        "sharePrice": 0.8802595959595959,
-        "timestamp": 1613664076
-      },
-      {
-        "sharePrice": 0.881219191919192,
-        "timestamp": 1613814181
-      },
-      {
-        "sharePrice": 0.8817838383838383,
-        "timestamp": 1613899514
-      },
-      {
-        "sharePrice": 0.8826717171717172,
-        "timestamp": 1614048973
-      },
-      {
-        "sharePrice": 0.883210101010101,
-        "timestamp": 1614137912
-      },
-      {
-        "sharePrice": 0.8835979797979798,
-        "timestamp": 1614219890
-      },
-      {
-        "sharePrice": 0.8840818181818182,
-        "timestamp": 1614336991
-      },
-      {
-        "sharePrice": 0.884320202020202,
-        "timestamp": 1614395369
-      },
-      {
-        "sharePrice": 0.8845949494949495,
-        "timestamp": 1614475214
-      },
-      {
-        "sharePrice": 0.8849030303030303,
-        "timestamp": 1614568517
-      },
-      {
-        "sharePrice": 0.8853737373737374,
-        "timestamp": 1614698331
-      },
-      {
-        "sharePrice": 0.8857262626262626,
-        "timestamp": 1614785564
-      },
-      {
-        "sharePrice": 0.8864060606060606,
-        "timestamp": 1614955332
-      },
-      {
-        "sharePrice": 0.886969696969697,
-        "timestamp": 1615079721
-      },
-      {
-        "sharePrice": 0.8874171717171717,
-        "timestamp": 1615166084
-      },
-      {
-        "sharePrice": 0.8881191919191919,
-        "timestamp": 1615301334
-      },
-      {
-        "sharePrice": 0.8885909090909091,
-        "timestamp": 1615403559
-      },
-      {
-        "sharePrice": 0.8889090909090909,
-        "timestamp": 1615456851
-      },
-      {
-        "sharePrice": 0.8894242424242425,
-        "timestamp": 1615562470
-      },
-      {
-        "sharePrice": 0.8898666666666667,
-        "timestamp": 1615729554
-      },
-      {
-        "sharePrice": 0.8904090909090909,
-        "timestamp": 1615867206
-      },
-      {
-        "sharePrice": 0.8914030303030303,
-        "timestamp": 1616073305
-      },
-      {
-        "sharePrice": 0.8919373737373737,
-        "timestamp": 1616159223
-      },
-      {
-        "sharePrice": 0.8923616161616161,
-        "timestamp": 1616226867
-      },
-      {
-        "sharePrice": 0.892869696969697,
-        "timestamp": 1616320414
-      },
-      {
-        "sharePrice": 0.893639393939394,
-        "timestamp": 1616492458
-      },
-      {
-        "sharePrice": 0.8942121212121212,
-        "timestamp": 1616622012
-      },
-      {
-        "sharePrice": 0.895,
-        "timestamp": 1616841639
-      },
-      {
-        "sharePrice": 0.8959717171717172,
-        "timestamp": 1617045734
-      },
-      {
-        "sharePrice": 0.8986323232323232,
-        "timestamp": 1617613219
-      },
-      {
-        "sharePrice": 0.8994181818181818,
-        "timestamp": 1617755765
-      },
-      {
-        "sharePrice": 0.8999717171717172,
-        "timestamp": 1617939711
-      },
-      {
-        "sharePrice": 0.9011090909090909,
-        "timestamp": 1618226271
-      },
-      {
-        "sharePrice": 0.901639393939394,
-        "timestamp": 1618338380
-      },
-      {
-        "sharePrice": 0.9024111111111112,
-        "timestamp": 1618494093
-      },
-      {
-        "sharePrice": 0.9030515151515152,
-        "timestamp": 1618614744
-      },
-      {
-        "sharePrice": 0.9039020202020202,
-        "timestamp": 1618778281
-      },
-      {
-        "sharePrice": 0.9043595959595959,
-        "timestamp": 1618912538
-      },
-      {
-        "sharePrice": 0.9049525252525252,
-        "timestamp": 1619087985
-      },
-      {
-        "sharePrice": 0.9053222222222223,
-        "timestamp": 1619188436
-      },
-      {
-        "sharePrice": 0.9055484848484848,
-        "timestamp": 1619255388
-      },
-      {
-        "sharePrice": 0.9057090909090909,
-        "timestamp": 1619321362
-      },
-      {
-        "sharePrice": 0.9059787878787878,
-        "timestamp": 1619419665
-      },
-      {
-        "sharePrice": 0.906180808080808,
-        "timestamp": 1619486411
-      },
-      {
-        "sharePrice": 0.9064414141414141,
-        "timestamp": 1619570687
-      },
-      {
-        "sharePrice": 0.9067343434343434,
-        "timestamp": 1619672389
-      },
-      {
-        "sharePrice": 0.9069434343434344,
-        "timestamp": 1619744147
-      },
-      {
-        "sharePrice": 0.907289898989899,
-        "timestamp": 1619854549
-      },
-      {
-        "sharePrice": 0.9076333333333333,
-        "timestamp": 1619959332
-      },
-      {
-        "sharePrice": 0.9081444444444444,
-        "timestamp": 1620094528
-      },
-      {
-        "sharePrice": 0.9087232323232324,
-        "timestamp": 1620240873
-      },
-      {
-        "sharePrice": 0.9098818181818182,
-        "timestamp": 1620542452
-      },
-      {
-        "sharePrice": 0.9112989898989899,
-        "timestamp": 1620928422
-      },
-      {
-        "sharePrice": 0.9116050505050505,
-        "timestamp": 1621003165
-      },
-      {
-        "sharePrice": 0.912110101010101,
-        "timestamp": 1621128087
-      },
-      {
-        "sharePrice": 0.9126898989898989,
-        "timestamp": 1621314157
-      },
-      {
-        "sharePrice": 0.9133080808080808,
-        "timestamp": 1621552147
-      },
-      {
-        "sharePrice": 0.9144676767676768,
-        "timestamp": 1621747158
-      },
-      {
-        "sharePrice": 0.9153505050505051,
-        "timestamp": 1622031435
-      },
-      {
-        "sharePrice": 0.9155434343434343,
-        "timestamp": 1622192963
-      },
-      {
-        "sharePrice": 0.915750505050505,
-        "timestamp": 1622321421
-      },
-      {
-        "sharePrice": 0.915950505050505,
-        "timestamp": 1622419004
-      },
-      {
-        "sharePrice": 0.916279797979798,
-        "timestamp": 1622623473
-      },
-      {
-        "sharePrice": 0.9165323232323233,
-        "timestamp": 1622783304
-      },
-      {
-        "sharePrice": 0.9167323232323232,
-        "timestamp": 1622914881
-      },
-      {
-        "sharePrice": 0.916839393939394,
-        "timestamp": 1622981030
-      },
-      {
-        "sharePrice": 0.9170858585858586,
-        "timestamp": 1623157938
-      },
-      {
-        "sharePrice": 0.9172535353535354,
-        "timestamp": 1623306579
-      },
-      {
-        "sharePrice": 0.9174595959595959,
-        "timestamp": 1623491382
-      },
-      {
-        "sharePrice": 0.9177929292929293,
-        "timestamp": 1623740168
-      },
-      {
-        "sharePrice": 0.9179212121212121,
-        "timestamp": 1623841509
-      },
-      {
-        "sharePrice": 0.918070707070707,
-        "timestamp": 1623974793
-      },
-      {
-        "sharePrice": 0.9182161616161616,
-        "timestamp": 1624108320
-      },
-      {
-        "sharePrice": 0.9183585858585859,
-        "timestamp": 1624242978
-      },
-      {
-        "sharePrice": 0.9185797979797979,
-        "timestamp": 1624502533
-      },
-      {
-        "sharePrice": 0.9187282828282828,
-        "timestamp": 1624677998
-      },
-      {
-        "sharePrice": 0.9189919191919191,
-        "timestamp": 1624967595
-      },
-      {
-        "sharePrice": 0.919040404040404,
-        "timestamp": 1625038875
-      },
-      {
-        "sharePrice": 0.9191444444444444,
-        "timestamp": 1625147084
-      },
-      {
-        "sharePrice": 0.9192111111111111,
-        "timestamp": 1625218426
-      },
-      {
-        "sharePrice": 0.9192828282828283,
-        "timestamp": 1625289377
-      },
-      {
-        "sharePrice": 0.9194343434343434,
-        "timestamp": 1625433490
-      },
-      {
-        "sharePrice": 0.9195777777777778,
-        "timestamp": 1625578521
-      },
-      {
-        "sharePrice": 0.9198828282828283,
-        "timestamp": 1625910846
-      },
-      {
-        "sharePrice": 0.9199888888888889,
-        "timestamp": 1626022006
-      },
-      {
-        "sharePrice": 0.9201040404040404,
-        "timestamp": 1626131584
-      },
-      {
-        "sharePrice": 0.920169696969697,
-        "timestamp": 1626203173
-      },
-      {
-        "sharePrice": 0.9202727272727272,
-        "timestamp": 1626310551
-      },
-      {
-        "sharePrice": 0.9203727272727272,
-        "timestamp": 1626415219
-      },
-      {
-        "sharePrice": 0.9204424242424243,
-        "timestamp": 1626488901
-      },
-      {
-        "sharePrice": 0.920539393939394,
-        "timestamp": 1626594010
-      },
-      {
-        "sharePrice": 0.9206060606060606,
-        "timestamp": 1626667091
-      },
-      {
-        "sharePrice": 0.9207383838383838,
-        "timestamp": 1626815589
-      },
-      {
-        "sharePrice": 0.9209686868686868,
-        "timestamp": 1627072584
-      },
-      {
-        "sharePrice": 0.9210020202020202,
-        "timestamp": 1627108158
-      },
-      {
-        "sharePrice": 0.9211020202020203,
-        "timestamp": 1627217614
-      },
-      {
-        "sharePrice": 0.9211767676767677,
-        "timestamp": 1627290428
-      },
-      {
-        "sharePrice": 0.9214626262626263,
-        "timestamp": 1627598910
-      },
-      {
-        "sharePrice": 0.9215666666666666,
-        "timestamp": 1627706577
-      },
-      {
-        "sharePrice": 0.9216929292929293,
-        "timestamp": 1627828095
-      },
-      {
-        "sharePrice": 0.9217707070707071,
-        "timestamp": 1627900417
-      },
-      {
-        "sharePrice": 0.9219212121212121,
-        "timestamp": 1628046637
-      },
-      {
-        "sharePrice": 0.9221010101010101,
-        "timestamp": 1628193812
-      },
-      {
-        "sharePrice": 0.9225989898989899,
-        "timestamp": 1628624530
-      },
-      {
-        "sharePrice": 0.9229282828282829,
-        "timestamp": 1628896132
-      },
-      {
-        "sharePrice": 0.9232373737373737,
-        "timestamp": 1629154769
-      },
-      {
-        "sharePrice": 0.9237808080808081,
-        "timestamp": 1629552236
-      },
-      {
-        "sharePrice": 0.9239848484848485,
-        "timestamp": 1629647347
-      },
-      {
-        "sharePrice": 0.9252565656565657,
-        "timestamp": 1630312121
-      },
-      {
-        "sharePrice": 0.9262010101010101,
-        "timestamp": 1630732511
-      },
-      {
-        "sharePrice": 0.9271484848484849,
-        "timestamp": 1631243575
-      },
-      {
-        "sharePrice": 0.9276919191919192,
-        "timestamp": 1631532692
-      },
-      {
-        "sharePrice": 0.9284222222222223,
-        "timestamp": 1631877325
-      },
-      {
-        "sharePrice": 0.9290101010101011,
-        "timestamp": 1632290080
-      },
-      {
-        "sharePrice": 0.9295454545454546,
-        "timestamp": 1632560998
-      },
-      {
-        "sharePrice": 0.9302868686868687,
-        "timestamp": 1632913927
-      },
-      {
-        "sharePrice": 0.9311111111111111,
-        "timestamp": 1633270073
-      },
-      {
-        "sharePrice": 0.9317111111111112,
-        "timestamp": 1633523560
-      },
-      {
-        "sharePrice": 0.9324474747474748,
-        "timestamp": 1633839434
-      },
-      {
-        "sharePrice": 0.9333454545454546,
-        "timestamp": 1634106336
-      },
-      {
-        "sharePrice": 0.9343919191919192,
-        "timestamp": 1634447670
-      },
-      {
-        "sharePrice": 0.9352777777777778,
-        "timestamp": 1634721057
-      },
-      {
-        "sharePrice": 0.9363666666666667,
-        "timestamp": 1635136199
-      },
-      {
-        "sharePrice": 0.9376646464646464,
-        "timestamp": 1635754458
-      },
-      {
-        "sharePrice": 0.9385313131313131,
-        "timestamp": 1636255424
-      },
-      {
-        "sharePrice": 0.9395616161616162,
-        "timestamp": 1636834216
-      },
-      {
-        "sharePrice": 0.9405151515151515,
-        "timestamp": 1637230663
-      },
-      {
-        "sharePrice": 0.9414272727272728,
-        "timestamp": 1637839228
-      },
-      {
-        "sharePrice": 0.9422848484848485,
-        "timestamp": 1638413441
-      },
-      {
-        "sharePrice": 0.9430282828282829,
-        "timestamp": 1639001357
-      },
-      {
-        "sharePrice": 0.9436929292929293,
-        "timestamp": 1639493799
-      },
-      {
-        "sharePrice": 0.9442131313131313,
-        "timestamp": 1639910673
-      },
-      {
-        "sharePrice": 0.9448707070707071,
-        "timestamp": 1640330093
-      },
-      {
-        "sharePrice": 0.9453131313131313,
-        "timestamp": 1640603926
-      },
-      {
-        "sharePrice": 0.9461676767676768,
-        "timestamp": 1641116403
-      },
-      {
-        "sharePrice": 0.9469828282828283,
-        "timestamp": 1641607501
-      },
-      {
-        "sharePrice": 0.9478646464646464,
-        "timestamp": 1642156151
-      },
-      {
-        "sharePrice": 0.9485424242424242,
-        "timestamp": 1642566851
-      },
-      {
-        "sharePrice": 0.9491545454545455,
-        "timestamp": 1643012514
-      },
-      {
-        "sharePrice": 0.9498080808080808,
-        "timestamp": 1643545830
-      },
-      {
-        "sharePrice": 0.950369696969697,
-        "timestamp": 1643958959
-      },
-      {
-        "sharePrice": 0.9508414141414141,
-        "timestamp": 1644327915
-      },
-      {
-        "sharePrice": 0.9512121212121212,
-        "timestamp": 1644663207
-      },
-      {
-        "sharePrice": 0.9515929292929293,
-        "timestamp": 1645004423
-      },
-      {
-        "sharePrice": 0.9523010101010101,
-        "timestamp": 1645534952
-      },
-      {
-        "sharePrice": 0.9526868686868687,
-        "timestamp": 1645875052
-      },
-      {
-        "sharePrice": 0.9529454545454545,
-        "timestamp": 1646119420
-      },
-      {
-        "sharePrice": 0.9532949494949495,
-        "timestamp": 1646390075
-      },
-      {
-        "sharePrice": 0.9536969696969697,
-        "timestamp": 1646731829
-      },
-      {
-        "sharePrice": 0.9540525252525253,
-        "timestamp": 1646999789
-      },
-      {
-        "sharePrice": 0.9543414141414142,
-        "timestamp": 1647232718
-      },
-      {
-        "sharePrice": 0.9549242424242425,
-        "timestamp": 1647664241
-      },
-      {
-        "sharePrice": 0.9552545454545455,
-        "timestamp": 1647957956
-      },
-      {
-        "sharePrice": 0.9557808080808081,
-        "timestamp": 1648290453
-      },
-      {
-        "sharePrice": 0.9567454545454546,
-        "timestamp": 1648808866
-      },
-      {
-        "sharePrice": 0.9568616161616161,
-        "timestamp": 1648878375
-      },
-      {
-        "sharePrice": 0.9570232323232323,
-        "timestamp": 1648983100
-      },
-      {
-        "sharePrice": 0.9577969696969697,
-        "timestamp": 1649550616
-      },
-      {
-        "sharePrice": 0.9584363636363636,
-        "timestamp": 1650090689
-      },
-      {
-        "sharePrice": 0.9591333333333333,
-        "timestamp": 1650663986
-      },
-      {
-        "sharePrice": 0.9598242424242425,
-        "timestamp": 1651614166
-      },
-      {
-        "sharePrice": 0.9598878787878787,
-        "timestamp": 1651702594
-      },
-      {
-        "sharePrice": 0.9600989898989899,
-        "timestamp": 1652027957
-      },
-      {
-        "sharePrice": 0.9604888888888888,
-        "timestamp": 1652600182
-      },
-      {
-        "sharePrice": 0.9608424242424243,
-        "timestamp": 1653169326
-      },
-      {
-        "sharePrice": 0.9610939393939394,
-        "timestamp": 1653716825
-      },
-      {
-        "sharePrice": 0.9613222222222222,
-        "timestamp": 1654306020
-      },
-      {
-        "sharePrice": 0.9615333333333334,
-        "timestamp": 1654905447
-      },
-      {
-        "sharePrice": 0.9620252525252525,
-        "timestamp": 1656341978
-      },
-      {
-        "sharePrice": 0.9621636363636363,
-        "timestamp": 1656957621
-      },
-      {
-        "sharePrice": 0.962270707070707,
-        "timestamp": 1657337005
-      },
-      {
-        "sharePrice": 0.9623575757575757,
-        "timestamp": 1657625922
-      },
-      {
-        "sharePrice": 0.9624616161616162,
-        "timestamp": 1657959028
-      },
-      {
-        "sharePrice": 0.9626090909090909,
-        "timestamp": 1658379813
-      },
-      {
-        "sharePrice": 0.9627,
-        "timestamp": 1658624856
-      },
-      {
-        "sharePrice": 0.9629010101010101,
-        "timestamp": 1658848621
-      },
-      {
-        "sharePrice": 0.9630232323232323,
-        "timestamp": 1659117629
-      },
-      {
-        "sharePrice": 0.9630787878787879,
-        "timestamp": 1659234776
-      },
-      {
-        "sharePrice": 0.9631888888888889,
-        "timestamp": 1659483271
-      },
-      {
-        "sharePrice": 0.963269696969697,
-        "timestamp": 1659672240
-      },
-      {
-        "sharePrice": 0.9633454545454545,
-        "timestamp": 1659841425
-      },
-      {
-        "sharePrice": 0.9634323232323232,
-        "timestamp": 1660032952
-      },
-      {
-        "sharePrice": 0.9635666666666667,
-        "timestamp": 1660296915
-      },
-      {
-        "sharePrice": 0.9636505050505051,
-        "timestamp": 1660465352
-      },
-      {
-        "sharePrice": 0.9637404040404041,
-        "timestamp": 1660681720
-      },
-      {
-        "sharePrice": 0.9638606060606061,
-        "timestamp": 1660996413
-      },
-      {
-        "sharePrice": 0.9639040404040404,
-        "timestamp": 1661117385
-      },
-      {
-        "sharePrice": 0.9640161616161617,
-        "timestamp": 1661407362
-      },
-      {
-        "sharePrice": 0.9640838383838384,
-        "timestamp": 1661600033
-      },
-      {
-        "sharePrice": 0.964289898989899,
-        "timestamp": 1662378932
-      },
-      {
-        "sharePrice": 0.9643959595959596,
-        "timestamp": 1662774380
-      },
-      {
-        "sharePrice": 0.9644747474747475,
-        "timestamp": 1663044055
-      },
-      {
-        "sharePrice": 0.9645525252525252,
-        "timestamp": 1663313543
-      },
-      {
-        "sharePrice": 0.9646060606060606,
-        "timestamp": 1663465115
-      },
-      {
-        "sharePrice": 0.9646474747474747,
-        "timestamp": 1663588199
-      },
-      {
-        "sharePrice": 0.9647878787878787,
-        "timestamp": 1664018975
-      },
-      {
-        "sharePrice": 0.9654666666666667,
-        "timestamp": 1665742319
-      },
-      {
-        "sharePrice": 0.9661777777777778,
-        "timestamp": 1667147111
-      },
-      {
-        "sharePrice": 0.967189898989899,
-        "timestamp": 1668419159
-      },
-      {
-        "sharePrice": 0.9678535353535354,
-        "timestamp": 1669213475
-      },
-      {
-        "sharePrice": 0.969050505050505,
-        "timestamp": 1670329571
-      },
-      {
-        "sharePrice": 0.9694676767676768,
-        "timestamp": 1670956943
-      },
-      {
-        "sharePrice": 0.9700040404040404,
-        "timestamp": 1672227935
-      },
-      {
-        "sharePrice": 0.9710636363636364,
-        "timestamp": 1674035183
-      },
-      {
-        "sharePrice": 0.9714121212121212,
-        "timestamp": 1674566447
-      },
-      {
-        "sharePrice": 0.9722252525252525,
-        "timestamp": 1675561187
-      },
-      {
-        "sharePrice": 0.973310101010101,
-        "timestamp": 1676548895
-      },
-      {
-        "sharePrice": 0.9740656565656566,
-        "timestamp": 1677548807
-      },
-      {
-        "sharePrice": 0.9750909090909091,
-        "timestamp": 1678576655
-      },
-      {
-        "sharePrice": 0.9755111111111111,
-        "timestamp": 1682608271
-      },
-      {
-        "sharePrice": 0.9767989898989899,
-        "timestamp": 1684016675
-      },
-      {
-        "sharePrice": 0.977580808080808,
-        "timestamp": 1685009267
-      },
-      {
-        "sharePrice": 0.9783474747474747,
-        "timestamp": 1685999123
-      },
-      {
-        "sharePrice": 0.9792555555555555,
-        "timestamp": 1687004543
-      },
-      {
-        "sharePrice": 0.9804474747474747,
-        "timestamp": 1687989359
-      },
-      {
-        "sharePrice": 0.9818767676767677,
-        "timestamp": 1688985767
-      },
-      {
-        "sharePrice": 0.9832020202020202,
-        "timestamp": 1689999275
-      },
-      {
-        "sharePrice": 0.9846202020202021,
-        "timestamp": 1690991291
-      },
-      {
-        "sharePrice": 0.9857454545454546,
-        "timestamp": 1691982335
-      },
-      {
-        "sharePrice": 0.98700101010101,
-        "timestamp": 1693007939
-      },
-      {
-        "sharePrice": 0.9880787878787879,
-        "timestamp": 1693993931
-      },
-      {
-        "sharePrice": 0.9893363636363637,
-        "timestamp": 1694979863
-      },
-      {
-        "sharePrice": 0.9905929292929293,
-        "timestamp": 1695975491
-      },
-      {
-        "sharePrice": 0.991869696969697,
-        "timestamp": 1696971383
-      },
-      {
-        "sharePrice": 0.9930585858585859,
-        "timestamp": 1697966987
-      },
-      {
-        "sharePrice": 0.9948060606060606,
-        "timestamp": 1698943847
-      },
-      {
-        "sharePrice": 0.9963444444444445,
-        "timestamp": 1699922723
-      },
-      {
-        "sharePrice": 0.9982171717171717,
-        "timestamp": 1700911835
-      },
-      {
-        "sharePrice": 0.9998565656565657,
-        "timestamp": 1701920303
-      },
-      {
-        "sharePrice": 1.0016424242424242,
-        "timestamp": 1702900271
-      },
-      {
-        "sharePrice": 1.004039393939394,
-        "timestamp": 1703887403
-      },
-      {
-        "sharePrice": 1.0059838383838384,
-        "timestamp": 1704877895
-      },
-      {
-        "sharePrice": 1.0085363636363636,
-        "timestamp": 1705852403
-      },
-      {
-        "sharePrice": 1.0101616161616163,
-        "timestamp": 1706845187
-      },
-      {
-        "sharePrice": 1.012059595959596,
-        "timestamp": 1707869783
-      },
-      {
-        "sharePrice": 1.0141707070707071,
-        "timestamp": 1708859867
-      },
-      {
-        "sharePrice": 1.0187757575757577,
-        "timestamp": 1710538523
-      },
-      {
-        "sharePrice": 1.0218626262626263,
-        "timestamp": 1711535339
-      },
-      {
-        "sharePrice": 1.0235232323232324,
-        "timestamp": 1712139563
-      },
-      {
-        "sharePrice": 1.024079797979798,
-        "timestamp": 1712498411
-      },
-      {
-        "sharePrice": 1.025570707070707,
-        "timestamp": 1713441431
-      },
-      {
-        "sharePrice": 1.0292060606060607,
-        "timestamp": 1715593595
-      },
-      {
-        "sharePrice": 1.0344080808080809,
-        "timestamp": 1718618819
-      },
-      {
-        "sharePrice": 1.0367777777777778,
-        "timestamp": 1719918227
-      },
-      {
-        "sharePrice": 1.037659595959596,
-        "timestamp": 1720465319
-      },
-      {
-        "sharePrice": 1.0424636363636364,
-        "timestamp": 1723537607
-      },
-      {
-        "sharePrice": 1.0429777777777778,
-        "timestamp": 1724222675
-      },
-      {
-        "sharePrice": 1.0437262626262627,
-        "timestamp": 1724917343
-      },
-      {
-        "sharePrice": 1.0443646464646466,
-        "timestamp": 1725608375
-      },
-      {
-        "sharePrice": 1.046888888888889,
-        "timestamp": 1727692991
-      },
-      {
-        "sharePrice": 1.0481909090909092,
-        "timestamp": 1728979379
-      },
-      {
-        "sharePrice": 1.0488121212121213,
-        "timestamp": 1729249739
-      },
-      {
-        "sharePrice": 1.0493646464646464,
-        "timestamp": 1729500659
-      },
-      {
-        "sharePrice": 1.0505414141414142,
-        "timestamp": 1729979759
-      },
-      {
-        "sharePrice": 1.05139898989899,
-        "timestamp": 1730309243
-      },
-      {
-        "sharePrice": 1.0525565656565656,
-        "timestamp": 1730720051
-      },
-      {
-        "sharePrice": 1.0549424242424243,
-        "timestamp": 1731498167
-      },
-      {
-        "sharePrice": 1.0566737373737374,
-        "timestamp": 1731857891
-      },
-      {
-        "sharePrice": 1.0589323232323233,
-        "timestamp": 1732523663
-      },
-      {
-        "sharePrice": 1.0599959595959596,
-        "timestamp": 1732781399
-      },
-      {
-        "sharePrice": 1.0624030303030303,
-        "timestamp": 1733306711
-      },
-      {
-        "sharePrice": 1.0638242424242423,
-        "timestamp": 1733652923
-      },
-      {
-        "sharePrice": 1.0672030303030302,
-        "timestamp": 1734269183
-      },
-      {
-        "sharePrice": 1.0685535353535354,
-        "timestamp": 1734590999
-      },
-      {
-        "sharePrice": 1.0699020202020202,
-        "timestamp": 1734864431
-      },
-      {
-        "sharePrice": 1.0730727272727272,
-        "timestamp": 1735563155
-      },
-      {
-        "sharePrice": 1.0749373737373737,
-        "timestamp": 1736081783
-      },
-      {
-        "sharePrice": 1.0771969696969697,
-        "timestamp": 1736685083
-      },
-      {
-        "sharePrice": 1.0790535353535353,
-        "timestamp": 1737231767
-      },
-      {
-        "sharePrice": 1.0810131313131313,
-        "timestamp": 1737803543
-      },
-      {
-        "sharePrice": 1.0812747474747475,
-        "timestamp": 1737890099
-      },
-      {
-        "sharePrice": 1.0831080808080809,
-        "timestamp": 1738530803
-      },
-      {
-        "sharePrice": 1.084589898989899,
-        "timestamp": 1739110571
-      },
-      {
-        "sharePrice": 1.086031313131313,
-        "timestamp": 1739732615
-      },
-      {
-        "sharePrice": 1.0870838383838384,
-        "timestamp": 1740319955
-      },
-      {
-        "sharePrice": 1.0884181818181817,
-        "timestamp": 1741045655
-      },
-      {
-        "sharePrice": 1.0900151515151515,
-        "timestamp": 1742291735
-      },
-      {
-        "sharePrice": 1.0906868686868687,
-        "timestamp": 1742763011
-      },
-      {
-        "sharePrice": 1.0915222222222223,
-        "timestamp": 1743689699
-      },
-      {
-        "sharePrice": 1.0916,
-        "timestamp": 1743769847
-      },
-      {
-        "sharePrice": 1.0917151515151515,
-        "timestamp": 1743894167
-      },
-      {
-        "sharePrice": 1.0917535353535353,
-        "timestamp": 1743935555
-      },
-      {
-        "sharePrice": 1.0918454545454546,
-        "timestamp": 1744059743
-      },
-      {
-        "sharePrice": 1.091890909090909,
-        "timestamp": 1744142567
-      },
-      {
-        "sharePrice": 1.091921212121212,
-        "timestamp": 1744184003
-      },
-      {
-        "sharePrice": 1.0919676767676767,
-        "timestamp": 1744267307
-      },
-      {
-        "sharePrice": 1.0920171717171716,
-        "timestamp": 1744350527
-      },
-      {
-        "sharePrice": 1.0920767676767678,
-        "timestamp": 1744433399
-      },
-      {
-        "sharePrice": 1.0921555555555555,
-        "timestamp": 1744557491
-      },
-      {
-        "sharePrice": 1.0921828282828283,
-        "timestamp": 1744598927
-      },
-      {
-        "sharePrice": 1.092231313131313,
-        "timestamp": 1744681787
-      },
-      {
-        "sharePrice": 1.0923242424242425,
-        "timestamp": 1744847423
-      },
-      {
-        "sharePrice": 1.0923747474747474,
-        "timestamp": 1744924199
-      },
-      {
-        "sharePrice": 1.0924333333333334,
-        "timestamp": 1745006699
-      },
-      {
-        "sharePrice": 1.0924969696969697,
-        "timestamp": 1745088695
-      },
-      {
-        "sharePrice": 1.092559595959596,
-        "timestamp": 1745170547
-      },
-      {
-        "sharePrice": 1.0926181818181817,
-        "timestamp": 1745252363
-      },
-      {
-        "sharePrice": 1.0926515151515153,
-        "timestamp": 1745293427
-      },
-      {
-        "sharePrice": 1.092710101010101,
-        "timestamp": 1745375303
-      },
-      {
-        "sharePrice": 1.0927707070707071,
-        "timestamp": 1745457503
-      },
-      {
-        "sharePrice": 1.0928737373737374,
-        "timestamp": 1745621147
-      },
-      {
-        "sharePrice": 1.092920202020202,
-        "timestamp": 1745702831
-      },
-      {
-        "sharePrice": 1.0929717171717173,
-        "timestamp": 1745784503
-      },
-      {
-        "sharePrice": 1.093020202020202,
-        "timestamp": 1745866187
-      },
-      {
-        "sharePrice": 1.0930717171717172,
-        "timestamp": 1745947859
-      },
-      {
-        "sharePrice": 1.0930989898989898,
-        "timestamp": 1745988659
-      },
-      {
-        "sharePrice": 1.093158585858586,
-        "timestamp": 1746070835
-      },
-      {
-        "sharePrice": 1.0932151515151516,
-        "timestamp": 1746153299
-      },
-      {
-        "sharePrice": 1.0932949494949495,
-        "timestamp": 1746276815
-      },
-      {
-        "sharePrice": 1.093379797979798,
-        "timestamp": 1746400403
-      },
-      {
-        "sharePrice": 1.0934434343434343,
-        "timestamp": 1746482795
-      },
-      {
-        "sharePrice": 1.0935242424242424,
-        "timestamp": 1746565187
-      },
-      {
-        "sharePrice": 1.0935626262626263,
-        "timestamp": 1746606791
-      },
-      {
-        "sharePrice": 1.093630303030303,
-        "timestamp": 1746689759
-      },
-      {
-        "sharePrice": 1.0937272727272727,
-        "timestamp": 1746822323
-      },
-      {
-        "sharePrice": 1.093879797979798,
-        "timestamp": 1747027703
-      },
-      {
-        "sharePrice": 1.094039393939394,
-        "timestamp": 1747191311
-      },
-      {
-        "sharePrice": 1.0941888888888889,
-        "timestamp": 1747316543
-      },
-      {
-        "sharePrice": 1.103419191919192,
-        "timestamp": 1747525091
-      },
-      {
-        "sharePrice": 1.1035181818181818,
-        "timestamp": 1747566875
-      },
-      {
-        "sharePrice": 1.104031313131313,
-        "timestamp": 1747692383
-      },
-      {
-        "sharePrice": 1.1044070707070708,
-        "timestamp": 1747859795
-      },
-      {
-        "sharePrice": 1.1048646464646465,
-        "timestamp": 1748027411
-      },
-      {
-        "sharePrice": 1.105050505050505,
-        "timestamp": 1748110979
-      },
-      {
-        "sharePrice": 1.1051555555555554,
-        "timestamp": 1748152835
-      },
-      {
-        "sharePrice": 1.1053535353535353,
-        "timestamp": 1748236655
-      },
-      {
-        "sharePrice": 1.1055111111111111,
-        "timestamp": 1748320439
-      },
-      {
-        "sharePrice": 1.1060737373737373,
-        "timestamp": 1748571863
-      },
-      {
-        "sharePrice": 1.1063767676767677,
-        "timestamp": 1748739155
-      },
-      {
-        "sharePrice": 1.1065232323232324,
-        "timestamp": 1748822831
-      },
-      {
-        "sharePrice": 1.1069121212121211,
-        "timestamp": 1748990219
-      },
-      {
-        "sharePrice": 1.1072717171717172,
-        "timestamp": 1749127067
-      },
-      {
-        "sharePrice": 1.1073949494949495,
-        "timestamp": 1749187115
-      },
-      {
-        "sharePrice": 1.1077343434343434,
-        "timestamp": 1749325871
-      },
-      {
-        "sharePrice": 1.107919191919192,
-        "timestamp": 1749409967
-      },
-      {
-        "sharePrice": 1.1082222222222222,
-        "timestamp": 1749535979
-      },
-      {
-        "sharePrice": 1.1088373737373738,
-        "timestamp": 1749772307
-      },
-      {
-        "sharePrice": 1.1091818181818183,
-        "timestamp": 1749935231
-      },
-      {
-        "sharePrice": 1.109278787878788,
-        "timestamp": 1749975911
-      },
-      {
-        "sharePrice": 1.109560606060606,
-        "timestamp": 1750117451
-      },
-      {
-        "sharePrice": 1.109790909090909,
-        "timestamp": 1750198247
-      },
-      {
-        "sharePrice": 1.109970707070707,
-        "timestamp": 1750279319
-      },
-      {
-        "sharePrice": 1.1100636363636365,
-        "timestamp": 1750319783
-      },
-      {
-        "sharePrice": 1.110329292929293,
-        "timestamp": 1750461719
-      },
-      {
-        "sharePrice": 1.110421212121212,
-        "timestamp": 1750502411
-      },
-      {
-        "sharePrice": 1.1105434343434344,
-        "timestamp": 1750562939
-      },
-      {
-        "sharePrice": 1.1106919191919191,
-        "timestamp": 1750643903
-      },
-      {
-        "sharePrice": 1.1115656565656566,
-        "timestamp": 1751070779
-      },
-      {
-        "sharePrice": 1.1121838383838383,
-        "timestamp": 1751356211
-      },
-      {
-        "sharePrice": 1.112309090909091,
-        "timestamp": 1751417555
-      },
-      {
-        "sharePrice": 1.1134434343434343,
-        "timestamp": 1751947199
-      },
-      {
-        "sharePrice": 1.1136181818181818,
-        "timestamp": 1752029459
-      },
-      {
-        "sharePrice": 1.1143646464646464,
-        "timestamp": 1752355511
-      },
-      {
-        "sharePrice": 1.114579797979798,
-        "timestamp": 1752457319
-      },
-      {
-        "sharePrice": 1.114839393939394,
-        "timestamp": 1752559715
-      },
-      {
-        "sharePrice": 1.1150858585858585,
-        "timestamp": 1752641243
-      },
-      {
-        "sharePrice": 1.1156676767676768,
-        "timestamp": 1752885863
-      },
-      {
-        "sharePrice": 1.115960606060606,
-        "timestamp": 1752987515
-      },
-      {
-        "sharePrice": 1.1163343434343433,
-        "timestamp": 1753130111
-      },
-      {
-        "sharePrice": 1.116840404040404,
-        "timestamp": 1753313423
-      },
-      {
-        "sharePrice": 1.1169717171717173,
-        "timestamp": 1753354103
-      },
-      {
-        "sharePrice": 1.1173393939393939,
-        "timestamp": 1753476383
-      },
-      {
-        "sharePrice": 1.1175626262626264,
-        "timestamp": 1753558127
-      },
-      {
-        "sharePrice": 1.1178252525252526,
-        "timestamp": 1753659911
-      },
-      {
-        "sharePrice": 1.1180525252525253,
-        "timestamp": 1753741355
-      },
-      {
-        "sharePrice": 1.1181717171717171,
-        "timestamp": 1753782095
-      },
-      {
-        "sharePrice": 1.118681818181818,
-        "timestamp": 1753986779
-      },
-      {
-        "sharePrice": 1.1187777777777779,
-        "timestamp": 1754027555
-      },
-      {
-        "sharePrice": 1.1191030303030303,
-        "timestamp": 1754171591
-      },
-      {
-        "sharePrice": 1.1192777777777778,
-        "timestamp": 1754252831
-      },
-      {
-        "sharePrice": 1.1193676767676768,
-        "timestamp": 1754293391
-      },
-      {
-        "sharePrice": 1.1197242424242424,
-        "timestamp": 1754436635
-      },
-      {
-        "sharePrice": 1.1199373737373737,
-        "timestamp": 1754519711
-      },
-      {
-        "sharePrice": 1.120131313131313,
-        "timestamp": 1754601191
-      },
-      {
-        "sharePrice": 1.1203232323232324,
-        "timestamp": 1754682971
-      },
-      {
-        "sharePrice": 1.1207333333333334,
-        "timestamp": 1754866115
-      },
-      {
-        "sharePrice": 1.1210323232323232,
-        "timestamp": 1754983187
-      },
-      {
-        "sharePrice": 1.1214454545454546,
-        "timestamp": 1755133895
-      },
-      {
-        "sharePrice": 1.1219222222222223,
-        "timestamp": 1755298811
-      },
-      {
-        "sharePrice": 1.1221040404040403,
-        "timestamp": 1755380219
-      },
-      {
-        "sharePrice": 1.1223404040404041,
-        "timestamp": 1755462023
-      },
-      {
-        "sharePrice": 1.1225676767676767,
-        "timestamp": 1755543479
-      },
-      {
-        "sharePrice": 1.122839393939394,
-        "timestamp": 1755641951
-      },
-      {
-        "sharePrice": 1.1230818181818183,
-        "timestamp": 1755727955
-      },
-      {
-        "sharePrice": 1.1233121212121213,
-        "timestamp": 1755803963
-      },
-      {
-        "sharePrice": 1.1234474747474748,
-        "timestamp": 1755850619
-      },
-      {
-        "sharePrice": 1.123790909090909,
-        "timestamp": 1755953411
-      },
-      {
-        "sharePrice": 1.1241545454545454,
-        "timestamp": 1756076075
-      },
-      {
-        "sharePrice": 1.1242767676767678,
-        "timestamp": 1756116899
-      },
-      {
-        "sharePrice": 1.1244353535353535,
-        "timestamp": 1756178555
-      },
-      {
-        "sharePrice": 1.1246626262626263,
-        "timestamp": 1756261151
-      },
-      {
-        "sharePrice": 1.1250616161616163,
-        "timestamp": 1756425275
-      },
-      {
-        "sharePrice": 1.125860606060606,
-        "timestamp": 1756718579
-      },
-      {
-        "sharePrice": 1.1268,
-        "timestamp": 1756827107
-      },
-      {
-        "sharePrice": 1.1270444444444445,
-        "timestamp": 1756923683
-      },
-      {
-        "sharePrice": 1.1272979797979799,
-        "timestamp": 1757019731
-      },
-      {
-        "sharePrice": 1.1275050505050506,
-        "timestamp": 1757096447
-      },
-      {
-        "sharePrice": 1.1278272727272727,
-        "timestamp": 1757202983
-      },
-      {
-        "sharePrice": 1.1280686868686869,
-        "timestamp": 1757287331
-      },
-      {
-        "sharePrice": 1.1282828282828283,
-        "timestamp": 1757366075
-      },
-      {
-        "sharePrice": 1.1285282828282828,
-        "timestamp": 1757452895
-      },
-      {
-        "sharePrice": 1.1287454545454545,
-        "timestamp": 1757538119
-      },
-      {
-        "sharePrice": 1.1289909090909092,
-        "timestamp": 1757629367
-      },
-      {
-        "sharePrice": 1.1292474747474748,
-        "timestamp": 1757720879
-      },
-      {
-        "sharePrice": 1.1294515151515152,
-        "timestamp": 1757801927
-      },
-      {
-        "sharePrice": 1.1296333333333333,
-        "timestamp": 1757882903
-      },
-      {
-        "sharePrice": 1.129679797979798,
-        "timestamp": 1757903375
-      },
-      {
-        "sharePrice": 1.1300838383838383,
-        "timestamp": 1758066803
-      },
-      {
-        "sharePrice": 1.130321212121212,
-        "timestamp": 1758147875
-      },
-      {
-        "sharePrice": 1.1305676767676767,
-        "timestamp": 1758229019
-      },
-      {
-        "sharePrice": 1.1307171717171718,
-        "timestamp": 1758269567
-      },
-      {
-        "sharePrice": 1.1310838383838384,
-        "timestamp": 1758411287
-      },
-      {
-        "sharePrice": 1.1312828282828282,
-        "timestamp": 1758492167
-      },
-      {
-        "sharePrice": 1.131480808080808,
-        "timestamp": 1758572819
-      },
-      {
-        "sharePrice": 1.1316979797979798,
-        "timestamp": 1758653831
-      },
-      {
-        "sharePrice": 1.1319323232323233,
-        "timestamp": 1758754763
-      },
-      {
-        "sharePrice": 1.132139393939394,
-        "timestamp": 1758855503
-      },
-      {
-        "sharePrice": 1.1325232323232324,
-        "timestamp": 1759017083
-      },
-      {
-        "sharePrice": 1.1326353535353535,
-        "timestamp": 1759057319
-      },
-      {
-        "sharePrice": 1.132761616161616,
-        "timestamp": 1759117295
-      },
-      {
-        "sharePrice": 1.1333575757575758,
-        "timestamp": 1759355855
-      },
-      {
-        "sharePrice": 1.1336595959595959,
-        "timestamp": 1759476359
-      },
-      {
-        "sharePrice": 1.1338434343434343,
-        "timestamp": 1759556603
-      },
-      {
-        "sharePrice": 1.1341686868686869,
-        "timestamp": 1759696607
-      },
-      {
-        "sharePrice": 1.1342676767676767,
-        "timestamp": 1759736759
-      },
-      {
-        "sharePrice": 1.1345808080808082,
-        "timestamp": 1759873547
-      },
-      {
-        "sharePrice": 1.1346969696969698,
-        "timestamp": 1759913975
-      },
-      {
-        "sharePrice": 1.1348535353535354,
-        "timestamp": 1759974983
-      },
-      {
-        "sharePrice": 1.135140404040404,
-        "timestamp": 1760076083
-      },
-      {
-        "sharePrice": 1.1354626262626262,
-        "timestamp": 1760180003
-      },
-      {
-        "sharePrice": 1.1356696969696969,
-        "timestamp": 1760261027
-      },
-      {
-        "sharePrice": 1.1358080808080808,
-        "timestamp": 1760321639
-      },
-      {
-        "sharePrice": 1.1361616161616162,
-        "timestamp": 1760483543
-      },
-      {
-        "sharePrice": 1.136350505050505,
-        "timestamp": 1760565035
-      },
-      {
-        "sharePrice": 1.1365454545454545,
-        "timestamp": 1760645927
-      },
-      {
-        "sharePrice": 1.1367686868686868,
-        "timestamp": 1760726651
-      },
-      {
-        "sharePrice": 1.1370060606060606,
-        "timestamp": 1760828039
-      },
-      {
-        "sharePrice": 1.1371686868686868,
-        "timestamp": 1760908799
-      },
-      {
-        "sharePrice": 1.1373333333333333,
-        "timestamp": 1760989739
-      },
-      {
-        "sharePrice": 1.1374141414141414,
-        "timestamp": 1761030803
-      },
-      {
-        "sharePrice": 1.137680808080808,
-        "timestamp": 1761172283
-      },
-      {
-        "sharePrice": 1.1378555555555556,
-        "timestamp": 1761253331
-      },
-      {
-        "sharePrice": 1.138029292929293,
-        "timestamp": 1761334379
-      },
-      {
-        "sharePrice": 1.138220202020202,
-        "timestamp": 1761435635
-      },
-      {
-        "sharePrice": 1.138341414141414,
-        "timestamp": 1761496235
-      },
-      {
-        "sharePrice": 1.1385323232323232,
-        "timestamp": 1761597647
-      },
-      {
-        "sharePrice": 1.1387727272727273,
-        "timestamp": 1761679355
-      },
-      {
-        "sharePrice": 1.1390262626262626,
-        "timestamp": 1761781499
-      },
-      {
-        "sharePrice": 1.139249494949495,
-        "timestamp": 1761863075
-      },
-      {
-        "sharePrice": 1.1394363636363636,
-        "timestamp": 1761944963
-      },
-      {
-        "sharePrice": 1.1396272727272727,
-        "timestamp": 1762026239
-      },
-      {
-        "sharePrice": 1.1398333333333333,
-        "timestamp": 1762108139
-      },
-      {
-        "sharePrice": 1.1401121212121212,
-        "timestamp": 1762209875
-      },
-      {
-        "sharePrice": 1.140180808080808,
-        "timestamp": 1762230143
-      },
-      {
-        "sharePrice": 1.1411030303030303,
-        "timestamp": 1762373195
-      },
-      {
-        "sharePrice": 1.1418838383838383,
-        "timestamp": 1762556531
-      },
-      {
-        "sharePrice": 1.1421959595959597,
-        "timestamp": 1762637891
-      },
-      {
-        "sharePrice": 1.14240101010101,
-        "timestamp": 1762718963
-      },
-      {
-        "sharePrice": 1.142620202020202,
-        "timestamp": 1762800119
-      },
-      {
-        "sharePrice": 1.1428575757575758,
-        "timestamp": 1762901723
-      },
-      {
-        "sharePrice": 1.1431444444444445,
-        "timestamp": 1762982567
-      },
-      {
-        "sharePrice": 1.1432434343434343,
-        "timestamp": 1763022851
-      },
-      {
-        "sharePrice": 1.1435838383838384,
-        "timestamp": 1763163575
-      },
-      {
-        "sharePrice": 1.1437727272727272,
-        "timestamp": 1763244083
-      },
-      {
-        "sharePrice": 1.1439414141414141,
-        "timestamp": 1763324543
-      },
-      {
-        "sharePrice": 1.1440676767676767,
-        "timestamp": 1763385047
-      },
-      {
-        "sharePrice": 1.1443232323232324,
-        "timestamp": 1763506367
-      },
-      {
-        "sharePrice": 1.14440101010101,
-        "timestamp": 1763546447
-      },
-      {
-        "sharePrice": 1.1445050505050505,
-        "timestamp": 1763606855
-      },
-      {
-        "sharePrice": 1.1447808080808082,
-        "timestamp": 1763767823
-      },
-      {
-        "sharePrice": 1.144940404040404,
-        "timestamp": 1763848187
-      },
-      {
-        "sharePrice": 1.145091919191919,
-        "timestamp": 1763928611
-      },
-      {
-        "sharePrice": 1.1451686868686868,
-        "timestamp": 1763969075
-      },
-      {
-        "sharePrice": 1.1454737373737374,
-        "timestamp": 1764110519
-      },
-      {
-        "sharePrice": 1.1456525252525251,
-        "timestamp": 1764191279
-      },
-      {
-        "sharePrice": 1.1458494949494948,
-        "timestamp": 1764273311
-      },
-      {
-        "sharePrice": 1.1460262626262627,
-        "timestamp": 1764354887
-      },
-      {
-        "sharePrice": 1.146210101010101,
-        "timestamp": 1764455675
-      },
-      {
-        "sharePrice": 1.1463484848484848,
-        "timestamp": 1764536531
-      },
-      {
-        "sharePrice": 1.1464919191919192,
-        "timestamp": 1764617375
-      },
-      {
-        "sharePrice": 1.1467272727272728,
-        "timestamp": 1764718247
-      },
-      {
-        "sharePrice": 1.1468858585858586,
-        "timestamp": 1764799691
-      },
-      {
-        "sharePrice": 1.147049494949495,
-        "timestamp": 1764883379
-      },
-      {
-        "sharePrice": 1.1472141414141415,
-        "timestamp": 1764965735
-      },
-      {
-        "sharePrice": 1.1473575757575758,
-        "timestamp": 1765046555
-      },
-      {
-        "sharePrice": 1.1475363636363636,
-        "timestamp": 1765147307
-      },
-      {
-        "sharePrice": 1.1476272727272727,
-        "timestamp": 1765207559
-      },
-      {
-        "sharePrice": 1.1477929292929292,
-        "timestamp": 1765308611
-      },
-      {
-        "sharePrice": 1.1479353535353536,
-        "timestamp": 1765389551
-      },
-      {
-        "sharePrice": 1.1481080808080808,
-        "timestamp": 1765490195
-      },
-      {
-        "sharePrice": 1.1482444444444444,
-        "timestamp": 1765571027
-      },
-      {
-        "sharePrice": 1.148390909090909,
-        "timestamp": 1765651463
-      },
-      {
-        "sharePrice": 1.1485676767676767,
-        "timestamp": 1765751939
-      },
-      {
-        "sharePrice": 1.148709090909091,
-        "timestamp": 1765832423
-      },
-      {
-        "sharePrice": 1.1488585858585858,
-        "timestamp": 1765914155
-      },
-      {
-        "sharePrice": 1.1490414141414143,
-        "timestamp": 1766015411
-      },
-      {
-        "sharePrice": 1.1491969696969697,
-        "timestamp": 1766096855
-      },
-      {
-        "sharePrice": 1.149340404040404,
-        "timestamp": 1766177699
-      },
-      {
-        "sharePrice": 1.1494737373737374,
-        "timestamp": 1766258651
-      },
-      {
-        "sharePrice": 1.1496373737373737,
-        "timestamp": 1766359763
-      },
-      {
-        "sharePrice": 1.149778787878788,
-        "timestamp": 1766440703
-      },
-      {
-        "sharePrice": 1.1499383838383839,
-        "timestamp": 1766521463
-      },
-      {
-        "sharePrice": 1.1500929292929294,
-        "timestamp": 1766602019
-      },
-      {
-        "sharePrice": 1.1502575757575757,
-        "timestamp": 1766703011
-      },
-      {
-        "sharePrice": 1.1503939393939393,
-        "timestamp": 1766782883
-      },
-      {
-        "sharePrice": 1.1505272727272726,
-        "timestamp": 1766863367
-      },
-      {
-        "sharePrice": 1.1507,
-        "timestamp": 1766964395
-      },
-      {
-        "sharePrice": 1.1508444444444443,
-        "timestamp": 1767044927
-      },
-      {
-        "sharePrice": 1.1509969696969697,
-        "timestamp": 1767125099
-      },
-      {
-        "sharePrice": 1.1511979797979799,
-        "timestamp": 1767224171
-      },
-      {
-        "sharePrice": 1.1513343434343435,
-        "timestamp": 1767303227
-      },
-      {
-        "sharePrice": 1.151470707070707,
-        "timestamp": 1767382319
-      },
-      {
-        "sharePrice": 1.1516464646464646,
-        "timestamp": 1767481715
-      },
-      {
-        "sharePrice": 1.151778787878788,
-        "timestamp": 1767561119
-      },
-      {
-        "sharePrice": 1.1519060606060607,
-        "timestamp": 1767640319
-      },
-      {
-        "sharePrice": 1.1520727272727274,
-        "timestamp": 1767739199
-      },
-      {
-        "sharePrice": 1.1522181818181818,
-        "timestamp": 1767818495
-      },
-      {
-        "sharePrice": 1.1523535353535355,
-        "timestamp": 1767897827
-      },
-      {
-        "sharePrice": 1.1525444444444444,
-        "timestamp": 1767996875
-      },
-      {
-        "sharePrice": 1.1526969696969698,
-        "timestamp": 1768076675
-      },
-      {
-        "sharePrice": 1.152879797979798,
-        "timestamp": 1768175567
-      },
-      {
-        "sharePrice": 1.1530444444444445,
-        "timestamp": 1768254923
-      },
-      {
-        "sharePrice": 1.1531989898989898,
-        "timestamp": 1768334183
-      },
-      {
-        "sharePrice": 1.1532646464646465,
-        "timestamp": 1768373687
-      }
-    ],
-    "apyHistory": [
-      {
-        "apy": 4.688153814805069,
-        "timestamp": 1605228607
-      },
-      {
-        "apy": 84.49543068667548,
-        "timestamp": 1606542378
-      },
-      {
-        "apy": 98.34296218237884,
-        "timestamp": 1606815130
-      },
-      {
-        "apy": 94.8082424511163,
-        "timestamp": 1607620594
-      },
-      {
-        "apy": 79.13764985326449,
-        "timestamp": 1607715855
-      },
-      {
-        "apy": 95.8757141047975,
-        "timestamp": 1607758848
-      },
-      {
-        "apy": 99.68816366534894,
-        "timestamp": 1608342891
-      },
-      {
-        "apy": 78.05468489972874,
-        "timestamp": 1608435136
-      },
-      {
-        "apy": 39.13608502992048,
-        "timestamp": 1608709297
-      },
-      {
-        "apy": 95.42161274454853,
-        "timestamp": 1609065307
-      },
-      {
-        "apy": 32.08623434365724,
-        "timestamp": 1609517508
-      },
-      {
-        "apy": 92.30074870028771,
-        "timestamp": 1610102705
-      },
-      {
-        "apy": 68.91271406022658,
-        "timestamp": 1610803624
-      },
-      {
-        "apy": 25.637407228466,
-        "timestamp": 1611022361
-      },
-      {
-        "apy": 97.39764247295075,
-        "timestamp": 1619255388
-      },
-      {
-        "apy": 55.30007459223923,
-        "timestamp": 1619321362
-      },
-      {
-        "apy": 26.270136323176644,
-        "timestamp": 1619959332
-      },
-      {
-        "apy": 88.14417972444832,
-        "timestamp": 1620542452
-      },
-      {
-        "apy": 91.33461279468597,
-        "timestamp": 1621003165
-      },
-      {
-        "apy": 88.25634629159347,
-        "timestamp": 1622981030
-      },
-      {
-        "apy": 59.59432464122831,
-        "timestamp": 1623157938
-      },
-      {
-        "apy": 9.500214446351013,
-        "timestamp": 1623306579
-      },
-      {
-        "apy": 10.869448864646131,
-        "timestamp": 1623974793
-      },
-      {
-        "apy": 45.987063960909744,
-        "timestamp": 1624502533
-      },
-      {
-        "apy": 50.722317098824604,
-        "timestamp": 1624931941
-      },
-      {
-        "apy": 4.453593502753381,
-        "timestamp": 1625038875
-      },
-      {
-        "apy": 54.205848853898374,
-        "timestamp": 1625218426
-      },
-      {
-        "apy": 25.089080978867266,
-        "timestamp": 1625289377
-      },
-      {
-        "apy": 23.572979258732072,
-        "timestamp": 1625433490
-      },
-      {
-        "apy": 9.40733578496982,
-        "timestamp": 1625578521
-      },
-      {
-        "apy": 81.61011536283377,
-        "timestamp": 1625910846
-      },
-      {
-        "apy": 29.276408130608495,
-        "timestamp": 1626022006
-      },
-      {
-        "apy": 80.86655691090719,
-        "timestamp": 1626058417
-      },
-      {
-        "apy": 25.1825446393543,
-        "timestamp": 1626310551
-      },
-      {
-        "apy": 12.295666383799498,
-        "timestamp": 1626488901
-      },
-      {
-        "apy": 9.894215164978332,
-        "timestamp": 1626594010
-      },
-      {
-        "apy": 28.02744785441746,
-        "timestamp": 1626667091
-      },
-      {
-        "apy": 18.609635793619177,
-        "timestamp": 1626815589
-      },
-      {
-        "apy": 41.84563958001035,
-        "timestamp": 1627072584
-      },
-      {
-        "apy": 6.22513522542087,
-        "timestamp": 1627108158
-      },
-      {
-        "apy": 34.8305492221454,
-        "timestamp": 1627290428
-      },
-      {
-        "apy": 27.076166809884,
-        "timestamp": 1627598910
-      },
-      {
-        "apy": 64.31154766091758,
-        "timestamp": 1627706577
-      },
-      {
-        "apy": 84.1608958892996,
-        "timestamp": 1627900417
-      },
-      {
-        "apy": 41.94405702777101,
-        "timestamp": 1628046637
-      },
-      {
-        "apy": 26.040393307607733,
-        "timestamp": 1628193812
-      },
-      {
-        "apy": 15.57129075773908,
-        "timestamp": 1628896132
-      },
-      {
-        "apy": 9.72355320975118,
-        "timestamp": 1629647347
-      },
-      {
-        "apy": 54.322886340448854,
-        "timestamp": 1630312121
-      },
-      {
-        "apy": 17.615313005634576,
-        "timestamp": 1630732511
-      },
-      {
-        "apy": 46.036580789676385,
-        "timestamp": 1631243575
-      },
-      {
-        "apy": 11.745461744342172,
-        "timestamp": 1631532692
-      },
-      {
-        "apy": 62.24411843201302,
-        "timestamp": 1631877325
-      },
-      {
-        "apy": 41.46490271647809,
-        "timestamp": 1632560998
-      },
-      {
-        "apy": 19.19647792163096,
-        "timestamp": 1633523560
-      },
-      {
-        "apy": 87.53212297805034,
-        "timestamp": 1633839434
-      },
-      {
-        "apy": 91.04916447827776,
-        "timestamp": 1637230663
-      },
-      {
-        "apy": 57.170108926878754,
-        "timestamp": 1638413441
-      },
-      {
-        "apy": 65.01614520200157,
-        "timestamp": 1639001357
-      },
-      {
-        "apy": 70.54363440027512,
-        "timestamp": 1640603926
-      },
-      {
-        "apy": 47.536095951722764,
-        "timestamp": 1641607501
-      },
-      {
-        "apy": 21.22830736918789,
-        "timestamp": 1642156151
-      },
-      {
-        "apy": 78.37432903758278,
-        "timestamp": 1642566851
-      },
-      {
-        "apy": 25.08080907197177,
-        "timestamp": 1643012514
-      },
-      {
-        "apy": 66.31538853970288,
-        "timestamp": 1643545830
-      },
-      {
-        "apy": 26.669011391412376,
-        "timestamp": 1643958959
-      },
-      {
-        "apy": 14.388067633642557,
-        "timestamp": 1645875052
-      },
-      {
-        "apy": 60.390211859110444,
-        "timestamp": 1646119420
-      },
-      {
-        "apy": 7.354396418222079,
-        "timestamp": 1646390075
-      },
-      {
-        "apy": 16.25950898011349,
-        "timestamp": 1647232718
-      },
-      {
-        "apy": 88.29698607976904,
-        "timestamp": 1647664241
-      },
-      {
-        "apy": 78.93866742325127,
-        "timestamp": 1648878375
-      },
-      {
-        "apy": 81.4069856274896,
-        "timestamp": 1648983100
-      },
-      {
-        "apy": 3.767812577939096,
-        "timestamp": 1650090689
-      },
-      {
-        "apy": 59.49145722498287,
-        "timestamp": 1650663986
-      },
-      {
-        "apy": 11.689394279398263,
-        "timestamp": 1651702594
-      },
-      {
-        "apy": 77.77964573052719,
-        "timestamp": 1652027957
-      },
-      {
-        "apy": 42.24617372693125,
-        "timestamp": 1653169326
-      },
-      {
-        "apy": 30.81712823217476,
-        "timestamp": 1653716825
-      },
-      {
-        "apy": 11.818515353992858,
-        "timestamp": 1654306020
-      },
-      {
-        "apy": 10.73173195495113,
-        "timestamp": 1654905447
-      },
-      {
-        "apy": 91.14803829884487,
-        "timestamp": 1656341978
-      },
-      {
-        "apy": 15.514281583022164,
-        "timestamp": 1656957621
-      },
-      {
-        "apy": 5.213677322557848,
-        "timestamp": 1657337005
-      },
-      {
-        "apy": 21.168947364740838,
-        "timestamp": 1657625922
-      },
-      {
-        "apy": 2.020048476384333,
-        "timestamp": 1657959028
-      },
-      {
-        "apy": 4.976788997878303,
-        "timestamp": 1658379813
-      },
-      {
-        "apy": 5.62760847697431,
-        "timestamp": 1658624856
-      },
-      {
-        "apy": 4.833442464007853,
-        "timestamp": 1658848621
-      },
-      {
-        "apy": 13.007061675909396,
-        "timestamp": 1659117629
-      },
-      {
-        "apy": 56.80676268271378,
-        "timestamp": 1659234776
-      },
-      {
-        "apy": 3.291085388775774,
-        "timestamp": 1659672240
-      },
-      {
-        "apy": 75.84572463328276,
-        "timestamp": 1659841425
-      },
-      {
-        "apy": 5.1644371755477705,
-        "timestamp": 1660296915
-      },
-      {
-        "apy": 40.04816581954917,
-        "timestamp": 1660465352
-      },
-      {
-        "apy": 6.104461889327469,
-        "timestamp": 1660681720
-      },
-      {
-        "apy": 32.73220996869786,
-        "timestamp": 1660996413
-      },
-      {
-        "apy": 46.575421358275776,
-        "timestamp": 1661117385
-      },
-      {
-        "apy": 6.131743970903565,
-        "timestamp": 1661407362
-      },
-      {
-        "apy": 20.878217818006203,
-        "timestamp": 1661600033
-      },
-      {
-        "apy": 11.006936600001907,
-        "timestamp": 1662378932
-      },
-      {
-        "apy": 9.611701915181063,
-        "timestamp": 1662774380
-      },
-      {
-        "apy": 1.5464109074364176,
-        "timestamp": 1663044055
-      },
-      {
-        "apy": 4.375657290197692,
-        "timestamp": 1663313543
-      },
-      {
-        "apy": 3.6834645001994333,
-        "timestamp": 1663465115
-      },
-      {
-        "apy": 8.082986742711855,
-        "timestamp": 1663588199
-      },
-      {
-        "apy": 8.305587970687402,
-        "timestamp": 1664018975
-      },
-      {
-        "apy": 23.28642345901406,
-        "timestamp": 1665742319
-      },
-      {
-        "apy": 49.85434985667327,
-        "timestamp": 1667147111
-      },
-      {
-        "apy": 58.608828302461376,
-        "timestamp": 1668419159
-      },
-      {
-        "apy": 73.63878489666818,
-        "timestamp": 1669213475
-      },
-      {
-        "apy": 8.015950504329345,
-        "timestamp": 1670329571
-      },
-      {
-        "apy": 3.83864029407979,
-        "timestamp": 1672227935
-      },
-      {
-        "apy": 3.2435309993466137,
-        "timestamp": 1674566447
-      },
-      {
-        "apy": 13.766211694934203,
-        "timestamp": 1675561187
-      },
-      {
-        "apy": 19.697286089575123,
-        "timestamp": 1677548807
-      },
-      {
-        "apy": 15.076283049008723,
-        "timestamp": 1684016675
-      },
-      {
-        "apy": 28.983512900027907,
-        "timestamp": 1685009267
-      },
-      {
-        "apy": 4.913410775624901,
-        "timestamp": 1685999123
-      },
-      {
-        "apy": 14.31445166975178,
-        "timestamp": 1687004543
-      },
-      {
-        "apy": 4.166762380984653,
-        "timestamp": 1687989359
-      },
-      {
-        "apy": 8.702573319907414,
-        "timestamp": 1688985767
-      },
-      {
-        "apy": 12.349814835014607,
-        "timestamp": 1689999275
-      },
-      {
-        "apy": 20.599947979036774,
-        "timestamp": 1690991291
-      },
-      {
-        "apy": 4.408939969793952,
-        "timestamp": 1691982335
-      },
-      {
-        "apy": 71.9534407601586,
-        "timestamp": 1693007939
-      },
-      {
-        "apy": 6.237212302076515,
-        "timestamp": 1693993931
-      },
-      {
-        "apy": 4.530340818205804,
-        "timestamp": 1694979863
-      },
-      {
-        "apy": 4.428833460963749,
-        "timestamp": 1695975491
-      },
-      {
-        "apy": 11.606563379173295,
-        "timestamp": 1696971383
-      },
-      {
-        "apy": 11.858606922780318,
-        "timestamp": 1697966987
-      },
-      {
-        "apy": 11.256010183480491,
-        "timestamp": 1698943847
-      },
-      {
-        "apy": 62.50948216150432,
-        "timestamp": 1699922723
-      },
-      {
-        "apy": 76.26036690106218,
-        "timestamp": 1701920303
-      },
-      {
-        "apy": 28.65882125302515,
-        "timestamp": 1703887403
-      },
-      {
-        "apy": 14.361992080158258,
-        "timestamp": 1704877895
-      },
-      {
-        "apy": 5.2471975343220985,
-        "timestamp": 1706845187
-      },
-      {
-        "apy": 23.35754928535366,
-        "timestamp": 1707869783
-      },
-      {
-        "apy": 22.630982011060656,
-        "timestamp": 1708859867
-      },
-      {
-        "apy": 34.65639965365019,
-        "timestamp": 1710538523
-      },
-      {
-        "apy": 16.5327932046881,
-        "timestamp": 1711535339
-      },
-      {
-        "apy": 8.96464091005568,
-        "timestamp": 1712139563
-      },
-      {
-        "apy": 4.964551478799782,
-        "timestamp": 1712498411
-      },
-      {
-        "apy": 5.074954406630167,
-        "timestamp": 1713441431
-      },
-      {
-        "apy": 5.567961328796539,
-        "timestamp": 1715593595
-      },
-      {
-        "apy": 4.876990872029871,
-        "timestamp": 1718618819
-      },
-      {
-        "apy": 5.862492960571586,
-        "timestamp": 1719918227
-      },
-      {
-        "apy": 5.164257018150114,
-        "timestamp": 1720465319
-      },
-      {
-        "apy": 5.584678793077941,
-        "timestamp": 1723537607
-      },
-      {
-        "apy": 2.332431109555819,
-        "timestamp": 1724222675
-      },
-      {
-        "apy": 3.1421050801172665,
-        "timestamp": 1724917343
-      },
-      {
-        "apy": 2.827486904696473,
-        "timestamp": 1725608375
-      },
-      {
-        "apy": 4.186083050510316,
-        "timestamp": 1727692991
-      },
-      {
-        "apy": 3.142863226025505,
-        "timestamp": 1728979379
-      },
-      {
-        "apy": 7.441725672093604,
-        "timestamp": 1729249739
-      },
-      {
-        "apy": 7.120949722096715,
-        "timestamp": 1729500659
-      },
-      {
-        "apy": 7.974914515606155,
-        "timestamp": 1729979759
-      },
-      {
-        "apy": 52.387980525484274,
-        "timestamp": 1730309243
-      },
-      {
-        "apy": 10.03704672101249,
-        "timestamp": 1730720051
-      },
-      {
-        "apy": 55.41500325940362,
-        "timestamp": 1731498167
-      },
-      {
-        "apy": 38.4452301317597,
-        "timestamp": 1731857891
-      },
-      {
-        "apy": 13.758569479282425,
-        "timestamp": 1732781399
-      },
-      {
-        "apy": 38.85854105114075,
-        "timestamp": 1733652923
-      },
-      {
-        "apy": 66.94700088435101,
-        "timestamp": 1734269183
-      },
-      {
-        "apy": 14.006356643527136,
-        "timestamp": 1734590999
-      },
-      {
-        "apy": 29.49434381008475,
-        "timestamp": 1734864431
-      },
-      {
-        "apy": 11.885805037070156,
-        "timestamp": 1736081783
-      },
-      {
-        "apy": 38.76945355056411,
-        "timestamp": 1736685083
-      },
-      {
-        "apy": 11.191530344987545,
-        "timestamp": 1737231767
-      },
-      {
-        "apy": 11.299797152365311,
-        "timestamp": 1737803543
-      },
-      {
-        "apy": 9.90179847477002,
-        "timestamp": 1737890099
-      },
-      {
-        "apy": 9.350277469320837,
-        "timestamp": 1738530803
-      },
-      {
-        "apy": 10.596430187401445,
-        "timestamp": 1739110571
-      },
-      {
-        "apy": 12.842146330728323,
-        "timestamp": 1739732615
-      },
-      {
-        "apy": 8.266527431949367,
-        "timestamp": 1740319955
-      },
-      {
-        "apy": 5.912186956867376,
-        "timestamp": 1741045655
-      },
-      {
-        "apy": 4.083110836203099,
-        "timestamp": 1742291735
-      },
-      {
-        "apy": 4.553324460575105,
-        "timestamp": 1742763011
-      },
-      {
-        "apy": 2.8562010490376113,
-        "timestamp": 1743689699
-      },
-      {
-        "apy": 3.078107739173649,
-        "timestamp": 1743769847
-      },
-      {
-        "apy": 2.935379477628643,
-        "timestamp": 1743894167
-      },
-      {
-        "apy": 2.939696657293516,
-        "timestamp": 1743935555
-      },
-      {
-        "apy": 2.339283356533821,
-        "timestamp": 1744059743
-      },
-      {
-        "apy": 3.649858215097939,
-        "timestamp": 1744142567
-      },
-      {
-        "apy": 2.3110240582169705,
-        "timestamp": 1744184003
-      },
-      {
-        "apy": 1.7578223145122265,
-        "timestamp": 1744267307
-      },
-      {
-        "apy": 13.47763763199642,
-        "timestamp": 1744350527
-      },
-      {
-        "apy": 2.272073925778042,
-        "timestamp": 1744433399
-      },
-      {
-        "apy": 2.0824192073708048,
-        "timestamp": 1744557491
-      },
-      {
-        "apy": 2.0476161485090807,
-        "timestamp": 1744598927
-      },
-      {
-        "apy": 1.8448668167098088,
-        "timestamp": 1744681787
-      },
-      {
-        "apy": 2.002179069648236,
-        "timestamp": 1744847423
-      },
-      {
-        "apy": 2.0977996989898164,
-        "timestamp": 1744924199
-      },
-      {
-        "apy": 2.4180189127126184,
-        "timestamp": 1745006699
-      },
-      {
-        "apy": 2.410868547728212,
-        "timestamp": 1745088695
-      },
-      {
-        "apy": 2.420172299983323,
-        "timestamp": 1745170547
-      },
-      {
-        "apy": 2.1632267604029174,
-        "timestamp": 1745252363
-      },
-      {
-        "apy": 2.568384040400549,
-        "timestamp": 1745293427
-      },
-      {
-        "apy": 2.2606080623480036,
-        "timestamp": 1745375303
-      },
-      {
-        "apy": 2.3301349321184084,
-        "timestamp": 1745457503
-      },
-      {
-        "apy": 1.8702870787826693,
-        "timestamp": 1745621147
-      },
-      {
-        "apy": 1.7929942178437666,
-        "timestamp": 1745702831
-      },
-      {
-        "apy": 2.03011811700107,
-        "timestamp": 1745784503
-      },
-      {
-        "apy": 1.8708414476889215,
-        "timestamp": 1745866187
-      },
-      {
-        "apy": 2.3033326973968737,
-        "timestamp": 1745947859
-      },
-      {
-        "apy": 2.1102686403846675,
-        "timestamp": 1745988659
-      },
-      {
-        "apy": 2.291535767546781,
-        "timestamp": 1746070835
-      },
-      {
-        "apy": 2.166090237771939,
-        "timestamp": 1746153299
-      },
-      {
-        "apy": 2.0139734814166137,
-        "timestamp": 1746276815
-      },
-      {
-        "apy": 2.24497064165948,
-        "timestamp": 1746400403
-      },
-      {
-        "apy": 2.4829853617763233,
-        "timestamp": 1746482795
-      },
-      {
-        "apy": 3.346668536095032,
-        "timestamp": 1746565187
-      },
-      {
-        "apy": 2.924213924293479,
-        "timestamp": 1746606791
-      },
-      {
-        "apy": 2.5810613831256606,
-        "timestamp": 1746689759
-      },
-      {
-        "apy": 2.311574197684427,
-        "timestamp": 1746822323
-      },
-      {
-        "apy": 2.3472360242072514,
-        "timestamp": 1747027703
-      },
-      {
-        "apy": 3.094373081664648,
-        "timestamp": 1747191311
-      },
-      {
-        "apy": 4.3723346822603535,
-        "timestamp": 1747316543
-      },
-      {
-        "apy": 6.650159471462219,
-        "timestamp": 1747525091
-      },
-      {
-        "apy": 7.681493048184544,
-        "timestamp": 1747566875
-      },
-      {
-        "apy": 13.622190858075585,
-        "timestamp": 1747692383
-      },
-      {
-        "apy": 37.869134302444714,
-        "timestamp": 1747859795
-      },
-      {
-        "apy": 48.85636593274297,
-        "timestamp": 1748027411
-      },
-      {
-        "apy": 78.9303213183741,
-        "timestamp": 1748110979
-      },
-      {
-        "apy": 8.1558489400416,
-        "timestamp": 1748152835
-      },
-      {
-        "apy": 7.6575390645722745,
-        "timestamp": 1748236655
-      },
-      {
-        "apy": 6.05136164950903,
-        "timestamp": 1748320439
-      },
-      {
-        "apy": 7.240674691092327,
-        "timestamp": 1748571863
-      },
-      {
-        "apy": 10.158935967219165,
-        "timestamp": 1748739155
-      },
-      {
-        "apy": 5.620390833562312,
-        "timestamp": 1748822831
-      },
-      {
-        "apy": 7.527527305956422,
-        "timestamp": 1748990219
-      },
-      {
-        "apy": 7.156791573822227,
-        "timestamp": 1749127067
-      },
-      {
-        "apy": 6.620988511041125,
-        "timestamp": 1749187115
-      },
-      {
-        "apy": 6.367586738956835,
-        "timestamp": 1749325871
-      },
-      {
-        "apy": 7.107792098563347,
-        "timestamp": 1749409967
-      },
-      {
-        "apy": 7.801593725031436,
-        "timestamp": 1749535979
-      },
-      {
-        "apy": 7.140057770381397,
-        "timestamp": 1749772307
-      },
-      {
-        "apy": 6.911846692398118,
-        "timestamp": 1749935231
-      },
-      {
-        "apy": 7.730722342101164,
-        "timestamp": 1749975911
-      },
-      {
-        "apy": 6.891609321131054,
-        "timestamp": 1750117451
-      },
-      {
-        "apy": 9.312680713351153,
-        "timestamp": 1750198247
-      },
-      {
-        "apy": 7.173693478082109,
-        "timestamp": 1750279319
-      },
-      {
-        "apy": 7.437932923462167,
-        "timestamp": 1750319783
-      },
-      {
-        "apy": 5.533323389587837,
-        "timestamp": 1750461719
-      },
-      {
-        "apy": 7.311519066618489,
-        "timestamp": 1750502411
-      },
-      {
-        "apy": 6.5112632685365766,
-        "timestamp": 1750562939
-      },
-      {
-        "apy": 5.896516148707407,
-        "timestamp": 1750643903
-      },
-      {
-        "apy": 6.602963792956257,
-        "timestamp": 1751070779
-      },
-      {
-        "apy": 38.502428592414596,
-        "timestamp": 1751356211
-      },
-      {
-        "apy": 6.586275230577294,
-        "timestamp": 1751417555
-      },
-      {
-        "apy": 12.286879729428652,
-        "timestamp": 1751947199
-      },
-      {
-        "apy": 6.861388001922439,
-        "timestamp": 1752029459
-      },
-      {
-        "apy": 6.461040540561227,
-        "timestamp": 1752355511
-      },
-      {
-        "apy": 6.824594948049215,
-        "timestamp": 1752457319
-      },
-      {
-        "apy": 8.241719212327308,
-        "timestamp": 1752559715
-      },
-      {
-        "apy": 9.90372065936072,
-        "timestamp": 1752641243
-      },
-      {
-        "apy": 7.713016710195365,
-        "timestamp": 1752885863
-      },
-      {
-        "apy": 11.627921154408552,
-        "timestamp": 1752987515
-      },
-      {
-        "apy": 10.165475744872767,
-        "timestamp": 1753313423
-      },
-      {
-        "apy": 12.43689168621691,
-        "timestamp": 1753354103
-      },
-      {
-        "apy": 13.750061009913434,
-        "timestamp": 1753476383
-      },
-      {
-        "apy": 7.343158764463548,
-        "timestamp": 1753558127
-      },
-      {
-        "apy": 7.650063702573058,
-        "timestamp": 1753659911
-      },
-      {
-        "apy": 8.213062684737944,
-        "timestamp": 1753741355
-      },
-      {
-        "apy": 9.569898723701854,
-        "timestamp": 1753782095
-      },
-      {
-        "apy": 8.096176512863778,
-        "timestamp": 1753986779
-      },
-      {
-        "apy": 7.62852735396692,
-        "timestamp": 1754027555
-      },
-      {
-        "apy": 6.850092681788027,
-        "timestamp": 1754171591
-      },
-      {
-        "apy": 6.900496441478018,
-        "timestamp": 1754252831
-      },
-      {
-        "apy": 7.169300457219951,
-        "timestamp": 1754293391
-      },
-      {
-        "apy": 8.418122073052714,
-        "timestamp": 1754436635
-      },
-      {
-        "apy": 8.344150291249992,
-        "timestamp": 1754519711
-      },
-      {
-        "apy": 7.7189095732575534,
-        "timestamp": 1754601191
-      },
-      {
-        "apy": 7.606472395760752,
-        "timestamp": 1754682971
-      },
-      {
-        "apy": 7.873844077770838,
-        "timestamp": 1754866115
-      },
-      {
-        "apy": 9.145012746806223,
-        "timestamp": 1754983187
-      },
-      {
-        "apy": 61.37758415130822,
-        "timestamp": 1755133895
-      },
-      {
-        "apy": 8.872540896061416,
-        "timestamp": 1755298811
-      },
-      {
-        "apy": 7.329426066315795,
-        "timestamp": 1755380219
-      },
-      {
-        "apy": 10.168617827596737,
-        "timestamp": 1755462023
-      },
-      {
-        "apy": 9.106999559681483,
-        "timestamp": 1755543479
-      },
-      {
-        "apy": 9.689699608484833,
-        "timestamp": 1755641951
-      },
-      {
-        "apy": 8.898982211571534,
-        "timestamp": 1755727955
-      },
-      {
-        "apy": 10.511874698708429,
-        "timestamp": 1755803963
-      },
-      {
-        "apy": 9.485820275209662,
-        "timestamp": 1755850619
-      },
-      {
-        "apy": 13.33200318970661,
-        "timestamp": 1755953411
-      },
-      {
-        "apy": 9.28135087241933,
-        "timestamp": 1756076075
-      },
-      {
-        "apy": 10.266689257589947,
-        "timestamp": 1756116899
-      },
-      {
-        "apy": 8.508307314433566,
-        "timestamp": 1756178555
-      },
-      {
-        "apy": 8.97584068022575,
-        "timestamp": 1756261151
-      },
-      {
-        "apy": 8.000064860858759,
-        "timestamp": 1756425275
-      },
-      {
-        "apy": 92.21766813143584,
-        "timestamp": 1756718579
-      },
-      {
-        "apy": 8.932094322256512,
-        "timestamp": 1756827107
-      },
-      {
-        "apy": 9.66210043167562,
-        "timestamp": 1756923683
-      },
-      {
-        "apy": 9.23324412747904,
-        "timestamp": 1757019731
-      },
-      {
-        "apy": 8.845287925179193,
-        "timestamp": 1757096447
-      },
-      {
-        "apy": 8.876261812216123,
-        "timestamp": 1757202983
-      },
-      {
-        "apy": 8.294286549191169,
-        "timestamp": 1757287331
-      },
-      {
-        "apy": 9.567980680998684,
-        "timestamp": 1757366075
-      },
-      {
-        "apy": 17.859789124122912,
-        "timestamp": 1757452895
-      },
-      {
-        "apy": 8.144865102813958,
-        "timestamp": 1757538119
-      },
-      {
-        "apy": 9.89537773430567,
-        "timestamp": 1757629367
-      },
-      {
-        "apy": 8.479869300006092,
-        "timestamp": 1757720879
-      },
-      {
-        "apy": 7.5614283499885016,
-        "timestamp": 1757801927
-      },
-      {
-        "apy": 4.480197370156382,
-        "timestamp": 1757882903
-      },
-      {
-        "apy": 7.347617041545188,
-        "timestamp": 1757903375
-      },
-      {
-        "apy": 8.954366617438946,
-        "timestamp": 1758066803
-      },
-      {
-        "apy": 8.32667050800651,
-        "timestamp": 1758147875
-      },
-      {
-        "apy": 9.287214108634075,
-        "timestamp": 1758229019
-      },
-      {
-        "apy": 12.206070887417706,
-        "timestamp": 1758269567
-      },
-      {
-        "apy": 9.132157828358768,
-        "timestamp": 1758411287
-      },
-      {
-        "apy": 7.627503698467038,
-        "timestamp": 1758492167
-      },
-      {
-        "apy": 7.739767366420925,
-        "timestamp": 1758572819
-      },
-      {
-        "apy": 8.617171167164786,
-        "timestamp": 1758653831
-      },
-      {
-        "apy": 7.457411715247643,
-        "timestamp": 1758754763
-      },
-      {
-        "apy": 6.631866806258907,
-        "timestamp": 1758855503
-      },
-      {
-        "apy": 10.68215288688335,
-        "timestamp": 1759017083
-      },
-      {
-        "apy": 7.48392827480637,
-        "timestamp": 1759057319
-      },
-      {
-        "apy": 6.797612283571521,
-        "timestamp": 1759117295
-      },
-      {
-        "apy": 11.000769689226178,
-        "timestamp": 1759355855
-      },
-      {
-        "apy": 9.040380007967773,
-        "timestamp": 1759476359
-      },
-      {
-        "apy": 7.855752114797438,
-        "timestamp": 1759556603
-      },
-      {
-        "apy": 9.358848688762595,
-        "timestamp": 1759696607
-      },
-      {
-        "apy": 8.005860682654086,
-        "timestamp": 1759736759
-      },
-      {
-        "apy": 7.4130366756681445,
-        "timestamp": 1759873547
-      },
-      {
-        "apy": 9.390793936895532,
-        "timestamp": 1759913975
-      },
-      {
-        "apy": 8.346910188115656,
-        "timestamp": 1759974983
-      },
-      {
-        "apy": 10.90962057459993,
-        "timestamp": 1760076083
-      },
-      {
-        "apy": 10.17045078432264,
-        "timestamp": 1760180003
-      },
-      {
-        "apy": 9.331509612486077,
-        "timestamp": 1760261027
-      },
-      {
-        "apy": 7.392697023024549,
-        "timestamp": 1760321639
-      },
-      {
-        "apy": 6.963592006569136,
-        "timestamp": 1760483543
-      },
-      {
-        "apy": 7.12116697720895,
-        "timestamp": 1760565035
-      },
-      {
-        "apy": 7.448614551818978,
-        "timestamp": 1760645927
-      },
-      {
-        "apy": 9.219412423370676,
-        "timestamp": 1760726651
-      },
-      {
-        "apy": 7.01127632700376,
-        "timestamp": 1760828039
-      },
-      {
-        "apy": 6.782509694423854,
-        "timestamp": 1760908799
-      },
-      {
-        "apy": 6.436012453955571,
-        "timestamp": 1760989739
-      },
-      {
-        "apy": 6.340354865546689,
-        "timestamp": 1761030803
-      },
-      {
-        "apy": 43.69903845218382,
-        "timestamp": 1761172283
-      },
-      {
-        "apy": 7.006930684735406,
-        "timestamp": 1761253331
-      },
-      {
-        "apy": 6.740912699688301,
-        "timestamp": 1761334379
-      },
-      {
-        "apy": 6.094690133877211,
-        "timestamp": 1761435635
-      },
-      {
-        "apy": 6.613567748866471,
-        "timestamp": 1761496235
-      },
-      {
-        "apy": 6.11495265640193,
-        "timestamp": 1761597647
-      },
-      {
-        "apy": 9.818693119055524,
-        "timestamp": 1761679355
-      },
-      {
-        "apy": 7.939171736879777,
-        "timestamp": 1761781499
-      },
-      {
-        "apy": 10.360812725914263,
-        "timestamp": 1761863075
-      },
-      {
-        "apy": 6.879513988621555,
-        "timestamp": 1761944963
-      },
-      {
-        "apy": 7.721269239385925,
-        "timestamp": 1762026239
-      },
-      {
-        "apy": 8.133413431551304,
-        "timestamp": 1762108139
-      },
-      {
-        "apy": 9.317052747504508,
-        "timestamp": 1762209875
-      },
-      {
-        "apy": 21.65620991504914,
-        "timestamp": 1762230143
-      },
-      {
-        "apy": 28.036785252794555,
-        "timestamp": 1762373195
-      },
-      {
-        "apy": 12.425991480337856,
-        "timestamp": 1762556531
-      },
-      {
-        "apy": 10.912279884495344,
-        "timestamp": 1762637891
-      },
-      {
-        "apy": 9.171844105935772,
-        "timestamp": 1762718963
-      },
-      {
-        "apy": 8.917829373728287,
-        "timestamp": 1762800119
-      },
-      {
-        "apy": 6.899794965229931,
-        "timestamp": 1762901723
-      },
-      {
-        "apy": 13.510449926413697,
-        "timestamp": 1762982567
-      },
-      {
-        "apy": 6.974953470274265,
-        "timestamp": 1763022851
-      },
-      {
-        "apy": 8.048303827837806,
-        "timestamp": 1763163575
-      },
-      {
-        "apy": 7.31092367283856,
-        "timestamp": 1763244083
-      },
-      {
-        "apy": 6.644122520322941,
-        "timestamp": 1763324543
-      },
-      {
-        "apy": 7.120837607264194,
-        "timestamp": 1763385047
-      },
-      {
-        "apy": 6.784372800355761,
-        "timestamp": 1763506367
-      },
-      {
-        "apy": 6.2497311192876515,
-        "timestamp": 1763546447
-      },
-      {
-        "apy": 5.527776847035971,
-        "timestamp": 1763606855
-      },
-      {
-        "apy": 5.5874727333353436,
-        "timestamp": 1763767823
-      },
-      {
-        "apy": 6.139610136999208,
-        "timestamp": 1763848187
-      },
-      {
-        "apy": 6.135841535640432,
-        "timestamp": 1763928611
-      },
-      {
-        "apy": 6.465010143061469,
-        "timestamp": 1763969075
-      },
-      {
-        "apy": 7.787930416024301,
-        "timestamp": 1764110519
-      },
-      {
-        "apy": 7.563740934288773,
-        "timestamp": 1764191279
-      },
-      {
-        "apy": 7.125220720258351,
-        "timestamp": 1764273311
-      },
-      {
-        "apy": 7.112087533010501,
-        "timestamp": 1764354887
-      },
-      {
-        "apy": 5.638075070912023,
-        "timestamp": 1764455675
-      },
-      {
-        "apy": 5.4460105802642005,
-        "timestamp": 1764536531
-      },
-      {
-        "apy": 6.433389190017385,
-        "timestamp": 1764617375
-      },
-      {
-        "apy": 8.598521309628774,
-        "timestamp": 1764718247
-      },
-      {
-        "apy": 6.391274460708556,
-        "timestamp": 1764799691
-      },
-      {
-        "apy": 6.413782644314046,
-        "timestamp": 1764883379
-      },
-      {
-        "apy": 6.158522777220107,
-        "timestamp": 1764965735
-      },
-      {
-        "apy": 5.416326543341109,
-        "timestamp": 1765046555
-      },
-      {
-        "apy": 5.7895450780666895,
-        "timestamp": 1765147307
-      },
-      {
-        "apy": 4.826390822882211,
-        "timestamp": 1765207559
-      },
-      {
-        "apy": 6.032360940281736,
-        "timestamp": 1765308611
-      },
-      {
-        "apy": 5.715621824047977,
-        "timestamp": 1765389551
-      },
-      {
-        "apy": 5.465981317789407,
-        "timestamp": 1765490195
-      },
-      {
-        "apy": 6.378790283442476,
-        "timestamp": 1765571027
-      },
-      {
-        "apy": 5.803738009339211,
-        "timestamp": 1765651463
-      },
-      {
-        "apy": 5.459308154767706,
-        "timestamp": 1765751939
-      },
-      {
-        "apy": 5.935077704932227,
-        "timestamp": 1765832423
-      },
-      {
-        "apy": 6.113326699254082,
-        "timestamp": 1765914155
-      },
-      {
-        "apy": 6.199458795277793,
-        "timestamp": 1766015411
-      },
-      {
-        "apy": 6.529772334218783,
-        "timestamp": 1766096855
-      },
-      {
-        "apy": 5.0494955426448,
-        "timestamp": 1766177699
-      },
-      {
-        "apy": 5.426185210395563,
-        "timestamp": 1766258651
-      },
-      {
-        "apy": 5.086695569844984,
-        "timestamp": 1766359763
-      },
-      {
-        "apy": 5.800183258390299,
-        "timestamp": 1766440703
-      },
-      {
-        "apy": 83.6084266037821,
-        "timestamp": 1766521463
-      },
-      {
-        "apy": 5.7895450780666895,
-        "timestamp": 1766602019
-      },
-      {
-        "apy": 5.265668969575123,
-        "timestamp": 1766703011
-      },
-      {
-        "apy": 5.525074739118946,
-        "timestamp": 1766782883
-      },
-      {
-        "apy": 5.272065320061917,
-        "timestamp": 1766863367
-      },
-      {
-        "apy": 5.413048275223582,
-        "timestamp": 1766964395
-      },
-      {
-        "apy": 5.929653921091067,
-        "timestamp": 1767044927
-      },
-      {
-        "apy": 6.333407416015253,
-        "timestamp": 1767125099
-      },
-      {
-        "apy": 5.393264561073106,
-        "timestamp": 1767224171
-      },
-      {
-        "apy": 5.255009659554517,
-        "timestamp": 1767303227
-      },
-      {
-        "apy": 5.919836028943527,
-        "timestamp": 1767382319
-      },
-      {
-        "apy": 5.307524826313212,
-        "timestamp": 1767481715
-      },
-      {
-        "apy": 5.346755836142534,
-        "timestamp": 1767561119
-      },
-      {
-        "apy": 5.089870754175983,
-        "timestamp": 1767640319
-      },
-      {
-        "apy": 5.578491722624633,
-        "timestamp": 1767739199
-      },
-      {
-        "apy": 5.835269440644165,
-        "timestamp": 1767818495
-      },
-      {
-        "apy": 5.761566704353332,
-        "timestamp": 1767897827
-      },
-      {
-        "apy": 6.428652557045689,
-        "timestamp": 1767996875
-      },
-      {
-        "apy": 6.081561981243855,
-        "timestamp": 1768076675
-      },
-      {
-        "apy": 6.2666239589933035,
-        "timestamp": 1768175567
-      },
-      {
-        "apy": 7.667170497421984,
-        "timestamp": 1768254923
-      },
-      {
-        "apy": 5.396617586062099,
-        "timestamp": 1768334183
-      },
-      {
-        "apy": 5.066153024525661,
-        "timestamp": 1768433075
-      },
-      {
-        "apy": 5.190236432806132,
-        "timestamp": 1768512659
-      },
-      {
-        "apy": 5.340177118003029,
-        "timestamp": 1768592039
-      },
-      {
-        "apy": 5.036425957309935,
-        "timestamp": 1768691579
-      },
-      {
-        "apy": 17.93820788345786,
-        "timestamp": 1768770947
-      },
-      {
-        "apy": 5.3865709925956855,
-        "timestamp": 1768850363
-      },
-      {
-        "apy": 6.752266378081995,
-        "timestamp": 1768949771
-      },
-      {
-        "apy": 6.429458299978613,
-        "timestamp": 1769034023
-      },
-      {
-        "apy": 4.72731739183995,
-        "timestamp": 1769108495
-      },
-      {
-        "apy": 5.13715650561895,
-        "timestamp": 1769207759
-      },
-      {
-        "apy": 5.345109637813879,
-        "timestamp": 1769293139
-      },
-      {
-        "apy": 5.379894014569889,
-        "timestamp": 1769366423
-      },
-      {
-        "apy": 5.890378351083919,
-        "timestamp": 1769465939
-      },
-      {
-        "apy": 6.6853039634815925,
-        "timestamp": 1769545511
-      },
-      {
-        "apy": 5.700916670803751,
-        "timestamp": 1769644799
-      },
-      {
-        "apy": 5.164725255520995,
-        "timestamp": 1769724563
-      },
-      {
-        "apy": 4.560655686676087,
-        "timestamp": 1769764247
-      },
-      {
-        "apy": 5.916137720753153,
-        "timestamp": 1769863499
-      },
-      {
-        "apy": 4.925498834546979,
-        "timestamp": 1769983619
-      },
-      {
-        "apy": 4.594146565826522,
-        "timestamp": 1770063599
-      },
-      {
-        "apy": 5.15152949673864,
-        "timestamp": 1770162671
-      },
-      {
-        "apy": 4.724389449171654,
-        "timestamp": 1770202343
-      },
-      {
-        "apy": 5.176795808655101,
-        "timestamp": 1770300467
-      },
-      {
-        "apy": 4.295872035137376,
-        "timestamp": 1770420155
-      },
-      {
-        "apy": 3.8293042507342068,
-        "timestamp": 1770499199
-      },
-      {
-        "apy": 3.5552690410064796,
-        "timestamp": 1770579479
-      },
-      {
-        "apy": 3.2378451145139375,
-        "timestamp": 1770678755
-      },
-      {
-        "apy": 3.397221923917072,
-        "timestamp": 1770758063
-      },
-      {
-        "apy": 3.4035023447549477,
-        "timestamp": 1770797639
-      },
-      {
-        "apy": 3.2378451145139375,
-        "timestamp": 1770937019
-      },
-      {
-        "apy": 3.3549182766950154,
-        "timestamp": 1771016867
-      },
-      {
-        "apy": 3.1590889843886325,
-        "timestamp": 1771097315
-      },
-      {
-        "apy": 3.396652125607132,
-        "timestamp": 1771178339
-      },
-      {
-        "apy": 3.343747155337178,
-        "timestamp": 1771279283
-      },
-      {
-        "apy": 3.743490329063446,
-        "timestamp": 1771361219
-      },
-      {
-        "apy": 3.9786827762893644,
-        "timestamp": 1771422371
-      },
-      {
-        "apy": 3.6612963991615346,
-        "timestamp": 1771544495
       }
     ]
   },
