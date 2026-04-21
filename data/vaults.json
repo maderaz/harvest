@@ -1765,7 +1765,7 @@
     },
     "vaultType": "Autocompounder",
     "apy24h": 2.220207732602294,
-    "apy30d": 2.296301645881297,
+    "apy30d": 2.2945629723943775,
     "tvl": 1169.232568489996,
     "description": "USDC Compound V3 on Compound V3 (Arbitrum) — automatically optimizes your USDC yield via Harvest Finance.",
     "chain": "Arbitrum",
