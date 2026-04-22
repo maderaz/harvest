@@ -11,7 +11,7 @@
     "vaultType": "Autocompounder",
     "apy24h": 53.57418306020255,
     "apy30d": 52.869614526148,
-    "tvl": 22571.745713196462,
+    "tvl": 22682.531574731478,
     "description": "USDC Aerodrome on Aerodrome (Base) — automatically optimizes your USDC yield via Harvest Finance.",
     "chain": "Base",
     "contractAddress": "0xE97a32D05952357C7b5D4EafC70197a0B834f0F7",
@@ -21,7 +21,7 @@
     "apyBreakdown": [
       {
         "source": "AERO",
-        "apy": 17.74
+        "apy": 17.83
       }
     ],
     "boostedApy": null
@@ -38,7 +38,7 @@
     "vaultType": "Autocompounder",
     "apy24h": 19.144940025763734,
     "apy30d": 12.253253374112974,
-    "tvl": 574885.9380340055,
+    "tvl": 718556.0387082275,
     "description": "USDC Gauntlet Frontier V2 on Morpho (Base) — automatically optimizes your USDC yield via Harvest Finance.",
     "chain": "Base",
     "contractAddress": "0xA0200EEeD8D90aa01dE741DAEfab5F86C09D5785",
@@ -48,7 +48,7 @@
     "apyBreakdown": [
       {
         "source": "MORPHO",
-        "apy": 4.81
+        "apy": 4.78
       }
     ],
     "boostedApy": null
@@ -65,7 +65,7 @@
     "vaultType": "Autocompounder",
     "apy24h": 18.481281471276187,
     "apy30d": 13.911456524133678,
-    "tvl": 5694.2785970217,
+    "tvl": 5693.85715803255,
     "description": "USDC Clearstar Core V2 on Morpho (Ethereum) — automatically optimizes your USDC yield via Harvest Finance.",
     "chain": "Ethereum",
     "contractAddress": "0x99671dbf3D87C0b8f23E7Ea5B20CFAA6175578ca",
@@ -75,10 +75,10 @@
     "apyBreakdown": [
       {
         "source": "MORPHO",
-        "apy": 7.94
+        "apy": 7.84
       }
     ],
-    "boostedApy": 8.26
+    "boostedApy": 8.16
   },
   {
     "id": "0xb79Fd5D6772F06Ed0DF784e6f247f6eC0457CDde",
@@ -90,9 +90,9 @@
       "slug": "harvest-finance"
     },
     "vaultType": "Autocompounder",
-    "apy24h": 15.34,
-    "apy30d": 15.34,
-    "tvl": 2.845481806356,
+    "apy24h": 14.96,
+    "apy30d": 14.96,
+    "tvl": 2.847079807936,
     "description": "USDC Hypurr on Hypurr (HyperEVM) — automatically optimizes your USDC yield via Harvest Finance.",
     "chain": "HyperEVM",
     "contractAddress": "0xb79Fd5D6772F06Ed0DF784e6f247f6eC0457CDde",
@@ -102,34 +102,7 @@
     "apyBreakdown": [
       {
         "source": "USDC",
-        "apy": 15.34
-      }
-    ],
-    "boostedApy": null
-  },
-  {
-    "id": "0xD9e38d724CC5ee983BC0Fd0Ce35C3eB20417b673",
-    "slug": "usdc-fluid-base",
-    "asset": "USDC",
-    "productName": "USDC Fluid",
-    "protocol": {
-      "name": "Harvest Finance",
-      "slug": "harvest-finance"
-    },
-    "vaultType": "Autocompounder",
-    "apy24h": 14.334145105011999,
-    "apy30d": 8.21643161452727,
-    "tvl": 143959.02081317452,
-    "description": "USDC Fluid on Fluid (Base) — automatically optimizes your USDC yield via Harvest Finance.",
-    "chain": "Base",
-    "contractAddress": "0xD9e38d724CC5ee983BC0Fd0Ce35C3eB20417b673",
-    "riskLevel": "low",
-    "category": "Fluid - Base",
-    "launchDate": "",
-    "apyBreakdown": [
-      {
-        "source": "USDC",
-        "apy": 7.66
+        "apy": 14.96
       }
     ],
     "boostedApy": null
@@ -144,9 +117,9 @@
       "slug": "harvest-finance"
     },
     "vaultType": "Autocompounder",
-    "apy24h": 14.07,
-    "apy30d": 14.07,
-    "tvl": 107.483117144004,
+    "apy24h": 13.47,
+    "apy30d": 13.47,
+    "tvl": 107.475162216006,
     "description": "USDC Hyperithm Degen V2 on Morpho (Ethereum) — automatically optimizes your USDC yield via Harvest Finance.",
     "chain": "Ethereum",
     "contractAddress": "0xD02daFa6E9145ce1FAA786F80A50202E8a4255f8",
@@ -156,10 +129,37 @@
     "apyBreakdown": [
       {
         "source": "MORPHO",
-        "apy": 14.07
+        "apy": 13.47
       }
     ],
-    "boostedApy": 14.64
+    "boostedApy": 14.01
+  },
+  {
+    "id": "0x3151cEE0cdb517C0E7Db2B55FF5085e7D1809d90",
+    "slug": "usdc-autopilot-ethereum",
+    "asset": "USDC",
+    "productName": "USDC Autopilot",
+    "protocol": {
+      "name": "Harvest Finance",
+      "slug": "harvest-finance"
+    },
+    "vaultType": "Autocompounder",
+    "apy24h": 13.459999999999999,
+    "apy30d": 13.459999999999999,
+    "tvl": 10316.11347927537,
+    "description": "USDC Autopilot on Autopilot (Ethereum) — automatically optimizes your USDC yield via Harvest Finance.",
+    "chain": "Ethereum",
+    "contractAddress": "0x3151cEE0cdb517C0E7Db2B55FF5085e7D1809d90",
+    "riskLevel": "low",
+    "category": "Autopilot - Ethereum",
+    "launchDate": "",
+    "apyBreakdown": [
+      {
+        "source": "USDC",
+        "apy": 13.459999999999999
+      }
+    ],
+    "boostedApy": null
   },
   {
     "id": "0x0135d7Cf6C90A562BA533AdEb4Ca6CA2370071ab",
@@ -171,9 +171,9 @@
       "slug": "harvest-finance"
     },
     "vaultType": "Autocompounder",
-    "apy24h": 13.27,
-    "apy30d": 13.27,
-    "tvl": 51.415398394668,
+    "apy24h": 13.42,
+    "apy30d": 13.42,
+    "tvl": 51.411593092002,
     "description": "USDC Aave on Aave (Ethereum) — automatically optimizes your USDC yield via Harvest Finance.",
     "chain": "Ethereum",
     "contractAddress": "0x0135d7Cf6C90A562BA533AdEb4Ca6CA2370071ab",
@@ -183,10 +183,10 @@
     "apyBreakdown": [
       {
         "source": "USDC",
-        "apy": 13.27
+        "apy": 13.42
       }
     ],
-    "boostedApy": 13.8
+    "boostedApy": 13.96
   },
   {
     "id": "0xE5BEAcb6d013314e3601F45B3Ed226Ffa5f138E2",
@@ -200,7 +200,7 @@
     "vaultType": "Autocompounder",
     "apy24h": 13.255533462072808,
     "apy30d": 8.73767672063326,
-    "tvl": 43082.6849168095,
+    "tvl": 43079.49632621424,
     "description": "USDC Yearn OG V2 on Morpho (Base) — automatically optimizes your USDC yield via Harvest Finance.",
     "chain": "Base",
     "contractAddress": "0xE5BEAcb6d013314e3601F45B3Ed226Ffa5f138E2",
@@ -210,34 +210,7 @@
     "apyBreakdown": [
       {
         "source": "MORPHO",
-        "apy": 6.27
-      }
-    ],
-    "boostedApy": null
-  },
-  {
-    "id": "0x3151cEE0cdb517C0E7Db2B55FF5085e7D1809d90",
-    "slug": "usdc-autopilot-ethereum",
-    "asset": "USDC",
-    "productName": "USDC Autopilot",
-    "protocol": {
-      "name": "Harvest Finance",
-      "slug": "harvest-finance"
-    },
-    "vaultType": "Autocompounder",
-    "apy24h": 12.889999999999999,
-    "apy30d": 12.889999999999999,
-    "tvl": 10316.88058565892,
-    "description": "USDC Autopilot on Autopilot (Ethereum) — automatically optimizes your USDC yield via Harvest Finance.",
-    "chain": "Ethereum",
-    "contractAddress": "0x3151cEE0cdb517C0E7Db2B55FF5085e7D1809d90",
-    "riskLevel": "low",
-    "category": "Autopilot - Ethereum",
-    "launchDate": "",
-    "apyBreakdown": [
-      {
-        "source": "USDC",
-        "apy": 12.889999999999999
+        "apy": 6.11
       }
     ],
     "boostedApy": null
@@ -254,7 +227,7 @@
     "vaultType": "Autocompounder",
     "apy24h": 12.292750432553298,
     "apy30d": 5.499845509191169,
-    "tvl": 45600.530440512935,
+    "tvl": 45597.155501769405,
     "description": "USDC Lend Pool #2 on ExtraFi (Base) — automatically optimizes your USDC yield via Harvest Finance.",
     "chain": "Base",
     "contractAddress": "0xcEa7de485Cf3B69CF3D5f7DFadF9e1df31303988",
@@ -264,7 +237,7 @@
     "apyBreakdown": [
       {
         "source": "EXTRA",
-        "apy": 11.49
+        "apy": 10.39
       }
     ],
     "boostedApy": null
@@ -279,9 +252,9 @@
       "slug": "harvest-finance"
     },
     "vaultType": "Autocompounder",
-    "apy24h": 10.13,
-    "apy30d": 10.13,
-    "tvl": 97.067459889456,
+    "apy24h": 8.51,
+    "apy30d": 8.51,
+    "tvl": 97.060275834184,
     "description": "USDC Alpha Core V2 on Morpho (Ethereum) — automatically optimizes your USDC yield via Harvest Finance.",
     "chain": "Ethereum",
     "contractAddress": "0x6D84799f874918A7762625805d68Cf3181d8d5f2",
@@ -291,34 +264,34 @@
     "apyBreakdown": [
       {
         "source": "MORPHO",
-        "apy": 10.13
+        "apy": 8.51
       }
     ],
-    "boostedApy": 10.54
+    "boostedApy": 8.85
   },
   {
-    "id": "0x8A175AcB05D1F7d8EE29ace0cFB6975DeDe2ae7a",
-    "slug": "usdc-steakhouse-high-yield-instant-base",
+    "id": "0xD9e38d724CC5ee983BC0Fd0Ce35C3eB20417b673",
+    "slug": "usdc-fluid-base",
     "asset": "USDC",
-    "productName": "USDC Steakhouse High Yield Instant V2",
+    "productName": "USDC Fluid",
     "protocol": {
       "name": "Harvest Finance",
       "slug": "harvest-finance"
     },
     "vaultType": "Autocompounder",
-    "apy24h": 7.969348678665671,
-    "apy30d": 6.466341914536596,
-    "tvl": 67354.50326296566,
-    "description": "USDC Steakhouse High Yield Instant V2 on Morpho (Base) — automatically optimizes your USDC yield via Harvest Finance.",
+    "apy24h": 8.44,
+    "apy30d": 8.44,
+    "tvl": 242.125179274654,
+    "description": "USDC Fluid on Fluid (Base) — automatically optimizes your USDC yield via Harvest Finance.",
     "chain": "Base",
-    "contractAddress": "0x8A175AcB05D1F7d8EE29ace0cFB6975DeDe2ae7a",
+    "contractAddress": "0xD9e38d724CC5ee983BC0Fd0Ce35C3eB20417b673",
     "riskLevel": "low",
-    "category": "Morpho - Base",
+    "category": "Fluid - Base",
     "launchDate": "",
     "apyBreakdown": [
       {
-        "source": "MORPHO",
-        "apy": 5.51
+        "source": "USDC",
+        "apy": 8.44
       }
     ],
     "boostedApy": null
@@ -333,9 +306,9 @@
       "slug": "harvest-finance"
     },
     "vaultType": "Autocompounder",
-    "apy24h": 7.79,
-    "apy30d": 7.79,
-    "tvl": 22.29288016536,
+    "apy24h": 8.17,
+    "apy30d": 8.17,
+    "tvl": 22.29123024804,
     "description": "USDC kpk Yield V2 on Morpho (Ethereum) — automatically optimizes your USDC yield via Harvest Finance.",
     "chain": "Ethereum",
     "contractAddress": "0x180f6E72A19dA2A791d40433c619C553FE268d94",
@@ -345,10 +318,37 @@
     "apyBreakdown": [
       {
         "source": "MORPHO",
-        "apy": 7.79
+        "apy": 8.17
       }
     ],
-    "boostedApy": 8.1
+    "boostedApy": 8.5
+  },
+  {
+    "id": "0x8A175AcB05D1F7d8EE29ace0cFB6975DeDe2ae7a",
+    "slug": "usdc-steakhouse-high-yield-instant-base",
+    "asset": "USDC",
+    "productName": "USDC Steakhouse High Yield Instant V2",
+    "protocol": {
+      "name": "Harvest Finance",
+      "slug": "harvest-finance"
+    },
+    "vaultType": "Autocompounder",
+    "apy24h": 7.969348678665671,
+    "apy30d": 6.466341914536596,
+    "tvl": 67349.5182919485,
+    "description": "USDC Steakhouse High Yield Instant V2 on Morpho (Base) — automatically optimizes your USDC yield via Harvest Finance.",
+    "chain": "Base",
+    "contractAddress": "0x8A175AcB05D1F7d8EE29ace0cFB6975DeDe2ae7a",
+    "riskLevel": "low",
+    "category": "Morpho - Base",
+    "launchDate": "",
+    "apyBreakdown": [
+      {
+        "source": "MORPHO",
+        "apy": 5.37
+      }
+    ],
+    "boostedApy": null
   },
   {
     "id": "0xC777031D50F632083Be7080e51E390709062263E",
@@ -362,7 +362,7 @@
     "vaultType": "Autocompounder",
     "apy24h": 7.646405412640903,
     "apy30d": 6.916205355926733,
-    "tvl": 2020643.8496845122,
+    "tvl": 2020494.2999062685,
     "description": "USDC 40 Acres on 40 Acres (Base) — automatically optimizes your USDC yield via Harvest Finance.",
     "chain": "Base",
     "contractAddress": "0xC777031D50F632083Be7080e51E390709062263E",
@@ -389,7 +389,7 @@
     "vaultType": "Autocompounder",
     "apy24h": 7.4617071112273345,
     "apy30d": 5.547514400464453,
-    "tvl": 35111.197100639605,
+    "tvl": 35108.59848745941,
     "description": "USDC Dolomite on Dolomite (Arbitrum) — automatically optimizes your USDC yield via Harvest Finance.",
     "chain": "Arbitrum",
     "contractAddress": "0xB01a958d8e9dBA566c6D71f66ef566ccf5Fac859",
@@ -416,7 +416,7 @@
     "vaultType": "Autocompounder",
     "apy24h": 7.393820275640417,
     "apy30d": 6.931106525859076,
-    "tvl": 15532.864257807623,
+    "tvl": 15531.714655711436,
     "description": "USDC Lend on Arcadia (Base) — automatically optimizes your USDC yield via Harvest Finance.",
     "chain": "Base",
     "contractAddress": "0xed5A6691a3663045c6D9F12f334FBc796EE12f45",
@@ -443,7 +443,7 @@
     "vaultType": "Autocompounder",
     "apy24h": 7.336260585232732,
     "apy30d": 2.6685127436389497,
-    "tvl": 9893.363566455851,
+    "tvl": 9892.631349183777,
     "description": "USDC Prime on Aave (Ethereum) — automatically optimizes your USDC yield via Harvest Finance.",
     "chain": "Ethereum",
     "contractAddress": "0xB35e6C3c1147897B264642AECE0740870c81CA3f",
@@ -453,10 +453,37 @@
     "apyBreakdown": [
       {
         "source": "USDC",
-        "apy": 13.72
+        "apy": 14.32
       }
     ],
-    "boostedApy": 14.27
+    "boostedApy": 14.9
+  },
+  {
+    "id": "0x71EB5907333dD2a768d6D74cBD9054c0A0B16BE9",
+    "slug": "usdc-aerodrome-base-2",
+    "asset": "USDC",
+    "productName": "USDC Aerodrome",
+    "protocol": {
+      "name": "Harvest Finance",
+      "slug": "harvest-finance"
+    },
+    "vaultType": "Autocompounder",
+    "apy24h": 7.25,
+    "apy30d": 7.25,
+    "tvl": 429.64608905452525,
+    "description": "USDC Aerodrome on Aerodrome (Base) — automatically optimizes your USDC yield via Harvest Finance.",
+    "chain": "Base",
+    "contractAddress": "0x71EB5907333dD2a768d6D74cBD9054c0A0B16BE9",
+    "riskLevel": "low",
+    "category": "Aerodrome - Base",
+    "launchDate": "",
+    "apyBreakdown": [
+      {
+        "source": "AERO",
+        "apy": 7.25
+      }
+    ],
+    "boostedApy": null
   },
   {
     "id": "0x58677351d11F8941c7199c49aa7379A156404972",
@@ -468,9 +495,9 @@
       "slug": "harvest-finance"
     },
     "vaultType": "Autocompounder",
-    "apy24h": 7.21,
-    "apy30d": 7.21,
-    "tvl": 275.037539418852,
+    "apy24h": 7.09,
+    "apy30d": 7.09,
+    "tvl": 275.017183628278,
     "description": "USDC Fluid on Fluid (Arbitrum) — automatically optimizes your USDC yield via Harvest Finance.",
     "chain": "Arbitrum",
     "contractAddress": "0x58677351d11F8941c7199c49aa7379A156404972",
@@ -480,7 +507,7 @@
     "apyBreakdown": [
       {
         "source": "USDC",
-        "apy": 7.21
+        "apy": 7.09
       }
     ],
     "boostedApy": null
@@ -495,9 +522,9 @@
       "slug": "harvest-finance"
     },
     "vaultType": "Autocompounder",
-    "apy24h": 7.19,
-    "apy30d": 7.19,
-    "tvl": 54.278912531844,
+    "apy24h": 6.9,
+    "apy30d": 6.9,
+    "tvl": 54.274895297766,
     "description": "USDC Smokehouse on Morpho (Ethereum) — automatically optimizes your USDC yield via Harvest Finance.",
     "chain": "Ethereum",
     "contractAddress": "0x67735DC14F14deb8d1acdFf09a41e6bDA7234EBB",
@@ -507,37 +534,10 @@
     "apyBreakdown": [
       {
         "source": "MORPHO",
-        "apy": 7.19
+        "apy": 6.9
       }
     ],
-    "boostedApy": 7.48
-  },
-  {
-    "id": "0x71EB5907333dD2a768d6D74cBD9054c0A0B16BE9",
-    "slug": "usdc-aerodrome-base-2",
-    "asset": "USDC",
-    "productName": "USDC Aerodrome",
-    "protocol": {
-      "name": "Harvest Finance",
-      "slug": "harvest-finance"
-    },
-    "vaultType": "Autocompounder",
-    "apy24h": 7.13,
-    "apy30d": 7.13,
-    "tvl": 432.2052042087844,
-    "description": "USDC Aerodrome on Aerodrome (Base) — automatically optimizes your USDC yield via Harvest Finance.",
-    "chain": "Base",
-    "contractAddress": "0x71EB5907333dD2a768d6D74cBD9054c0A0B16BE9",
-    "riskLevel": "low",
-    "category": "Aerodrome - Base",
-    "launchDate": "",
-    "apyBreakdown": [
-      {
-        "source": "AERO",
-        "apy": 7.13
-      }
-    ],
-    "boostedApy": null
+    "boostedApy": 7.18
   },
   {
     "id": "0x803Ae650Bc7c40b03Fe1C33F2a787E81f1c4819c",
@@ -549,9 +549,9 @@
       "slug": "harvest-finance"
     },
     "vaultType": "Autocompounder",
-    "apy24h": 6.86,
-    "apy30d": 6.86,
-    "tvl": 93.612972229308,
+    "apy24h": 6.79,
+    "apy30d": 6.79,
+    "tvl": 93.606748687452,
     "description": "USDC Aave on Aave (Arbitrum) — automatically optimizes your USDC yield via Harvest Finance.",
     "chain": "Arbitrum",
     "contractAddress": "0x803Ae650Bc7c40b03Fe1C33F2a787E81f1c4819c",
@@ -561,7 +561,34 @@
     "apyBreakdown": [
       {
         "source": "AAVE",
-        "apy": 6.86
+        "apy": 6.79
+      }
+    ],
+    "boostedApy": null
+  },
+  {
+    "id": "0xE4BdD09b17e21612717bb0aE9e372Fe9F543620A",
+    "slug": "usdc-felix-hyperevm",
+    "asset": "USDC",
+    "productName": "USDC Felix",
+    "protocol": {
+      "name": "Harvest Finance",
+      "slug": "harvest-finance"
+    },
+    "vaultType": "Autocompounder",
+    "apy24h": 6.28,
+    "apy30d": 6.28,
+    "tvl": 4.79554515258,
+    "description": "USDC Felix on Morpho (HyperEVM) — automatically optimizes your USDC yield via Harvest Finance.",
+    "chain": "HyperEVM",
+    "contractAddress": "0xE4BdD09b17e21612717bb0aE9e372Fe9F543620A",
+    "riskLevel": "low",
+    "category": "Morpho - HyperEVM",
+    "launchDate": "",
+    "apyBreakdown": [
+      {
+        "source": "MORPHO",
+        "apy": 6.28
       }
     ],
     "boostedApy": null
@@ -576,9 +603,9 @@
       "slug": "harvest-finance"
     },
     "vaultType": "Autocompounder",
-    "apy24h": 6.23,
-    "apy30d": 6.23,
-    "tvl": 20.703453435336,
+    "apy24h": 6.2,
+    "apy30d": 6.2,
+    "tvl": 20.701921153004,
     "description": "USDC kpk Prime V2 on Morpho (Ethereum) — automatically optimizes your USDC yield via Harvest Finance.",
     "chain": "Ethereum",
     "contractAddress": "0x4292059EA6de854733C38f65259b9e8516FEB214",
@@ -588,10 +615,10 @@
     "apyBreakdown": [
       {
         "source": "MORPHO",
-        "apy": 6.23
+        "apy": 6.2
       }
     ],
-    "boostedApy": 6.48
+    "boostedApy": 6.45
   },
   {
     "id": "0x407D3d942d0911a2fEA7E22417f81E27c02D6c6F",
@@ -605,7 +632,7 @@
     "vaultType": "Autocompounder",
     "apy24h": 6.109999999999999,
     "apy30d": 6.109999999999999,
-    "tvl": 32684.59602775853,
+    "tvl": 32682.16579212863,
     "description": "USDC Autopilot on Autopilot (Arbitrum) — automatically optimizes your USDC yield via Harvest Finance.",
     "chain": "Arbitrum",
     "contractAddress": "0x407D3d942d0911a2fEA7E22417f81E27c02D6c6F",
@@ -630,9 +657,9 @@
       "slug": "harvest-finance"
     },
     "vaultType": "Autocompounder",
-    "apy24h": 5.96,
-    "apy30d": 5.96,
-    "tvl": 4.807119441012,
+    "apy24h": 6.05,
+    "apy30d": 6.05,
+    "tvl": 4.806763661518,
     "description": "USDC Gauntlet on Morpho (HyperEVM) — automatically optimizes your USDC yield via Harvest Finance.",
     "chain": "HyperEVM",
     "contractAddress": "0xe5e22bf58Af97cd21138AF8Af06AC70b25204454",
@@ -642,34 +669,7 @@
     "apyBreakdown": [
       {
         "source": "MORPHO",
-        "apy": 5.96
-      }
-    ],
-    "boostedApy": null
-  },
-  {
-    "id": "0xE4BdD09b17e21612717bb0aE9e372Fe9F543620A",
-    "slug": "usdc-felix-hyperevm",
-    "asset": "USDC",
-    "productName": "USDC Felix",
-    "protocol": {
-      "name": "Harvest Finance",
-      "slug": "harvest-finance"
-    },
-    "vaultType": "Autocompounder",
-    "apy24h": 5.93,
-    "apy30d": 5.93,
-    "tvl": 4.79590010172,
-    "description": "USDC Felix on Morpho (HyperEVM) — automatically optimizes your USDC yield via Harvest Finance.",
-    "chain": "HyperEVM",
-    "contractAddress": "0xE4BdD09b17e21612717bb0aE9e372Fe9F543620A",
-    "riskLevel": "low",
-    "category": "Morpho - HyperEVM",
-    "launchDate": "",
-    "apyBreakdown": [
-      {
-        "source": "MORPHO",
-        "apy": 5.93
+        "apy": 6.05
       }
     ],
     "boostedApy": null
@@ -684,9 +684,9 @@
       "slug": "harvest-finance"
     },
     "vaultType": "Autocompounder",
-    "apy24h": 5.66,
-    "apy30d": 5.66,
-    "tvl": 98.616204641304,
+    "apy24h": 5.75,
+    "apy30d": 5.75,
+    "tvl": 98.608905961956,
     "description": "USDC Fluid on Fluid (Ethereum) — automatically optimizes your USDC yield via Harvest Finance.",
     "chain": "Ethereum",
     "contractAddress": "0xfc1c3E7b62181f9A66AEc94C9bE54dc525e2838F",
@@ -696,10 +696,10 @@
     "apyBreakdown": [
       {
         "source": "USDC",
-        "apy": 5.66
+        "apy": 5.75
       }
     ],
-    "boostedApy": 5.89
+    "boostedApy": 5.98
   },
   {
     "id": "0xd6701905c59EE618dc36DC747506BCE0a4AC760A",
@@ -711,9 +711,9 @@
       "slug": "harvest-finance"
     },
     "vaultType": "Autocompounder",
-    "apy24h": 5.659999999999999,
-    "apy30d": 5.659999999999999,
-    "tvl": 110408.87166124023,
+    "apy24h": 5.51,
+    "apy30d": 5.51,
+    "tvl": 110400.66232376972,
     "description": "USDC MORPHO on Autopilot (Base) — automatically optimizes your USDC yield via Harvest Finance.",
     "chain": "Base",
     "contractAddress": "0xd6701905c59EE618dc36DC747506BCE0a4AC760A",
@@ -723,10 +723,37 @@
     "apyBreakdown": [
       {
         "source": "USDC",
-        "apy": 5.659999999999999
+        "apy": 5.51
       }
     ],
     "boostedApy": null
+  },
+  {
+    "id": "0x32DE5CC930A193bdd130E377c38c7053c90EB360",
+    "slug": "usdc-oev-boosted-ethereum",
+    "asset": "USDC",
+    "productName": "USDC OEV-boosted",
+    "protocol": {
+      "name": "Harvest Finance",
+      "slug": "harvest-finance"
+    },
+    "vaultType": "Autocompounder",
+    "apy24h": 5.46,
+    "apy30d": 5.46,
+    "tvl": 52.139014568576,
+    "description": "USDC OEV-boosted on Morpho (Ethereum) — automatically optimizes your USDC yield via Harvest Finance.",
+    "chain": "Ethereum",
+    "contractAddress": "0x32DE5CC930A193bdd130E377c38c7053c90EB360",
+    "riskLevel": "low",
+    "category": "Morpho - Ethereum",
+    "launchDate": "",
+    "apyBreakdown": [
+      {
+        "source": "MORPHO",
+        "apy": 5.46
+      }
+    ],
+    "boostedApy": 5.68
   },
   {
     "id": "0x857a6072754532Ae77AdA617a7d0900B63c1e2A1",
@@ -740,7 +767,7 @@
     "vaultType": "Autocompounder",
     "apy24h": 5.4499705855708225,
     "apy30d": 6.626809125537947,
-    "tvl": 2205.086072953848,
+    "tvl": 2204.922872430772,
     "description": "USDC Theo Frontier on Euler (Arbitrum) — automatically optimizes your USDC yield via Harvest Finance.",
     "chain": "Arbitrum",
     "contractAddress": "0x857a6072754532Ae77AdA617a7d0900B63c1e2A1",
@@ -756,60 +783,6 @@
     "boostedApy": null
   },
   {
-    "id": "0x58F8AFd6F6499B02E68CB8964Fd1d3dA3afB9465",
-    "slug": "usdc-compound-v3-base",
-    "asset": "USDC",
-    "productName": "USDC Compound V3",
-    "protocol": {
-      "name": "Harvest Finance",
-      "slug": "harvest-finance"
-    },
-    "vaultType": "Autocompounder",
-    "apy24h": 5.4,
-    "apy30d": 5.4,
-    "tvl": 11.048396595264,
-    "description": "USDC Compound V3 on Compound V3 (Base) — automatically optimizes your USDC yield via Harvest Finance.",
-    "chain": "Base",
-    "contractAddress": "0x58F8AFd6F6499B02E68CB8964Fd1d3dA3afB9465",
-    "riskLevel": "low",
-    "category": "Compound V3 - Base",
-    "launchDate": "",
-    "apyBreakdown": [
-      {
-        "source": "COMP",
-        "apy": 5.4
-      }
-    ],
-    "boostedApy": null
-  },
-  {
-    "id": "0x32DE5CC930A193bdd130E377c38c7053c90EB360",
-    "slug": "usdc-oev-boosted-ethereum",
-    "asset": "USDC",
-    "productName": "USDC OEV-boosted",
-    "protocol": {
-      "name": "Harvest Finance",
-      "slug": "harvest-finance"
-    },
-    "vaultType": "Autocompounder",
-    "apy24h": 5.39,
-    "apy30d": 5.39,
-    "tvl": 52.142873712384,
-    "description": "USDC OEV-boosted on Morpho (Ethereum) — automatically optimizes your USDC yield via Harvest Finance.",
-    "chain": "Ethereum",
-    "contractAddress": "0x32DE5CC930A193bdd130E377c38c7053c90EB360",
-    "riskLevel": "low",
-    "category": "Morpho - Ethereum",
-    "launchDate": "",
-    "apyBreakdown": [
-      {
-        "source": "MORPHO",
-        "apy": 5.39
-      }
-    ],
-    "boostedApy": 5.61
-  },
-  {
     "id": "0x492A07E2f2BD6a85597052f6497aC830DA0a5f63",
     "slug": "usdc-curve-base",
     "asset": "USDC",
@@ -819,9 +792,9 @@
       "slug": "harvest-finance"
     },
     "vaultType": "Autocompounder",
-    "apy24h": 5.23,
-    "apy30d": 5.23,
-    "tvl": 37.76844088576189,
+    "apy24h": 5.27,
+    "apy30d": 5.27,
+    "tvl": 37.77129029596351,
     "description": "USDC Curve on Curve (Base) — automatically optimizes your USDC yield via Harvest Finance.",
     "chain": "Base",
     "contractAddress": "0x492A07E2f2BD6a85597052f6497aC830DA0a5f63",
@@ -831,61 +804,7 @@
     "apyBreakdown": [
       {
         "source": "CRV",
-        "apy": 5.23
-      }
-    ],
-    "boostedApy": null
-  },
-  {
-    "id": "0x0d877Dc7C8Fa3aD980DfDb18B48eC9F8768359C4",
-    "slug": "usdc-autopilot-base",
-    "asset": "USDC",
-    "productName": "USDC Autopilot",
-    "protocol": {
-      "name": "Harvest Finance",
-      "slug": "harvest-finance"
-    },
-    "vaultType": "Autocompounder",
-    "apy24h": 5.2299999999999995,
-    "apy30d": 5.2299999999999995,
-    "tvl": 718586.8756351492,
-    "description": "USDC Autopilot on Autopilot (Base) — automatically optimizes your USDC yield via Harvest Finance.",
-    "chain": "Base",
-    "contractAddress": "0x0d877Dc7C8Fa3aD980DfDb18B48eC9F8768359C4",
-    "riskLevel": "low",
-    "category": "Autopilot - Base",
-    "launchDate": "",
-    "apyBreakdown": [
-      {
-        "source": "USDC",
-        "apy": 5.2299999999999995
-      }
-    ],
-    "boostedApy": null
-  },
-  {
-    "id": "0x476E972E5FBD1A8D94e3e5cc09D3833515f58095",
-    "slug": "usdc-clearstar-high-yield-base",
-    "asset": "USDC",
-    "productName": "USDC Clearstar High Yield V2",
-    "protocol": {
-      "name": "Harvest Finance",
-      "slug": "harvest-finance"
-    },
-    "vaultType": "Autocompounder",
-    "apy24h": 5.1,
-    "apy30d": 5.1,
-    "tvl": 67.255352734416,
-    "description": "USDC Clearstar High Yield V2 on Morpho (Base) — automatically optimizes your USDC yield via Harvest Finance.",
-    "chain": "Base",
-    "contractAddress": "0x476E972E5FBD1A8D94e3e5cc09D3833515f58095",
-    "riskLevel": "low",
-    "category": "Morpho - Base",
-    "launchDate": "",
-    "apyBreakdown": [
-      {
-        "source": "MORPHO",
-        "apy": 5.1
+        "apy": 5.27
       }
     ],
     "boostedApy": null
@@ -902,7 +821,7 @@
     "vaultType": "Autocompounder",
     "apy24h": 5.056727696300249,
     "apy30d": 5.456277008288324,
-    "tvl": 1083053.8813938298,
+    "tvl": 1082973.7235432449,
     "description": "USDC Gauntlet Frontier V2 on Morpho (Ethereum) — automatically optimizes your USDC yield via Harvest Finance.",
     "chain": "Ethereum",
     "contractAddress": "0xf0358e8c3CD5Fa238a29301d0bEa3D63A17bEdBE",
@@ -912,7 +831,7 @@
     "apyBreakdown": [
       {
         "source": "MORPHO",
-        "apy": 6.06
+        "apy": 6.25
       }
     ],
     "boostedApy": null
@@ -929,7 +848,7 @@
     "vaultType": "Autocompounder",
     "apy24h": 5.044205428874772,
     "apy30d": 4.175450689148485,
-    "tvl": 39787.64787747649,
+    "tvl": 39784.703155714735,
     "description": "USDC Lend on ExtraFi (Base) — automatically optimizes your USDC yield via Harvest Finance.",
     "chain": "Base",
     "contractAddress": "0x00f281832f74D3eb391C219148EE3b7c8Bb46319",
@@ -945,6 +864,33 @@
     "boostedApy": null
   },
   {
+    "id": "0x476E972E5FBD1A8D94e3e5cc09D3833515f58095",
+    "slug": "usdc-clearstar-high-yield-base",
+    "asset": "USDC",
+    "productName": "USDC Clearstar High Yield V2",
+    "protocol": {
+      "name": "Harvest Finance",
+      "slug": "harvest-finance"
+    },
+    "vaultType": "Autocompounder",
+    "apy24h": 4.86,
+    "apy30d": 4.86,
+    "tvl": 67.250375101624,
+    "description": "USDC Clearstar High Yield V2 on Morpho (Base) — automatically optimizes your USDC yield via Harvest Finance.",
+    "chain": "Base",
+    "contractAddress": "0x476E972E5FBD1A8D94e3e5cc09D3833515f58095",
+    "riskLevel": "low",
+    "category": "Morpho - Base",
+    "launchDate": "",
+    "apyBreakdown": [
+      {
+        "source": "MORPHO",
+        "apy": 4.86
+      }
+    ],
+    "boostedApy": null
+  },
+  {
     "id": "0x4E7996aaA1aa8e56017FeFc41CF17D3A244f901f",
     "slug": "usdc-coinshift-ethereum",
     "asset": "USDC",
@@ -954,9 +900,9 @@
       "slug": "harvest-finance"
     },
     "vaultType": "Autocompounder",
-    "apy24h": 4.82,
-    "apy30d": 4.82,
-    "tvl": 133.09377920496,
+    "apy24h": 4.65,
+    "apy30d": 4.65,
+    "tvl": 133.08392880744,
     "description": "USDC Coinshift on Morpho (Ethereum) — automatically optimizes your USDC yield via Harvest Finance.",
     "chain": "Ethereum",
     "contractAddress": "0x4E7996aaA1aa8e56017FeFc41CF17D3A244f901f",
@@ -966,10 +912,37 @@
     "apyBreakdown": [
       {
         "source": "MORPHO",
-        "apy": 4.82
+        "apy": 4.65
       }
     ],
-    "boostedApy": 5.01
+    "boostedApy": 4.84
+  },
+  {
+    "id": "0x0d877Dc7C8Fa3aD980DfDb18B48eC9F8768359C4",
+    "slug": "usdc-autopilot-base",
+    "asset": "USDC",
+    "productName": "USDC Autopilot",
+    "protocol": {
+      "name": "Harvest Finance",
+      "slug": "harvest-finance"
+    },
+    "vaultType": "Autocompounder",
+    "apy24h": 4.63,
+    "apy30d": 4.63,
+    "tvl": 718538.951468437,
+    "description": "USDC Autopilot on Autopilot (Base) — automatically optimizes your USDC yield via Harvest Finance.",
+    "chain": "Base",
+    "contractAddress": "0x0d877Dc7C8Fa3aD980DfDb18B48eC9F8768359C4",
+    "riskLevel": "low",
+    "category": "Autopilot - Base",
+    "launchDate": "",
+    "apyBreakdown": [
+      {
+        "source": "USDC",
+        "apy": 4.63
+      }
+    ],
+    "boostedApy": null
   },
   {
     "id": "0x47B8cdAe3BcEb0DA3236ACF2B288A01A81672AcC",
@@ -981,9 +954,9 @@
       "slug": "harvest-finance"
     },
     "vaultType": "Autocompounder",
-    "apy24h": 4.74,
-    "apy30d": 4.74,
-    "tvl": 150.616582446204,
+    "apy24h": 4.61,
+    "apy30d": 4.61,
+    "tvl": 150.605435169306,
     "description": "USDC Gauntlet Core on Morpho (Ethereum) — automatically optimizes your USDC yield via Harvest Finance.",
     "chain": "Ethereum",
     "contractAddress": "0x47B8cdAe3BcEb0DA3236ACF2B288A01A81672AcC",
@@ -993,10 +966,10 @@
     "apyBreakdown": [
       {
         "source": "USDC",
-        "apy": 4.74
+        "apy": 4.61
       }
     ],
-    "boostedApy": 4.93
+    "boostedApy": 4.8
   },
   {
     "id": "0x41B1Fce6a7378170235d068421520C02B53bc95f",
@@ -1010,7 +983,7 @@
     "vaultType": "Autocompounder",
     "apy24h": 4.38,
     "apy30d": 4.38,
-    "tvl": 141.370920006792,
+    "tvl": 141.360457010188,
     "description": "USDC Clearstar Reactor V2 on Morpho (Base) — automatically optimizes your USDC yield via Harvest Finance.",
     "chain": "Base",
     "contractAddress": "0x41B1Fce6a7378170235d068421520C02B53bc95f",
@@ -1037,7 +1010,7 @@
     "vaultType": "Autocompounder",
     "apy24h": 4,
     "apy30d": 4,
-    "tvl": 59.214039025008,
+    "tvl": 59.209656537512,
     "description": "USDC Moonwell Flagship on Morpho (Base) — automatically optimizes your USDC yield via Harvest Finance.",
     "chain": "Base",
     "contractAddress": "0x9C012E4fe655b90839e1b65a461B72813c9ac2A4",
@@ -1053,6 +1026,33 @@
     "boostedApy": null
   },
   {
+    "id": "0xc4672D771bE351B1DebA458a837f4C833b9242F5",
+    "slug": "usdc-smokehouse-base",
+    "asset": "USDC",
+    "productName": "USDC Smokehouse",
+    "protocol": {
+      "name": "Harvest Finance",
+      "slug": "harvest-finance"
+    },
+    "vaultType": "Autocompounder",
+    "apy24h": 3.88,
+    "apy30d": 3.88,
+    "tvl": 11.417397774874,
+    "description": "USDC Smokehouse on Morpho (Base) — automatically optimizes your USDC yield via Harvest Finance.",
+    "chain": "Base",
+    "contractAddress": "0xc4672D771bE351B1DebA458a837f4C833b9242F5",
+    "riskLevel": "low",
+    "category": "Morpho - Base",
+    "launchDate": "",
+    "apyBreakdown": [
+      {
+        "source": "MORPHO",
+        "apy": 3.88
+      }
+    ],
+    "boostedApy": null
+  },
+  {
     "id": "0xf00Af0e100Da01Ce122106893d3DDA2dA31ed75A",
     "slug": "usdc-aerodrome-base",
     "asset": "USDC",
@@ -1062,9 +1062,9 @@
       "slug": "harvest-finance"
     },
     "vaultType": "Autocompounder",
-    "apy24h": 3.83,
-    "apy30d": 3.83,
-    "tvl": 10.578836913321162,
+    "apy24h": 3.87,
+    "apy30d": 3.87,
+    "tvl": 10.597203097742707,
     "description": "USDC Aerodrome on Aerodrome (Base) — automatically optimizes your USDC yield via Harvest Finance.",
     "chain": "Base",
     "contractAddress": "0xf00Af0e100Da01Ce122106893d3DDA2dA31ed75A",
@@ -1074,7 +1074,7 @@
     "apyBreakdown": [
       {
         "source": "AERO",
-        "apy": 3.83
+        "apy": 3.87
       }
     ],
     "boostedApy": null
@@ -1089,12 +1089,39 @@
       "slug": "harvest-finance"
     },
     "vaultType": "Autocompounder",
-    "apy24h": 3.78,
-    "apy30d": 3.78,
-    "tvl": 10.154079973716,
+    "apy24h": 3.79,
+    "apy30d": 3.79,
+    "tvl": 10.153328460574,
     "description": "USDC cbETH on Morpho Market (Base) — automatically optimizes your USDC yield via Harvest Finance.",
     "chain": "Base",
     "contractAddress": "0xaD38c006FaBb307C92c5d88Bf644febc13D02c19",
+    "riskLevel": "low",
+    "category": "Morpho Market - Base",
+    "launchDate": "",
+    "apyBreakdown": [
+      {
+        "source": "MORPHO",
+        "apy": 3.79
+      }
+    ],
+    "boostedApy": null
+  },
+  {
+    "id": "0x5250bd2C5F05E128883e8BBDB4E6f9f79EA64Cab",
+    "slug": "usdc-wsteth-base",
+    "asset": "USDC",
+    "productName": "USDC wstETH",
+    "protocol": {
+      "name": "Harvest Finance",
+      "slug": "harvest-finance"
+    },
+    "vaultType": "Autocompounder",
+    "apy24h": 3.78,
+    "apy30d": 3.78,
+    "tvl": 10.147107841858,
+    "description": "USDC wstETH on Morpho Market (Base) — automatically optimizes your USDC yield via Harvest Finance.",
+    "chain": "Base",
+    "contractAddress": "0x5250bd2C5F05E128883e8BBDB4E6f9f79EA64Cab",
     "riskLevel": "low",
     "category": "Morpho Market - Base",
     "launchDate": "",
@@ -1116,9 +1143,9 @@
       "slug": "harvest-finance"
     },
     "vaultType": "Autocompounder",
-    "apy24h": 3.75,
-    "apy30d": 3.75,
-    "tvl": 10.190474586516,
+    "apy24h": 3.76,
+    "apy30d": 3.76,
+    "tvl": 10.189720379774,
     "description": "USDC cbBTC on Morpho Market (Base) — automatically optimizes your USDC yield via Harvest Finance.",
     "chain": "Base",
     "contractAddress": "0x7DbcF082CD501733F2a84E31e61Ac83953d59cB1",
@@ -1128,16 +1155,16 @@
     "apyBreakdown": [
       {
         "source": "MORPHO",
-        "apy": 3.75
+        "apy": 3.76
       }
     ],
     "boostedApy": null
   },
   {
-    "id": "0x5250bd2C5F05E128883e8BBDB4E6f9f79EA64Cab",
-    "slug": "usdc-wsteth-base",
+    "id": "0x90B0B5356A984A98F087e63F375Cc0EB222b465d",
+    "slug": "usdc-weth-base",
     "asset": "USDC",
-    "productName": "USDC wstETH",
+    "productName": "USDC WETH",
     "protocol": {
       "name": "Harvest Finance",
       "slug": "harvest-finance"
@@ -1145,10 +1172,10 @@
     "vaultType": "Autocompounder",
     "apy24h": 3.75,
     "apy30d": 3.75,
-    "tvl": 10.147858894572,
-    "description": "USDC wstETH on Morpho Market (Base) — automatically optimizes your USDC yield via Harvest Finance.",
+    "tvl": 10.156810687348,
+    "description": "USDC WETH on Morpho Market (Base) — automatically optimizes your USDC yield via Harvest Finance.",
     "chain": "Base",
-    "contractAddress": "0x5250bd2C5F05E128883e8BBDB4E6f9f79EA64Cab",
+    "contractAddress": "0x90B0B5356A984A98F087e63F375Cc0EB222b465d",
     "riskLevel": "low",
     "category": "Morpho Market - Base",
     "launchDate": "",
@@ -1172,7 +1199,7 @@
     "vaultType": "Autocompounder",
     "apy24h": 3.75,
     "apy30d": 3.75,
-    "tvl": 11.501891468088,
+    "tvl": 11.501040202132,
     "description": "USDC Steakhouse Prime Instant V2 on Morpho (Base) — automatically optimizes your USDC yield via Harvest Finance.",
     "chain": "Base",
     "contractAddress": "0xf6Fad34F7C087489734caC1Bd4e2025aDCC15175",
@@ -1199,7 +1226,7 @@
     "vaultType": "Autocompounder",
     "apy24h": 3.75,
     "apy30d": 3.75,
-    "tvl": 20.740031021052,
+    "tvl": 20.738496031578,
     "description": "USDC Gauntlet Prime V2 on Morpho (Base) — automatically optimizes your USDC yield via Harvest Finance.",
     "chain": "Base",
     "contractAddress": "0xa4Eab2Ba5E7AbF2a327fa27AD232E6D1281acbf0",
@@ -1215,28 +1242,28 @@
     "boostedApy": null
   },
   {
-    "id": "0x90B0B5356A984A98F087e63F375Cc0EB222b465d",
-    "slug": "usdc-weth-base",
+    "id": "0x0487694D04B2473B1239cbBCF4Dd1B8c14f40E2b",
+    "slug": "usdc-aave-base",
     "asset": "USDC",
-    "productName": "USDC WETH",
+    "productName": "USDC Aave",
     "protocol": {
       "name": "Harvest Finance",
       "slug": "harvest-finance"
     },
     "vaultType": "Autocompounder",
-    "apy24h": 3.74,
-    "apy30d": 3.74,
-    "tvl": 10.157562458232,
-    "description": "USDC WETH on Morpho Market (Base) — automatically optimizes your USDC yield via Harvest Finance.",
+    "apy24h": 3.6,
+    "apy30d": 3.6,
+    "tvl": 27.63539358034,
+    "description": "USDC Aave on Aave (Base) — automatically optimizes your USDC yield via Harvest Finance.",
     "chain": "Base",
-    "contractAddress": "0x90B0B5356A984A98F087e63F375Cc0EB222b465d",
+    "contractAddress": "0x0487694D04B2473B1239cbBCF4Dd1B8c14f40E2b",
     "riskLevel": "low",
-    "category": "Morpho Market - Base",
+    "category": "Aave - Base",
     "launchDate": "",
     "apyBreakdown": [
       {
-        "source": "MORPHO",
-        "apy": 3.74
+        "source": "AAVE",
+        "apy": 3.6
       }
     ],
     "boostedApy": null
@@ -1251,9 +1278,9 @@
       "slug": "harvest-finance"
     },
     "vaultType": "Autocompounder",
-    "apy24h": 3.61,
-    "apy30d": 3.61,
-    "tvl": 27.050773892856,
+    "apy24h": 3.58,
+    "apy30d": 3.58,
+    "tvl": 27.048771839284,
     "description": "USDC Hyperithm on Morpho (Arbitrum) — automatically optimizes your USDC yield via Harvest Finance.",
     "chain": "Arbitrum",
     "contractAddress": "0xAcb760D36236b487aB4ec48932746844b6339bB5",
@@ -1263,61 +1290,7 @@
     "apyBreakdown": [
       {
         "source": "ARB",
-        "apy": 3.61
-      }
-    ],
-    "boostedApy": null
-  },
-  {
-    "id": "0xc4672D771bE351B1DebA458a837f4C833b9242F5",
-    "slug": "usdc-smokehouse-base",
-    "asset": "USDC",
-    "productName": "USDC Smokehouse",
-    "protocol": {
-      "name": "Harvest Finance",
-      "slug": "harvest-finance"
-    },
-    "vaultType": "Autocompounder",
-    "apy24h": 3.6,
-    "apy30d": 3.6,
-    "tvl": 11.418242849916,
-    "description": "USDC Smokehouse on Morpho (Base) — automatically optimizes your USDC yield via Harvest Finance.",
-    "chain": "Base",
-    "contractAddress": "0xc4672D771bE351B1DebA458a837f4C833b9242F5",
-    "riskLevel": "low",
-    "category": "Morpho - Base",
-    "launchDate": "",
-    "apyBreakdown": [
-      {
-        "source": "MORPHO",
-        "apy": 3.6
-      }
-    ],
-    "boostedApy": null
-  },
-  {
-    "id": "0x0487694D04B2473B1239cbBCF4Dd1B8c14f40E2b",
-    "slug": "usdc-aave-base",
-    "asset": "USDC",
-    "productName": "USDC Aave",
-    "protocol": {
-      "name": "Harvest Finance",
-      "slug": "harvest-finance"
-    },
-    "vaultType": "Autocompounder",
-    "apy24h": 3.56,
-    "apy30d": 3.56,
-    "tvl": 27.63743905356,
-    "description": "USDC Aave on Aave (Base) — automatically optimizes your USDC yield via Harvest Finance.",
-    "chain": "Base",
-    "contractAddress": "0x0487694D04B2473B1239cbBCF4Dd1B8c14f40E2b",
-    "riskLevel": "low",
-    "category": "Aave - Base",
-    "launchDate": "",
-    "apyBreakdown": [
-      {
-        "source": "AAVE",
-        "apy": 3.56
+        "apy": 3.58
       }
     ],
     "boostedApy": null
@@ -1334,7 +1307,7 @@
     "vaultType": "Autocompounder",
     "apy24h": 3.4773498150942834,
     "apy30d": 17.201119534099625,
-    "tvl": 2636.453912982172,
+    "tvl": 2636.4952721116015,
     "description": "USDC Quickswap on Quickswap (Polygon) — automatically optimizes your USDC yield via Harvest Finance.",
     "chain": "Polygon",
     "contractAddress": "0x4500f2B359E030AB15e90F8Ae319420e43c81270",
@@ -1359,9 +1332,9 @@
       "slug": "harvest-finance"
     },
     "vaultType": "Autocompounder",
-    "apy24h": 3.35,
-    "apy30d": 3.35,
-    "tvl": 21.630634192272,
+    "apy24h": 3.38,
+    "apy30d": 3.38,
+    "tvl": 21.629033288408,
     "description": "USDC Gauntlet Core on Morpho (Base) — automatically optimizes your USDC yield via Harvest Finance.",
     "chain": "Base",
     "contractAddress": "0x84478106F22750F2C69bFfD632EBA22E439B521A",
@@ -1371,7 +1344,7 @@
     "apyBreakdown": [
       {
         "source": "MORPHO",
-        "apy": 3.35
+        "apy": 3.38
       }
     ],
     "boostedApy": null
@@ -1388,7 +1361,7 @@
     "vaultType": "Autocompounder",
     "apy24h": 3.35,
     "apy30d": 3.35,
-    "tvl": 30.397943438436,
+    "tvl": 30.395693657654,
     "description": "USDC Spark on Morpho (Base) — automatically optimizes your USDC yield via Harvest Finance.",
     "chain": "Base",
     "contractAddress": "0xBb73B0d23E883a7E1a4c62a1B7554939dA4503D2",
@@ -1404,6 +1377,33 @@
     "boostedApy": null
   },
   {
+    "id": "0x58F8AFd6F6499B02E68CB8964Fd1d3dA3afB9465",
+    "slug": "usdc-compound-v3-base",
+    "asset": "USDC",
+    "productName": "USDC Compound V3",
+    "protocol": {
+      "name": "Harvest Finance",
+      "slug": "harvest-finance"
+    },
+    "vaultType": "Autocompounder",
+    "apy24h": 3.29,
+    "apy30d": 3.29,
+    "tvl": 11.047578892896,
+    "description": "USDC Compound V3 on Compound V3 (Base) — automatically optimizes your USDC yield via Harvest Finance.",
+    "chain": "Base",
+    "contractAddress": "0x58F8AFd6F6499B02E68CB8964Fd1d3dA3afB9465",
+    "riskLevel": "low",
+    "category": "Compound V3 - Base",
+    "launchDate": "",
+    "apyBreakdown": [
+      {
+        "source": "COMP",
+        "apy": 3.29
+      }
+    ],
+    "boostedApy": null
+  },
+  {
     "id": "0xbe6A65325A073490D0A2999529633f1Ae88bb091",
     "slug": "usdc-steakhouse-prime-arbitrum",
     "asset": "USDC",
@@ -1413,9 +1413,9 @@
       "slug": "harvest-finance"
     },
     "vaultType": "Autocompounder",
-    "apy24h": 3.29,
-    "apy30d": 3.29,
-    "tvl": 20.18149269696,
+    "apy24h": 3.17,
+    "apy30d": 3.17,
+    "tvl": 20.17999904544,
     "description": "USDC Steakhouse Prime on Morpho (Arbitrum) — automatically optimizes your USDC yield via Harvest Finance.",
     "chain": "Arbitrum",
     "contractAddress": "0xbe6A65325A073490D0A2999529633f1Ae88bb091",
@@ -1425,34 +1425,7 @@
     "apyBreakdown": [
       {
         "source": "ARB",
-        "apy": 3.29
-      }
-    ],
-    "boostedApy": null
-  },
-  {
-    "id": "0x34E2110F8C9a635477EFf75FDBe73251Fe02ae4a",
-    "slug": "usdc-gauntlet-balanced-arbitrum",
-    "asset": "USDC",
-    "productName": "USDC Gauntlet Balanced V2",
-    "protocol": {
-      "name": "Harvest Finance",
-      "slug": "harvest-finance"
-    },
-    "vaultType": "Autocompounder",
-    "apy24h": 3.09,
-    "apy30d": 3.09,
-    "tvl": 44.334251559528,
-    "description": "USDC Gauntlet Balanced V2 on Morpho (Arbitrum) — automatically optimizes your USDC yield via Harvest Finance.",
-    "chain": "Arbitrum",
-    "contractAddress": "0x34E2110F8C9a635477EFf75FDBe73251Fe02ae4a",
-    "riskLevel": "low",
-    "category": "Morpho - Arbitrum",
-    "launchDate": "",
-    "apyBreakdown": [
-      {
-        "source": "ARB",
-        "apy": 3.09
+        "apy": 3.17
       }
     ],
     "boostedApy": null
@@ -1469,7 +1442,7 @@
     "vaultType": "Autocompounder",
     "apy24h": 2.98,
     "apy30d": 2.98,
-    "tvl": 10.12583615442,
+    "tvl": 10.12508673163,
     "description": "USDC Euler Base on Euler (Base) — automatically optimizes your USDC yield via Harvest Finance.",
     "chain": "Base",
     "contractAddress": "0x01C50255DB0db3524Fdf67A2f3c0d11d5f0572d3",
@@ -1485,55 +1458,28 @@
     "boostedApy": null
   },
   {
-    "id": "0x3734273c0AD5aB9565f77294335584C904822D4D",
-    "slug": "usdc-avantgarde-core-arbitrum",
+    "id": "0x34E2110F8C9a635477EFf75FDBe73251Fe02ae4a",
+    "slug": "usdc-gauntlet-balanced-arbitrum",
     "asset": "USDC",
-    "productName": "USDC Avantgarde Core",
+    "productName": "USDC Gauntlet Balanced V2",
     "protocol": {
       "name": "Harvest Finance",
       "slug": "harvest-finance"
     },
     "vaultType": "Autocompounder",
-    "apy24h": 2.85,
-    "apy30d": 2.85,
-    "tvl": 12.924837840852,
-    "description": "USDC Avantgarde Core on Morpho (Arbitrum) — automatically optimizes your USDC yield via Harvest Finance.",
+    "apy24h": 2.93,
+    "apy30d": 2.93,
+    "tvl": 44.330970339292,
+    "description": "USDC Gauntlet Balanced V2 on Morpho (Arbitrum) — automatically optimizes your USDC yield via Harvest Finance.",
     "chain": "Arbitrum",
-    "contractAddress": "0x3734273c0AD5aB9565f77294335584C904822D4D",
+    "contractAddress": "0x34E2110F8C9a635477EFf75FDBe73251Fe02ae4a",
     "riskLevel": "low",
     "category": "Morpho - Arbitrum",
     "launchDate": "",
     "apyBreakdown": [
       {
         "source": "ARB",
-        "apy": 2.85
-      }
-    ],
-    "boostedApy": null
-  },
-  {
-    "id": "0xE6e61bF3Ec29b4ab1846EA2851FA021C0BE886BA",
-    "slug": "usdc-gauntlet-prime-arbitrum",
-    "asset": "USDC",
-    "productName": "USDC Gauntlet Prime V2",
-    "protocol": {
-      "name": "Harvest Finance",
-      "slug": "harvest-finance"
-    },
-    "vaultType": "Autocompounder",
-    "apy24h": 2.83,
-    "apy30d": 2.83,
-    "tvl": 12.905627684376,
-    "description": "USDC Gauntlet Prime V2 on Morpho (Arbitrum) — automatically optimizes your USDC yield via Harvest Finance.",
-    "chain": "Arbitrum",
-    "contractAddress": "0xE6e61bF3Ec29b4ab1846EA2851FA021C0BE886BA",
-    "riskLevel": "low",
-    "category": "Morpho - Arbitrum",
-    "launchDate": "",
-    "apyBreakdown": [
-      {
-        "source": "ARB",
-        "apy": 2.83
+        "apy": 2.93
       }
     ],
     "boostedApy": null
@@ -1550,7 +1496,7 @@
     "vaultType": "Autocompounder",
     "apy24h": 2.79,
     "apy30d": 2.79,
-    "tvl": 31.649144233308,
+    "tvl": 31.646801849962,
     "description": "USDC Steakhouse on Morpho (Base) — automatically optimizes your USDC yield via Harvest Finance.",
     "chain": "Base",
     "contractAddress": "0x174F28775913126F649680ED67F5BbD871bEC4aF",
@@ -1566,28 +1512,28 @@
     "boostedApy": null
   },
   {
-    "id": "0xedE9330Aa169f0fEca59E2e62fF443682862a0a4",
-    "slug": "usdc-steakhouse-high-yield-arbitrum",
+    "id": "0x3734273c0AD5aB9565f77294335584C904822D4D",
+    "slug": "usdc-avantgarde-core-arbitrum",
     "asset": "USDC",
-    "productName": "USDC Steakhouse High Yield V2",
+    "productName": "USDC Avantgarde Core",
     "protocol": {
       "name": "Harvest Finance",
       "slug": "harvest-finance"
     },
     "vaultType": "Autocompounder",
-    "apy24h": 2.78,
-    "apy30d": 2.78,
-    "tvl": 252.228763617348,
-    "description": "USDC Steakhouse High Yield V2 on Morpho (Arbitrum) — automatically optimizes your USDC yield via Harvest Finance.",
+    "apy24h": 2.74,
+    "apy30d": 2.74,
+    "tvl": 12.923881261278,
+    "description": "USDC Avantgarde Core on Morpho (Arbitrum) — automatically optimizes your USDC yield via Harvest Finance.",
     "chain": "Arbitrum",
-    "contractAddress": "0xedE9330Aa169f0fEca59E2e62fF443682862a0a4",
+    "contractAddress": "0x3734273c0AD5aB9565f77294335584C904822D4D",
     "riskLevel": "low",
     "category": "Morpho - Arbitrum",
     "launchDate": "",
     "apyBreakdown": [
       {
         "source": "ARB",
-        "apy": 2.78
+        "apy": 2.74
       }
     ],
     "boostedApy": null
@@ -1602,9 +1548,9 @@
       "slug": "harvest-finance"
     },
     "vaultType": "Autocompounder",
-    "apy24h": 2.75,
-    "apy30d": 2.75,
-    "tvl": 12.342509038272,
+    "apy24h": 2.74,
+    "apy30d": 2.74,
+    "tvl": 12.341595557408,
     "description": "USDC Yearn OG on Morpho (Arbitrum) — automatically optimizes your USDC yield via Harvest Finance.",
     "chain": "Arbitrum",
     "contractAddress": "0xb441f55Ac9aCd19d9D0C400dd6cE33317961eDd0",
@@ -1614,7 +1560,61 @@
     "apyBreakdown": [
       {
         "source": "ARB",
-        "apy": 2.75
+        "apy": 2.74
+      }
+    ],
+    "boostedApy": null
+  },
+  {
+    "id": "0xE6e61bF3Ec29b4ab1846EA2851FA021C0BE886BA",
+    "slug": "usdc-gauntlet-prime-arbitrum",
+    "asset": "USDC",
+    "productName": "USDC Gauntlet Prime V2",
+    "protocol": {
+      "name": "Harvest Finance",
+      "slug": "harvest-finance"
+    },
+    "vaultType": "Autocompounder",
+    "apy24h": 2.66,
+    "apy30d": 2.66,
+    "tvl": 12.904672526564,
+    "description": "USDC Gauntlet Prime V2 on Morpho (Arbitrum) — automatically optimizes your USDC yield via Harvest Finance.",
+    "chain": "Arbitrum",
+    "contractAddress": "0xE6e61bF3Ec29b4ab1846EA2851FA021C0BE886BA",
+    "riskLevel": "low",
+    "category": "Morpho - Arbitrum",
+    "launchDate": "",
+    "apyBreakdown": [
+      {
+        "source": "ARB",
+        "apy": 2.66
+      }
+    ],
+    "boostedApy": null
+  },
+  {
+    "id": "0xedE9330Aa169f0fEca59E2e62fF443682862a0a4",
+    "slug": "usdc-steakhouse-high-yield-arbitrum",
+    "asset": "USDC",
+    "productName": "USDC Steakhouse High Yield V2",
+    "protocol": {
+      "name": "Harvest Finance",
+      "slug": "harvest-finance"
+    },
+    "vaultType": "Autocompounder",
+    "apy24h": 2.62,
+    "apy30d": 2.62,
+    "tvl": 252.210095926022,
+    "description": "USDC Steakhouse High Yield V2 on Morpho (Arbitrum) — automatically optimizes your USDC yield via Harvest Finance.",
+    "chain": "Arbitrum",
+    "contractAddress": "0xedE9330Aa169f0fEca59E2e62fF443682862a0a4",
+    "riskLevel": "low",
+    "category": "Morpho - Arbitrum",
+    "launchDate": "",
+    "apyBreakdown": [
+      {
+        "source": "ARB",
+        "apy": 2.62
       }
     ],
     "boostedApy": null
@@ -1629,9 +1629,9 @@
       "slug": "harvest-finance"
     },
     "vaultType": "Autocompounder",
-    "apy24h": 2.6,
-    "apy30d": 2.6,
-    "tvl": 16.05940285656,
+    "apy24h": 2.59,
+    "apy30d": 2.59,
+    "tvl": 16.05821428484,
     "description": "USDC Yearn Degen on Morpho (Arbitrum) — automatically optimizes your USDC yield via Harvest Finance.",
     "chain": "Arbitrum",
     "contractAddress": "0x7828c3413b10f20DC2F0c0AD1AF87a60FC01831D",
@@ -1641,7 +1641,7 @@
     "apyBreakdown": [
       {
         "source": "ARB",
-        "apy": 2.6
+        "apy": 2.59
       }
     ],
     "boostedApy": null
@@ -1656,9 +1656,9 @@
       "slug": "harvest-finance"
     },
     "vaultType": "Autocompounder",
-    "apy24h": 2.57,
-    "apy30d": 2.57,
-    "tvl": 466.38389496636,
+    "apy24h": 2.58,
+    "apy30d": 2.58,
+    "tvl": 466.350733148508,
     "description": "USDC Aave on Aave (Polygon) — automatically optimizes your USDC yield via Harvest Finance.",
     "chain": "Polygon",
     "contractAddress": "0x346D81a5A7A6A8dA2F414d9EEbfFeC22F509245b",
@@ -1668,34 +1668,7 @@
     "apyBreakdown": [
       {
         "source": "AAVE",
-        "apy": 2.57
-      }
-    ],
-    "boostedApy": null
-  },
-  {
-    "id": "0xD4a3B08A9B952DaAdDB743f246FC33c47A2641D4",
-    "slug": "usdc-re7-arbitrum",
-    "asset": "USDC",
-    "productName": "USDC RE7",
-    "protocol": {
-      "name": "Harvest Finance",
-      "slug": "harvest-finance"
-    },
-    "vaultType": "Autocompounder",
-    "apy24h": 2.52,
-    "apy30d": 2.52,
-    "tvl": 11.190687533088,
-    "description": "USDC RE7 on Morpho (Arbitrum) — automatically optimizes your USDC yield via Harvest Finance.",
-    "chain": "Arbitrum",
-    "contractAddress": "0xD4a3B08A9B952DaAdDB743f246FC33c47A2641D4",
-    "riskLevel": "low",
-    "category": "Morpho - Arbitrum",
-    "launchDate": "",
-    "apyBreakdown": [
-      {
-        "source": "ARB",
-        "apy": 2.52
+        "apy": 2.58
       }
     ],
     "boostedApy": null
@@ -1710,9 +1683,9 @@
       "slug": "harvest-finance"
     },
     "vaultType": "Autocompounder",
-    "apy24h": 2.46,
-    "apy30d": 2.46,
-    "tvl": 24.208275644868,
+    "apy24h": 2.48,
+    "apy30d": 2.48,
+    "tvl": 24.206483967302,
     "description": "USDC Clearstar Reactor on Morpho (Arbitrum) — automatically optimizes your USDC yield via Harvest Finance.",
     "chain": "Arbitrum",
     "contractAddress": "0x4A8e91248E5602d0D34a5E86A9f1B60E8F2dC721",
@@ -1722,7 +1695,34 @@
     "apyBreakdown": [
       {
         "source": "ARB",
-        "apy": 2.46
+        "apy": 2.48
+      }
+    ],
+    "boostedApy": null
+  },
+  {
+    "id": "0xD4a3B08A9B952DaAdDB743f246FC33c47A2641D4",
+    "slug": "usdc-re7-arbitrum",
+    "asset": "USDC",
+    "productName": "USDC RE7",
+    "protocol": {
+      "name": "Harvest Finance",
+      "slug": "harvest-finance"
+    },
+    "vaultType": "Autocompounder",
+    "apy24h": 2.43,
+    "apy30d": 2.43,
+    "tvl": 11.189859299632,
+    "description": "USDC RE7 on Morpho (Arbitrum) — automatically optimizes your USDC yield via Harvest Finance.",
+    "chain": "Arbitrum",
+    "contractAddress": "0xD4a3B08A9B952DaAdDB743f246FC33c47A2641D4",
+    "riskLevel": "low",
+    "category": "Morpho - Arbitrum",
+    "launchDate": "",
+    "apyBreakdown": [
+      {
+        "source": "ARB",
+        "apy": 2.43
       }
     ],
     "boostedApy": null
@@ -1739,7 +1739,7 @@
     "vaultType": "Autocompounder",
     "apy24h": 2.3,
     "apy30d": 2.3,
-    "tvl": 593.906122882968,
+    "tvl": 593.862167324452,
     "description": "USDC ReactorFusion on ReactorFusion (zkSync) — automatically optimizes your USDC yield via Harvest Finance.",
     "chain": "zkSync",
     "contractAddress": "0x5837445312f5D8A77a5cFa4A28801D3EEF47bE8B",
@@ -1766,7 +1766,7 @@
     "vaultType": "Autocompounder",
     "apy24h": 2.2907561587104315,
     "apy30d": 2.294309184815448,
-    "tvl": 1169.290320416652,
+    "tvl": 1169.203780124978,
     "description": "USDC Compound V3 on Compound V3 (Arbitrum) — automatically optimizes your USDC yield via Harvest Finance.",
     "chain": "Arbitrum",
     "contractAddress": "0x7b33c028fdcd6425c60b7d2A1a54eC10bFdF14B8",
@@ -1793,7 +1793,7 @@
     "vaultType": "Autocompounder",
     "apy24h": 2,
     "apy30d": 2,
-    "tvl": 2.4723340404,
+    "tvl": 2.4721510606,
     "description": "USDC Venus on Venus (zkSync) — automatically optimizes your USDC yield via Harvest Finance.",
     "chain": "zkSync",
     "contractAddress": "0xe5c4F0644E15d0e480d8D38aC97485f8aF9D9781",
@@ -1820,7 +1820,7 @@
     "vaultType": "Autocompounder",
     "apy24h": 1.17,
     "apy30d": 1.17,
-    "tvl": 251.101408490604,
+    "tvl": 251.082824235906,
     "description": "USDC Aave on Aave (zkSync) — automatically optimizes your USDC yield via Harvest Finance.",
     "chain": "zkSync",
     "contractAddress": "0x7Ed509Bd8da45CcFF906335605c08c70e82fd4D3",
@@ -1845,9 +1845,9 @@
       "slug": "harvest-finance"
     },
     "vaultType": "Autocompounder",
-    "apy24h": 0.93,
-    "apy30d": 0.93,
-    "tvl": 13.487035623264,
+    "apy24h": 0.94,
+    "apy30d": 0.94,
+    "tvl": 13.486037434896,
     "description": "USDC Compound on Morpho (Polygon) — automatically optimizes your USDC yield via Harvest Finance.",
     "chain": "Polygon",
     "contractAddress": "0x8C88E410D75e4d7aeF470c95f83fE4d70643073E",
@@ -1857,7 +1857,7 @@
     "apyBreakdown": [
       {
         "source": "COMP",
-        "apy": 0.93
+        "apy": 0.94
       }
     ],
     "boostedApy": null
@@ -1874,7 +1874,7 @@
     "vaultType": "Autocompounder",
     "apy24h": 0.7,
     "apy30d": 0.7,
-    "tvl": 67.26060209526558,
+    "tvl": 67.2625957257923,
     "description": "USDC Aerodrome on Aerodrome (Base) — automatically optimizes your USDC yield via Harvest Finance.",
     "chain": "Base",
     "contractAddress": "0x94aA414BefB207B869904f3310665A63fBA3AE50",
@@ -1901,7 +1901,7 @@
     "vaultType": "Autocompounder",
     "apy24h": 0.49,
     "apy30d": 0.49,
-    "tvl": 9.652885161528,
+    "tvl": 9.652170742292,
     "description": "USDC Universal V2 on Morpho (Base) — automatically optimizes your USDC yield via Harvest Finance.",
     "chain": "Base",
     "contractAddress": "0x0F6d1d626fd6284C6C1c1345F30996b89B879689",
@@ -1928,7 +1928,7 @@
     "vaultType": "Autocompounder",
     "apy24h": 0.42,
     "apy30d": 0.42,
-    "tvl": 8.738573499684,
+    "tvl": 8.737926749526,
     "description": "USDC ZeroLend on ZeroLend (zkSync) — automatically optimizes your USDC yield via Harvest Finance.",
     "chain": "zkSync",
     "contractAddress": "0xc5d9c0e656f7953d98A3249730b53005Ed09601C",
@@ -1953,9 +1953,9 @@
       "slug": "harvest-finance"
     },
     "vaultType": "Autocompounder",
-    "apy24h": 0.33,
-    "apy30d": 0.33,
-    "tvl": 117.547589381628,
+    "apy24h": 0.34,
+    "apy30d": 0.34,
+    "tvl": 117.538889572442,
     "description": "USDC Re7 f(x) V2 on Morpho (Ethereum) — automatically optimizes your USDC yield via Harvest Finance.",
     "chain": "Ethereum",
     "contractAddress": "0x40C0a9789D4C38e1125C540edB664fFff69C83E7",
@@ -1965,10 +1965,10 @@
     "apyBreakdown": [
       {
         "source": "MORPHO",
-        "apy": 0.33
+        "apy": 0.34
       }
     ],
-    "boostedApy": 0.34
+    "boostedApy": 0.35
   },
   {
     "id": "0x4092E082Ec9565a5545a7663AFb01D0a35897F2D",
@@ -1982,7 +1982,7 @@
     "vaultType": "Autocompounder",
     "apy24h": 0.12,
     "apy30d": 0.12,
-    "tvl": 50.620049123784,
+    "tvl": 50.616302685676,
     "description": "USDC OpenEden on Euler (Ethereum) — automatically optimizes your USDC yield via Harvest Finance.",
     "chain": "Ethereum",
     "contractAddress": "0x4092E082Ec9565a5545a7663AFb01D0a35897F2D",
@@ -2009,7 +2009,7 @@
     "vaultType": "Autocompounder",
     "apy24h": 0.02,
     "apy30d": 0.02,
-    "tvl": 60.528751418772,
+    "tvl": 60.524271628158,
     "description": "USDC MEV PTs on Morpho (Ethereum) — automatically optimizes your USDC yield via Harvest Finance.",
     "chain": "Ethereum",
     "contractAddress": "0xEc0F532F7121c0e8ad32A4f922848eD5bd168D50",
@@ -2036,7 +2036,7 @@
     "vaultType": "Autocompounder",
     "apy24h": 0,
     "apy30d": 0,
-    "tvl": 49.9926,
+    "tvl": 49.9889,
     "description": "USDC Spectra on Morpho (Ethereum) — automatically optimizes your USDC yield via Harvest Finance.",
     "chain": "Ethereum",
     "contractAddress": "0x7dd768bc86bE6ff410Da79F3E7AEc4cE4c144fCc",
