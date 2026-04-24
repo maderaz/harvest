@@ -15619,6 +15619,11 @@
       }
     ]
   },
+  "0x3151cEE0cdb517C0E7Db2B55FF5085e7D1809d90": {
+    "tvlHistory": [],
+    "sharePriceHistory": [],
+    "apyHistory": []
+  },
   "0xf0358e8c3CD5Fa238a29301d0bEa3D63A17bEdBE": {
     "tvlHistory": [
       {
@@ -19830,11 +19835,6 @@
         "timestamp": 1771544495
       }
     ]
-  },
-  "0x3151cEE0cdb517C0E7Db2B55FF5085e7D1809d90": {
-    "tvlHistory": [],
-    "sharePriceHistory": [],
-    "apyHistory": []
   },
   "0xE4BdD09b17e21612717bb0aE9e372Fe9F543620A": {
     "tvlHistory": [],
