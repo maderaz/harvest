@@ -9,8 +9,8 @@
       "slug": "harvest-finance"
     },
     "vaultType": "Autocompounder",
-    "apy24h": 59.31924185322477,
-    "apy30d": 53.55417676606068,
+    "apy24h": 59.29490933484586,
+    "apy30d": 53.599323986022846,
     "tvl": 22622.258435641234,
     "description": "USDC Aerodrome on Aerodrome (Base) — automatically optimizes your USDC yield via Harvest Finance.",
     "chain": "Base",
@@ -36,8 +36,8 @@
       "slug": "harvest-finance"
     },
     "vaultType": "Autocompounder",
-    "apy24h": 18.609920644671792,
-    "apy30d": 13.909447051411249,
+    "apy24h": 18.80711560066336,
+    "apy30d": 14.092422165318807,
     "tvl": 381305.2537480595,
     "description": "USDC Gauntlet Frontier V2 on Morpho (Base) — automatically optimizes your USDC yield via Harvest Finance.",
     "chain": "Base",
@@ -135,6 +135,33 @@
     "boostedApy": null
   },
   {
+    "id": "0xD9e38d724CC5ee983BC0Fd0Ce35C3eB20417b673",
+    "slug": "usdc-fluid-base",
+    "asset": "USDC",
+    "productName": "USDC Fluid",
+    "protocol": {
+      "name": "Harvest Finance",
+      "slug": "harvest-finance"
+    },
+    "vaultType": "Autocompounder",
+    "apy24h": 11.887532573094452,
+    "apy30d": 8.770311264192705,
+    "tvl": 191504.73155580077,
+    "description": "USDC Fluid on Fluid (Base) — automatically optimizes your USDC yield via Harvest Finance.",
+    "chain": "Base",
+    "contractAddress": "0xD9e38d724CC5ee983BC0Fd0Ce35C3eB20417b673",
+    "riskLevel": "low",
+    "category": "Fluid - Base",
+    "launchDate": "",
+    "apyBreakdown": [
+      {
+        "source": "USDC",
+        "apy": 6.86
+      }
+    ],
+    "boostedApy": null
+  },
+  {
     "id": "0x803Ae650Bc7c40b03Fe1C33F2a787E81f1c4819c",
     "slug": "usdc-aave-arbitrum",
     "asset": "USDC",
@@ -157,33 +184,6 @@
       {
         "source": "AAVE",
         "apy": 9.46
-      }
-    ],
-    "boostedApy": null
-  },
-  {
-    "id": "0xD9e38d724CC5ee983BC0Fd0Ce35C3eB20417b673",
-    "slug": "usdc-fluid-base",
-    "asset": "USDC",
-    "productName": "USDC Fluid",
-    "protocol": {
-      "name": "Harvest Finance",
-      "slug": "harvest-finance"
-    },
-    "vaultType": "Autocompounder",
-    "apy24h": 8.390770861012816,
-    "apy30d": 8.494728638318398,
-    "tvl": 191504.73155580077,
-    "description": "USDC Fluid on Fluid (Base) — automatically optimizes your USDC yield via Harvest Finance.",
-    "chain": "Base",
-    "contractAddress": "0xD9e38d724CC5ee983BC0Fd0Ce35C3eB20417b673",
-    "riskLevel": "low",
-    "category": "Fluid - Base",
-    "launchDate": "",
-    "apyBreakdown": [
-      {
-        "source": "USDC",
-        "apy": 6.86
       }
     ],
     "boostedApy": null
@@ -279,8 +279,8 @@
       "slug": "harvest-finance"
     },
     "vaultType": "Autocompounder",
-    "apy24h": 7.311669563975129,
-    "apy30d": 7.160422661048781,
+    "apy24h": 7.4068237282569935,
+    "apy30d": 7.167164787116906,
     "tvl": 84029.3216730432,
     "description": "USDC Lend on Arcadia (Base) — automatically optimizes your USDC yield via Harvest Finance.",
     "chain": "Base",
@@ -292,6 +292,33 @@
       {
         "source": "USDC",
         "apy": 7.4
+      }
+    ],
+    "boostedApy": null
+  },
+  {
+    "id": "0x8A175AcB05D1F7d8EE29ace0cFB6975DeDe2ae7a",
+    "slug": "usdc-steakhouse-high-yield-instant-base",
+    "asset": "USDC",
+    "productName": "USDC Steakhouse High Yield Instant V2",
+    "protocol": {
+      "name": "Harvest Finance",
+      "slug": "harvest-finance"
+    },
+    "vaultType": "Autocompounder",
+    "apy24h": 7.249139227331916,
+    "apy30d": 6.7039703586968,
+    "tvl": 98191.43798169309,
+    "description": "USDC Steakhouse High Yield Instant V2 on Morpho (Base) — automatically optimizes your USDC yield via Harvest Finance.",
+    "chain": "Base",
+    "contractAddress": "0x8A175AcB05D1F7d8EE29ace0cFB6975DeDe2ae7a",
+    "riskLevel": "low",
+    "category": "Morpho - Base",
+    "launchDate": "",
+    "apyBreakdown": [
+      {
+        "source": "MORPHO",
+        "apy": 5.59
       }
     ],
     "boostedApy": null
@@ -324,60 +351,6 @@
     "boostedApy": null
   },
   {
-    "id": "0x8A175AcB05D1F7d8EE29ace0cFB6975DeDe2ae7a",
-    "slug": "usdc-steakhouse-high-yield-instant-base",
-    "asset": "USDC",
-    "productName": "USDC Steakhouse High Yield Instant V2",
-    "protocol": {
-      "name": "Harvest Finance",
-      "slug": "harvest-finance"
-    },
-    "vaultType": "Autocompounder",
-    "apy24h": 7.030532605885481,
-    "apy30d": 6.6857704182555056,
-    "tvl": 98191.43798169309,
-    "description": "USDC Steakhouse High Yield Instant V2 on Morpho (Base) — automatically optimizes your USDC yield via Harvest Finance.",
-    "chain": "Base",
-    "contractAddress": "0x8A175AcB05D1F7d8EE29ace0cFB6975DeDe2ae7a",
-    "riskLevel": "low",
-    "category": "Morpho - Base",
-    "launchDate": "",
-    "apyBreakdown": [
-      {
-        "source": "MORPHO",
-        "apy": 5.59
-      }
-    ],
-    "boostedApy": null
-  },
-  {
-    "id": "0xcEa7de485Cf3B69CF3D5f7DFadF9e1df31303988",
-    "slug": "usdc-lend-pool-2-base",
-    "asset": "USDC",
-    "productName": "USDC Lend Pool #2",
-    "protocol": {
-      "name": "Harvest Finance",
-      "slug": "harvest-finance"
-    },
-    "vaultType": "Autocompounder",
-    "apy24h": 6.955141990139246,
-    "apy30d": 5.758103025971367,
-    "tvl": 45618.50792466209,
-    "description": "USDC Lend Pool #2 on ExtraFi (Base) — automatically optimizes your USDC yield via Harvest Finance.",
-    "chain": "Base",
-    "contractAddress": "0xcEa7de485Cf3B69CF3D5f7DFadF9e1df31303988",
-    "riskLevel": "low",
-    "category": "ExtraFi - Base",
-    "launchDate": "",
-    "apyBreakdown": [
-      {
-        "source": "EXTRA",
-        "apy": 5.88
-      }
-    ],
-    "boostedApy": null
-  },
-  {
     "id": "0xC777031D50F632083Be7080e51E390709062263E",
     "slug": "usdc-40-acres-base",
     "asset": "USDC",
@@ -400,6 +373,33 @@
       {
         "source": "USDC",
         "apy": 6.5
+      }
+    ],
+    "boostedApy": null
+  },
+  {
+    "id": "0xcEa7de485Cf3B69CF3D5f7DFadF9e1df31303988",
+    "slug": "usdc-lend-pool-2-base",
+    "asset": "USDC",
+    "productName": "USDC Lend Pool #2",
+    "protocol": {
+      "name": "Harvest Finance",
+      "slug": "harvest-finance"
+    },
+    "vaultType": "Autocompounder",
+    "apy24h": 6.6586605119101545,
+    "apy30d": 5.755684649471554,
+    "tvl": 45618.50792466209,
+    "description": "USDC Lend Pool #2 on ExtraFi (Base) — automatically optimizes your USDC yield via Harvest Finance.",
+    "chain": "Base",
+    "contractAddress": "0xcEa7de485Cf3B69CF3D5f7DFadF9e1df31303988",
+    "riskLevel": "low",
+    "category": "ExtraFi - Base",
+    "launchDate": "",
+    "apyBreakdown": [
+      {
+        "source": "EXTRA",
+        "apy": 5.88
       }
     ],
     "boostedApy": null
@@ -765,8 +765,8 @@
       "slug": "harvest-finance"
     },
     "vaultType": "Autocompounder",
-    "apy24h": 4.995374933509119,
-    "apy30d": 4.263231890870081,
+    "apy24h": 5.007038837610419,
+    "apy30d": 4.271140496591142,
     "tvl": 39798.41300083364,
     "description": "USDC Lend on ExtraFi (Base) — automatically optimizes your USDC yield via Harvest Finance.",
     "chain": "Base",
