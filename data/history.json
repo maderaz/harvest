@@ -33717,11 +33717,6 @@
       }
     ]
   },
-  "0xE4BdD09b17e21612717bb0aE9e372Fe9F543620A": {
-    "tvlHistory": [],
-    "sharePriceHistory": [],
-    "apyHistory": []
-  },
   "0xed5A6691a3663045c6D9F12f334FBc796EE12f45": {
     "tvlHistory": [
       {
@@ -36509,6 +36504,11 @@
         "timestamp": 1777195343
       }
     ]
+  },
+  "0xE4BdD09b17e21612717bb0aE9e372Fe9F543620A": {
+    "tvlHistory": [],
+    "sharePriceHistory": [],
+    "apyHistory": []
   },
   "0xf0358e8c3CD5Fa238a29301d0bEa3D63A17bEdBE": {
     "tvlHistory": [

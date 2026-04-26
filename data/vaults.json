@@ -432,6 +432,33 @@
     "boostedApy": null
   },
   {
+    "id": "0xed5A6691a3663045c6D9F12f334FBc796EE12f45",
+    "slug": "usdc-lend-base",
+    "asset": "USDC",
+    "productName": "USDC Lend",
+    "protocol": {
+      "name": "Harvest Finance",
+      "slug": "harvest-finance"
+    },
+    "vaultType": "Autocompounder",
+    "apy24h": 6.184038386890915,
+    "apy30d": 7.249757546423385,
+    "tvl": 80491.61881934051,
+    "description": "USDC Lend on Arcadia (Base) — automatically optimizes your USDC yield via Harvest Finance.",
+    "chain": "Base",
+    "contractAddress": "0xed5A6691a3663045c6D9F12f334FBc796EE12f45",
+    "riskLevel": "low",
+    "category": "Arcadia - Base",
+    "launchDate": "",
+    "apyBreakdown": [
+      {
+        "source": "USDC",
+        "apy": 6.42
+      }
+    ],
+    "boostedApy": null
+  },
+  {
     "id": "0xE4BdD09b17e21612717bb0aE9e372Fe9F543620A",
     "slug": "usdc-felix-hyperevm",
     "asset": "USDC",
@@ -454,33 +481,6 @@
       {
         "source": "MORPHO",
         "apy": 6.12
-      }
-    ],
-    "boostedApy": null
-  },
-  {
-    "id": "0xed5A6691a3663045c6D9F12f334FBc796EE12f45",
-    "slug": "usdc-lend-base",
-    "asset": "USDC",
-    "productName": "USDC Lend",
-    "protocol": {
-      "name": "Harvest Finance",
-      "slug": "harvest-finance"
-    },
-    "vaultType": "Autocompounder",
-    "apy24h": 6.095189432476047,
-    "apy30d": 7.2573954318198695,
-    "tvl": 80491.61881934051,
-    "description": "USDC Lend on Arcadia (Base) — automatically optimizes your USDC yield via Harvest Finance.",
-    "chain": "Base",
-    "contractAddress": "0xed5A6691a3663045c6D9F12f334FBc796EE12f45",
-    "riskLevel": "low",
-    "category": "Arcadia - Base",
-    "launchDate": "",
-    "apyBreakdown": [
-      {
-        "source": "USDC",
-        "apy": 6.42
       }
     ],
     "boostedApy": null
@@ -738,8 +738,8 @@
       "slug": "harvest-finance"
     },
     "vaultType": "Autocompounder",
-    "apy24h": 5.003368619765831,
-    "apy30d": 4.32726554226524,
+    "apy24h": 4.9659521442604655,
+    "apy30d": 4.332306992780434,
     "tvl": 99811.02882563602,
     "description": "USDC Lend on ExtraFi (Base) — automatically optimizes your USDC yield via Harvest Finance.",
     "chain": "Base",
