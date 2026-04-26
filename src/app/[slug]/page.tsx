@@ -17,6 +17,7 @@ import { VaultHistoryTable } from "@/components/vault-history-table";
 import { EarningsCalculator } from "@/components/earnings-calculator";
 import { DepositCard } from "@/components/deposit-card";
 import { TableOfContents } from "@/components/table-of-contents";
+import { SidebarFacts } from "@/components/sidebar-facts";
 import { CopyAddressButton } from "@/components/copy-address-button";
 import { VaultHero } from "@/components/vault-hero";
 import { MarketBenchmark, EcosystemContext } from "@/components/market-sections";
@@ -334,72 +335,36 @@ export default async function ProductPage({
       <main className="pp-page pp-page-after-hero">
         <div className="pp-grid">
           <div className="pp-main">
-            {/* About + Quick Facts side by side */}
+            {/* About — prose full width */}
             <section className="pp-section" id="about">
               <h2>About {vault.productName}</h2>
-              <div className="about-grid">
-                <div className="about-prose">
+              <div className="about-prose">
+                <p>
+                  <strong>{vault.productName}</strong> is a {vault.vaultType.toLowerCase()} vault on{" "}
+                  <strong>{vault.chain}</strong> that accepts {vault.asset} deposits and routes them
+                  into the {vault.category} strategy.{" "}
+                  {vault.vaultType === "Autocompounder"
+                    ? `The vault automatically harvests rewards, swaps them back into ${vault.asset} and redeposits, compounding returns over time without manual harvesting or restaking.`
+                    : `It automatically allocates ${vault.asset} deposits across optimized yield strategies, rebalancing to capture the best available rates.`}
+                </p>
+                {vault.tvl > 0 && vault.apy24h > 0 && (
                   <p>
-                    <strong>{vault.productName}</strong> is a {vault.vaultType.toLowerCase()} vault on{" "}
-                    <strong>{vault.chain}</strong> that accepts {vault.asset} deposits and routes them
-                    into the {vault.category} strategy.{" "}
-                    {vault.vaultType === "Autocompounder"
-                      ? `The vault automatically harvests rewards, swaps them back into ${vault.asset} and redeposits, compounding returns over time without manual harvesting or restaking.`
-                      : `It automatically allocates ${vault.asset} deposits across optimized yield strategies, rebalancing to capture the best available rates.`}
+                    The vault currently holds <strong>{formatTVL(vault.tvl)}</strong> in
+                    deposits and is generating <strong>{formatAPY(vault.apy24h)} APY</strong> over
+                    the last 24 hours. The 30-day average APY sits at{" "}
+                    <strong>{formatAPY(vault.apy30d)}</strong>
+                    {(() => {
+                      if (history.sharePriceHistory.length >= 2) {
+                        const sorted = [...history.sharePriceHistory].sort((a, b) => a.timestamp - b.timestamp);
+                        const growth = sorted[0].sharePrice > 0
+                          ? ((sorted[sorted.length - 1].sharePrice - sorted[0].sharePrice) / sorted[0].sharePrice) * 100
+                          : 0;
+                        if (growth > 0) return <>, and over its lifetime share price has grown <strong>{growth.toFixed(2)}%</strong> since inception</>;
+                      }
+                      return null;
+                    })()}.
                   </p>
-                  {vault.tvl > 0 && vault.apy24h > 0 && (
-                    <p>
-                      The vault currently holds <strong>{formatTVL(vault.tvl)}</strong> in
-                      deposits and is generating <strong>{formatAPY(vault.apy24h)} APY</strong> over
-                      the last 24 hours. The 30-day average APY sits at{" "}
-                      <strong>{formatAPY(vault.apy30d)}</strong>
-                      {(() => {
-                        if (history.sharePriceHistory.length >= 2) {
-                          const sorted = [...history.sharePriceHistory].sort((a, b) => a.timestamp - b.timestamp);
-                          const growth = sorted[0].sharePrice > 0
-                            ? ((sorted[sorted.length - 1].sharePrice - sorted[0].sharePrice) / sorted[0].sharePrice) * 100
-                            : 0;
-                          if (growth > 0) return <>, and over its lifetime share price has grown <strong>{growth.toFixed(2)}%</strong> since inception</>;
-                        }
-                        return null;
-                      })()}.
-                    </p>
-                  )}
-                </div>
-                <aside className="about-facts">
-                  <div className="af-row">
-                    <span className="af-label">Strategy</span>
-                    <span className="af-val">{vault.category}</span>
-                  </div>
-                  <div className="af-row">
-                    <span className="af-label">Network</span>
-                    <span className="af-val">{vault.chain}</span>
-                  </div>
-                  <div className="af-row">
-                    <span className="af-label">Type</span>
-                    <span className="af-val">{vault.vaultType}</span>
-                  </div>
-                  <div className="af-row">
-                    <span className="af-label">Underlying</span>
-                    <span className="af-val">{vault.asset}</span>
-                  </div>
-                  <div className="af-row">
-                    <span className="af-label">Operator</span>
-                    <span className="af-val">{vault.protocol.name}</span>
-                  </div>
-                  {(() => {
-                    const apyHist = history.apyHistory.filter((p) => p.apy >= 0);
-                    if (apyHist.length === 0) return null;
-                    const sorted = [...apyHist].sort((a, b) => a.timestamp - b.timestamp);
-                    const days = Math.round((sorted[sorted.length - 1].timestamp - sorted[0].timestamp) / 86400);
-                    return days > 0 ? (
-                      <div className="af-row">
-                        <span className="af-label">Tracked for</span>
-                        <span className="af-val">{days} days</span>
-                      </div>
-                    ) : null;
-                  })()}
-                </aside>
+                )}
               </div>
             </section>
 
@@ -573,6 +538,7 @@ export default async function ProductPage({
               apy30d={vault.apy30d}
               asset={vault.asset}
             />
+            <SidebarFacts vault={vault} history={history} />
             <TableOfContents items={tocItems} />
           </div>
         </div>
