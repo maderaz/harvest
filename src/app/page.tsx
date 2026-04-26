@@ -3,6 +3,7 @@ import { getVaults } from "@/lib/data";
 import { SITE_NAME, SITE_DESCRIPTION, SITE_URL } from "@/lib/constants";
 import { VaultList } from "@/components/vault-list";
 import { formatAPY, formatTVL } from "@/lib/format";
+import { TickerStrip } from "@/components/ticker-strip";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -123,6 +124,8 @@ export default async function Home() {
   const featuredAssets = computeFeaturedAssets(vaults);
 
   return (
+    <>
+    <TickerStrip vaults={vaults} />
     <main className="page">
       {/* ——— Hero ——— */}
       <section className="hero">
@@ -232,5 +235,6 @@ export default async function Home() {
         </div>
       </div>
     </main>
+    </>
   );
 }

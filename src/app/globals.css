@@ -140,6 +140,34 @@ button { font-family: inherit; cursor: pointer; }
 .delta.down { color: var(--down); }
 .delta.neutral { color: var(--ink-4); }
 
+/* ——— ticker strip ——— */
+.ticker {
+  border-bottom: 1px solid var(--line);
+  overflow: hidden;
+  background: var(--panel);
+}
+.ticker-track {
+  display: flex;
+  gap: 0;
+  animation: ticker-scroll 60s linear infinite;
+  white-space: nowrap;
+  padding: 7px 0;
+}
+.ticker-track:hover { animation-play-state: paused; }
+.ticker-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 18px;
+  border-right: 1px solid var(--line);
+  font-size: 12px;
+}
+.ticker-item .t-name { font-weight: 500; font-size: 12px; }
+.ticker-item .t-val { font-family: var(--mono); color: var(--ink-2); font-size: 12px; }
+@keyframes ticker-scroll {
+  to { transform: translateX(-50%); }
+}
+
 /* ——— hero ——— */
 .hero {
   display: grid;
