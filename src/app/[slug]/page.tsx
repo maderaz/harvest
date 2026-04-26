@@ -7,7 +7,7 @@ import { AssetBadge } from "@/components/asset-badge";
 import { SITE_NAME, SITE_URL } from "@/lib/constants";
 import { YieldVault } from "@/lib/types";
 import type { FullVaultHistory } from "@/lib/history-api";
-import { ChartCard } from "@/components/chart-card";
+import { PerformanceHistory } from "@/components/performance-history";
 import { VaultCommentary } from "@/components/vault-commentary";
 import { VaultFaq } from "@/components/vault-faq";
 import { YieldBreakdown } from "@/components/yield-breakdown";
@@ -368,13 +368,26 @@ export default async function ProductPage({
               </div>
             </section>
 
-            {/* APY chart */}
-            {apyChartData.length >= 2 && (
+            {/* Unified Performance History (APY / TVL / Share Price tiles + chart) */}
+            {hasCharts && (
               <section className="pp-section" id="performance">
-                <ChartCard
-                  title="APY History"
-                  data={apyChartData}
-                  format="percent"
+                <h2>Performance history</h2>
+                <p>
+                  Toggle between APY, TVL and share price to inspect the vault&apos;s
+                  behaviour across timeframes.
+                </p>
+                <PerformanceHistory
+                  apyData={apyChartData}
+                  tvlData={tvlChartData}
+                  sharePriceData={sharePriceChartData}
+                  currentApy={vault.apy24h}
+                  currentTvl={vault.tvl}
+                  currentSharePrice={
+                    history.sharePriceHistory.length > 0
+                      ? history.sharePriceHistory[history.sharePriceHistory.length - 1].sharePrice
+                      : null
+                  }
+                  sharePriceGrowth={sharePriceGrowth}
                 />
               </section>
             )}
@@ -387,37 +400,14 @@ export default async function ProductPage({
               numbered
             />
 
-            {/* Consistency Score */}
             {/* Market Benchmarking */}
             <MarketBenchmark vault={vault} allVaults={allVaults} />
 
             {/* Ecosystem Context */}
             <EcosystemContext vault={vault} allVaults={allVaults} />
 
-            {/* TVL chart - shown after market positioning */}
-            {tvlChartData.length >= 2 && (
-              <section className="pp-section">
-                <ChartCard
-                  title="TVL History"
-                  data={tvlChartData}
-                  format="dollar"
-                />
-              </section>
-            )}
-
             {/* Consistency Score */}
             <ConsistencyScore history={history} spotAPY={vault.apy24h} />
-
-            {/* Share Price chart - shows compounding growth, after consistency */}
-            {sharePriceChartData.length >= 2 && (
-              <section className="pp-section">
-                <ChartCard
-                  title="Share Price History"
-                  data={sharePriceChartData}
-                  format="number"
-                />
-              </section>
-            )}
 
             {/* Yield Breakdown */}
             {vault.apyBreakdown.length > 0 && (

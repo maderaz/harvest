@@ -10,11 +10,9 @@ interface DataPoint {
 type ValueFormat = "dollar" | "percent" | "number";
 
 interface VaultChartProps {
-  title: string;
   data: DataPoint[];
   format: ValueFormat;
   color?: string;
-  rightSlot?: React.ReactNode;
 }
 
 const WINDOWS = [
@@ -121,13 +119,7 @@ function monotoneSpline(pts: { x: number; y: number }[]): string {
   return path;
 }
 
-export function VaultChart({
-  title,
-  data,
-  format,
-  color = "#3b82f6",
-  rightSlot,
-}: VaultChartProps) {
+export function VaultChart({ data, format, color = "#3b82f6" }: VaultChartProps) {
   const gradId = useId();
   const [activeWindow, setActiveWindow] = useState("All");
   const [scrub, setScrub] = useState<{
@@ -160,6 +152,13 @@ export function VaultChart({
     };
   }, [filtered]);
 
+  const peak = useMemo(() => {
+    if (filtered.length === 0) return null;
+    let best = filtered[0];
+    for (const d of filtered) if (d.value > best.value) best = d;
+    return best;
+  }, [filtered]);
+
   const toX = useCallback(
     (ts: number) => (calc ? PL + ((ts - calc.minTs) / calc.tsRange) * DRAW_W : 0),
     [calc],
@@ -171,7 +170,7 @@ export function VaultChart({
     [calc],
   );
 
-  if (!calc || filtered.length < 2) return null;
+  if (!calc || filtered.length < 2 || !peak) return null;
 
   const last = filtered[filtered.length - 1];
   const pts = filtered.map((d) => ({ x: toX(d.timestamp), y: toY(d.value) }));
@@ -187,9 +186,6 @@ export function VaultChart({
     label: formatDate(calc.minTs + (i * calc.tsRange) / 3),
     x: PL + (i * DRAW_W) / 3,
   }));
-
-  const dispVal = scrub ? scrub.value : last.value;
-  const dispDate = scrub ? formatDateFull(scrub.ts) : formatDateFull(last.timestamp);
 
   function findClosest(svgX: number) {
     let best = filtered[0];
@@ -213,104 +209,113 @@ export function VaultChart({
   return (
     <div className="vc-wrap">
       <div className="vc-header">
-        <div className="vc-header-left">
-          <span className="vc-title">{title}</span>
-          <span className="vc-value">{formatValue(dispVal, format)}</span>
-          <span className="vc-date">{dispDate}</span>
+        <div className="vc-windows">
+          {WINDOWS.map((w) => (
+            <button
+              key={w.label}
+              onPointerDown={(e) => {
+                e.stopPropagation();
+                setActiveWindow(w.label);
+              }}
+              className={`vc-win-btn${activeWindow === w.label ? " active" : ""}`}
+            >
+              {w.label}
+            </button>
+          ))}
         </div>
-        <div className="vc-controls">
-          <div className="vc-windows">
-            {WINDOWS.map((w) => (
-              <button
-                key={w.label}
-                onPointerDown={(e) => {
-                  e.stopPropagation();
-                  setActiveWindow(w.label);
-                }}
-                className={`vc-win-btn${activeWindow === w.label ? " active" : ""}`}
-              >
-                {w.label}
-              </button>
-            ))}
-          </div>
-          {rightSlot}
+        <div className="vc-peak">
+          {scrub ? (
+            <>
+              <span className="vc-peak-value">{formatValue(scrub.value, format)}</span>
+              <span className="vc-peak-sep">·</span>
+              <span className="vc-peak-date">{formatDateFull(scrub.ts)}</span>
+            </>
+          ) : (
+            <>
+              <span className="vc-peak-label">Peak:</span>
+              <span className="vc-peak-value">{formatValue(peak.value, format)}</span>
+              <span className="vc-peak-sep">·</span>
+              <span className="vc-peak-date">{formatDateFull(peak.timestamp)}</span>
+            </>
+          )}
         </div>
       </div>
 
       <div className="vc-plot">
-      <svg
-        viewBox={`0 0 ${W} ${H}`}
-        preserveAspectRatio="xMidYMid meet"
-        style={{ display: "block", width: "100%", height: "100%", cursor: "crosshair", touchAction: "pan-y" }}
-        onMouseMove={(e) => handlePointer(e.clientX, e.currentTarget.getBoundingClientRect())}
-        onMouseLeave={() => setScrub(null)}
-        onTouchMove={(e) =>
-          handlePointer(e.touches[0].clientX, e.currentTarget.getBoundingClientRect())
-        }
-        onTouchEnd={() => setScrub(null)}
-      >
-        <defs>
-          <linearGradient id={gradId} x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor={color} stopOpacity="0.2" />
-            <stop offset="100%" stopColor={color} stopOpacity="0" />
-          </linearGradient>
-        </defs>
+        <svg
+          viewBox={`0 0 ${W} ${H}`}
+          preserveAspectRatio="xMidYMid meet"
+          style={{ display: "block", width: "100%", height: "100%", cursor: "crosshair", touchAction: "pan-y" }}
+          onMouseMove={(e) => handlePointer(e.clientX, e.currentTarget.getBoundingClientRect())}
+          onMouseLeave={() => setScrub(null)}
+          onTouchMove={(e) =>
+            handlePointer(e.touches[0].clientX, e.currentTarget.getBoundingClientRect())
+          }
+          onTouchEnd={() => setScrub(null)}
+        >
+          <defs>
+            <linearGradient id={gradId} x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor={color} stopOpacity="0.22" />
+              <stop offset="100%" stopColor={color} stopOpacity="0" />
+            </linearGradient>
+          </defs>
 
-        {yTicks.map((t, i) => (
-          <g key={i}>
-            <line
-              x1={PL}
-              y1={t.y}
-              x2={W - PR}
-              y2={t.y}
-              stroke="#eef0f3"
-              strokeWidth="1"
-            />
-            <text x={PL - 6} y={t.y + 4} textAnchor="end" fontSize="10" fill="#9ca3af">
-              {formatAxisVal(t.val, format)}
+          {yTicks.map((t, i) => (
+            <g key={i}>
+              <line
+                x1={PL}
+                y1={t.y}
+                x2={W - PR}
+                y2={t.y}
+                stroke="#eef0f3"
+                strokeWidth="1"
+                strokeDasharray="2 3"
+              />
+              <text x={PL - 6} y={t.y + 4} textAnchor="end" fontSize="10" fill="#9ca3af">
+                {formatAxisVal(t.val, format)}
+              </text>
+            </g>
+          ))}
+
+          <path d={areaPath} fill={`url(#${gradId})`} />
+          <path
+            d={linePath}
+            fill="none"
+            stroke={color}
+            strokeWidth="2"
+            strokeLinejoin="round"
+            strokeLinecap="round"
+          />
+
+          {!scrub && (
+            <>
+              <circle cx={toX(last.timestamp)} cy={toY(last.value)} r="8" fill={color} opacity="0.15" />
+              <circle cx={toX(last.timestamp)} cy={toY(last.value)} r="4" fill={color} />
+            </>
+          )}
+
+          {scrub && (
+            <>
+              <line
+                x1={scrub.x}
+                y1={PT}
+                x2={scrub.x}
+                y2={H - PB}
+                stroke="#d1d5db"
+                strokeWidth="1"
+                strokeDasharray="3 3"
+              />
+              <circle cx={scrub.x} cy={scrub.y} r="5" fill={color} />
+              <circle cx={scrub.x} cy={scrub.y} r="5" fill="none" stroke="white" strokeWidth="2" />
+            </>
+          )}
+
+          {xTicks.map((t, i) => (
+            <text key={i} x={t.x} y={H - 6} textAnchor="middle" fontSize="10" fill="#9ca3af">
+              {t.label}
             </text>
-          </g>
-        ))}
-
-        <path d={areaPath} fill={`url(#${gradId})`} />
-        <path
-          d={linePath}
-          fill="none"
-          stroke={color}
-          strokeWidth="2"
-          strokeLinejoin="round"
-          strokeLinecap="round"
-        />
-
-        {!scrub && (
-          <>
-            <circle cx={toX(last.timestamp)} cy={toY(last.value)} r="8" fill={color} opacity="0.15" />
-            <circle cx={toX(last.timestamp)} cy={toY(last.value)} r="4" fill={color} />
-          </>
-        )}
-
-        {scrub && (
-          <>
-            <line
-              x1={scrub.x}
-              y1={PT}
-              x2={scrub.x}
-              y2={H - PB}
-              stroke="#d1d5db"
-              strokeWidth="1"
-              strokeDasharray="3 3"
-            />
-            <circle cx={scrub.x} cy={scrub.y} r="5" fill={color} />
-            <circle cx={scrub.x} cy={scrub.y} r="5" fill="none" stroke="white" strokeWidth="2" />
-          </>
-        )}
-
-        {xTicks.map((t, i) => (
-          <text key={i} x={t.x} y={H - 6} textAnchor="middle" fontSize="10" fill="#9ca3af">
-            {t.label}
-          </text>
-        ))}
-      </svg>
+          ))}
+        </svg>
       </div>
     </div>
   );
