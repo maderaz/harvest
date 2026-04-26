@@ -333,14 +333,16 @@ export default async function ProductPage({
       <VaultHero vault={vault} history={history} allVaults={allVaults} />
 
       <main className="pp-page pp-page-after-hero">
-        {/* About — TRULY full width, outside the 2-col grid */}
-        <section className="pp-section pp-fullwidth-section" id="about">
-          <h2>About {vault.productName}</h2>
-          <div className="about-prose">
-            <p>
-              <strong>{vault.productName}</strong> is a {vault.vaultType.toLowerCase()} vault on{" "}
-              <strong>{vault.chain}</strong> that accepts {vault.asset} deposits and routes them
-              into the {vault.category} strategy.{" "}
+        <div className="pp-grid">
+          <div className="pp-main">
+            {/* About */}
+            <section className="pp-section" id="about">
+              <h2>About {vault.productName}</h2>
+              <div className="about-prose">
+                <p>
+                  <strong>{vault.productName}</strong> is a {vault.vaultType.toLowerCase()} vault on{" "}
+                  <strong>{vault.chain}</strong> that accepts {vault.asset} deposits and routes them
+                  into the {vault.category} strategy.{" "}
                   {vault.vaultType === "Autocompounder"
                     ? `The vault automatically harvests rewards, swaps them back into ${vault.asset} and redeposits, compounding returns over time without manual harvesting or restaking.`
                     : `It automatically allocates ${vault.asset} deposits across optimized yield strategies, rebalancing to capture the best available rates.`}
@@ -363,13 +365,10 @@ export default async function ProductPage({
                     })()}.
                   </p>
                 )}
-          </div>
-        </section>
+              </div>
+            </section>
 
-        {/* 2-column grid starts here */}
-        <div className="pp-grid">
-          <div className="pp-main">
-            {/* APY chart - the headline metric, right after About */}
+            {/* APY chart */}
             {apyChartData.length >= 2 && (
               <section className="pp-section" id="performance">
                 <ChartCard

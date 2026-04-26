@@ -1452,28 +1452,30 @@ button { font-family: inherit; cursor: pointer; }
 }
 
 /* ——— New chart card layout: single-line header ——— */
-.chart-card-inner {
+/* ——— Vault Chart ——— */
+.vc-wrap {
   background: var(--panel);
   border: 1px solid var(--line);
   border-radius: var(--radius);
-  padding: 14px 16px 10px;
+  overflow: hidden;
 }
-.chart-header {
+.vc-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
-  margin-bottom: 8px;
+  gap: 12px;
+  padding: 12px 16px 10px;
   flex-wrap: wrap;
 }
-.chart-header-left {
+.vc-header-left {
   display: flex;
   align-items: baseline;
-  gap: 12px;
+  gap: 10px;
   min-width: 0;
   flex: 1;
+  flex-wrap: wrap;
 }
-.chart-title {
+.vc-title {
   font-size: 11px;
   font-weight: 500;
   letter-spacing: 0.06em;
@@ -1481,7 +1483,7 @@ button { font-family: inherit; cursor: pointer; }
   color: var(--ink-3);
   white-space: nowrap;
 }
-.chart-value {
+.vc-value {
   font-family: var(--mono);
   font-size: 16px;
   font-weight: 600;
@@ -1489,21 +1491,26 @@ button { font-family: inherit; cursor: pointer; }
   letter-spacing: -0.01em;
   font-variant-numeric: tabular-nums;
 }
-.chart-date {
+.vc-date {
   font-size: 11px;
   color: var(--ink-4);
   font-family: var(--mono);
 }
-.chart-windows {
+.vc-controls {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+.vc-windows {
   display: inline-flex;
   gap: 2px;
   background: var(--bg-2);
   border-radius: 6px;
   padding: 2px;
-  flex-shrink: 0;
 }
-.chart-window-btn {
-  padding: 3px 10px;
+.vc-win-btn {
+  padding: 3px 9px;
   font-size: 11px;
   font-family: var(--mono);
   border: none;
@@ -1512,19 +1519,22 @@ button { font-family: inherit; cursor: pointer; }
   color: var(--ink-3);
   cursor: pointer;
   font-weight: 500;
+  line-height: 1.4;
 }
-.chart-window-btn:hover { color: var(--ink); }
-.chart-window-btn.active {
+.vc-win-btn:hover { color: var(--ink); }
+.vc-win-btn.active {
   background: var(--panel);
   color: var(--ink);
   box-shadow: 0 1px 2px rgba(0,0,0,0.06);
 }
 @media (max-width: 700px) {
-  .chart-header { gap: 8px; }
-  .chart-header-left { gap: 8px; }
-  .chart-value { font-size: 14px; }
-  .chart-date { display: none; }
+  .vc-header { gap: 8px; padding: 10px 12px 8px; }
+  .vc-header-left { gap: 8px; }
+  .vc-value { font-size: 14px; }
+  .vc-date { display: none; }
 }
+/* legacy alias — keep so any stray references don't break */
+.chart-card-inner { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px 10px; }
 
 /* Extra product page styles */
 

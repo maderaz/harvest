@@ -14,6 +14,7 @@ interface VaultChartProps {
   data: DataPoint[];
   format: ValueFormat;
   color?: string;
+  rightSlot?: React.ReactNode;
 }
 
 const WINDOWS = [
@@ -22,6 +23,15 @@ const WINDOWS = [
   { label: "90D", days: 90 },
   { label: "All", days: 0 },
 ];
+
+const W = 600;
+const H = 180;
+const PT = 10;
+const PB = 26;
+const PL = 54;
+const PR = 14;
+const DRAW_W = W - PL - PR;
+const DRAW_H = H - PT - PB;
 
 function formatValue(value: number, format: ValueFormat): string {
   switch (format) {
@@ -55,10 +65,7 @@ function formatAxisVal(value: number, format: ValueFormat): string {
 }
 
 function formatDate(ts: number): string {
-  return new Date(ts * 1000).toLocaleDateString("en-US", {
-    month: "short",
-    day: "numeric",
-  });
+  return new Date(ts * 1000).toLocaleDateString("en-US", { month: "short", day: "numeric" });
 }
 
 function formatDateFull(ts: number): string {
@@ -69,16 +76,7 @@ function formatDateFull(ts: number): string {
   });
 }
 
-const W = 600;
-const H = 200;
-const PT = 12;
-const PB = 26;
-const PL = 48;
-const PR = 12;
-const DRAW_W = W - PL - PR;
-const DRAW_H = H - PT - PB;
-
-function monotoneSplinePath(pts: { x: number; y: number }[]): string {
+function monotoneSpline(pts: { x: number; y: number }[]): string {
   if (pts.length < 2) return "";
   if (pts.length === 2) return `M ${pts[0].x} ${pts[0].y} L ${pts[1].x} ${pts[1].y}`;
 
@@ -93,42 +91,32 @@ function monotoneSplinePath(pts: { x: number; y: number }[]): string {
     m.push(dx[i] === 0 ? 0 : dy[i] / dx[i]);
   }
 
-  // Fritsch-Carlson tangents
-  const tangents: number[] = [m[0]];
+  const t: number[] = [m[0]];
   for (let i = 1; i < n - 1; i++) {
-    if (m[i - 1] * m[i] <= 0) {
-      tangents.push(0);
-    } else {
-      tangents.push((m[i - 1] + m[i]) / 2);
-    }
+    t.push(m[i - 1] * m[i] <= 0 ? 0 : (m[i - 1] + m[i]) / 2);
   }
-  tangents.push(m[n - 2]);
+  t.push(m[n - 2]);
 
-  // Clamp tangents to preserve monotonicity
   for (let i = 0; i < n - 1; i++) {
     if (m[i] === 0) {
-      tangents[i] = 0;
-      tangents[i + 1] = 0;
-    } else {
-      const a = tangents[i] / m[i];
-      const b = tangents[i + 1] / m[i];
-      const s = a * a + b * b;
-      if (s > 9) {
-        const t = 3 / Math.sqrt(s);
-        tangents[i] = t * a * m[i];
-        tangents[i + 1] = t * b * m[i];
-      }
+      t[i] = 0;
+      t[i + 1] = 0;
+      continue;
+    }
+    const a = t[i] / m[i];
+    const b = t[i + 1] / m[i];
+    const s = a * a + b * b;
+    if (s > 9) {
+      const sc = 3 / Math.sqrt(s);
+      t[i] = sc * a * m[i];
+      t[i + 1] = sc * b * m[i];
     }
   }
 
   let path = `M ${pts[0].x} ${pts[0].y}`;
   for (let i = 0; i < n - 1; i++) {
-    const d = dx[i] / 3;
-    const cp1x = pts[i].x + d;
-    const cp1y = pts[i].y + tangents[i] * d;
-    const cp2x = pts[i + 1].x - d;
-    const cp2y = pts[i + 1].y - tangents[i + 1] * d;
-    path += ` C ${cp1x} ${cp1y}, ${cp2x} ${cp2y}, ${pts[i + 1].x} ${pts[i + 1].y}`;
+    const h = dx[i] / 3;
+    path += ` C ${pts[i].x + h} ${pts[i].y + t[i] * h}, ${pts[i + 1].x - h} ${pts[i + 1].y - t[i + 1] * h}, ${pts[i + 1].x} ${pts[i + 1].y}`;
   }
   return path;
 }
@@ -138,160 +126,135 @@ export function VaultChart({
   data,
   format,
   color = "#3b82f6",
+  rightSlot,
 }: VaultChartProps) {
-  const gradientId = useId();
+  const gradId = useId();
   const [activeWindow, setActiveWindow] = useState("All");
   const [scrub, setScrub] = useState<{
     x: number;
     y: number;
     value: number;
-    timestamp: number;
+    ts: number;
   } | null>(null);
 
-  const filteredData = useMemo(() => {
+  const filtered = useMemo(() => {
     const win = WINDOWS.find((w) => w.label === activeWindow);
     if (!win || win.days === 0 || data.length === 0) return data;
     const cutoff = Math.floor(Date.now() / 1000) - win.days * 86400;
-    const filtered = data.filter((d) => d.timestamp >= cutoff);
-    return filtered.length >= 2 ? filtered : data;
+    const f = data.filter((d) => d.timestamp >= cutoff);
+    return f.length >= 2 ? f : data;
   }, [data, activeWindow]);
 
-  const chartCalc = useMemo(() => {
-    if (filteredData.length < 2) return null;
-    const values = filteredData.map((d) => d.value);
-    const minVal = Math.min(...values);
-    const maxVal = Math.max(...values);
-    const range = maxVal - minVal || 1;
+  const calc = useMemo(() => {
+    if (filtered.length < 2) return null;
+    const vals = filtered.map((d) => d.value);
+    const lo = Math.min(...vals);
+    const hi = Math.max(...vals);
+    const range = hi - lo || 1;
+    const pad = range * 0.08;
     return {
-      yMin: minVal - range * 0.04,
-      yMax: maxVal + range * 0.04,
-      minTs: filteredData[0].timestamp,
-      tsRange: filteredData[filteredData.length - 1].timestamp - filteredData[0].timestamp || 1,
+      yMin: lo - pad,
+      yMax: hi + pad,
+      minTs: filtered[0].timestamp,
+      tsRange: filtered[filtered.length - 1].timestamp - filtered[0].timestamp || 1,
     };
-  }, [filteredData]);
+  }, [filtered]);
 
-  const xPos = useCallback(
-    (ts: number) =>
-      chartCalc ? PL + ((ts - chartCalc.minTs) / chartCalc.tsRange) * DRAW_W : 0,
-    [chartCalc],
+  const toX = useCallback(
+    (ts: number) => (calc ? PL + ((ts - calc.minTs) / calc.tsRange) * DRAW_W : 0),
+    [calc],
   );
 
-  const yPos = useCallback(
+  const toY = useCallback(
     (val: number) =>
-      chartCalc
-        ? PT + (1 - (val - chartCalc.yMin) / (chartCalc.yMax - chartCalc.yMin)) * DRAW_H
-        : 0,
-    [chartCalc],
+      calc ? PT + (1 - (val - calc.yMin) / (calc.yMax - calc.yMin)) * DRAW_H : 0,
+    [calc],
   );
 
-  if (!chartCalc || filteredData.length < 2) return null;
+  if (!calc || filtered.length < 2) return null;
 
-  const { yMin, yMax } = chartCalc;
-  const lastPoint = filteredData[filteredData.length - 1];
+  const last = filtered[filtered.length - 1];
+  const pts = filtered.map((d) => ({ x: toX(d.timestamp), y: toY(d.value) }));
+  const linePath = monotoneSpline(pts);
+  const areaPath = `${linePath} L ${pts[pts.length - 1].x} ${H - PB} L ${pts[0].x} ${H - PB} Z`;
 
-  // Build monotone cubic spline path for smooth curves
-  const points = filteredData.map((d) => ({ x: xPos(d.timestamp), y: yPos(d.value) }));
-  const linePath = monotoneSplinePath(points);
-  const areaPath = `${linePath} L ${points[points.length - 1].x} ${H - PB} L ${points[0].x} ${H - PB} Z`;
-
-  // Y grid (3 lines)
-  const yTicks = Array.from({ length: 3 }, (_, i) => {
-    const val = yMin + ((yMax - yMin) * (2 - i)) / 2;
-    return { val, y: yPos(val) };
+  const yTicks = Array.from({ length: 4 }, (_, i) => {
+    const val = calc.yMin + ((calc.yMax - calc.yMin) * (3 - i)) / 3;
+    return { val, y: toY(val) };
   });
 
-  // X labels — evenly spaced across the time range (not across array indices)
-  // This guarantees equal spacing regardless of data density gaps.
-  const xTickCount = 4;
-  const minTs = chartCalc.minTs;
-  const maxTs = chartCalc.minTs + chartCalc.tsRange;
-  const xTicks = Array.from({ length: xTickCount }, (_, i) => {
-    const ts = minTs + (i * (maxTs - minTs)) / (xTickCount - 1);
-    return {
-      label: formatDate(ts),
-      x: PL + (i * DRAW_W) / (xTickCount - 1),
-    };
-  });
+  const xTicks = Array.from({ length: 4 }, (_, i) => ({
+    label: formatDate(calc.minTs + (i * calc.tsRange) / 3),
+    x: PL + (i * DRAW_W) / 3,
+  }));
+
+  const dispVal = scrub ? scrub.value : last.value;
+  const dispDate = scrub ? formatDateFull(scrub.ts) : formatDateFull(last.timestamp);
 
   function findClosest(svgX: number) {
-    let closest = filteredData[0];
+    let best = filtered[0];
     let dist = Infinity;
-    for (const d of filteredData) {
-      const dx = Math.abs(xPos(d.timestamp) - svgX);
+    for (const d of filtered) {
+      const dx = Math.abs(toX(d.timestamp) - svgX);
       if (dx < dist) {
         dist = dx;
-        closest = d;
+        best = d;
       }
     }
-    return closest;
+    return best;
   }
 
   function handlePointer(clientX: number, rect: DOMRect) {
     const svgX = ((clientX - rect.left) / rect.width) * W;
     const c = findClosest(svgX);
-    setScrub({ x: xPos(c.timestamp), y: yPos(c.value), value: c.value, timestamp: c.timestamp });
+    setScrub({ x: toX(c.timestamp), y: toY(c.value), value: c.value, ts: c.timestamp });
   }
-
-  function onMouseMove(e: React.MouseEvent<SVGSVGElement>) {
-    handlePointer(e.clientX, e.currentTarget.getBoundingClientRect());
-  }
-  function onTouchMove(e: React.TouchEvent<SVGSVGElement>) {
-    handlePointer(e.touches[0].clientX, e.currentTarget.getBoundingClientRect());
-  }
-
-  const displayVal = scrub ? scrub.value : lastPoint.value;
-  const displayDate = scrub ? formatDateFull(scrub.timestamp) : formatDateFull(lastPoint.timestamp);
-
-  // Badge position clamped to chart bounds
-  const badgeW = 120;
-  const badgeX = scrub
-    ? Math.max(0, Math.min(scrub.x - badgeW / 2, W - badgeW))
-    : 0;
 
   return (
-    <div className="chart-card-inner">
-      {/* Header — single line on desktop */}
-      <div className="chart-header">
-        <div className="chart-header-left">
-          <span className="chart-title">{title}</span>
-          <span className="chart-value">{formatValue(displayVal, format)}</span>
-          <span className="chart-date">{displayDate}</span>
+    <div className="vc-wrap">
+      <div className="vc-header">
+        <div className="vc-header-left">
+          <span className="vc-title">{title}</span>
+          <span className="vc-value">{formatValue(dispVal, format)}</span>
+          <span className="vc-date">{dispDate}</span>
         </div>
-        <div className="chart-windows">
-          {WINDOWS.map((w) => (
-            <button
-              key={w.label}
-              onPointerDown={(e) => {
-                e.stopPropagation();
-                setActiveWindow(w.label);
-              }}
-              className={`chart-window-btn${activeWindow === w.label ? " active" : ""}`}
-            >
-              {w.label}
-            </button>
-          ))}
+        <div className="vc-controls">
+          <div className="vc-windows">
+            {WINDOWS.map((w) => (
+              <button
+                key={w.label}
+                onPointerDown={(e) => {
+                  e.stopPropagation();
+                  setActiveWindow(w.label);
+                }}
+                className={`vc-win-btn${activeWindow === w.label ? " active" : ""}`}
+              >
+                {w.label}
+              </button>
+            ))}
+          </div>
+          {rightSlot}
         </div>
       </div>
 
-      {/* Chart */}
       <svg
         viewBox={`0 0 ${W} ${H}`}
-        className="w-full cursor-crosshair"
-        style={{ touchAction: "pan-y" }}
         preserveAspectRatio="xMidYMid meet"
-        onMouseMove={onMouseMove}
+        style={{ display: "block", width: "100%", cursor: "crosshair", touchAction: "pan-y" }}
+        onMouseMove={(e) => handlePointer(e.clientX, e.currentTarget.getBoundingClientRect())}
         onMouseLeave={() => setScrub(null)}
-        onTouchMove={onTouchMove}
+        onTouchMove={(e) =>
+          handlePointer(e.touches[0].clientX, e.currentTarget.getBoundingClientRect())
+        }
         onTouchEnd={() => setScrub(null)}
       >
         <defs>
-          <linearGradient id={gradientId} x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor={color} stopOpacity="0.25" />
+          <linearGradient id={gradId} x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor={color} stopOpacity="0.2" />
             <stop offset="100%" stopColor={color} stopOpacity="0" />
           </linearGradient>
         </defs>
 
-        {/* Grid lines */}
         {yTicks.map((t, i) => (
           <g key={i}>
             <line
@@ -302,31 +265,29 @@ export function VaultChart({
               stroke="#eef0f3"
               strokeWidth="1"
             />
-            <text x={PL - 6} y={t.y + 3} textAnchor="end" fontSize="10" fill="#9ca3af">
+            <text x={PL - 6} y={t.y + 4} textAnchor="end" fontSize="10" fill="#9ca3af">
               {formatAxisVal(t.val, format)}
             </text>
           </g>
         ))}
 
-        {/* Area + Line */}
-        <path d={areaPath} fill={`url(#${gradientId})`} />
-        <path d={linePath} fill="none" stroke={color} strokeWidth="2" strokeLinejoin="round" />
+        <path d={areaPath} fill={`url(#${gradId})`} />
+        <path
+          d={linePath}
+          fill="none"
+          stroke={color}
+          strokeWidth="2"
+          strokeLinejoin="round"
+          strokeLinecap="round"
+        />
 
-        {/* Live dot */}
         {!scrub && (
           <>
-            <circle cx={xPos(lastPoint.timestamp)} cy={yPos(lastPoint.value)} r="4" fill={color} />
-            <circle
-              cx={xPos(lastPoint.timestamp)}
-              cy={yPos(lastPoint.value)}
-              r="8"
-              fill={color}
-              opacity="0.2"
-            />
+            <circle cx={toX(last.timestamp)} cy={toY(last.value)} r="8" fill={color} opacity="0.15" />
+            <circle cx={toX(last.timestamp)} cy={toY(last.value)} r="4" fill={color} />
           </>
         )}
 
-        {/* Scrub crosshair */}
         {scrub && (
           <>
             <line
@@ -343,16 +304,8 @@ export function VaultChart({
           </>
         )}
 
-        {/* X axis labels */}
         {xTicks.map((t, i) => (
-          <text
-            key={i}
-            x={t.x}
-            y={H - 6}
-            textAnchor="middle"
-            fontSize="10"
-            fill="#9ca3af"
-          >
+          <text key={i} x={t.x} y={H - 6} textAnchor="middle" fontSize="10" fill="#9ca3af">
             {t.label}
           </text>
         ))}
