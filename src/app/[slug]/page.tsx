@@ -17,6 +17,7 @@ import { VaultHistoryTable } from "@/components/vault-history-table";
 import { EarningsCalculator } from "@/components/earnings-calculator";
 import { DepositCard } from "@/components/deposit-card";
 import { TableOfContents } from "@/components/table-of-contents";
+import { CopyAddressButton } from "@/components/copy-address-button";
 import { VaultHero } from "@/components/vault-hero";
 import { MarketBenchmark, EcosystemContext } from "@/components/market-sections";
 import { HistoricalStats } from "@/components/historical-stats";
@@ -333,67 +334,83 @@ export default async function ProductPage({
       <main className="pp-page pp-page-after-hero">
         <div className="pp-grid">
           <div className="pp-main">
-            {/* About */}
+            {/* About + Quick Facts side by side */}
             <section className="pp-section" id="about">
               <h2>About {vault.productName}</h2>
-              <p>
-                <strong>{vault.productName}</strong> is a {vault.vaultType.toLowerCase()} vault on{" "}
-                <strong>{vault.chain}</strong> that accepts {vault.asset} deposits and routes them
-                into the {vault.category} strategy.{" "}
-                {vault.vaultType === "Autocompounder"
-                  ? `The vault automatically harvests rewards, swaps them back into ${vault.asset} and redeposits, compounding returns over time without manual harvesting or restaking.`
-                  : `It automatically allocates ${vault.asset} deposits across optimized yield strategies, rebalancing to capture the best available rates.`}
-              </p>
-              {vault.tvl > 0 && vault.apy24h > 0 && (
-                <p>
-                  The vault currently holds <strong>{formatTVL(vault.tvl)}</strong> in
-                  deposits and is generating <strong>{formatAPY(vault.apy24h)} APY</strong> over
-                  the last 24 hours. The 30-day average APY sits at{" "}
-                  <strong>{formatAPY(vault.apy30d)}</strong>
+              <div className="about-grid">
+                <div className="about-prose">
+                  <p>
+                    <strong>{vault.productName}</strong> is a {vault.vaultType.toLowerCase()} vault on{" "}
+                    <strong>{vault.chain}</strong> that accepts {vault.asset} deposits and routes them
+                    into the {vault.category} strategy.{" "}
+                    {vault.vaultType === "Autocompounder"
+                      ? `The vault automatically harvests rewards, swaps them back into ${vault.asset} and redeposits, compounding returns over time without manual harvesting or restaking.`
+                      : `It automatically allocates ${vault.asset} deposits across optimized yield strategies, rebalancing to capture the best available rates.`}
+                  </p>
+                  {vault.tvl > 0 && vault.apy24h > 0 && (
+                    <p>
+                      The vault currently holds <strong>{formatTVL(vault.tvl)}</strong> in
+                      deposits and is generating <strong>{formatAPY(vault.apy24h)} APY</strong> over
+                      the last 24 hours. The 30-day average APY sits at{" "}
+                      <strong>{formatAPY(vault.apy30d)}</strong>
+                      {(() => {
+                        if (history.sharePriceHistory.length >= 2) {
+                          const sorted = [...history.sharePriceHistory].sort((a, b) => a.timestamp - b.timestamp);
+                          const growth = sorted[0].sharePrice > 0
+                            ? ((sorted[sorted.length - 1].sharePrice - sorted[0].sharePrice) / sorted[0].sharePrice) * 100
+                            : 0;
+                          if (growth > 0) return <>, and over its lifetime share price has grown <strong>{growth.toFixed(2)}%</strong> since inception</>;
+                        }
+                        return null;
+                      })()}.
+                    </p>
+                  )}
+                </div>
+                <aside className="about-facts">
+                  <div className="af-row">
+                    <span className="af-label">Strategy</span>
+                    <span className="af-val">{vault.category}</span>
+                  </div>
+                  <div className="af-row">
+                    <span className="af-label">Network</span>
+                    <span className="af-val">{vault.chain}</span>
+                  </div>
+                  <div className="af-row">
+                    <span className="af-label">Type</span>
+                    <span className="af-val">{vault.vaultType}</span>
+                  </div>
+                  <div className="af-row">
+                    <span className="af-label">Underlying</span>
+                    <span className="af-val">{vault.asset}</span>
+                  </div>
+                  <div className="af-row">
+                    <span className="af-label">Operator</span>
+                    <span className="af-val">{vault.protocol.name}</span>
+                  </div>
                   {(() => {
-                    if (history.sharePriceHistory.length >= 2) {
-                      const sorted = [...history.sharePriceHistory].sort((a, b) => a.timestamp - b.timestamp);
-                      const growth = sorted[0].sharePrice > 0
-                        ? ((sorted[sorted.length - 1].sharePrice - sorted[0].sharePrice) / sorted[0].sharePrice) * 100
-                        : 0;
-                      if (growth > 0) return <>, and over its lifetime share price has grown <strong>{growth.toFixed(2)}%</strong> since inception</>;
-                    }
-                    return null;
-                  })()}.
-                </p>
-              )}
+                    const apyHist = history.apyHistory.filter((p) => p.apy >= 0);
+                    if (apyHist.length === 0) return null;
+                    const sorted = [...apyHist].sort((a, b) => a.timestamp - b.timestamp);
+                    const days = Math.round((sorted[sorted.length - 1].timestamp - sorted[0].timestamp) / 86400);
+                    return days > 0 ? (
+                      <div className="af-row">
+                        <span className="af-label">Tracked for</span>
+                        <span className="af-val">{days} days</span>
+                      </div>
+                    ) : null;
+                  })()}
+                </aside>
+              </div>
             </section>
 
-            {/* Performance History */}
-            {hasCharts && (
+            {/* APY chart - the headline metric, right after About */}
+            {apyChartData.length >= 2 && (
               <section className="pp-section" id="performance">
-                <h2>Performance history</h2>
-                <p style={{ color: "var(--ink-3)", marginBottom: 16 }}>
-                  Track APY, TVL and share price across timeframes.
-                </p>
-              <div className="pp-chart-stack">
-                {apyChartData.length >= 2 && (
-                  <ChartCard
-                    title="APY History"
-                    data={apyChartData}
-                    format="percent"
-                  />
-                )}
-                {tvlChartData.length >= 2 && (
-                  <ChartCard
-                    title="TVL History"
-                    data={tvlChartData}
-                    format="dollar"
-                  />
-                )}
-                {sharePriceChartData.length >= 2 && (
-                  <ChartCard
-                    title="Share Price History"
-                    data={sharePriceChartData}
-                    format="number"
-                  />
-                )}
-              </div>
+                <ChartCard
+                  title="APY History"
+                  data={apyChartData}
+                  format="percent"
+                />
               </section>
             )}
 
@@ -412,8 +429,30 @@ export default async function ProductPage({
             {/* Ecosystem Context */}
             <EcosystemContext vault={vault} allVaults={allVaults} />
 
+            {/* TVL chart - shown after market positioning */}
+            {tvlChartData.length >= 2 && (
+              <section className="pp-section">
+                <ChartCard
+                  title="TVL History"
+                  data={tvlChartData}
+                  format="dollar"
+                />
+              </section>
+            )}
+
             {/* Consistency Score */}
             <ConsistencyScore history={history} spotAPY={vault.apy24h} />
+
+            {/* Share Price chart - shows compounding growth, after consistency */}
+            {sharePriceChartData.length >= 2 && (
+              <section className="pp-section">
+                <ChartCard
+                  title="Share Price History"
+                  data={sharePriceChartData}
+                  format="number"
+                />
+              </section>
+            )}
 
             {/* Yield Breakdown */}
             {vault.apyBreakdown.length > 0 && (
@@ -437,39 +476,50 @@ export default async function ProductPage({
             <VaultHistoryTable history={history} />
 
             {/* Contract Details */}
-            <div className="pp-section" id="details">
+            <section className="pp-section" id="details">
               <h2>Contract Details</h2>
-              <div className="pp-contract-grid">
-                <div className="pp-contract-cell">
-                  <div className="cc-label">Chain</div>
-                  <div className="cc-val">{vault.chain}</div>
+              <div className="contract-details-grid">
+                <div className="cd-row">
+                  <span className="cd-label">Chain</span>
+                  <span className="cd-val">{vault.chain}</span>
                 </div>
-                <div className="pp-contract-cell">
-                  <div className="cc-label">Type</div>
-                  <div className="cc-val">{vault.vaultType}</div>
+                <div className="cd-row">
+                  <span className="cd-label">Type</span>
+                  <span className="cd-val">{vault.vaultType}</span>
                 </div>
-                <div className="pp-contract-cell">
-                  <div className="cc-label">Asset</div>
-                  <div className="cc-val">{vault.asset}</div>
+                <div className="cd-row">
+                  <span className="cd-label">Asset</span>
+                  <span className="cd-val">{vault.asset}</span>
                 </div>
-                <div className="pp-contract-cell">
-                  <div className="cc-label">Contract Address</div>
-                  <div className="cc-val">
-                    {explorerUrl ? (
+                <div className="cd-row">
+                  <span className="cd-label">Strategy</span>
+                  <span className="cd-val">{vault.category}</span>
+                </div>
+                <div className="cd-row cd-row-full">
+                  <span className="cd-label">Contract Address</span>
+                  <div className="cd-addr-wrap">
+                    <span className="cd-addr mono">{vault.contractAddress}</span>
+                    <CopyAddressButton address={vault.contractAddress} compact />
+                    {explorerUrl && (
                       <a
                         href={explorerUrl}
                         target="_blank"
                         rel="noopener noreferrer"
+                        className="cd-explorer"
+                        aria-label="View on explorer"
+                        title="View on block explorer"
                       >
-                        <span className="mono">{truncateAddress(vault.contractAddress)}</span>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                          <polyline points="15 3 21 3 21 9" />
+                          <line x1="10" y1="14" x2="21" y2="3" />
+                        </svg>
                       </a>
-                    ) : (
-                      <span className="mono">{truncateAddress(vault.contractAddress)}</span>
                     )}
                   </div>
                 </div>
               </div>
-            </div>
+            </section>
 
             {/* FAQ */}
             <VaultFaq
