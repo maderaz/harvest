@@ -441,7 +441,7 @@
       "slug": "harvest-finance"
     },
     "vaultType": "Autocompounder",
-    "apy24h": 5.993065106524769,
+    "apy24h": 6.019938798918592,
     "apy30d": 6.183338903942901,
     "tvl": 1083860.546215087,
     "description": "USDC Gauntlet Frontier V2 on Morpho (Ethereum) — automatically optimizes your USDC yield via Harvest Finance.",
