@@ -98,7 +98,7 @@ export function DepositCard({ apy24h, apy30d, asset }: DepositCardProps) {
       </a>
 
       <div className="dc-note">
-        Estimates assume constant {formatAPY(apy24h)} APY. Actual returns vary.
+        Assumes the {formatAPY(apy24h)} APY holds steady and is not diluted by your deposit.
       </div>
     </div>
   );
