@@ -17,7 +17,7 @@ export function TickerStrip({ vaults }: { vaults: YieldVault[] }) {
       <div className="ticker-track">
         {items.map((v, i) => (
           <span key={i} className="ticker-item">
-            <AssetIcon asset={v.asset} size={14} />
+            <AssetIcon asset={v.asset} size={18} />
             <span className="t-name">{v.productName}</span>
             <span className="t-val">{formatAPY(v.apy24h)}</span>
             <span className="t-val" style={{ color: "var(--ink-4)" }}>

@@ -277,13 +277,9 @@ export function VaultTable({ vaults }: { vaults: YieldVault[] }) {
               <Head k="productName" align="left">
                 Protocol / Pool
               </Head>
-              <Head k="chain" align="left">
-                Chain
-              </Head>
               <Head k="apy24h">APY</Head>
-              <th className="right td-hide-mobile">Reward</th>
               <th className="right td-hide-mobile">7d avg</th>
-              <Head k="apy30d">30d avg</Head>
+              <Head k="apy30d">30D APY Trend</Head>
               <Head k="tvl">TVL</Head>
               <th className="center td-hide-mobile">30d</th>
               <th></th>
@@ -303,25 +299,19 @@ export function VaultTable({ vaults }: { vaults: YieldVault[] }) {
                   <td className="td rank mono">{index + 1}</td>
                   <td className="td">
                     <div className="proto">
-                      <AssetDot asset={vault.asset} size={22} />
+                      <AssetDot asset={vault.asset} size={28} />
                       <div>
                         <div className="proto-name">{vault.productName}</div>
                         <div className="proto-sub mono">
-                          {vault.asset} &middot; {vault.category}
+                          {vault.category}
                         </div>
                       </div>
                     </div>
-                  </td>
-                  <td className="td">
-                    <span className="chip">{vault.chain}</span>
                   </td>
                   <td className="td right mono big">
                     <span className={`apy${vault.apy24h >= 10 ? " hot" : ""}`}>
                       {formatAPY(vault.apy24h)}
                     </span>
-                  </td>
-                  <td className="td right mono td-hide-mobile">
-                    {reward > 0 ? `+${reward.toFixed(1)}%` : "—"}
                   </td>
                   <td className="td right mono dim td-hide-mobile">
                     {formatAPY(vault.apy24h)}
