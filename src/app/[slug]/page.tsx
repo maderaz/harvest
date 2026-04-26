@@ -17,7 +17,9 @@ import { VaultHistoryTable } from "@/components/vault-history-table";
 import { EarningsCalculator } from "@/components/earnings-calculator";
 import { DepositCard } from "@/components/deposit-card";
 import { TableOfContents } from "@/components/table-of-contents";
-import { CopyAddressButton } from "@/components/copy-address-button";
+import { VaultHero } from "@/components/vault-hero";
+import { MarketBenchmark, EcosystemContext } from "@/components/market-sections";
+import { HistoricalStats } from "@/components/historical-stats";
 
 export async function generateStaticParams() {
   const slugs = await getAllSlugs();
@@ -326,131 +328,49 @@ export default async function ProductPage({
       <BreadcrumbSchema vault={vault} />
       <FaqSchema items={faqItems} />
 
-      <main className="pp-page">
-        {/* === FULL WIDTH SECTIONS === */}
+      <VaultHero vault={vault} history={history} allVaults={allVaults} />
 
-        {/* 1. Breadcrumbs */}
-        <nav className="pp-crumbs pp-fullwidth">
-          <Link href="/">Home</Link>
-          <span className="sep">/</span>
-          <Link href={`/?asset=${vault.asset}`}>{vault.asset} Vaults</Link>
-          <span className="sep">/</span>
-          <span>{vault.chain}</span>
-          <span className="sep">/</span>
-          <span className="current">{vault.productName}</span>
-        </nav>
-
-        {/* 2. Header */}
-        <div className="pp-header pp-fullwidth">
-          <div>
-            <div className="pp-title">
-              <AssetBadge asset={vault.asset} iconOnly />
-              <div>
-                <h1>{vault.productName}</h1>
-                <div className="pp-header-meta">
-                  by <b>Harvest Finance</b>
-                  <span className="sep-dot">&middot;</span>
-                  Strategy: {vault.category}
-                  <span className="sep-dot">&middot;</span>
-                  {vault.vaultType}
-                </div>
-              </div>
-            </div>
-            <div className="pp-header-ctas">
-              <CopyAddressButton address={vault.contractAddress} />
-              <a
-                href="https://app.harvest.finance"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-primary"
-              >
-                Connect Wallet
-              </a>
-            </div>
-          </div>
-        </div>
-
-        {/* 3. KPI Strip */}
-        <div className="pp-kpis pp-fullwidth">
-          <div className="pp-kpi">
-            <div className="k-label">24H APY</div>
-            <div className="k-val hot">{formatAPY(vault.apy24h)}</div>
-            {apyDelta.direction !== "neutral" && (
-              <div className="k-sub">
-                <span className={apyDelta.direction === "up" ? "k-delta-up" : "k-delta-down"}>
-                  {apyDelta.direction === "up" ? "▲" : "▼"} {apyDelta.value.toFixed(2)}%
-                </span>{" "}
-                vs 30d
-              </div>
-            )}
-          </div>
-          <div className="pp-kpi">
-            <div className="k-label">30D APY</div>
-            <div className="k-val">{formatAPY(vault.apy30d)}</div>
-            {apyStdDev && (
-              <div className="k-sub">
-                &sigma; {apyStdDev.stdDev.toFixed(2)}% &middot; {apyStdDev.label}
-              </div>
-            )}
-          </div>
-          <div className="pp-kpi">
-            <div className="k-label">TVL</div>
-            <div className="k-val">{formatTVL(vault.tvl)}</div>
-            {peakTvl > 0 && (
-              <div className="k-sub">peak {formatTVL(peakTvl)}</div>
-            )}
-          </div>
-          <div className="pp-kpi">
-            <div className="k-label">Chain</div>
-            <div className="k-val">{vault.chain}</div>
-            <div className="k-badge">{vault.vaultType}</div>
-          </div>
-        </div>
-
-        {/* 4. About (FULL WIDTH) */}
-        <div className="pp-section pp-fullwidth" id="about">
-          <h2>About {vault.productName}</h2>
-          <p>
-            {vault.productName} is a {vault.vaultType.toLowerCase()} vault on{" "}
-            {vault.chain} that accepts {vault.asset} deposits and routes them
-            into the {vault.category} strategy.{" "}
-            {vault.vaultType === "Autocompounder"
-              ? `It automatically reinvests earned ${vault.asset} yields, compounding returns over time without manual harvesting or restaking.`
-              : `It automatically allocates ${vault.asset} deposits across optimized yield strategies, rebalancing to capture the best available rates.`}
-          </p>
-          {vault.tvl > 0 && vault.apy24h > 0 && (
-            <p>
-              The vault currently holds <strong>{formatTVL(vault.tvl)}</strong> in
-              deposits and is generating <strong>{formatAPY(vault.apy24h)}</strong>{" "}
-              APY over the last 24 hours.
-              {vault.apy30d > 0 && (
-                <> The 30-day average APY sits at{" "}
-                <strong>{formatAPY(vault.apy30d)}</strong>.</>
-              )}
-              {sharePriceGrowth !== null && sharePriceGrowth > 0 && (
-                <> Share price has grown{" "}
-                <strong>{sharePriceGrowth.toFixed(2)}%</strong> since inception.</>
-              )}
-            </p>
-          )}
-        </div>
-
-        {/* 5. Performance History heading (FULL WIDTH) */}
-        {hasCharts && (
-          <div className="pp-perf-heading pp-fullwidth" id="performance">
-            <h2>Performance History</h2>
-            <p className="pp-perf-sub">
-              Toggle between APY, TVL and share price to track vault performance over time.
-            </p>
-          </div>
-        )}
-
-        {/* === 2-COLUMN GRID STARTS HERE === */}
+      <main className="pp-page pp-page-after-hero">
         <div className="pp-grid">
-          {/* Main column */}
           <div className="pp-main">
-            {/* Charts - each standalone with Chart/Data tabs */}
+            {/* About */}
+            <section className="pp-section" id="about">
+              <h2>About {vault.productName}</h2>
+              <p>
+                <strong>{vault.productName}</strong> is a {vault.vaultType.toLowerCase()} vault on{" "}
+                <strong>{vault.chain}</strong> that accepts {vault.asset} deposits and routes them
+                into the {vault.category} strategy.{" "}
+                {vault.vaultType === "Autocompounder"
+                  ? `The vault automatically harvests rewards, swaps them back into ${vault.asset} and redeposits, compounding returns over time without manual harvesting or restaking.`
+                  : `It automatically allocates ${vault.asset} deposits across optimized yield strategies, rebalancing to capture the best available rates.`}
+              </p>
+              {vault.tvl > 0 && vault.apy24h > 0 && (
+                <p>
+                  The vault currently holds <strong>{formatTVL(vault.tvl)}</strong> in
+                  deposits and is generating <strong>{formatAPY(vault.apy24h)} APY</strong> over
+                  the last 24 hours. The 30-day average APY sits at{" "}
+                  <strong>{formatAPY(vault.apy30d)}</strong>
+                  {(() => {
+                    if (history.sharePriceHistory.length >= 2) {
+                      const sorted = [...history.sharePriceHistory].sort((a, b) => a.timestamp - b.timestamp);
+                      const growth = sorted[0].sharePrice > 0
+                        ? ((sorted[sorted.length - 1].sharePrice - sorted[0].sharePrice) / sorted[0].sharePrice) * 100
+                        : 0;
+                      if (growth > 0) return <>, and over its lifetime share price has grown <strong>{growth.toFixed(2)}%</strong> since inception</>;
+                    }
+                    return null;
+                  })()}.
+                </p>
+              )}
+            </section>
+
+            {/* Performance History */}
             {hasCharts && (
+              <section className="pp-section" id="performance">
+                <h2>Performance history</h2>
+                <p style={{ color: "var(--ink-3)", marginBottom: 16 }}>
+                  Track APY, TVL and share price across timeframes.
+                </p>
               <div className="pp-chart-stack">
                 {apyChartData.length >= 2 && (
                   <ChartCard
@@ -474,6 +394,7 @@ export default async function ProductPage({
                   />
                 )}
               </div>
+              </section>
             )}
 
             {/* Performance Commentary (numbered) */}
@@ -483,6 +404,13 @@ export default async function ProductPage({
               history={history}
               numbered
             />
+
+            {/* Consistency Score */}
+            {/* Market Benchmarking */}
+            <MarketBenchmark vault={vault} allVaults={allVaults} />
+
+            {/* Ecosystem Context */}
+            <EcosystemContext vault={vault} allVaults={allVaults} />
 
             {/* Consistency Score */}
             <ConsistencyScore history={history} spotAPY={vault.apy24h} />
@@ -502,6 +430,10 @@ export default async function ProductPage({
             <EarningsCalculator apy={vault.apy24h} asset={vault.asset} />
 
             {/* History Table */}
+            {/* Historical Stats */}
+            <HistoricalStats history={history} />
+
+            {/* Daily History Table */}
             <VaultHistoryTable history={history} />
 
             {/* Contract Details */}
