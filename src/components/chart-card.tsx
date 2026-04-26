@@ -59,129 +59,116 @@ export function ChartCard({ title, data, format, color }: ChartCardProps) {
 
   if (data.length < 2) return null;
 
-  return (
-    <div style={{ position: "relative" }}>
-      {/* Chart/Data toggle floated top-right, overlaying the chart header */}
-      <div style={{
-        position: "absolute",
-        top: 12,
-        right: 12,
-        zIndex: 5,
-        display: "flex",
-        gap: 2,
-        background: "var(--bg-2, #f4f4f2)",
-        border: "1px solid var(--line, #ebebe7)",
-        borderRadius: 6,
-        padding: 2,
-      }}>
-        <button
-          onClick={() => setView("chart")}
+  if (view === "chart") {
+    return (
+      <div style={{ position: "relative" }}>
+        {/* Chart/Data toggle in same visual row as title */}
+        <div
           style={{
-            padding: "3px 10px",
-            fontSize: 11,
-            border: "none",
-            borderRadius: 4,
-            cursor: "pointer",
-            fontFamily: "var(--mono)",
-            background: view === "chart" ? "var(--panel, #fff)" : "transparent",
-            color: view === "chart" ? "var(--ink, #0a0a0a)" : "var(--ink-3, #6b6b66)",
-            boxShadow: view === "chart" ? "0 1px 2px rgba(0,0,0,0.06)" : "none",
+            position: "absolute",
+            top: 12,
+            right: 16,
+            zIndex: 5,
           }}
         >
-          Chart
-        </button>
-        <button
-          onClick={() => { setView("data"); setPage(0); }}
-          style={{
-            padding: "3px 10px",
-            fontSize: 11,
-            border: "none",
-            borderRadius: 4,
-            cursor: "pointer",
-            fontFamily: "var(--mono)",
-            background: view === "data" ? "var(--panel, #fff)" : "transparent",
-            color: view === "data" ? "var(--ink, #0a0a0a)" : "var(--ink-3, #6b6b66)",
-            boxShadow: view === "data" ? "0 1px 2px rgba(0,0,0,0.06)" : "none",
-          }}
-        >
-          Data
-        </button>
-      </div>
-
-      {view === "chart" ? (
+          <ViewToggle view={view} onChange={setView} />
+        </div>
         <VaultChart title={title} data={data} format={format} color={color} />
-      ) : (
-        <div className="rounded-xl border border-gray-200 bg-white p-3 sm:p-5" style={{ minHeight: 320 }}>
-          <p style={{
-            fontSize: 10,
-            textTransform: "uppercase",
-            letterSpacing: "0.08em",
-            color: "var(--ink-3)",
-            marginBottom: 12,
-          }}>
-            {title}
-          </p>
-          <table className="chart-datatable">
-            <thead>
-              <tr>
-                <th>Date</th>
-                <th className="r">Value</th>
-              </tr>
-            </thead>
-            <tbody>
-              {pageItems.map((item) => (
-                <tr key={item.timestamp}>
-                  <td>{formatDate(item.timestamp)}</td>
-                  <td className="r">{formatVal(item.value, format)}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-          {totalPages > 1 && (
-            <div style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              marginTop: 12,
-              fontSize: 12,
-            }}>
-              <span className="mono dim">Page {safePage + 1} / {totalPages}</span>
-              <div style={{ display: "flex", gap: 6 }}>
-                <button
-                  disabled={safePage === 0}
-                  onClick={() => setPage((p) => Math.max(0, p - 1))}
-                  style={{
-                    padding: "4px 10px",
-                    border: "1px solid var(--line)",
-                    borderRadius: 6,
-                    background: "var(--panel)",
-                    fontSize: 12,
-                    cursor: safePage === 0 ? "default" : "pointer",
-                    opacity: safePage === 0 ? 0.4 : 1,
-                  }}
-                >
-                  ‹ Prev
-                </button>
-                <button
-                  disabled={safePage >= totalPages - 1}
-                  onClick={() => setPage((p) => Math.min(totalPages - 1, p + 1))}
-                  style={{
-                    padding: "4px 10px",
-                    border: "1px solid var(--line)",
-                    borderRadius: 6,
-                    background: "var(--panel)",
-                    fontSize: 12,
-                    cursor: safePage >= totalPages - 1 ? "default" : "pointer",
-                    opacity: safePage >= totalPages - 1 ? 0.4 : 1,
-                  }}
-                >
-                  Next ›
-                </button>
-              </div>
-            </div>
-          )}
+      </div>
+    );
+  }
+
+  return (
+    <div className="chart-card-inner">
+      <div className="chart-header">
+        <div className="chart-header-left">
+          <span className="chart-title">{title}</span>
+          <span className="chart-value">Data table</span>
+        </div>
+        <ViewToggle view={view} onChange={setView} />
+      </div>
+      <table className="chart-datatable">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th className="r">Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          {pageItems.map((item) => (
+            <tr key={item.timestamp}>
+              <td>{formatDate(item.timestamp)}</td>
+              <td className="r">{formatVal(item.value, format)}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      {totalPages > 1 && (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            marginTop: 10,
+            fontSize: 12,
+          }}
+        >
+          <span className="mono dim">
+            Page {safePage + 1} / {totalPages}
+          </span>
+          <div style={{ display: "flex", gap: 6 }}>
+            <button
+              disabled={safePage === 0}
+              onClick={() => setPage((p) => Math.max(0, p - 1))}
+              className="chart-window-btn"
+              style={{
+                background: "var(--panel)",
+                border: "1px solid var(--line)",
+                opacity: safePage === 0 ? 0.4 : 1,
+              }}
+            >
+              ‹ Prev
+            </button>
+            <button
+              disabled={safePage >= totalPages - 1}
+              onClick={() => setPage((p) => Math.min(totalPages - 1, p + 1))}
+              className="chart-window-btn"
+              style={{
+                background: "var(--panel)",
+                border: "1px solid var(--line)",
+                opacity: safePage >= totalPages - 1 ? 0.4 : 1,
+              }}
+            >
+              Next ›
+            </button>
+          </div>
         </div>
       )}
+    </div>
+  );
+}
+
+function ViewToggle({
+  view,
+  onChange,
+}: {
+  view: "chart" | "data";
+  onChange: (v: "chart" | "data") => void;
+}) {
+  return (
+    <div className="chart-windows" style={{ marginLeft: 8 }}>
+      <button
+        onClick={() => onChange("chart")}
+        className={`chart-window-btn${view === "chart" ? " active" : ""}`}
+      >
+        Chart
+      </button>
+      <button
+        onClick={() => onChange("data")}
+        className={`chart-window-btn${view === "data" ? " active" : ""}`}
+      >
+        Data
+      </button>
     </div>
   );
 }

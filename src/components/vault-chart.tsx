@@ -70,11 +70,11 @@ function formatDateFull(ts: number): string {
 }
 
 const W = 600;
-const H = 220;
+const H = 200;
 const PT = 12;
-const PB = 28;
-const PL = 0;
-const PR = 0;
+const PB = 26;
+const PL = 48;
+const PR = 12;
 const DRAW_W = W - PL - PR;
 const DRAW_H = H - PT - PB;
 
@@ -244,17 +244,15 @@ export function VaultChart({
     : 0;
 
   return (
-    <div className="rounded-xl border border-gray-200 bg-white p-3 sm:p-5">
-      {/* Header */}
-      <div className="flex items-start justify-between gap-2 mb-1">
-        <div className="min-w-0">
-          <p className="text-[10px] text-gray-400 uppercase tracking-wider sm:text-xs">{title}</p>
-          <p className="text-lg font-semibold text-gray-900 truncate sm:text-2xl">
-            {formatValue(displayVal, format)}
-          </p>
-          <p className="text-[10px] text-gray-400 sm:text-[11px]">{displayDate}</p>
+    <div className="chart-card-inner">
+      {/* Header — single line on desktop */}
+      <div className="chart-header">
+        <div className="chart-header-left">
+          <span className="chart-title">{title}</span>
+          <span className="chart-value">{formatValue(displayVal, format)}</span>
+          <span className="chart-date">{displayDate}</span>
         </div>
-        <div className="flex gap-0.5 shrink-0">
+        <div className="chart-windows">
           {WINDOWS.map((w) => (
             <button
               key={w.label}
@@ -262,11 +260,7 @@ export function VaultChart({
                 e.stopPropagation();
                 setActiveWindow(w.label);
               }}
-              className={`rounded-full px-2 py-1 text-[10px] font-medium transition-colors sm:px-2.5 sm:text-[11px] ${
-                activeWindow === w.label
-                  ? "bg-gray-900 text-white"
-                  : "text-gray-400 hover:text-gray-600"
-              }`}
+              className={`chart-window-btn${activeWindow === w.label ? " active" : ""}`}
             >
               {w.label}
             </button>
@@ -300,10 +294,10 @@ export function VaultChart({
               y1={t.y}
               x2={W - PR}
               y2={t.y}
-              stroke="#f0f0f0"
+              stroke="#eef0f3"
               strokeWidth="1"
             />
-            <text x={PL + 4} y={t.y - 4} fontSize="9" fill="#9ca3af">
+            <text x={PL - 6} y={t.y + 3} textAnchor="end" fontSize="10" fill="#9ca3af">
               {formatAxisVal(t.val, format)}
             </text>
           </g>
@@ -351,7 +345,7 @@ export function VaultChart({
             x={t.x}
             y={H - 6}
             textAnchor="middle"
-            fontSize="9"
+            fontSize="10"
             fill="#9ca3af"
           >
             {t.label}
