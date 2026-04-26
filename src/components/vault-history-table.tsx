@@ -20,12 +20,12 @@ function formatDate(ts: number): string {
 }
 
 function formatPercent(value: number): string {
-  if (value === 0) return "\u2014";
+  if (value === 0) return "—";
   return `${value.toFixed(2)}%`;
 }
 
 function formatDollar(value: number): string {
-  if (value === 0) return "\u2014";
+  if (value === 0) return "—";
   if (value >= 1_000_000_000) return `$${(value / 1_000_000_000).toFixed(1)}B`;
   if (value >= 1_000_000) return `$${(value / 1_000_000).toFixed(1)}M`;
   if (value >= 1_000) return `$${(value / 1_000).toFixed(0)}K`;
@@ -80,76 +80,59 @@ export function VaultHistoryTable({ history }: VaultHistoryTableProps) {
   if (apyData.length === 0 && tvlData.length === 0) return null;
 
   return (
-    <section className="mb-10">
-      <h2 className="mb-4 text-lg font-semibold text-gray-900">
-        Historical Data
-      </h2>
-      <div className="rounded-lg border border-gray-200 bg-white">
+    <div className="pp-section" id="history">
+      <h2>Historical Data</h2>
+      <div
+        style={{
+          border: "1px solid var(--line)",
+          borderRadius: "var(--radius)",
+          overflow: "hidden",
+          background: "var(--panel)",
+        }}
+      >
         {/* Tabs */}
-        <div className="flex border-b border-gray-200">
+        <div className="chart-data-tabs" style={{ margin: "12px 14px" }}>
           <button
-            onClick={() => {
-              setTab("apy");
-              setPage(0);
-            }}
-            className={`px-4 py-2.5 text-[13px] font-medium transition-colors ${
-              tab === "apy"
-                ? "border-b-2 border-gray-900 text-gray-900"
-                : "text-gray-400 hover:text-gray-600"
-            }`}
+            className={tab === "apy" ? "active" : ""}
+            onClick={() => { setTab("apy"); setPage(0); }}
           >
             APY
           </button>
           <button
-            onClick={() => {
-              setTab("tvl");
-              setPage(0);
-            }}
-            className={`px-4 py-2.5 text-[13px] font-medium transition-colors ${
-              tab === "tvl"
-                ? "border-b-2 border-gray-900 text-gray-900"
-                : "text-gray-400 hover:text-gray-600"
-            }`}
+            className={tab === "tvl" ? "active" : ""}
+            onClick={() => { setTab("tvl"); setPage(0); }}
           >
             TVL
           </button>
         </div>
 
-        {/* 30-Day Summary Banner */}
+        {/* Summary */}
         {summary && (
-          <div className="flex flex-wrap gap-x-6 gap-y-1 border-b border-gray-100 bg-gray-50 px-4 py-2.5">
-            <span className="text-[12px] text-gray-500">
-              30D Avg:{" "}
-              <span className="font-medium text-gray-700">
-                {formatFn(summary.avg)}
-              </span>
-            </span>
-            <span className="text-[12px] text-gray-500">
-              High:{" "}
-              <span className="font-medium text-gray-700">
-                {formatFn(summary.high)}
-              </span>
-            </span>
-            <span className="text-[12px] text-gray-500">
-              Low:{" "}
-              <span className="font-medium text-gray-700">
-                {formatFn(summary.low)}
-              </span>
-            </span>
+          <div
+            style={{
+              display: "flex",
+              flexWrap: "wrap",
+              gap: "16px",
+              padding: "8px 14px 10px",
+              borderBottom: "1px solid var(--line)",
+              background: "var(--bg-2)",
+              fontSize: "12px",
+              color: "var(--ink-3)",
+            }}
+          >
+            <span>30D Avg: <strong style={{ color: "var(--ink)" }}>{formatFn(summary.avg)}</strong></span>
+            <span>High: <strong style={{ color: "var(--ink)" }}>{formatFn(summary.high)}</strong></span>
+            <span>Low: <strong style={{ color: "var(--ink)" }}>{formatFn(summary.low)}</strong></span>
           </div>
         )}
 
         {/* Table */}
         {pageItems.length > 0 ? (
-          <table className="w-full">
+          <table className="chart-datatable">
             <thead>
-              <tr className="border-b border-gray-100">
-                <th className="px-4 py-2 text-left text-[12px] font-medium text-gray-400">
-                  Date
-                </th>
-                <th className="px-4 py-2 text-right text-[12px] font-medium text-gray-400">
-                  {tab === "apy" ? "APY" : "TVL"}
-                </th>
+              <tr>
+                <th>Date</th>
+                <th className="r">{tab === "apy" ? "APY" : "TVL"}</th>
               </tr>
             </thead>
             <tbody>
@@ -160,54 +143,43 @@ export function VaultHistoryTable({ history }: VaultHistoryTableProps) {
                     ? (item as (typeof apyData)[0]).apy
                     : (item as (typeof tvlData)[0]).value;
                 return (
-                  <tr
-                    key={ts}
-                    className={
-                      i < pageItems.length - 1
-                        ? "border-b border-gray-50"
-                        : ""
-                    }
-                  >
-                    <td className="px-4 py-2 text-[13px] text-gray-600">
-                      {formatDate(ts)}
-                    </td>
-                    <td className="px-4 py-2 text-right text-[13px] font-medium text-gray-900">
-                      {formatFn(value)}
-                    </td>
+                  <tr key={ts}>
+                    <td>{formatDate(ts)}</td>
+                    <td className="r">{formatFn(value)}</td>
                   </tr>
                 );
               })}
             </tbody>
           </table>
         ) : (
-          <div className="px-4 py-8 text-center text-[13px] text-gray-400">
+          <div style={{ padding: "32px 14px", textAlign: "center", color: "var(--ink-4)", fontSize: 13 }}>
             No data available for the past 30 days.
           </div>
         )}
 
         {/* Pagination */}
         {totalPages > 1 && (
-          <div className="flex items-center justify-between border-t border-gray-100 px-4 py-2.5">
-            <button
-              onClick={() => setPage((p) => Math.max(0, p - 1))}
-              disabled={safePage === 0}
-              className="text-[13px] font-medium text-gray-600 disabled:text-gray-300"
-            >
-              Prev
-            </button>
-            <span className="text-[12px] text-gray-400">
+          <div className="chart-datatable-foot">
+            <span className="mono dim">
               Page {safePage + 1} of {totalPages}
             </span>
-            <button
-              onClick={() => setPage((p) => Math.min(totalPages - 1, p + 1))}
-              disabled={safePage >= totalPages - 1}
-              className="text-[13px] font-medium text-gray-600 disabled:text-gray-300"
-            >
-              Next
-            </button>
+            <div className="pager">
+              <button
+                disabled={safePage === 0}
+                onClick={() => setPage((p) => Math.max(0, p - 1))}
+              >
+                Prev
+              </button>
+              <button
+                disabled={safePage >= totalPages - 1}
+                onClick={() => setPage((p) => Math.min(totalPages - 1, p + 1))}
+              >
+                Next
+              </button>
+            </div>
           </div>
         )}
       </div>
-    </section>
+    </div>
   );
 }

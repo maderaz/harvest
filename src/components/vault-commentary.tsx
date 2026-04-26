@@ -60,12 +60,10 @@ export function VaultCommentary({
   if (history.apyHistory.length >= 5) {
     const validApy = history.apyHistory.filter((p) => p.apy >= 0);
 
-    // 24h deviation check
     const recent24h = validApy.filter((p) => p.timestamp >= oneDayAgo);
     const recent7d = validApy.filter((p) => p.timestamp >= sevenDaysAgo);
     const recent30d = validApy.filter((p) => p.timestamp >= thirtyDaysAgo);
 
-    // 30d stability
     if (recent30d.length >= 5) {
       const apyValues = recent30d.map((p) => p.apy);
       const avg = apyValues.reduce((s, v) => s + v, 0) / apyValues.length;
@@ -78,7 +76,6 @@ export function VaultCommentary({
         `Over the past 30 days, APY has been ${label}, averaging ${avg.toFixed(2)}% with a range of ${min.toFixed(2)}% to ${max.toFixed(2)}%.`,
       );
 
-      // Check if current APY is an outlier vs 30d average
       if (vault.apy24h > 0 && avg > 0) {
         const deviationFromAvg = vault.apy24h - avg;
         const deviationPct = (deviationFromAvg / avg) * 100;
@@ -92,7 +89,6 @@ export function VaultCommentary({
       }
     }
 
-    // 7d trend
     if (recent7d.length >= 3) {
       const sorted7d = [...recent7d].sort((a, b) => a.timestamp - b.timestamp);
       const firstHalf = sorted7d.slice(0, Math.floor(sorted7d.length / 2));
@@ -207,17 +203,11 @@ export function VaultCommentary({
   if (paragraphs.length === 0) return null;
 
   return (
-    <section className="mb-10">
-      <h2 className="mb-3 text-lg font-semibold text-gray-900">
-        Performance Overview
-      </h2>
-      <div className="space-y-3">
-        {paragraphs.map((text, i) => (
-          <p key={i} className="leading-relaxed text-gray-600">
-            {text}
-          </p>
-        ))}
-      </div>
-    </section>
+    <div className="pp-section" id="overview">
+      <h2>Performance Overview</h2>
+      {paragraphs.map((text, i) => (
+        <p key={i}>{text}</p>
+      ))}
+    </div>
   );
 }

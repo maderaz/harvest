@@ -34,19 +34,15 @@ function computeScore(history: FullVaultHistory, spotAPY: number) {
   let label: string;
 
   if (cv < 0.1) {
-    // 90-100 range, linearly interpolated
     score = Math.round(100 - (cv / 0.1) * 10);
     label = "Very Consistent";
   } else if (cv < 0.2) {
-    // 70-89 range
     score = Math.round(89 - ((cv - 0.1) / 0.1) * 19);
     label = "Consistent";
   } else if (cv < 0.4) {
-    // 40-69 range
     score = Math.round(69 - ((cv - 0.2) / 0.2) * 29);
     label = "Variable";
   } else {
-    // 0-39 range
     const clampedCv = Math.min(cv, 1.0);
     score = Math.round(39 - ((clampedCv - 0.4) / 0.6) * 39);
     score = Math.max(0, score);
@@ -70,18 +66,6 @@ function computeScore(history: FullVaultHistory, spotAPY: number) {
   };
 }
 
-function scoreColor(score: number): string {
-  if (score >= 70) return "text-green-600";
-  if (score >= 40) return "text-amber-600";
-  return "text-red-600";
-}
-
-function scoreBorderColor(score: number): string {
-  if (score >= 70) return "border-green-200";
-  if (score >= 40) return "border-amber-200";
-  return "border-red-200";
-}
-
 export function ConsistencyScore({
   history,
   spotAPY,
@@ -90,17 +74,16 @@ export function ConsistencyScore({
 
   if (!result) {
     return (
-      <section className="mb-10">
-        <h2 className="mb-4 text-lg font-semibold text-gray-900">
-          APY Consistency
-        </h2>
-        <div className="rounded-lg border border-gray-200 bg-white p-5">
-          <p className="text-[13px] text-gray-400">
+      <div className="pp-section" id="consistency">
+        <h2>APY Consistency</h2>
+        <div className="consistency">
+          <div />
+          <p style={{ margin: 0, fontSize: 14, color: "var(--ink-3)" }}>
             Insufficient data to calculate a consistency score. At least 5 data
             points within the past 30 days are required.
           </p>
         </div>
-      </section>
+      </div>
     );
   }
 
@@ -110,35 +93,46 @@ export function ConsistencyScore({
 
   const explanation =
     result.score >= 70
-      ? `Over ${windowLabel}, APY averaged ${result.mean.toFixed(2)}% across ${result.dataPoints} data points with a standard deviation of ${result.stdDev.toFixed(2)}%, indicating reliable yield generation.`
+      ? `Over ${windowLabel}, APY averaged ${result.mean.toFixed(2)}% across ${result.dataPoints} data points with a standard deviation of ${result.stdDev.toFixed(2)}%, indicating reliable, repeatable yield generation.`
       : result.score >= 40
         ? `Over ${windowLabel}, APY averaged ${result.mean.toFixed(2)}% with a standard deviation of ${result.stdDev.toFixed(2)}% across ${result.dataPoints} data points, showing moderate fluctuation.`
         : `Over ${windowLabel}, APY averaged ${result.mean.toFixed(2)}% but showed ${result.stdDev.toFixed(2)}% standard deviation across ${result.dataPoints} data points, indicating significant rate volatility.`;
 
+  const r = 38;
+  const c = 2 * Math.PI * r;
+  const dash = (result.score / 100) * c;
+  const strokeColor = result.score >= 70 ? "var(--up)" : result.score >= 40 ? "#d97706" : "var(--down)";
+  const labelColor = result.score >= 70 ? "var(--up)" : result.score >= 40 ? "#d97706" : "var(--down)";
+
   return (
-    <section className="mb-10">
-      <h2 className="mb-4 text-lg font-semibold text-gray-900">
-        APY Consistency
-      </h2>
-      <div
-        className={`rounded-lg border bg-white p-5 ${scoreBorderColor(result.score)}`}
-      >
-        <div className="flex items-baseline gap-3">
-          <span
-            className={`text-3xl font-bold ${scoreColor(result.score)}`}
-          >
-            {result.score}
-          </span>
-          <span
-            className={`text-sm font-medium ${scoreColor(result.score)}`}
-          >
-            {result.label}
-          </span>
+    <div className="pp-section" id="consistency">
+      <h2>APY Consistency</h2>
+      <div className="consistency">
+        <div className="consistency-score">
+          <svg viewBox="0 0 96 96">
+            <circle cx="48" cy="48" r={r} fill="none" stroke="var(--line)" strokeWidth="8" />
+            <circle
+              cx="48"
+              cy="48"
+              r={r}
+              fill="none"
+              stroke={strokeColor}
+              strokeWidth="8"
+              strokeDasharray={`${dash} ${c}`}
+              strokeLinecap="round"
+            />
+          </svg>
+          <div className="num">{result.score}</div>
         </div>
-        <p className="mt-2 text-[13px] leading-relaxed text-gray-600">
-          {explanation}
-        </p>
+        <div>
+          <div className="consistency-label" style={{ color: labelColor }}>
+            {result.label}
+          </div>
+          <p style={{ margin: 0, fontSize: 14, lineHeight: 1.55, color: "var(--ink-2)" }}>
+            {explanation}
+          </p>
+        </div>
       </div>
-    </section>
+    </div>
   );
 }

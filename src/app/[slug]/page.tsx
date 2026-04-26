@@ -7,7 +7,7 @@ import { AssetBadge } from "@/components/asset-badge";
 import { SITE_NAME, SITE_URL } from "@/lib/constants";
 import { YieldVault } from "@/lib/types";
 import type { FullVaultHistory } from "@/lib/history-api";
-import { VaultChart } from "@/components/vault-chart";
+import { ChartCard } from "@/components/chart-card";
 import { VaultCommentary } from "@/components/vault-commentary";
 import { VaultFaq } from "@/components/vault-faq";
 import { YieldBreakdown } from "@/components/yield-breakdown";
@@ -15,6 +15,8 @@ import { VaultStatistics } from "@/components/vault-statistics";
 import { ConsistencyScore } from "@/components/consistency-score";
 import { VaultHistoryTable } from "@/components/vault-history-table";
 import { EarningsCalculator } from "@/components/earnings-calculator";
+import { DepositCard } from "@/components/deposit-card";
+import { TableOfContents } from "@/components/table-of-contents";
 
 export async function generateStaticParams() {
   const slugs = await getAllSlugs();
@@ -52,27 +54,6 @@ export async function generateMetadata({
       canonical: `${SITE_URL}/${vault.slug}`,
     },
   };
-}
-
-function StatCard({
-  label,
-  value,
-  highlight,
-}: {
-  label: string;
-  value: string;
-  highlight?: boolean;
-}) {
-  return (
-    <div className="rounded-lg border border-gray-200 bg-white p-5">
-      <p className="text-sm font-medium text-gray-500">{label}</p>
-      <p
-        className={`mt-1 text-2xl font-semibold ${highlight ? "text-green-600" : "text-gray-900"}`}
-      >
-        {value}
-      </p>
-    </div>
-  );
 }
 
 function StructuredData({ vault }: { vault: YieldVault }) {
@@ -261,218 +242,249 @@ export default async function ProductPage({
 
   const faqItems = generateFaqItems(vault);
 
+  const tocItems = [
+    { id: "about", label: "About this vault" },
+    ...(hasCharts ? [{ id: "performance", label: "Performance history" }] : []),
+    { id: "overview", label: "Performance overview" },
+    { id: "consistency", label: "APY consistency" },
+    { id: "statistics", label: "30-day statistics" },
+    ...(vault.apyBreakdown.length > 0 ? [{ id: "sources", label: "Yield sources" }] : []),
+    { id: "calculator", label: "Earnings calculator" },
+    { id: "history", label: "Historical data" },
+    { id: "details", label: "Contract details" },
+    { id: "faq", label: "FAQ" },
+    ...(relatedVaults.length > 0 ? [{ id: "more", label: `More ${vault.asset} vaults` }] : []),
+  ];
+
   return (
     <>
       <StructuredData vault={vault} />
       <BreadcrumbSchema vault={vault} />
       <FaqSchema items={faqItems} />
-      <main className="mx-auto w-full max-w-4xl px-4 py-10 sm:px-6 lg:px-8">
-        {/* Breadcrumb */}
-        <nav className="mb-6 text-sm text-gray-500">
-          <Link href="/" className="hover:text-gray-700">
-            Home
-          </Link>
-          <span className="mx-2">/</span>
-          <Link
-            href={`/?asset=${vault.asset}`}
-            className="hover:text-gray-700"
-          >
-            {vault.asset} Vaults
-          </Link>
-          <span className="mx-2">/</span>
-          <span className="text-gray-600">{vault.chain}</span>
-          <span className="mx-2">/</span>
-          <span className="text-gray-900">{vault.productName}</span>
+
+      <main className="pp-page">
+        {/* Breadcrumbs */}
+        <nav className="pp-crumbs">
+          <Link href="/">Home</Link>
+          <span className="sep">/</span>
+          <Link href={`/?asset=${vault.asset}`}>{vault.asset} Vaults</Link>
+          <span className="sep">/</span>
+          <span>{vault.chain}</span>
+          <span className="sep">/</span>
+          <span className="current">{vault.productName}</span>
         </nav>
 
         {/* Header */}
-        <div className="mb-8">
-          <div className="flex items-center gap-3 mb-2">
-            <AssetBadge asset={vault.asset} />
-            <span className="rounded-full bg-gray-100 px-2.5 py-0.5 text-xs font-medium text-gray-600">
-              {vault.chain}
-            </span>
-            <span className="rounded-full bg-gray-100 px-2.5 py-0.5 text-xs font-medium text-gray-600">
-              {vault.vaultType}
-            </span>
+        <div className="pp-header">
+          <div>
+            <div className="pp-tag-row">
+              <span className="tag">
+                <span className="dot" />
+                Active
+              </span>
+              <span className="tag">{vault.chain}</span>
+              <span className="tag">{vault.vaultType}</span>
+            </div>
+            <div className="pp-title">
+              <AssetBadge asset={vault.asset} iconOnly />
+              <div>
+                <h1>{vault.productName}</h1>
+                <div className="by">
+                  by <b>{vault.protocol.name}</b>
+                </div>
+              </div>
+            </div>
           </div>
-          <h1 className="text-3xl font-bold tracking-tight text-gray-900">
-            {vault.productName}
-          </h1>
-          <p className="mt-1 text-base text-gray-500">
-            by{" "}
-            <span className="font-medium text-gray-700">
-              {vault.protocol.name}
-            </span>
-          </p>
         </div>
 
-        {/* Stats Grid */}
-        <div className="mb-8 grid grid-cols-2 gap-4 sm:grid-cols-4">
-          <StatCard
-            label="24H APY"
-            value={formatAPY(vault.apy24h)}
-            highlight
-          />
-          <StatCard label="30D APY" value={formatAPY(vault.apy30d)} />
-          <StatCard label="TVL" value={formatTVL(vault.tvl)} />
-          <StatCard label="Chain" value={vault.chain} />
+        {/* KPI Strip */}
+        <div className="pp-kpis">
+          <div className="pp-kpi">
+            <div className="k-label">24H APY</div>
+            <div className="k-val hot">{formatAPY(vault.apy24h)}</div>
+          </div>
+          <div className="pp-kpi">
+            <div className="k-label">30D APY</div>
+            <div className="k-val">{formatAPY(vault.apy30d)}</div>
+          </div>
+          <div className="pp-kpi">
+            <div className="k-label">TVL</div>
+            <div className="k-val">{formatTVL(vault.tvl)}</div>
+          </div>
+          <div className="pp-kpi">
+            <div className="k-label">Chain</div>
+            <div className="k-val">{vault.chain}</div>
+          </div>
         </div>
 
-        {/* About — high up for SEO, Google reads first paragraphs */}
-        <section className="mb-10">
-          <h2 className="mb-3 text-lg font-semibold text-gray-900">
-            About {vault.productName}
-          </h2>
-          <p className="leading-relaxed text-gray-600">
-            {vault.productName} is a {vault.vaultType.toLowerCase()} vault on{" "}
-            {vault.chain} that accepts {vault.asset} deposits.{" "}
-            {vault.vaultType === "Autocompounder"
-              ? `It automatically reinvests earned ${vault.asset} yields, compounding returns over time without manual harvesting or restaking.`
-              : `It automatically allocates ${vault.asset} deposits across optimized yield strategies, rebalancing to capture the best available rates.`}
-          </p>
-          {vault.tvl > 0 && vault.apy24h > 0 && (
-            <p className="mt-2 leading-relaxed text-gray-600">
-              The vault currently holds {formatTVL(vault.tvl)} in deposits
-              and is generating {formatAPY(vault.apy24h)} APY over the last 24 hours.
-              {vault.apy30d > 0 &&
-                ` The 30-day average sits at ${formatAPY(vault.apy30d)}.`}
-            </p>
-          )}
-        </section>
-
-        {/* Charts */}
-        {hasCharts && (
-          <section className="mb-10">
-            <h2 className="mb-4 text-lg font-semibold text-gray-900">
-              Performance History
-            </h2>
-            <div className="grid gap-4">
-              {apyChartData.length >= 2 && (
-                <VaultChart
-                  title="APY History"
-                  data={apyChartData}
-                  format="percent"
-                />
-              )}
-              {tvlChartData.length >= 2 && (
-                <VaultChart
-                  title="TVL History"
-                  data={tvlChartData}
-                  format="dollar"
-                />
-              )}
-              {sharePriceChartData.length >= 2 && (
-                <VaultChart
-                  title="Share Price History"
-                  data={sharePriceChartData}
-                  format="number"
-                />
+        {/* Two-column layout */}
+        <div className="pp-grid">
+          {/* Main column */}
+          <div>
+            {/* About */}
+            <div className="pp-section" id="about">
+              <h2>About {vault.productName}</h2>
+              <p>
+                {vault.productName} is a {vault.vaultType.toLowerCase()} vault on{" "}
+                {vault.chain} that accepts {vault.asset} deposits.{" "}
+                {vault.vaultType === "Autocompounder"
+                  ? `It automatically reinvests earned ${vault.asset} yields, compounding returns over time without manual harvesting or restaking.`
+                  : `It automatically allocates ${vault.asset} deposits across optimized yield strategies, rebalancing to capture the best available rates.`}
+              </p>
+              {vault.tvl > 0 && vault.apy24h > 0 && (
+                <p>
+                  The vault currently holds <strong>{formatTVL(vault.tvl)}</strong> in deposits
+                  and is generating <strong>{formatAPY(vault.apy24h)}</strong> APY over the last 24 hours.
+                  {vault.apy30d > 0 &&
+                    <> The 30-day average sits at <strong>{formatAPY(vault.apy30d)}</strong>.</>}
+                </p>
               )}
             </div>
-          </section>
-        )}
 
-        {/* Performance Commentary */}
-        <VaultCommentary
-          vault={vault}
-          allVaults={allVaults}
-          history={history}
-        />
-
-        {/* Consistency Score */}
-        <ConsistencyScore history={history} spotAPY={vault.apy24h} />
-
-        {/* Statistics Block */}
-        <VaultStatistics history={history} currentTvl={vault.tvl} />
-
-        {/* Yield Breakdown */}
-        {vault.apyBreakdown.length > 0 && (
-          <YieldBreakdown
-            apyBreakdown={vault.apyBreakdown}
-            boostedApy={vault.boostedApy}
-          />
-        )}
-
-        {/* Earnings Calculator */}
-        <EarningsCalculator apy={vault.apy24h} asset={vault.asset} />
-
-        {/* History Table */}
-        <VaultHistoryTable history={history} />
-
-        {/* Details */}
-        <section className="mb-10">
-          <h2 className="mb-3 text-lg font-semibold text-gray-900">Details</h2>
-          <dl className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-            <div className="rounded-lg border border-gray-200 bg-white p-4">
-              <dt className="text-sm font-medium text-gray-500">Chain</dt>
-              <dd className="mt-1 text-sm text-gray-900">{vault.chain}</dd>
-            </div>
-            <div className="rounded-lg border border-gray-200 bg-white p-4">
-              <dt className="text-sm font-medium text-gray-500">Contract</dt>
-              <dd className="mt-1 text-sm font-mono text-gray-900">
-                {vault.contractAddress}
-              </dd>
-            </div>
-            <div className="rounded-lg border border-gray-200 bg-white p-4">
-              <dt className="text-sm font-medium text-gray-500">Type</dt>
-              <dd className="mt-1 text-sm text-gray-900">{vault.vaultType}</dd>
-            </div>
-            <div className="rounded-lg border border-gray-200 bg-white p-4">
-              <dt className="text-sm font-medium text-gray-500">Asset</dt>
-              <dd className="mt-1 text-sm text-gray-900">{vault.asset}</dd>
-            </div>
-          </dl>
-        </section>
-
-        {/* FAQ */}
-        <VaultFaq
-          productName={vault.productName}
-          protocolName={vault.protocol.name}
-          asset={vault.asset}
-          chain={vault.chain}
-          vaultType={vault.vaultType}
-          apy24h={formatAPY(vault.apy24h)}
-          tvl={formatTVL(vault.tvl)}
-          riskLevel={vault.riskLevel}
-          description={vault.description}
-          faqItems={faqItems}
-        />
-
-        {/* Related Vaults */}
-        {relatedVaults.length > 0 && (
-          <section>
-            <h2 className="mb-4 text-lg font-semibold text-gray-900">
-              More {vault.asset} Vaults
-            </h2>
-            <div className="grid gap-3 sm:grid-cols-2">
-              {relatedVaults.map((rv) => (
-                <Link
-                  key={rv.id}
-                  href={`/${rv.slug}`}
-                  className="flex items-center justify-between rounded-lg border border-gray-200 bg-white p-4 transition-colors hover:border-gray-300 hover:bg-gray-50"
-                >
-                  <div>
-                    <p className="text-sm font-medium text-gray-900">
-                      {rv.productName}
-                    </p>
-                    <p className="text-xs text-gray-500">
-                      {rv.protocol.name}
-                    </p>
+            {/* Charts - each standalone with Chart/Data tabs */}
+            {hasCharts && (
+              <div className="pp-section" id="performance">
+                <h2>Performance History</h2>
+                {apyChartData.length >= 2 && (
+                  <ChartCard
+                    title="APY History"
+                    data={apyChartData}
+                    format="percent"
+                  />
+                )}
+                {tvlChartData.length >= 2 && (
+                  <div style={{ marginTop: 14 }}>
+                    <ChartCard
+                      title="TVL History"
+                      data={tvlChartData}
+                      format="dollar"
+                    />
                   </div>
-                  <div className="text-right">
-                    <p className="text-sm font-semibold text-green-600">
-                      {formatAPY(rv.apy24h)}
-                    </p>
-                    <p className="text-xs text-gray-400">
-                      {formatTVL(rv.tvl)}
-                    </p>
+                )}
+                {sharePriceChartData.length >= 2 && (
+                  <div style={{ marginTop: 14 }}>
+                    <ChartCard
+                      title="Share Price History"
+                      data={sharePriceChartData}
+                      format="number"
+                    />
                   </div>
-                </Link>
-              ))}
+                )}
+              </div>
+            )}
+
+            {/* Performance Commentary */}
+            <VaultCommentary
+              vault={vault}
+              allVaults={allVaults}
+              history={history}
+            />
+
+            {/* Consistency Score */}
+            <ConsistencyScore history={history} spotAPY={vault.apy24h} />
+
+            {/* Statistics Block */}
+            <VaultStatistics history={history} currentTvl={vault.tvl} />
+
+            {/* Yield Breakdown */}
+            {vault.apyBreakdown.length > 0 && (
+              <YieldBreakdown
+                apyBreakdown={vault.apyBreakdown}
+                boostedApy={vault.boostedApy}
+              />
+            )}
+
+            {/* Earnings Calculator */}
+            <EarningsCalculator apy={vault.apy24h} asset={vault.asset} />
+
+            {/* History Table */}
+            <VaultHistoryTable history={history} />
+
+            {/* Contract Details */}
+            <div className="pp-section" id="details">
+              <h2>Contract Details</h2>
+              <div
+                style={{
+                  border: "1px solid var(--line)",
+                  borderRadius: "var(--radius)",
+                  background: "var(--panel)",
+                  overflow: "hidden",
+                }}
+              >
+                <div className="detail-row" style={{ padding: "10px 16px" }}>
+                  <span className="dr-label">Chain</span>
+                  <span className="dr-val">{vault.chain}</span>
+                </div>
+                <div className="detail-row" style={{ padding: "10px 16px" }}>
+                  <span className="dr-label">Contract</span>
+                  <span className="dr-val" style={{ fontSize: 12 }}>{vault.contractAddress}</span>
+                </div>
+                <div className="detail-row" style={{ padding: "10px 16px" }}>
+                  <span className="dr-label">Type</span>
+                  <span className="dr-val">{vault.vaultType}</span>
+                </div>
+                <div className="detail-row" style={{ padding: "10px 16px" }}>
+                  <span className="dr-label">Asset</span>
+                  <span className="dr-val">{vault.asset}</span>
+                </div>
+              </div>
             </div>
-          </section>
-        )}
+
+            {/* FAQ */}
+            <VaultFaq
+              productName={vault.productName}
+              protocolName={vault.protocol.name}
+              asset={vault.asset}
+              chain={vault.chain}
+              vaultType={vault.vaultType}
+              apy24h={formatAPY(vault.apy24h)}
+              tvl={formatTVL(vault.tvl)}
+              riskLevel={vault.riskLevel}
+              description={vault.description}
+              faqItems={faqItems}
+            />
+
+            {/* Related Vaults */}
+            {relatedVaults.length > 0 && (
+              <div className="pp-section" id="more">
+                <h2>More {vault.asset} Vaults</h2>
+                <div className="more-vaults">
+                  {relatedVaults.map((rv) => (
+                    <Link key={rv.id} href={`/${rv.slug}`} className="mv-card">
+                      <div className="mv-head">
+                        <AssetBadge asset={rv.asset} iconOnly />
+                        <div>
+                          <div className="mv-name">{rv.productName}</div>
+                          <div className="mv-by">{rv.protocol.name}</div>
+                        </div>
+                      </div>
+                      <div className="mv-stats">
+                        <div>
+                          <div>APY</div>
+                          <div className="mv-num up">{formatAPY(rv.apy24h)}</div>
+                        </div>
+                        <div style={{ textAlign: "right" }}>
+                          <div>TVL</div>
+                          <div className="mv-num">{formatTVL(rv.tvl)}</div>
+                        </div>
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Sidebar */}
+          <div className="pp-sidebar">
+            <DepositCard
+              apy24h={vault.apy24h}
+              apy30d={vault.apy30d}
+              asset={vault.asset}
+            />
+            <TableOfContents items={tocItems} />
+          </div>
+        </div>
       </main>
     </>
   );

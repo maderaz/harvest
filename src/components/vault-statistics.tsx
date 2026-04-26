@@ -47,7 +47,6 @@ function computeTvlStats(history: FullVaultHistory, currentTvl: number) {
   const high = sorted[sorted.length - 1];
   const low = sorted[0];
 
-  // Largest single-day change (absolute)
   const chronological = [...recent].sort((a, b) => a.timestamp - b.timestamp);
   let largestDayChange = 0;
   for (let i = 1; i < chronological.length; i++) {
@@ -60,15 +59,6 @@ function computeTvlStats(history: FullVaultHistory, currentTvl: number) {
   return { currentTvl, mean, high, low, largestDayChange, count: values.length };
 }
 
-function StatRow({ label, value }: { label: string; value: string }) {
-  return (
-    <div className="flex items-center justify-between border-b border-gray-100 py-2 last:border-b-0">
-      <span className="text-[13px] text-gray-500">{label}</span>
-      <span className="text-[13px] font-medium text-gray-900">{value}</span>
-    </div>
-  );
-}
-
 export function VaultStatistics({ history, currentTvl }: VaultStatisticsProps) {
   const apyStats = computeApyStats(history);
   const tvlStats = computeTvlStats(history, currentTvl);
@@ -76,46 +66,80 @@ export function VaultStatistics({ history, currentTvl }: VaultStatisticsProps) {
   if (!apyStats && !tvlStats) return null;
 
   return (
-    <section className="mb-10">
-      <h2 className="mb-4 text-lg font-semibold text-gray-900">
-        30-Day Statistics
-      </h2>
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+    <div className="pp-section" id="statistics">
+      <h2>30-Day Statistics</h2>
+      <div className="hist-grid">
         {apyStats && (
-          <div className="rounded-lg border border-gray-200 bg-white p-4">
-            <h3 className="mb-2 text-sm font-semibold text-gray-700">
-              APY Stats (30D)
-            </h3>
-            <StatRow label="Average APY" value={formatAPY(apyStats.mean)} />
-            <StatRow label="Median APY" value={formatAPY(apyStats.median)} />
-            <StatRow label="High" value={formatAPY(apyStats.high)} />
-            <StatRow label="Low" value={formatAPY(apyStats.low)} />
-            <StatRow
-              label="Std Deviation"
-              value={`${apyStats.stdDev.toFixed(2)}%`}
-            />
-            <StatRow
-              label="APY Range"
-              value={`${apyStats.range.toFixed(2)}%`}
-            />
+          <div className="hist-block">
+            <h3>APY Statistics</h3>
+            <table className="stat-table">
+              <tbody>
+                <tr>
+                  <th>30D Average</th>
+                  <td>{formatAPY(apyStats.mean)}</td>
+                </tr>
+                <tr>
+                  <th>Median APY</th>
+                  <td>{formatAPY(apyStats.median)}</td>
+                </tr>
+                <tr>
+                  <th>30D High</th>
+                  <td>{formatAPY(apyStats.high)}</td>
+                </tr>
+                <tr>
+                  <th>30D Low</th>
+                  <td>{formatAPY(apyStats.low)}</td>
+                </tr>
+                <tr>
+                  <th>Std Deviation</th>
+                  <td>{apyStats.stdDev.toFixed(2)}%</td>
+                </tr>
+                <tr>
+                  <th>APY Range</th>
+                  <td>{apyStats.range.toFixed(2)}pp</td>
+                </tr>
+                <tr>
+                  <th>Data Points</th>
+                  <td>{apyStats.count}</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         )}
         {tvlStats && (
-          <div className="rounded-lg border border-gray-200 bg-white p-4">
-            <h3 className="mb-2 text-sm font-semibold text-gray-700">
-              TVL Stats
-            </h3>
-            <StatRow label="Current TVL" value={formatTVL(tvlStats.currentTvl)} />
-            <StatRow label="30D Average" value={formatTVL(tvlStats.mean)} />
-            <StatRow label="30D High" value={formatTVL(tvlStats.high)} />
-            <StatRow label="30D Low" value={formatTVL(tvlStats.low)} />
-            <StatRow
-              label="Largest Daily Change"
-              value={formatTVL(tvlStats.largestDayChange)}
-            />
+          <div className="hist-block">
+            <h3>TVL Statistics</h3>
+            <table className="stat-table">
+              <tbody>
+                <tr>
+                  <th>Current TVL</th>
+                  <td>{formatTVL(tvlStats.currentTvl)}</td>
+                </tr>
+                <tr>
+                  <th>30D Average</th>
+                  <td>{formatTVL(tvlStats.mean)}</td>
+                </tr>
+                <tr>
+                  <th>30D High</th>
+                  <td>{formatTVL(tvlStats.high)}</td>
+                </tr>
+                <tr>
+                  <th>30D Low</th>
+                  <td>{formatTVL(tvlStats.low)}</td>
+                </tr>
+                <tr>
+                  <th>Largest Daily Change</th>
+                  <td>{formatTVL(tvlStats.largestDayChange)}</td>
+                </tr>
+                <tr>
+                  <th>Data Points</th>
+                  <td>{tvlStats.count}</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         )}
       </div>
-    </section>
+    </div>
   );
 }
