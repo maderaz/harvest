@@ -79,41 +79,7 @@ function computeFeaturedAssets(vaults: { asset: string; apy24h: number; tvl: num
     .slice(0, 4);
 }
 
-/* ——— Asset dot (server component version) ——— */
-
-const ASSET_COLORS: Record<string, string> = {
-  USDC: "#2775CA",
-  USDT: "#26A17B",
-  DAI: "#F4B731",
-  ETH: "#627EEA",
-  stETH: "#00A3FF",
-  BTC: "#F7931A",
-  WBTC: "#F09242",
-  wBTC: "#F09242",
-  cbBTC: "#0052FF",
-  XRP: "#23292F",
-  SOL: "#9945FF",
-  MATIC: "#8247E5",
-  EURC: "#2775CA",
-};
-
-function AssetDotServer({ asset, size = 28 }: { asset: string; size?: number }) {
-  const color = ASSET_COLORS[asset] || "#999";
-  const mono = asset[0] || "?";
-  return (
-    <span
-      className="asset-dot"
-      style={{
-        background: color,
-        width: size,
-        height: size,
-        fontSize: size * 0.5,
-      }}
-    >
-      {mono}
-    </span>
-  );
-}
+import { AssetIcon } from "@/components/token-icons";
 
 /* ——— Page component ——— */
 
@@ -194,7 +160,7 @@ export default async function Home() {
           {featuredAssets.map((a) => (
             <div key={a.asset} className="feat">
               <div className="feat-head">
-                <AssetDotServer asset={a.asset} size={28} />
+                <AssetIcon asset={a.asset} size={28} />
                 <div>
                   <div className="feat-name">{a.asset}</div>
                   <div className="feat-sub mono dim">{a.poolCount} pool{a.poolCount !== 1 ? "s" : ""}</div>

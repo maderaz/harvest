@@ -2,40 +2,30 @@
 
 import { useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 import { YieldVault } from "@/lib/types";
 import { formatAPY, formatTVL } from "@/lib/format";
 
-/* ——— Asset dot ——— */
+import usdcIcon from "@/assets/icons/USDC.png";
+import usdtIcon from "@/assets/icons/USDT.png";
+import ethIcon from "@/assets/icons/ETH.png";
+import wbtcIcon from "@/assets/icons/WBTC.png";
+import cbbtcIcon from "@/assets/icons/cbBTC.png";
+import eurcIcon from "@/assets/icons/EURC.png";
 
-const ASSET_META: Record<string, { color: string; mono: string }> = {
-  USDC: { color: "#2775CA", mono: "U" },
-  USDT: { color: "#26A17B", mono: "T" },
-  DAI: { color: "#F4B731", mono: "D" },
-  ETH: { color: "#627EEA", mono: "E" },
-  stETH: { color: "#00A3FF", mono: "s" },
-  BTC: { color: "#F7931A", mono: "B" },
-  WBTC: { color: "#F09242", mono: "w" },
-  wBTC: { color: "#F09242", mono: "w" },
-  cbBTC: { color: "#0052FF", mono: "c" },
-  XRP: { color: "#23292F", mono: "X" },
-  SOL: { color: "#9945FF", mono: "S" },
-  MATIC: { color: "#8247E5", mono: "M" },
-  EURC: { color: "#2775CA", mono: "E" },
+const ASSET_ICONS: Record<string, typeof usdcIcon> = {
+  USDC: usdcIcon, USDT: usdtIcon, ETH: ethIcon, WETH: ethIcon,
+  WBTC: wbtcIcon, wBTC: wbtcIcon, cbBTC: cbbtcIcon, EURC: eurcIcon,
 };
 
 function AssetDot({ asset, size = 22 }: { asset: string; size?: number }) {
-  const a = ASSET_META[asset] || { color: "#999", mono: asset[0] || "?" };
+  const icon = ASSET_ICONS[asset];
+  if (icon) {
+    return <Image src={icon} alt={asset} width={size} height={size} style={{ width: size, height: size, borderRadius: "50%" }} />;
+  }
   return (
-    <span
-      className="asset-dot"
-      style={{
-        background: a.color,
-        width: size,
-        height: size,
-        fontSize: size * 0.5,
-      }}
-    >
-      {a.mono}
+    <span className="asset-dot" style={{ background: "#999", width: size, height: size, fontSize: size * 0.5 }}>
+      {asset[0] || "?"}
     </span>
   );
 }
