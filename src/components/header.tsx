@@ -1,19 +1,38 @@
 import Link from "next/link";
 
 export function Header() {
+  const navItems = ["Discover", "USDC", "ETH", "Bitcoin"];
+
   return (
-    <header className="border-b border-gray-200 bg-white">
-      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-        <Link href="/" className="flex items-center gap-2">
-          <span className="text-xl font-bold tracking-tight text-gray-900">
-            Harvest
-          </span>
+    <header className="topnav">
+      <div className="topnav-inner">
+        <Link href="/" className="brand">
+          <div className="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 20 20" width="20" height="20">
+              <rect x="1" y="11" width="3" height="7" fill="currentColor" />
+              <rect x="6" y="7" width="3" height="11" fill="currentColor" />
+              <rect x="11" y="3" width="3" height="15" fill="currentColor" />
+              <rect x="16" y="8" width="3" height="10" fill="currentColor" opacity="0.5" />
+            </svg>
+          </div>
+          <span className="brand-name">Harvest</span>
         </Link>
-        <nav className="hidden items-center gap-6 text-sm font-medium text-gray-600 sm:flex">
-          <Link href="/" className="hover:text-gray-900">
-            Explore
-          </Link>
+        <nav className="navlinks">
+          {navItems.map((item, idx) => (
+            <Link key={item} href="/" className={idx === 0 ? "active" : ""}>
+              {item}
+            </Link>
+          ))}
         </nav>
+        <div className="nav-right">
+          <label className="search-box">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <circle cx="11" cy="11" r="7" /><path d="M20 20l-3.5-3.5" />
+            </svg>
+            <input placeholder="Search pool, protocol, asset..." readOnly />
+            <kbd>&#8984;K</kbd>
+          </label>
+        </div>
       </div>
     </header>
   );

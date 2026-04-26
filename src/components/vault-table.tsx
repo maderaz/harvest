@@ -1,37 +1,231 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { YieldVault } from "@/lib/types";
 import { formatAPY, formatTVL } from "@/lib/format";
-import { AssetBadge } from "./asset-badge";
 
-type SortKey = "apy24h" | "apy30d" | "tvl";
-type SortDir = "asc" | "desc";
+/* ——— Asset dot ——— */
 
-function SortIcon({ active, dir }: { active: boolean; dir: SortDir }) {
+const ASSET_META: Record<string, { color: string; mono: string }> = {
+  USDC: { color: "#2775CA", mono: "U" },
+  USDT: { color: "#26A17B", mono: "T" },
+  DAI: { color: "#F4B731", mono: "D" },
+  ETH: { color: "#627EEA", mono: "E" },
+  stETH: { color: "#00A3FF", mono: "s" },
+  BTC: { color: "#F7931A", mono: "B" },
+  WBTC: { color: "#F09242", mono: "w" },
+  wBTC: { color: "#F09242", mono: "w" },
+  cbBTC: { color: "#0052FF", mono: "c" },
+  XRP: { color: "#23292F", mono: "X" },
+  SOL: { color: "#9945FF", mono: "S" },
+  MATIC: { color: "#8247E5", mono: "M" },
+  EURC: { color: "#2775CA", mono: "E" },
+};
+
+function AssetDot({ asset, size = 22 }: { asset: string; size?: number }) {
+  const a = ASSET_META[asset] || { color: "#999", mono: asset[0] || "?" };
   return (
-    <span className={`inline-block ml-0.5 ${active ? "text-gray-900" : "text-gray-300"}`}>
-      {active && dir === "asc" ? "▲" : "▼"}
+    <span
+      className="asset-dot"
+      style={{
+        background: a.color,
+        width: size,
+        height: size,
+        fontSize: size * 0.5,
+      }}
+    >
+      {a.mono}
     </span>
   );
 }
+
+/* ——— Spark chart ——— */
+
+function seedSpark(seed: number, up: boolean): number[] {
+  const out: number[] = [];
+  let v = 50;
+  for (let i = 0; i < 24; i++) {
+    const n = Math.sin(seed * 12.9898 + i * 78.233) * 43758.5453;
+    const r = n - Math.floor(n);
+    v += (r - 0.5) * 8 + (up ? 0.4 : -0.4);
+    out.push(v);
+  }
+  return out;
+}
+
+function Spark({
+  points,
+  up = true,
+  w = 68,
+  h = 22,
+}: {
+  points: number[];
+  up?: boolean;
+  w?: number;
+  h?: number;
+}) {
+  const max = Math.max(...points);
+  const min = Math.min(...points);
+  const range = max - min || 1;
+  const coords = points.map((p, i) => {
+    const x = (i / (points.length - 1)) * w;
+    const y = h - ((p - min) / range) * (h - 2) - 1;
+    return [x, y] as [number, number];
+  });
+  const d = coords
+    .map(([x, y], i) => `${i === 0 ? "M" : "L"}${x.toFixed(1)},${y.toFixed(1)}`)
+    .join(" ");
+  const last = coords[coords.length - 1];
+  const color = up ? "var(--up)" : "var(--down)";
+  return (
+    <svg width={w} height={h} className="spark">
+      <path d={`${d} L${w},${h} L0,${h} Z`} fill={color} opacity="0.08" />
+      <path d={d} fill="none" stroke={color} strokeWidth="1.25" />
+      <circle cx={last[0]} cy={last[1]} r="1.8" fill={color} />
+    </svg>
+  );
+}
+
+/* ——— Sort types ——— */
+
+type SortKey = "apy24h" | "apy30d" | "tvl" | "productName" | "chain";
+type SortDir = "asc" | "desc";
+
+/* ——— FilterBar ——— */
+
+function FilterBar({
+  assetFilter,
+  setAssetFilter,
+  chainFilter,
+  setChainFilter,
+  query,
+  setQuery,
+  assets,
+  chains,
+}: {
+  assetFilter: string;
+  setAssetFilter: (v: string) => void;
+  chainFilter: string;
+  setChainFilter: (v: string) => void;
+  query: string;
+  setQuery: (v: string) => void;
+  assets: string[];
+  chains: string[];
+}) {
+  return (
+    <div className="filterbar">
+      <div className="fb-left">
+        <select
+          className="pill"
+          value={assetFilter}
+          onChange={(e) => setAssetFilter(e.target.value)}
+        >
+          <option value="All">All assets</option>
+          {assets.map((a) => (
+            <option key={a} value={a}>
+              {a}
+            </option>
+          ))}
+        </select>
+        <select
+          className="pill"
+          value={chainFilter}
+          onChange={(e) => setChainFilter(e.target.value)}
+        >
+          <option value="All">All chains</option>
+          {chains.map((c) => (
+            <option key={c} value={c}>
+              {c}
+            </option>
+          ))}
+        </select>
+      </div>
+      <div className="fb-right">
+        <label className="search-box small">
+          <svg
+            width="12"
+            height="12"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+          >
+            <circle cx="11" cy="11" r="7" />
+            <path d="M20 20l-3.5-3.5" />
+          </svg>
+          <input
+            placeholder="Filter pools..."
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+          />
+        </label>
+      </div>
+    </div>
+  );
+}
+
+/* ——— VaultTable ——— */
 
 export function VaultTable({ vaults }: { vaults: YieldVault[] }) {
   const router = useRouter();
   const [sortKey, setSortKey] = useState<SortKey>("apy24h");
   const [sortDir, setSortDir] = useState<SortDir>("desc");
+  const [assetFilter, setAssetFilter] = useState("All");
+  const [chainFilter, setChainFilter] = useState("All");
+  const [query, setQuery] = useState("");
+
+  const assets = useMemo(() => {
+    const set = new Set(vaults.map((v) => v.asset));
+    return Array.from(set).sort();
+  }, [vaults]);
+
+  const chains = useMemo(() => {
+    const set = new Set(vaults.map((v) => v.chain));
+    return Array.from(set).sort();
+  }, [vaults]);
+
+  const filtered = useMemo(() => {
+    return vaults.filter((v) => {
+      if (assetFilter !== "All" && v.asset !== assetFilter) return false;
+      if (chainFilter !== "All" && v.chain !== chainFilter) return false;
+      if (
+        query &&
+        !(v.productName + v.asset + v.category)
+          .toLowerCase()
+          .includes(query.toLowerCase())
+      )
+        return false;
+      return true;
+    });
+  }, [vaults, assetFilter, chainFilter, query]);
 
   const sorted = useMemo(() => {
-    const copy = [...vaults];
+    const copy = [...filtered];
     copy.sort((a, b) => {
-      const av = a[sortKey];
-      const bv = b[sortKey];
-      return sortDir === "desc" ? bv - av : av - bv;
+      let va: string | number;
+      let vb: string | number;
+      if (sortKey === "productName") {
+        va = a.productName;
+        vb = b.productName;
+      } else if (sortKey === "chain") {
+        va = a.chain;
+        vb = b.chain;
+      } else {
+        va = a[sortKey];
+        vb = b[sortKey];
+      }
+      if (typeof va === "string" && typeof vb === "string") {
+        return sortDir === "asc"
+          ? va.localeCompare(vb)
+          : vb.localeCompare(va);
+      }
+      return sortDir === "desc"
+        ? (vb as number) - (va as number)
+        : (va as number) - (vb as number);
     });
     return copy;
-  }, [vaults, sortKey, sortDir]);
+  }, [filtered, sortKey, sortDir]);
 
   function toggleSort(key: SortKey) {
     if (sortKey === key) {
@@ -42,86 +236,138 @@ export function VaultTable({ vaults }: { vaults: YieldVault[] }) {
     }
   }
 
-  const thBase = "py-3 select-none cursor-pointer hover:text-gray-700 transition-colors";
+  function Head({
+    k,
+    children,
+    align = "right",
+  }: {
+    k: SortKey;
+    children: React.ReactNode;
+    align?: string;
+  }) {
+    return (
+      <th
+        className={`${align}${sortKey === k ? " sorted" : ""}`}
+        onClick={() => toggleSort(k)}
+      >
+        {children}
+        {sortKey === k && (
+          <span className="caret">{sortDir === "desc" ? "▾" : "▴"}</span>
+        )}
+      </th>
+    );
+  }
+
+  // Compute reward from apyBreakdown
+  function getReward(vault: YieldVault): number {
+    if (!vault.apyBreakdown || vault.apyBreakdown.length <= 1) return 0;
+    // Sum all non-first sources (first is typically the base rate)
+    return vault.apyBreakdown
+      .slice(1)
+      .reduce((sum, b) => sum + b.apy, 0);
+  }
 
   return (
-    <div className="overflow-x-auto">
-      <table className="w-full">
-        <thead>
-          <tr className="border-b border-gray-200 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
-            <th className="px-2 py-3 w-8 sm:px-4 sm:w-12">#</th>
-            <th className="hidden sm:table-cell px-4 py-3">Asset</th>
-            <th className="px-2 py-3 sm:px-4">Product</th>
-            <th
-              className={`px-2 sm:px-4 text-right ${thBase}`}
-              onClick={() => toggleSort("apy24h")}
-            >
-              24H APY <SortIcon active={sortKey === "apy24h"} dir={sortDir} />
-            </th>
-            <th
-              className={`hidden sm:table-cell px-4 text-right ${thBase}`}
-              onClick={() => toggleSort("apy30d")}
-            >
-              30D APY <SortIcon active={sortKey === "apy30d"} dir={sortDir} />
-            </th>
-            <th
-              className={`px-2 sm:px-4 text-right ${thBase}`}
-              onClick={() => toggleSort("tvl")}
-            >
-              TVL <SortIcon active={sortKey === "tvl"} dir={sortDir} />
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {sorted.map((vault, index) => (
-            <tr
-              key={vault.id}
-              onClick={() => router.push(`/${vault.slug}`)}
-              className="border-b border-gray-100 transition-colors hover:bg-gray-50 cursor-pointer"
-            >
-              <td className="px-2 py-3 text-xs text-gray-400 sm:px-4 sm:py-4 sm:text-sm">
-                {index + 1}
-              </td>
-              <td className="hidden sm:table-cell px-4 py-4">
-                <AssetBadge asset={vault.asset} />
-              </td>
-              <td className="px-2 py-3 sm:px-4 sm:py-4 max-w-[160px] sm:max-w-none">
-                <Link
-                  href={`/${vault.slug}`}
-                  className="group flex items-center gap-2"
-                >
-                  <span className="shrink-0 sm:hidden">
-                    <AssetBadge asset={vault.asset} iconOnly />
-                  </span>
-                  <span className="flex flex-col min-w-0">
-                    <span className="text-xs font-medium text-gray-900 group-hover:text-blue-600 truncate sm:text-sm">
-                      {vault.productName}
-                      <span className="hidden sm:inline">
-                        {" "}<span className="text-gray-400">&bull;</span>{" "}
-                        <span className="text-gray-500">{vault.protocol.name}</span>
-                      </span>
-                    </span>
-                    <span className="text-[10px] text-gray-400 truncate sm:text-xs">
-                      {vault.category}
-                    </span>
-                  </span>
-                </Link>
-              </td>
-              <td className="px-2 py-3 sm:px-4 sm:py-4 text-right">
-                <span className="text-xs font-semibold text-green-600 sm:text-sm">
-                  {formatAPY(vault.apy24h)}
-                </span>
-              </td>
-              <td className="hidden sm:table-cell px-4 py-4 text-right text-sm text-gray-700">
-                {formatAPY(vault.apy30d)}
-              </td>
-              <td className="px-2 py-3 sm:px-4 sm:py-4 text-right text-xs text-gray-700 sm:text-sm">
-                {formatTVL(vault.tvl)}
-              </td>
+    <>
+      <FilterBar
+        assetFilter={assetFilter}
+        setAssetFilter={setAssetFilter}
+        chainFilter={chainFilter}
+        setChainFilter={setChainFilter}
+        query={query}
+        setQuery={setQuery}
+        assets={assets}
+        chains={chains}
+      />
+      <div className="table-wrap">
+        <table className="ranking">
+          <thead>
+            <tr>
+              <th className="left">#</th>
+              <Head k="productName" align="left">
+                Protocol / Pool
+              </Head>
+              <Head k="chain" align="left">
+                Chain
+              </Head>
+              <Head k="apy24h">APY</Head>
+              <th className="right td-hide-mobile">Reward</th>
+              <th className="right td-hide-mobile">7d avg</th>
+              <Head k="apy30d">30d avg</Head>
+              <Head k="tvl">TVL</Head>
+              <th className="center td-hide-mobile">30d</th>
+              <th></th>
             </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+          </thead>
+          <tbody>
+            {sorted.map((vault, index) => {
+              const up = vault.apy24h >= vault.apy30d;
+              const reward = getReward(vault);
+              return (
+                <tr
+                  key={vault.id}
+                  className="row"
+                  style={{ cursor: "pointer" }}
+                  onClick={() => router.push(`/${vault.slug}`)}
+                >
+                  <td className="td rank mono">{index + 1}</td>
+                  <td className="td">
+                    <div className="proto">
+                      <AssetDot asset={vault.asset} size={22} />
+                      <div>
+                        <div className="proto-name">{vault.productName}</div>
+                        <div className="proto-sub mono">
+                          {vault.asset} &middot; {vault.category}
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                  <td className="td">
+                    <span className="chip">{vault.chain}</span>
+                  </td>
+                  <td className="td right mono big">
+                    <span className={`apy${vault.apy24h >= 10 ? " hot" : ""}`}>
+                      {formatAPY(vault.apy24h)}
+                    </span>
+                  </td>
+                  <td className="td right mono td-hide-mobile">
+                    {reward > 0 ? `+${reward.toFixed(1)}%` : "—"}
+                  </td>
+                  <td className="td right mono dim td-hide-mobile">
+                    {formatAPY(vault.apy24h)}
+                  </td>
+                  <td className="td right mono dim">
+                    {formatAPY(vault.apy30d)}
+                  </td>
+                  <td className="td right mono">{formatTVL(vault.tvl)}</td>
+                  <td className="td center td-hide-mobile">
+                    <Spark
+                      points={seedSpark(index + 1, up)}
+                      up={up}
+                    />
+                  </td>
+                  <td className="td right">
+                    <button
+                      className="row-cta"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        router.push(`/${vault.slug}`);
+                      }}
+                    >
+                      View
+                    </button>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+        <div className="table-foot">
+          <span className="mono dim">
+            Showing {sorted.length} of {vaults.length} vaults
+          </span>
+        </div>
+      </div>
+    </>
   );
 }

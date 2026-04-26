@@ -1,16 +1,20 @@
 export function Footer() {
   return (
-    <footer className="mt-auto border-t border-gray-200 bg-white">
-      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-        <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
-          <p className="text-sm text-gray-500">
-            Harvest — Credible, neutral yield data.
-          </p>
-          <p className="text-xs text-gray-400">
-            Data is provided for informational purposes only. Not financial
-            advice..
-          </p>
+    <footer className="foot">
+      <div className="foot-inner">
+        <div>
+          <span className="brand-name">Harvest</span>
+          <span className="mono dim"> &middot; Independent onchain yield index</span>
         </div>
+        <div className="foot-links mono">
+          <a href="#">API</a>
+          <a href="#">Methodology</a>
+          <a href="#">Risk framework</a>
+          <a href="#">Docs</a>
+          <a href="#">Status</a>
+          <a href="#">Terms</a>
+        </div>
+        <div className="mono dim">&copy; 2026 &middot; Data delayed &le; 60s</div>
       </div>
     </footer>
   );
