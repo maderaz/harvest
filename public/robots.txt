@@ -1,0 +1,4 @@
+User-Agent: *
+Allow: /
+
+Sitemap: https://harvest.finance/sitemap.xml
