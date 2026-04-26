@@ -483,6 +483,11 @@ button { font-family: inherit; cursor: pointer; }
 
 .pp-page { max-width: 1280px; margin: 0 auto; padding: 0 22px 60px; }
 
+/* Full-width sections above the 2-col grid */
+.pp-fullwidth {
+  width: 100%;
+}
+
 /* Breadcrumbs */
 .pp-crumbs {
   display: flex; align-items: center; gap: 6px;
@@ -499,10 +504,6 @@ button { font-family: inherit; cursor: pointer; }
 
 /* Header */
 .pp-header {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 32px;
-  align-items: end;
   padding-bottom: 22px;
   border-bottom: 1px solid var(--line);
 }
@@ -525,7 +526,7 @@ button { font-family: inherit; cursor: pointer; }
 
 .pp-title {
   display: flex; align-items: center; gap: 16px;
-  margin: 4px 0 14px;
+  margin: 4px 0 0;
 }
 .pp-title h1 {
   font-family: var(--display);
@@ -546,6 +547,27 @@ button { font-family: inherit; cursor: pointer; }
   display: grid; place-items: center;
   color: #fff; font-weight: 700; font-size: 26px;
   flex: none;
+}
+
+/* Header CTA buttons row */
+.pp-header-ctas {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 14px;
+}
+.pp-header-meta {
+  font-size: 13px;
+  color: var(--ink-3);
+  margin-top: 6px;
+}
+.pp-header-meta b {
+  color: var(--ink-2);
+  font-weight: 500;
+}
+.pp-header-meta .sep-dot {
+  margin: 0 6px;
+  color: var(--ink-4);
 }
 
 /* KPI strip */
@@ -576,29 +598,33 @@ button { font-family: inherit; cursor: pointer; }
   line-height: 1;
 }
 .pp-kpi .k-val.hot { color: var(--up); }
+
+/* KPI sub-context text */
 .pp-kpi .k-sub {
   font-family: var(--mono);
   font-size: 11.5px;
   color: var(--ink-3);
   margin-top: 8px;
+  line-height: 1.4;
 }
+.pp-kpi .k-sub .k-delta-up { color: var(--up); font-weight: 500; }
+.pp-kpi .k-sub .k-delta-down { color: var(--down); font-weight: 500; }
 
-/* Two-col layout */
-.pp-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 360px;
-  gap: 28px;
-  align-items: start;
-}
-
-/* Sidebar column */
-.pp-sidebar {
-  position: sticky;
-  top: 70px;
+/* Chain badge in KPI */
+.pp-kpi .k-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border: 1px solid var(--line-2);
+  background: var(--bg-2);
+  border-radius: 4px;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--ink-2);
+  margin-top: 8px;
 }
 
 /* Section heading */
-.pp-section { margin: 32px 0 0; }
+.pp-section { margin: 24px 0 0; }
 .pp-section:first-child { margin-top: 0; }
 .pp-section h2 {
   font-family: var(--display);
@@ -623,13 +649,55 @@ button { font-family: inherit; cursor: pointer; }
 }
 .pp-section p strong { color: var(--ink); font-weight: 600; }
 
+/* Performance history section heading (full width, above grid) */
+.pp-perf-heading {
+  margin: 32px 0 0;
+}
+.pp-perf-heading h2 {
+  font-family: var(--display);
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  margin: 0 0 4px;
+}
+.pp-perf-heading .pp-perf-sub {
+  font-size: 13px;
+  color: var(--ink-3);
+  margin: 0 0 16px;
+}
+
+/* Two-col layout wrapper (charts + below) */
+.pp-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 340px;
+  gap: 28px;
+  align-items: start;
+}
+
+/* Main content column */
+.pp-main {
+  min-width: 0;
+}
+
+/* Sidebar column */
+.pp-sidebar {
+  position: sticky;
+  top: 70px;
+}
+
+/* Chart cards spacing (standalone, no extra nesting) */
+.pp-chart-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
 /* Charts card */
 .charts-card {
   border: 1px solid var(--line);
   border-radius: var(--radius);
   background: var(--panel);
   overflow: hidden;
-  margin-top: 14px;
 }
 
 /* Chart/Data toggle tabs */
@@ -708,6 +776,51 @@ button { font-family: inherit; cursor: pointer; }
   cursor: default;
 }
 
+/* Numbered performance overview items */
+.pp-numbered-list {
+  list-style: none;
+  padding: 0;
+  margin: 14px 0 0;
+  counter-reset: none;
+}
+.pp-numbered-item {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--line);
+}
+.pp-numbered-item:first-child {
+  padding-top: 0;
+}
+.pp-numbered-item:last-child {
+  border-bottom: 0;
+}
+.pp-num-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  background: var(--bg-2);
+  border: 1px solid var(--line);
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--ink-3);
+  flex: none;
+  margin-top: 1px;
+}
+.pp-num-text {
+  flex: 1;
+  color: var(--ink-2);
+  font-size: 14px;
+  line-height: 1.6;
+  max-width: 70ch;
+  text-wrap: pretty;
+}
+
 /* Consistency block */
 .consistency {
   display: grid;
@@ -760,6 +873,49 @@ button { font-family: inherit; cursor: pointer; }
   border-radius: 99px;
 }
 .ys-val { font-family: var(--mono); font-weight: 600; color: var(--up); }
+
+/* Stat table (used in VaultStatistics) */
+.stat-table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: var(--panel);
+  font-size: 13px;
+}
+.stat-table tr {
+  border-bottom: 1px solid var(--line);
+}
+.stat-table tr:last-child { border-bottom: 0; }
+.stat-table tr:nth-child(odd) { background: var(--bg-2); }
+.stat-table th {
+  text-align: left;
+  font-weight: 400;
+  color: var(--ink-3);
+  padding: 9px 14px;
+  width: 55%;
+}
+.stat-table td {
+  text-align: right;
+  padding: 9px 14px;
+  font-weight: 600;
+  font-family: var(--mono);
+  color: var(--ink);
+}
+
+.hist-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px;
+  margin-top: 12px;
+}
+.hist-block h3 {
+  font-family: var(--display);
+  font-size: 15px;
+  font-weight: 600;
+  margin: 0 0 10px;
+}
 
 /* Calculator card */
 .calc-card {
@@ -892,6 +1048,45 @@ button { font-family: inherit; cursor: pointer; }
 .dep-projection .dp-l { color: var(--ink-3); margin-bottom: 2px; }
 .dep-projection .dp-v { font-family: var(--mono); font-weight: 600; color: var(--up); }
 
+/* Contract details grid */
+.pp-contract-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.pp-contract-cell {
+  background: var(--panel);
+  padding: 14px 16px;
+}
+.pp-contract-cell .cc-label {
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 6px;
+}
+.pp-contract-cell .cc-val {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ink);
+}
+.pp-contract-cell .cc-val a {
+  color: var(--ink);
+  border-bottom: 1px dotted var(--ink-3);
+}
+.pp-contract-cell .cc-val a:hover {
+  color: var(--up);
+  border-color: var(--up);
+}
+.pp-contract-cell .cc-val .mono {
+  font-family: var(--mono);
+  font-size: 12px;
+}
+
 /* FAQ */
 .faq { margin-top: 12px; }
 .faq details {
@@ -927,7 +1122,7 @@ button { font-family: inherit; cursor: pointer; }
 /* More vaults */
 .more-vaults {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 12px;
   margin-top: 14px;
 }
@@ -966,47 +1161,28 @@ button { font-family: inherit; cursor: pointer; }
 .toc a { color: var(--ink-3); }
 .toc a:hover { color: var(--ink); }
 
-/* Stat table (used in VaultStatistics) */
-.stat-table {
-  width: 100%;
-  border-collapse: collapse;
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  overflow: hidden;
-  background: var(--panel);
+/* Copy address button */
+.pp-copy-btn {
+  background: transparent;
+  color: var(--ink-2);
+  border: 1px solid var(--line-2);
+  padding: 7px 14px;
+  border-radius: 7px;
   font-size: 13px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  font-family: var(--sans);
 }
-.stat-table tr {
-  border-bottom: 1px solid var(--line);
-}
-.stat-table tr:last-child { border-bottom: 0; }
-.stat-table tr:nth-child(odd) { background: var(--bg-2); }
-.stat-table th {
-  text-align: left;
-  font-weight: 400;
-  color: var(--ink-3);
-  padding: 9px 14px;
-  width: 55%;
-}
-.stat-table td {
-  text-align: right;
-  padding: 9px 14px;
-  font-weight: 600;
-  font-family: var(--mono);
-  color: var(--ink);
+.pp-copy-btn:hover {
+  background: var(--bg-2);
+  border-color: var(--ink-3);
 }
 
-.hist-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 22px;
-  margin-top: 12px;
-}
-.hist-block h3 {
-  font-family: var(--display);
-  font-size: 15px;
-  font-weight: 600;
-  margin: 0 0 10px;
+/* Section gap utility */
+.pp-section-gap {
+  margin-top: 24px;
 }
 
 /* Product page responsive */
@@ -1016,9 +1192,11 @@ button { font-family: inherit; cursor: pointer; }
   .pp-kpis { grid-template-columns: repeat(2, 1fr); }
   .more-vaults { grid-template-columns: repeat(2, 1fr); }
   .hist-grid { grid-template-columns: 1fr; }
+  .pp-contract-grid { grid-template-columns: 1fr; }
 }
 @media (max-width: 700px) {
   .pp-header { grid-template-columns: 1fr; }
   .pp-title h1 { font-size: 28px; }
   .more-vaults { grid-template-columns: 1fr; }
+  .pp-kpis { grid-template-columns: 1fr; }
 }

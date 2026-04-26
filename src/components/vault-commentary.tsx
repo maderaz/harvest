@@ -6,6 +6,7 @@ interface VaultCommentaryProps {
   vault: YieldVault;
   allVaults: YieldVault[];
   history: FullVaultHistory;
+  numbered?: boolean;
 }
 
 function stdDev(values: number[]): number {
@@ -26,6 +27,7 @@ export function VaultCommentary({
   vault,
   allVaults,
   history,
+  numbered,
 }: VaultCommentaryProps) {
   const sameAssetVaults = allVaults.filter((v) => v.asset === vault.asset);
   const sameAssetChainVaults = sameAssetVaults.filter(
@@ -205,9 +207,20 @@ export function VaultCommentary({
   return (
     <div className="pp-section" id="overview">
       <h2>Performance Overview</h2>
-      {paragraphs.map((text, i) => (
-        <p key={i}>{text}</p>
-      ))}
+      {numbered ? (
+        <div className="pp-numbered-list">
+          {paragraphs.map((text, i) => (
+            <div key={i} className="pp-numbered-item">
+              <span className="pp-num-badge">{String(i + 1).padStart(2, "0")}</span>
+              <span className="pp-num-text">{text}</span>
+            </div>
+          ))}
+        </div>
+      ) : (
+        paragraphs.map((text, i) => (
+          <p key={i}>{text}</p>
+        ))
+      )}
     </div>
   );
 }

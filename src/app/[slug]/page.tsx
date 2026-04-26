@@ -17,6 +17,7 @@ import { VaultHistoryTable } from "@/components/vault-history-table";
 import { EarningsCalculator } from "@/components/earnings-calculator";
 import { DepositCard } from "@/components/deposit-card";
 import { TableOfContents } from "@/components/table-of-contents";
+import { CopyAddressButton } from "@/components/copy-address-button";
 
 export async function generateStaticParams() {
   const slugs = await getAllSlugs();
@@ -206,6 +207,63 @@ function generateFaqItems(vault: YieldVault): FaqItem[] {
   return items;
 }
 
+const CHAIN_EXPLORERS: Record<string, string> = {
+  Ethereum: "https://etherscan.io/address/",
+  Polygon: "https://polygonscan.com/address/",
+  Arbitrum: "https://arbiscan.io/address/",
+  Base: "https://basescan.org/address/",
+  zkSync: "https://explorer.zksync.io/address/",
+  HyperEVM: "https://hyperscan.xyz/address/",
+};
+
+function getExplorerUrl(chain: string, address: string): string | null {
+  const base = CHAIN_EXPLORERS[chain];
+  if (!base) return null;
+  return `${base}${address}`;
+}
+
+function truncateAddress(address: string): string {
+  if (address.length <= 14) return address;
+  return `${address.slice(0, 6)}...${address.slice(-4)}`;
+}
+
+function computeApyDelta(vault: YieldVault): { value: number; direction: "up" | "down" | "neutral" } {
+  if (vault.apy24h <= 0 || vault.apy30d <= 0) return { value: 0, direction: "neutral" };
+  const diff = vault.apy24h - vault.apy30d;
+  if (Math.abs(diff) < 0.01) return { value: 0, direction: "neutral" };
+  return { value: Math.abs(diff), direction: diff > 0 ? "up" : "down" };
+}
+
+function computeApyStdDev(history: FullVaultHistory): { stdDev: number; label: string } | null {
+  const nowSeconds = Math.floor(Date.now() / 1000);
+  const thirtyDaysAgo = nowSeconds - 30 * 24 * 60 * 60;
+  const recent = history.apyHistory.filter((p) => p.timestamp >= thirtyDaysAgo && p.apy >= 0);
+  if (recent.length < 2) return null;
+  const values = recent.map((p) => p.apy);
+  const avg = values.reduce((s, v) => s + v, 0) / values.length;
+  const variance = values.reduce((s, v) => s + (v - avg) ** 2, 0) / values.length;
+  const sd = Math.sqrt(variance);
+  let label = "volatile";
+  if (sd < 0.5) label = "very stable";
+  else if (sd < 1.5) label = "stable";
+  else if (sd < 3) label = "moderately volatile";
+  return { stdDev: sd, label };
+}
+
+function computePeakTvl(history: FullVaultHistory): number {
+  if (history.tvlHistory.length === 0) return 0;
+  return Math.max(...history.tvlHistory.map((p) => p.value));
+}
+
+function computeSharePriceGrowth(history: FullVaultHistory): number | null {
+  if (history.sharePriceHistory.length < 2) return null;
+  const sorted = [...history.sharePriceHistory].sort((a, b) => a.timestamp - b.timestamp);
+  const first = sorted[0].sharePrice;
+  const last = sorted[sorted.length - 1].sharePrice;
+  if (first <= 0) return null;
+  return ((last - first) / first) * 100;
+}
+
 export default async function ProductPage({
   params,
 }: {
@@ -256,6 +314,12 @@ export default async function ProductPage({
     ...(relatedVaults.length > 0 ? [{ id: "more", label: `More ${vault.asset} vaults` }] : []),
   ];
 
+  const apyDelta = computeApyDelta(vault);
+  const apyStdDev = computeApyStdDev(history);
+  const peakTvl = computePeakTvl(history);
+  const sharePriceGrowth = computeSharePriceGrowth(history);
+  const explorerUrl = getExplorerUrl(vault.chain, vault.contractAddress);
+
   return (
     <>
       <StructuredData vault={vault} />
@@ -263,8 +327,10 @@ export default async function ProductPage({
       <FaqSchema items={faqItems} />
 
       <main className="pp-page">
-        {/* Breadcrumbs */}
-        <nav className="pp-crumbs">
+        {/* === FULL WIDTH SECTIONS === */}
+
+        {/* 1. Breadcrumbs */}
+        <nav className="pp-crumbs pp-fullwidth">
           <Link href="/">Home</Link>
           <span className="sep">/</span>
           <Link href={`/?asset=${vault.asset}`}>{vault.asset} Vaults</Link>
@@ -274,77 +340,118 @@ export default async function ProductPage({
           <span className="current">{vault.productName}</span>
         </nav>
 
-        {/* Header */}
-        <div className="pp-header">
+        {/* 2. Header */}
+        <div className="pp-header pp-fullwidth">
           <div>
-            <div className="pp-tag-row">
-              <span className="tag">
-                <span className="dot" />
-                Active
-              </span>
-              <span className="tag">{vault.chain}</span>
-              <span className="tag">{vault.vaultType}</span>
-            </div>
             <div className="pp-title">
               <AssetBadge asset={vault.asset} iconOnly />
               <div>
                 <h1>{vault.productName}</h1>
-                <div className="by">
-                  by <b>{vault.protocol.name}</b>
+                <div className="pp-header-meta">
+                  by <b>Harvest Finance</b>
+                  <span className="sep-dot">&middot;</span>
+                  Strategy: {vault.category}
+                  <span className="sep-dot">&middot;</span>
+                  {vault.vaultType}
                 </div>
               </div>
+            </div>
+            <div className="pp-header-ctas">
+              <CopyAddressButton address={vault.contractAddress} />
+              <a
+                href="https://app.harvest.finance"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-primary"
+              >
+                Connect Wallet
+              </a>
             </div>
           </div>
         </div>
 
-        {/* KPI Strip */}
-        <div className="pp-kpis">
+        {/* 3. KPI Strip */}
+        <div className="pp-kpis pp-fullwidth">
           <div className="pp-kpi">
             <div className="k-label">24H APY</div>
             <div className="k-val hot">{formatAPY(vault.apy24h)}</div>
+            {apyDelta.direction !== "neutral" && (
+              <div className="k-sub">
+                <span className={apyDelta.direction === "up" ? "k-delta-up" : "k-delta-down"}>
+                  {apyDelta.direction === "up" ? "▲" : "▼"} {apyDelta.value.toFixed(2)}%
+                </span>{" "}
+                vs 30d
+              </div>
+            )}
           </div>
           <div className="pp-kpi">
             <div className="k-label">30D APY</div>
             <div className="k-val">{formatAPY(vault.apy30d)}</div>
+            {apyStdDev && (
+              <div className="k-sub">
+                &sigma; {apyStdDev.stdDev.toFixed(2)}% &middot; {apyStdDev.label}
+              </div>
+            )}
           </div>
           <div className="pp-kpi">
             <div className="k-label">TVL</div>
             <div className="k-val">{formatTVL(vault.tvl)}</div>
+            {peakTvl > 0 && (
+              <div className="k-sub">peak {formatTVL(peakTvl)}</div>
+            )}
           </div>
           <div className="pp-kpi">
             <div className="k-label">Chain</div>
             <div className="k-val">{vault.chain}</div>
+            <div className="k-badge">{vault.vaultType}</div>
           </div>
         </div>
 
-        {/* Two-column layout */}
+        {/* 4. About (FULL WIDTH) */}
+        <div className="pp-section pp-fullwidth" id="about">
+          <h2>About {vault.productName}</h2>
+          <p>
+            {vault.productName} is a {vault.vaultType.toLowerCase()} vault on{" "}
+            {vault.chain} that accepts {vault.asset} deposits and routes them
+            into the {vault.category} strategy.{" "}
+            {vault.vaultType === "Autocompounder"
+              ? `It automatically reinvests earned ${vault.asset} yields, compounding returns over time without manual harvesting or restaking.`
+              : `It automatically allocates ${vault.asset} deposits across optimized yield strategies, rebalancing to capture the best available rates.`}
+          </p>
+          {vault.tvl > 0 && vault.apy24h > 0 && (
+            <p>
+              The vault currently holds <strong>{formatTVL(vault.tvl)}</strong> in
+              deposits and is generating <strong>{formatAPY(vault.apy24h)}</strong>{" "}
+              APY over the last 24 hours.
+              {vault.apy30d > 0 && (
+                <> The 30-day average APY sits at{" "}
+                <strong>{formatAPY(vault.apy30d)}</strong>.</>
+              )}
+              {sharePriceGrowth !== null && sharePriceGrowth > 0 && (
+                <> Share price has grown{" "}
+                <strong>{sharePriceGrowth.toFixed(2)}%</strong> since inception.</>
+              )}
+            </p>
+          )}
+        </div>
+
+        {/* 5. Performance History heading (FULL WIDTH) */}
+        {hasCharts && (
+          <div className="pp-perf-heading pp-fullwidth" id="performance">
+            <h2>Performance History</h2>
+            <p className="pp-perf-sub">
+              Toggle between APY, TVL and share price to track vault performance over time.
+            </p>
+          </div>
+        )}
+
+        {/* === 2-COLUMN GRID STARTS HERE === */}
         <div className="pp-grid">
           {/* Main column */}
-          <div>
-            {/* About */}
-            <div className="pp-section" id="about">
-              <h2>About {vault.productName}</h2>
-              <p>
-                {vault.productName} is a {vault.vaultType.toLowerCase()} vault on{" "}
-                {vault.chain} that accepts {vault.asset} deposits.{" "}
-                {vault.vaultType === "Autocompounder"
-                  ? `It automatically reinvests earned ${vault.asset} yields, compounding returns over time without manual harvesting or restaking.`
-                  : `It automatically allocates ${vault.asset} deposits across optimized yield strategies, rebalancing to capture the best available rates.`}
-              </p>
-              {vault.tvl > 0 && vault.apy24h > 0 && (
-                <p>
-                  The vault currently holds <strong>{formatTVL(vault.tvl)}</strong> in deposits
-                  and is generating <strong>{formatAPY(vault.apy24h)}</strong> APY over the last 24 hours.
-                  {vault.apy30d > 0 &&
-                    <> The 30-day average sits at <strong>{formatAPY(vault.apy30d)}</strong>.</>}
-                </p>
-              )}
-            </div>
-
+          <div className="pp-main">
             {/* Charts - each standalone with Chart/Data tabs */}
             {hasCharts && (
-              <div className="pp-section" id="performance">
-                <h2>Performance History</h2>
+              <div className="pp-chart-stack">
                 {apyChartData.length >= 2 && (
                   <ChartCard
                     title="APY History"
@@ -353,38 +460,32 @@ export default async function ProductPage({
                   />
                 )}
                 {tvlChartData.length >= 2 && (
-                  <div style={{ marginTop: 14 }}>
-                    <ChartCard
-                      title="TVL History"
-                      data={tvlChartData}
-                      format="dollar"
-                    />
-                  </div>
+                  <ChartCard
+                    title="TVL History"
+                    data={tvlChartData}
+                    format="dollar"
+                  />
                 )}
                 {sharePriceChartData.length >= 2 && (
-                  <div style={{ marginTop: 14 }}>
-                    <ChartCard
-                      title="Share Price History"
-                      data={sharePriceChartData}
-                      format="number"
-                    />
-                  </div>
+                  <ChartCard
+                    title="Share Price History"
+                    data={sharePriceChartData}
+                    format="number"
+                  />
                 )}
               </div>
             )}
 
-            {/* Performance Commentary */}
+            {/* Performance Commentary (numbered) */}
             <VaultCommentary
               vault={vault}
               allVaults={allVaults}
               history={history}
+              numbered
             />
 
             {/* Consistency Score */}
             <ConsistencyScore history={history} spotAPY={vault.apy24h} />
-
-            {/* Statistics Block */}
-            <VaultStatistics history={history} currentTvl={vault.tvl} />
 
             {/* Yield Breakdown */}
             {vault.apyBreakdown.length > 0 && (
@@ -393,6 +494,9 @@ export default async function ProductPage({
                 boostedApy={vault.boostedApy}
               />
             )}
+
+            {/* Statistics Block */}
+            <VaultStatistics history={history} currentTvl={vault.tvl} />
 
             {/* Earnings Calculator */}
             <EarningsCalculator apy={vault.apy24h} asset={vault.asset} />
@@ -403,29 +507,34 @@ export default async function ProductPage({
             {/* Contract Details */}
             <div className="pp-section" id="details">
               <h2>Contract Details</h2>
-              <div
-                style={{
-                  border: "1px solid var(--line)",
-                  borderRadius: "var(--radius)",
-                  background: "var(--panel)",
-                  overflow: "hidden",
-                }}
-              >
-                <div className="detail-row" style={{ padding: "10px 16px" }}>
-                  <span className="dr-label">Chain</span>
-                  <span className="dr-val">{vault.chain}</span>
+              <div className="pp-contract-grid">
+                <div className="pp-contract-cell">
+                  <div className="cc-label">Chain</div>
+                  <div className="cc-val">{vault.chain}</div>
                 </div>
-                <div className="detail-row" style={{ padding: "10px 16px" }}>
-                  <span className="dr-label">Contract</span>
-                  <span className="dr-val" style={{ fontSize: 12 }}>{vault.contractAddress}</span>
+                <div className="pp-contract-cell">
+                  <div className="cc-label">Type</div>
+                  <div className="cc-val">{vault.vaultType}</div>
                 </div>
-                <div className="detail-row" style={{ padding: "10px 16px" }}>
-                  <span className="dr-label">Type</span>
-                  <span className="dr-val">{vault.vaultType}</span>
+                <div className="pp-contract-cell">
+                  <div className="cc-label">Asset</div>
+                  <div className="cc-val">{vault.asset}</div>
                 </div>
-                <div className="detail-row" style={{ padding: "10px 16px" }}>
-                  <span className="dr-label">Asset</span>
-                  <span className="dr-val">{vault.asset}</span>
+                <div className="pp-contract-cell">
+                  <div className="cc-label">Contract Address</div>
+                  <div className="cc-val">
+                    {explorerUrl ? (
+                      <a
+                        href={explorerUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <span className="mono">{truncateAddress(vault.contractAddress)}</span>
+                      </a>
+                    ) : (
+                      <span className="mono">{truncateAddress(vault.contractAddress)}</span>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
