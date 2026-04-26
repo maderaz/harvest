@@ -1458,14 +1458,17 @@ button { font-family: inherit; cursor: pointer; }
   border: 1px solid var(--line);
   border-radius: var(--radius);
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 .vc-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
-  padding: 12px 16px 10px;
+  gap: 16px;
+  padding: 14px 18px 12px;
   flex-wrap: wrap;
+  border-bottom: 1px solid var(--line);
 }
 .vc-header-left {
   display: flex;
@@ -1499,8 +1502,21 @@ button { font-family: inherit; cursor: pointer; }
 .vc-controls {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 14px;
   flex-shrink: 0;
+}
+/* Vertical separator between timeframe pills and the chart/data toggle */
+.vc-controls > * + * {
+  position: relative;
+}
+.vc-controls > * + *::before {
+  content: "";
+  position: absolute;
+  left: -8px;
+  top: 4px;
+  bottom: 4px;
+  width: 1px;
+  background: var(--line);
 }
 .vc-windows {
   display: inline-flex;
@@ -1510,7 +1526,7 @@ button { font-family: inherit; cursor: pointer; }
   padding: 2px;
 }
 .vc-win-btn {
-  padding: 3px 9px;
+  padding: 4px 10px;
   font-size: 11px;
   font-family: var(--mono);
   border: none;
@@ -1527,11 +1543,36 @@ button { font-family: inherit; cursor: pointer; }
   color: var(--ink);
   box-shadow: 0 1px 2px rgba(0,0,0,0.06);
 }
+/* Plot area — fixed height so chart and data tabs stay the same size */
+.vc-plot {
+  flex: 1;
+  min-height: 320px;
+  padding: 8px 0 4px;
+}
+.vc-plot svg { display: block; width: 100%; height: 100%; }
+/* Data view body — same min-height so the box doesn't jump */
+.vc-data-body {
+  flex: 1;
+  min-height: 320px;
+  display: flex;
+  flex-direction: column;
+  padding: 8px 18px 14px;
+}
+.vc-data-body .chart-datatable { flex: 1; }
+.vc-data-foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+  font-size: 12px;
+}
 @media (max-width: 700px) {
-  .vc-header { gap: 8px; padding: 10px 12px 8px; }
+  .vc-header { gap: 10px; padding: 12px 14px 10px; }
   .vc-header-left { gap: 8px; }
   .vc-value { font-size: 14px; }
   .vc-date { display: none; }
+  .vc-controls { gap: 12px; }
+  .vc-plot, .vc-data-body { min-height: 240px; }
 }
 /* legacy alias — keep so any stray references don't break */
 .chart-card-inner { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px 10px; }

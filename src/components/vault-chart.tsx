@@ -25,11 +25,11 @@ const WINDOWS = [
 ];
 
 const W = 600;
-const H = 180;
-const PT = 10;
-const PB = 26;
-const PL = 54;
-const PR = 14;
+const H = 280;
+const PT = 14;
+const PB = 32;
+const PL = 56;
+const PR = 16;
 const DRAW_W = W - PL - PR;
 const DRAW_H = H - PT - PB;
 
@@ -237,10 +237,11 @@ export function VaultChart({
         </div>
       </div>
 
+      <div className="vc-plot">
       <svg
         viewBox={`0 0 ${W} ${H}`}
         preserveAspectRatio="xMidYMid meet"
-        style={{ display: "block", width: "100%", cursor: "crosshair", touchAction: "pan-y" }}
+        style={{ display: "block", width: "100%", height: "100%", cursor: "crosshair", touchAction: "pan-y" }}
         onMouseMove={(e) => handlePointer(e.clientX, e.currentTarget.getBoundingClientRect())}
         onMouseLeave={() => setScrub(null)}
         onTouchMove={(e) =>
@@ -310,6 +311,7 @@ export function VaultChart({
           </text>
         ))}
       </svg>
+      </div>
     </div>
   );
 }

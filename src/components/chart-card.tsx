@@ -77,7 +77,7 @@ export function ChartCard({ title, data, format, color }: ChartCardProps) {
         </div>
         <ViewToggle view={view} onChange={setView} />
       </div>
-      <div style={{ padding: "0 16px 12px" }}>
+      <div className="vc-data-body">
         <table className="chart-datatable">
           <thead>
             <tr>
@@ -95,15 +95,7 @@ export function ChartCard({ title, data, format, color }: ChartCardProps) {
           </tbody>
         </table>
         {totalPages > 1 && (
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              marginTop: 10,
-              fontSize: 12,
-            }}
-          >
+          <div className="vc-data-foot">
             <span className="mono dim">
               Page {safePage + 1} / {totalPages}
             </span>

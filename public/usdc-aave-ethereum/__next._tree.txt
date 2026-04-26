@@ -1,3 +1,3 @@
-:HL["/_next/static/chunks/0oinzvns5t3kk.css","style"]
+:HL["/_next/static/chunks/14hk2oai0~qhs.css","style"]
 :HL["/_next/static/media/USDC.055.tii03o3mr.png","image"]
-0:{"tree":{"name":"","param":null,"prefetchHints":16,"slots":{"children":{"name":"slug","param":{"type":"d","key":"usdc-aave-ethereum","siblings":null},"prefetchHints":0,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":0,"slots":null}}}}},"staleTime":300,"buildId":"AmAje4oQRnMbV4rugArfy"}
+0:{"tree":{"name":"","param":null,"prefetchHints":16,"slots":{"children":{"name":"slug","param":{"type":"d","key":"usdc-aave-ethereum","siblings":null},"prefetchHints":0,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":0,"slots":null}}}}},"staleTime":300,"buildId":"5DeG1KU8gGE2Q3Z-FtDav"}
