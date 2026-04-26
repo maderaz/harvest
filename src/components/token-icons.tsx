@@ -1,5 +1,4 @@
-import Image from "next/image";
-
+/* eslint-disable @next/next/no-img-element */
 import usdcIcon from "@/assets/icons/USDC.png";
 import usdtIcon from "@/assets/icons/USDT.png";
 import ethIcon from "@/assets/icons/ETH.png";
@@ -14,7 +13,7 @@ import bnbIcon from "@/assets/icons/bnb.png";
 import avaxIcon from "@/assets/icons/avax.png";
 import sonicIcon from "@/assets/icons/sonic.png";
 
-const ASSET_ICONS: Record<string, typeof usdcIcon> = {
+const ASSET_ICONS: Record<string, { src: string }> = {
   USDC: usdcIcon,
   USDT: usdtIcon,
   ETH: ethIcon,
@@ -25,7 +24,7 @@ const ASSET_ICONS: Record<string, typeof usdcIcon> = {
   EURC: eurcIcon,
 };
 
-const CHAIN_ICONS: Record<string, typeof baseIcon> = {
+const CHAIN_ICONS: Record<string, { src: string }> = {
   Base: baseIcon,
   Ethereum: mainnetIcon,
   Arbitrum: arbitrumIcon,
@@ -41,21 +40,19 @@ export function AssetIcon({ asset, size = 22 }: { asset: string; size?: number }
   const icon = ASSET_ICONS[asset];
   if (icon) {
     return (
-      <Image
-        src={icon}
+      <img
+        src={icon.src}
         alt={asset}
         width={size}
         height={size}
-        className="rounded-full"
-        style={{ width: size, height: size }}
+        style={{ width: size, height: size, borderRadius: "50%" }}
       />
     );
   }
-  const color = "#999";
   return (
     <span
       className="asset-dot"
-      style={{ background: color, width: size, height: size, fontSize: size * 0.5 }}
+      style={{ background: "#999", width: size, height: size, fontSize: size * 0.5 }}
     >
       {asset[0] || "?"}
     </span>
@@ -66,13 +63,12 @@ export function ChainIcon({ chain, size = 18 }: { chain: string; size?: number }
   const icon = CHAIN_ICONS[chain];
   if (icon) {
     return (
-      <Image
-        src={icon}
+      <img
+        src={icon.src}
         alt={chain}
         width={size}
         height={size}
-        className="rounded-full"
-        style={{ width: size, height: size }}
+        style={{ width: size, height: size, borderRadius: "50%" }}
       />
     );
   }
