@@ -200,12 +200,17 @@ export function VaultChart({
     return { val, y: yPos(val) };
   });
 
-  // X labels (4 evenly spaced)
-  const xTickCount = Math.min(4, filteredData.length);
+  // X labels — evenly spaced across the time range (not across array indices)
+  // This guarantees equal spacing regardless of data density gaps.
+  const xTickCount = 4;
+  const minTs = chartCalc.minTs;
+  const maxTs = chartCalc.minTs + chartCalc.tsRange;
   const xTicks = Array.from({ length: xTickCount }, (_, i) => {
-    const idx = Math.round((i * (filteredData.length - 1)) / (xTickCount - 1));
-    const d = filteredData[idx];
-    return { label: formatDate(d.timestamp), x: xPos(d.timestamp) };
+    const ts = minTs + (i * (maxTs - minTs)) / (xTickCount - 1);
+    return {
+      label: formatDate(ts),
+      x: PL + (i * DRAW_W) / (xTickCount - 1),
+    };
   });
 
   function findClosest(svgX: number) {

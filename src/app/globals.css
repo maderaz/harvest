@@ -1201,14 +1201,19 @@ button { font-family: inherit; cursor: pointer; }
   .pp-kpis { grid-template-columns: 1fr; }
 }
 /* ——— About prose (full width) ——— */
-.about-prose p {
+.about-prose p,
+.pp-fullwidth-section p {
   margin: 0 0 12px;
   line-height: 1.65;
   font-size: 14px;
   color: var(--ink-2);
+  max-width: none;
 }
-.about-prose p:last-child { margin-bottom: 0; }
-.about-prose strong { color: var(--ink); font-weight: 600; }
+.about-prose p:last-child,
+.pp-fullwidth-section p:last-child { margin-bottom: 0; }
+.about-prose strong,
+.pp-fullwidth-section strong { color: var(--ink); font-weight: 600; }
+.pp-fullwidth-section { margin-bottom: 32px; }
 
 /* ——— Sidebar facts box ——— */
 .sidebar-facts {
