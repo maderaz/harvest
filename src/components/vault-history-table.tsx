@@ -32,14 +32,14 @@ function formatDollar(value: number): string {
   return `$${value.toFixed(0)}`;
 }
 
-function compute30dSummary(values: number[]) {
+function computeSummary(values: number[]) {
   if (values.length === 0) return null;
   const sum = values.reduce((s, v) => s + v, 0);
   const avg = sum / values.length;
   const sorted = [...values].sort((a, b) => a - b);
   const high = sorted[sorted.length - 1];
   const low = sorted[0];
-  return { avg, high, low };
+  return { avg, high, low, count: values.length };
 }
 
 export function VaultHistoryTable({ history }: VaultHistoryTableProps) {
@@ -47,18 +47,14 @@ export function VaultHistoryTable({ history }: VaultHistoryTableProps) {
   const [page, setPage] = useState(0);
 
   const apyData = useMemo(() => {
-    const nowSeconds = Math.floor(Date.now() / 1000);
-    const thirtyDaysAgo = nowSeconds - 30 * 24 * 60 * 60;
     return [...history.apyHistory]
-      .filter((p) => p.timestamp >= thirtyDaysAgo && p.apy >= 0)
+      .filter((p) => p.apy >= 0)
       .sort((a, b) => b.timestamp - a.timestamp);
   }, [history.apyHistory]);
 
   const tvlData = useMemo(() => {
-    const nowSeconds = Math.floor(Date.now() / 1000);
-    const thirtyDaysAgo = nowSeconds - 30 * 24 * 60 * 60;
     return [...history.tvlHistory]
-      .filter((p) => p.timestamp >= thirtyDaysAgo && p.value > 0)
+      .filter((p) => p.value > 0)
       .sort((a, b) => b.timestamp - a.timestamp);
   }, [history.tvlHistory]);
 
@@ -72,8 +68,8 @@ export function VaultHistoryTable({ history }: VaultHistoryTableProps) {
 
   const summary =
     tab === "apy"
-      ? compute30dSummary(apyData.map((p) => p.apy))
-      : compute30dSummary(tvlData.map((p) => p.value));
+      ? computeSummary(apyData.map((p) => p.apy))
+      : computeSummary(tvlData.map((p) => p.value));
 
   const formatFn = tab === "apy" ? formatPercent : formatDollar;
 
@@ -120,9 +116,10 @@ export function VaultHistoryTable({ history }: VaultHistoryTableProps) {
               color: "var(--ink-3)",
             }}
           >
-            <span>30D Avg: <strong style={{ color: "var(--ink)" }}>{formatFn(summary.avg)}</strong></span>
+            <span>Lifetime Avg: <strong style={{ color: "var(--ink)" }}>{formatFn(summary.avg)}</strong></span>
             <span>High: <strong style={{ color: "var(--ink)" }}>{formatFn(summary.high)}</strong></span>
             <span>Low: <strong style={{ color: "var(--ink)" }}>{formatFn(summary.low)}</strong></span>
+            <span>{summary.count} data points</span>
           </div>
         )}
 
@@ -153,7 +150,7 @@ export function VaultHistoryTable({ history }: VaultHistoryTableProps) {
           </table>
         ) : (
           <div style={{ padding: "32px 14px", textAlign: "center", color: "var(--ink-4)", fontSize: 13 }}>
-            No data available for the past 30 days.
+            No {tab.toUpperCase()} history available for this vault.
           </div>
         )}
 

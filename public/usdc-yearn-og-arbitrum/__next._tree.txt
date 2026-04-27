@@ -1,3 +1,3 @@
-:HL["/_next/static/chunks/05_nk00yp7vh0.css","style"]
+:HL["/_next/static/chunks/0u9azoea-.jac.css","style"]
 :HL["/_next/static/media/USDC.055.tii03o3mr.png","image"]
-0:{"tree":{"name":"","param":null,"prefetchHints":16,"slots":{"children":{"name":"slug","param":{"type":"d","key":"usdc-yearn-og-arbitrum","siblings":null},"prefetchHints":0,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":0,"slots":null}}}}},"staleTime":300,"buildId":"hVygdhT1zdqsLBfbBqcTu"}
+0:{"tree":{"name":"","param":null,"prefetchHints":16,"slots":{"children":{"name":"slug","param":{"type":"d","key":"usdc-yearn-og-arbitrum","siblings":null},"prefetchHints":0,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":0,"slots":null}}}}},"staleTime":300,"buildId":"k9WQD5i8h0Iv_FBVnMkSW"}

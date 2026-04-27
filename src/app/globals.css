@@ -690,6 +690,9 @@ button { font-family: inherit; cursor: pointer; }
 .pp-sidebar {
   position: sticky;
   top: 70px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
 }
 
 /* Chart cards spacing (standalone, no extra nesting) */
