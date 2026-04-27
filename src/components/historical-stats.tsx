@@ -65,7 +65,6 @@ export function HistoricalStats({ history }: { history: FullVaultHistory }) {
         { label: "Worst day", value: `${formatAPY(apyStats.worstDay.apy)} · ${formatDate(apyStats.worstDay.timestamp)}` },
         { label: "Volatility", value: `${apyStats.vol.toFixed(2)} ${apyStats.vol > 5 ? "High" : apyStats.vol > 2 ? "Medium" : "Low"}` },
         { label: "APY range", value: `${apyStats.range.toFixed(2)}pp` },
-        { label: "Data points", value: `${apyStats.dataPoints} days` },
       ]
     : [];
 

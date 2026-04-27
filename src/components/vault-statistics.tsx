@@ -65,6 +65,30 @@ export function VaultStatistics({ history, currentTvl }: VaultStatisticsProps) {
 
   if (!apyStats && !tvlStats) return null;
 
+  const apyRows = apyStats
+    ? [
+        { label: "30D Average", value: formatAPY(apyStats.mean) },
+        { label: "Median APY", value: formatAPY(apyStats.median) },
+        { label: "30D High", value: formatAPY(apyStats.high) },
+        { label: "30D Low", value: formatAPY(apyStats.low) },
+        { label: "Std Deviation", value: `${apyStats.stdDev.toFixed(2)}%` },
+        { label: "APY Range", value: `${apyStats.range.toFixed(2)}pp` },
+      ]
+    : [];
+
+  const tvlRows = tvlStats
+    ? [
+        { label: "Current TVL", value: formatTVL(tvlStats.currentTvl) },
+        { label: "30D Average", value: formatTVL(tvlStats.mean) },
+        { label: "30D High", value: formatTVL(tvlStats.high) },
+        { label: "30D Low", value: formatTVL(tvlStats.low) },
+        { label: "Largest Daily Change", value: formatTVL(tvlStats.largestDayChange) },
+      ]
+    : [];
+
+  const split = !tvlStats && apyRows.length >= 4;
+  const apyHalf = split ? Math.ceil(apyRows.length / 2) : apyRows.length;
+
   return (
     <div className="pp-section" id="statistics">
       <h2>30-Day Statistics</h2>
@@ -74,34 +98,21 @@ export function VaultStatistics({ history, currentTvl }: VaultStatisticsProps) {
             <h3>APY Statistics</h3>
             <table className="stat-table">
               <tbody>
-                <tr>
-                  <th>30D Average</th>
-                  <td>{formatAPY(apyStats.mean)}</td>
-                </tr>
-                <tr>
-                  <th>Median APY</th>
-                  <td>{formatAPY(apyStats.median)}</td>
-                </tr>
-                <tr>
-                  <th>30D High</th>
-                  <td>{formatAPY(apyStats.high)}</td>
-                </tr>
-                <tr>
-                  <th>30D Low</th>
-                  <td>{formatAPY(apyStats.low)}</td>
-                </tr>
-                <tr>
-                  <th>Std Deviation</th>
-                  <td>{apyStats.stdDev.toFixed(2)}%</td>
-                </tr>
-                <tr>
-                  <th>APY Range</th>
-                  <td>{apyStats.range.toFixed(2)}pp</td>
-                </tr>
-                <tr>
-                  <th>Data Points</th>
-                  <td>{apyStats.count}</td>
-                </tr>
+                {apyRows.slice(0, apyHalf).map((r) => (
+                  <tr key={r.label}><th>{r.label}</th><td>{r.value}</td></tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+        {apyStats && split && (
+          <div className="hist-block">
+            <h3>&nbsp;</h3>
+            <table className="stat-table">
+              <tbody>
+                {apyRows.slice(apyHalf).map((r) => (
+                  <tr key={r.label}><th>{r.label}</th><td>{r.value}</td></tr>
+                ))}
               </tbody>
             </table>
           </div>
@@ -111,30 +122,9 @@ export function VaultStatistics({ history, currentTvl }: VaultStatisticsProps) {
             <h3>TVL Statistics</h3>
             <table className="stat-table">
               <tbody>
-                <tr>
-                  <th>Current TVL</th>
-                  <td>{formatTVL(tvlStats.currentTvl)}</td>
-                </tr>
-                <tr>
-                  <th>30D Average</th>
-                  <td>{formatTVL(tvlStats.mean)}</td>
-                </tr>
-                <tr>
-                  <th>30D High</th>
-                  <td>{formatTVL(tvlStats.high)}</td>
-                </tr>
-                <tr>
-                  <th>30D Low</th>
-                  <td>{formatTVL(tvlStats.low)}</td>
-                </tr>
-                <tr>
-                  <th>Largest Daily Change</th>
-                  <td>{formatTVL(tvlStats.largestDayChange)}</td>
-                </tr>
-                <tr>
-                  <th>Data Points</th>
-                  <td>{tvlStats.count}</td>
-                </tr>
+                {tvlRows.map((r) => (
+                  <tr key={r.label}><th>{r.label}</th><td>{r.value}</td></tr>
+                ))}
               </tbody>
             </table>
           </div>
