@@ -5,6 +5,7 @@ import { useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { YieldVault } from "@/lib/types";
 import { formatAPY, formatTVL } from "@/lib/format";
+import { AssetIcon, ChainIcon } from "./token-icons";
 
 import usdcIcon from "@/assets/icons/USDC.png";
 import usdtIcon from "@/assets/icons/USDT.png";
@@ -15,7 +16,7 @@ import eurcIcon from "@/assets/icons/EURC.png";
 
 const ASSET_ICONS: Record<string, { src: string }> = {
   USDC: usdcIcon, USDT: usdtIcon, ETH: ethIcon, WETH: ethIcon,
-  WBTC: wbtcIcon, wBTC: wbtcIcon, cbBTC: cbbtcIcon, EURC: eurcIcon,
+  BTC: wbtcIcon, WBTC: wbtcIcon, wBTC: wbtcIcon, cbBTC: cbbtcIcon, EURC: eurcIcon,
 };
 
 function AssetDot({ asset, size = 22 }: { asset: string; size?: number }) {
@@ -29,6 +30,13 @@ function AssetDot({ asset, size = 22 }: { asset: string; size?: number }) {
     </span>
   );
 }
+
+const TVL_PRESETS = [
+  { label: "All TVL", min: 0 },
+  { label: "$10K+", min: 10_000 },
+  { label: "$100K+", min: 100_000 },
+  { label: "$1M+", min: 1_000_000 },
+];
 
 /* ——— Spark chart ——— */
 
@@ -89,6 +97,8 @@ function FilterBar({
   setAssetFilter,
   chainFilter,
   setChainFilter,
+  tvlMin,
+  setTvlMin,
   query,
   setQuery,
   assets,
@@ -98,6 +108,8 @@ function FilterBar({
   setAssetFilter: (v: string) => void;
   chainFilter: string;
   setChainFilter: (v: string) => void;
+  tvlMin: number;
+  setTvlMin: (v: number) => void;
   query: string;
   setQuery: (v: string) => void;
   assets: string[];
@@ -105,51 +117,69 @@ function FilterBar({
 }) {
   return (
     <div className="filterbar">
-      <div className="fb-left">
-        <select
-          className="pill"
-          value={assetFilter}
-          onChange={(e) => setAssetFilter(e.target.value)}
-        >
-          <option value="All">All assets</option>
-          {assets.map((a) => (
-            <option key={a} value={a}>
-              {a}
-            </option>
-          ))}
-        </select>
-        <select
-          className="pill"
-          value={chainFilter}
-          onChange={(e) => setChainFilter(e.target.value)}
-        >
-          <option value="All">All chains</option>
-          {chains.map((c) => (
-            <option key={c} value={c}>
-              {c}
-            </option>
-          ))}
-        </select>
-      </div>
-      <div className="fb-right">
-        <label className="search-box small">
-          <svg
-            width="12"
-            height="12"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
+      {/* Row 1: Asset tabs */}
+      <div className="fb-row">
+        <div className="fb-tabs">
+          <button
+            className={`fb-tab${assetFilter === "All" ? " active" : ""}`}
+            onClick={() => setAssetFilter("All")}
           >
-            <circle cx="11" cy="11" r="7" />
-            <path d="M20 20l-3.5-3.5" />
+            All
+          </button>
+          {assets.map((a) => (
+            <button
+              key={a}
+              className={`fb-tab${assetFilter === a ? " active" : ""}`}
+              onClick={() => setAssetFilter(a)}
+            >
+              <AssetIcon asset={a} size={16} />
+              {a}
+            </button>
+          ))}
+        </div>
+        <label className="search-box small">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <circle cx="11" cy="11" r="7" /><path d="M20 20l-3.5-3.5" />
           </svg>
           <input
-            placeholder="Filter pools..."
+            placeholder="Search vaults..."
             value={query}
             onChange={(e) => setQuery(e.target.value)}
           />
         </label>
+      </div>
+
+      {/* Row 2: Chain icons + TVL presets */}
+      <div className="fb-row fb-row-secondary">
+        <div className="fb-chips">
+          <button
+            className={`fb-chip${chainFilter === "All" ? " active" : ""}`}
+            onClick={() => setChainFilter("All")}
+          >
+            All chains
+          </button>
+          {chains.map((c) => (
+            <button
+              key={c}
+              className={`fb-chip${chainFilter === c ? " active" : ""}`}
+              onClick={() => setChainFilter(c)}
+            >
+              <ChainIcon chain={c} size={14} />
+              {c}
+            </button>
+          ))}
+        </div>
+        <div className="fb-chips">
+          {TVL_PRESETS.map((p) => (
+            <button
+              key={p.min}
+              className={`fb-chip${tvlMin === p.min ? " active" : ""}`}
+              onClick={() => setTvlMin(p.min)}
+            >
+              {p.label}
+            </button>
+          ))}
+        </div>
       </div>
     </div>
   );
@@ -163,6 +193,7 @@ export function VaultTable({ vaults }: { vaults: YieldVault[] }) {
   const [sortDir, setSortDir] = useState<SortDir>("desc");
   const [assetFilter, setAssetFilter] = useState("All");
   const [chainFilter, setChainFilter] = useState("All");
+  const [tvlMin, setTvlMin] = useState(0);
   const [query, setQuery] = useState("");
 
   const assets = useMemo(() => {
@@ -179,6 +210,7 @@ export function VaultTable({ vaults }: { vaults: YieldVault[] }) {
     return vaults.filter((v) => {
       if (assetFilter !== "All" && v.asset !== assetFilter) return false;
       if (chainFilter !== "All" && v.chain !== chainFilter) return false;
+      if (tvlMin > 0 && v.tvl < tvlMin) return false;
       if (
         query &&
         !(v.productName + v.asset + v.category)
@@ -188,7 +220,7 @@ export function VaultTable({ vaults }: { vaults: YieldVault[] }) {
         return false;
       return true;
     });
-  }, [vaults, assetFilter, chainFilter, query]);
+  }, [vaults, assetFilter, chainFilter, tvlMin, query]);
 
   const sorted = useMemo(() => {
     const copy = [...filtered];
@@ -255,6 +287,8 @@ export function VaultTable({ vaults }: { vaults: YieldVault[] }) {
         setAssetFilter={setAssetFilter}
         chainFilter={chainFilter}
         setChainFilter={setChainFilter}
+        tvlMin={tvlMin}
+        setTvlMin={setTvlMin}
         query={query}
         setQuery={setQuery}
         assets={assets}
