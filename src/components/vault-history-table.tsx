@@ -46,17 +46,28 @@ export function VaultHistoryTable({ history }: VaultHistoryTableProps) {
   const [tab, setTab] = useState<TabMode>("apy");
   const [page, setPage] = useState(0);
 
-  const apyData = useMemo(() => {
-    return [...history.apyHistory]
+  // Align newest row across APY and TVL: when both series exist, cap them
+  // to the older of the two latest timestamps so the top row is the same
+  // date in both tabs. Without this, APY can run weeks ahead of TVL when
+  // one feed stops emitting before the other.
+  const { apyData, tvlData } = useMemo(() => {
+    const apyAll = [...history.apyHistory]
       .filter((p) => p.apy >= 0)
       .sort((a, b) => b.timestamp - a.timestamp);
-  }, [history.apyHistory]);
-
-  const tvlData = useMemo(() => {
-    return [...history.tvlHistory]
+    const tvlAll = [...history.tvlHistory]
       .filter((p) => p.value > 0)
       .sort((a, b) => b.timestamp - a.timestamp);
-  }, [history.tvlHistory]);
+
+    if (apyAll.length === 0 || tvlAll.length === 0) {
+      return { apyData: apyAll, tvlData: tvlAll };
+    }
+
+    const cutoff = Math.min(apyAll[0].timestamp, tvlAll[0].timestamp);
+    return {
+      apyData: apyAll.filter((p) => p.timestamp <= cutoff),
+      tvlData: tvlAll.filter((p) => p.timestamp <= cutoff),
+    };
+  }, [history.apyHistory, history.tvlHistory]);
 
   const currentData = tab === "apy" ? apyData : tvlData;
   const totalPages = Math.max(1, Math.ceil(currentData.length / ROWS_PER_PAGE));
