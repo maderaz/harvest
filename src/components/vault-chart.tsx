@@ -226,14 +226,18 @@ export function VaultChart({ data, format, color = "#3b82f6" }: VaultChartProps)
         <div className="vc-peak">
           {scrub ? (
             <>
-              <span className="vc-peak-value">{formatValue(scrub.value, format)}</span>
+              <span className="vc-peak-value" style={{ color }}>
+                {formatValue(scrub.value, format)}
+              </span>
               <span className="vc-peak-sep">·</span>
               <span className="vc-peak-date">{formatDateFull(scrub.ts)}</span>
             </>
           ) : (
             <>
               <span className="vc-peak-label">Peak:</span>
-              <span className="vc-peak-value">{formatValue(peak.value, format)}</span>
+              <span className="vc-peak-value" style={{ color }}>
+                {formatValue(peak.value, format)}
+              </span>
               <span className="vc-peak-sep">·</span>
               <span className="vc-peak-date">{formatDateFull(peak.timestamp)}</span>
             </>

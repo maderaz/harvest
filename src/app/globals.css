@@ -1523,6 +1523,11 @@ button { font-family: inherit; cursor: pointer; }
   background: var(--panel);
   border-top-color: var(--perf-tile-accent, var(--ink));
 }
+/* Active tile's value picks up the accent color so it visually ties to
+   the chart and the Peak label below. Inactive tiles stay default. */
+.perf-tile.active .perf-tile-value {
+  color: var(--perf-tile-accent, var(--ink));
+}
 .perf-tile.disabled { opacity: 0.4; cursor: not-allowed; }
 .perf-tile-label {
   font-size: 11px;
