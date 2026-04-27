@@ -1,4 +1,3 @@
-import { Suspense } from "react";
 import Link from "next/link";
 import { getVaults, getAllSparklines } from "@/lib/data";
 import { SITE_NAME, SITE_DESCRIPTION, SITE_URL } from "@/lib/constants";
@@ -144,15 +143,7 @@ export default async function Home() {
         </span>
       </div>
 
-      <Suspense
-        fallback={
-          <div style={{ padding: "40px 0", textAlign: "center", color: "var(--ink-3)" }}>
-            Loading vaults...
-          </div>
-        }
-      >
         <VaultList vaults={vaults} sparklines={sparklines} />
-      </Suspense>
 
       {/* ——— Featured assets ——— */}
       <div className="section-title-bar">
