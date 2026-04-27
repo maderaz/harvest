@@ -1,7 +1,10 @@
 import Link from "next/link";
 
 export function Header() {
-  const navItems = ["Discover", "USDC", "ETH", "Bitcoin"];
+  const navItems = [
+    { label: "Discover", href: "/" },
+    { label: "ETH", href: "/ETH" },
+  ];
 
   return (
     <header className="topnav">
@@ -18,9 +21,9 @@ export function Header() {
           <span className="brand-name">Harvest</span>
         </Link>
         <nav className="navlinks">
-          {navItems.map((item, idx) => (
-            <Link key={item} href="/" className={idx === 0 ? "active" : ""}>
-              {item}
+          {navItems.map((item) => (
+            <Link key={item.label} href={item.href}>
+              {item.label}
             </Link>
           ))}
         </nav>
