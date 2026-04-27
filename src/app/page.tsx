@@ -120,12 +120,12 @@ export default async function Home() {
             <div className="stat-val mono">{formatTVL(stats.totalTVL)}</div>
           </div>
           <div className="stat-tile">
-            <div className="stat-label">Avg APY</div>
-            <div className="stat-val mono">{formatAPY(stats.avgAPY)}</div>
-          </div>
-          <div className="stat-tile">
             <div className="stat-label">Active Vaults</div>
             <div className="stat-val mono">{stats.vaultCount}</div>
+          </div>
+          <div className="stat-tile">
+            <div className="stat-label">Avg APY</div>
+            <div className="stat-val mono">{formatAPY(stats.avgAPY)}</div>
           </div>
           <div className="stat-tile">
             <div className="stat-label">Chains Indexed</div>

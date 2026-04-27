@@ -3,10 +3,20 @@ import { formatAPY, formatTVL } from "@/lib/format";
 import { AssetIcon } from "./token-icons";
 
 export function TickerStrip({ vaults }: { vaults: YieldVault[] }) {
-  const top = vaults
-    .filter((v) => v.apy24h > 0 && v.tvl > 100)
-    .sort((a, b) => b.tvl - a.tvl)
-    .slice(0, 12);
+  const eligible = vaults
+    .filter((v) => v.apy24h > 0 && v.apy24h <= 50 && v.tvl >= 10_000)
+    .sort((a, b) => b.tvl - a.tvl);
+
+  // Pick top vaults per asset to ensure diversity
+  const seen = new Map<string, number>();
+  const top: YieldVault[] = [];
+  for (const v of eligible) {
+    const count = seen.get(v.asset) || 0;
+    if (count >= 4) continue;
+    seen.set(v.asset, count + 1);
+    top.push(v);
+    if (top.length >= 14) break;
+  }
 
   if (top.length === 0) return null;
 
