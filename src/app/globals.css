@@ -30,6 +30,11 @@
   --radius: 10px;
   --radius-sm: 6px;
 
+  /* Shared content shell — used by topnav, page, hero, tabs, footer
+     so every section's left/right edge lines up vertically. */
+  --shell-max: 1480px;
+  --shell-pad: 32px;
+
   --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
   --sans: 'Inter', system-ui, -apple-system, sans-serif;
   --display: 'Inter Tight', 'Inter', system-ui, sans-serif;
@@ -61,9 +66,9 @@ button { font-family: inherit; cursor: pointer; }
   grid-template-columns: auto 1fr auto;
   align-items: center;
   gap: 28px;
-  padding: 0 22px;
+  padding: 0 var(--shell-pad);
   height: 52px;
-  max-width: 1600px;
+  max-width: var(--shell-max);
   margin: 0 auto;
 }
 .brand { display: flex; align-items: center; gap: 8px; }
@@ -115,9 +120,9 @@ button { font-family: inherit; cursor: pointer; }
 
 /* ——— shared ——— */
 .page {
-  max-width: 1600px;
+  max-width: var(--shell-max);
   margin: 0 auto;
-  padding: 0 22px;
+  padding: 0 var(--shell-pad);
 }
 
 .asset-dot {
@@ -455,7 +460,7 @@ button { font-family: inherit; cursor: pointer; }
   padding: 24px 0;
 }
 .foot-inner {
-  max-width: 1600px; margin: 0 auto; padding: 0 22px;
+  max-width: var(--shell-max); margin: 0 auto; padding: 0 var(--shell-pad);
   display: flex; justify-content: space-between; align-items: center;
   font-size: 12px;
   flex-wrap: wrap; gap: 16px;
@@ -488,7 +493,7 @@ button { font-family: inherit; cursor: pointer; }
 
 /* ——— Product Page ——— */
 
-.pp-page { max-width: 1280px; margin: 0 auto; padding: 0 22px 60px; }
+.pp-page { max-width: var(--shell-max); margin: 0 auto; padding: 0 var(--shell-pad) 60px; }
 
 /* Full-width sections above the 2-col grid */
 .pp-fullwidth {
@@ -1875,9 +1880,9 @@ button { font-family: inherit; cursor: pointer; }
   position: relative;
 }
 .vault-hero-inner {
-  max-width: 1480px;
+  max-width: var(--shell-max);
   margin: 0 auto;
-  padding: 22px 32px 36px;
+  padding: 22px var(--shell-pad) 36px;
 }
 
 /* Eyebrow / breadcrumb */
@@ -2095,9 +2100,9 @@ button { font-family: inherit; cursor: pointer; }
   border-bottom: 1px solid #1f1f1c;
 }
 .vh-tabs-inner {
-  max-width: 1480px;
+  max-width: var(--shell-max);
   margin: 0 auto;
-  padding: 0 32px;
+  padding: 0 var(--shell-pad);
   display: flex;
   align-items: center;
   gap: 4px;
