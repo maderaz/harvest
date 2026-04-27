@@ -1064,9 +1064,15 @@ button { font-family: inherit; cursor: pointer; }
   .more-vaults { grid-template-columns: 1fr; }
 }
 /* ——— About prose (full width) ——— */
-.about-prose p,
-.about-prose p:last-child,
-.about-prose strong,
+.about-prose p {
+  margin: 0 0 12px;
+  line-height: 1.65;
+  font-size: 14px;
+  color: var(--ink-2);
+  max-width: none;
+}
+.about-prose p:last-child { margin-bottom: 0; }
+.about-prose strong { color: var(--ink); font-weight: 600; }
 
 /* ——— Sidebar facts box ——— */
 .sidebar-facts {

@@ -31,13 +31,6 @@ function AssetDot({ asset, size = 22 }: { asset: string; size?: number }) {
   );
 }
 
-const TVL_PRESETS = [
-  { label: "All TVL", min: 0 },
-  { label: "$10K+", min: 10_000 },
-  { label: "$100K+", min: 100_000 },
-  { label: "$1M+", min: 1_000_000 },
-];
-
 /* ——— Spark chart ——— */
 
 function seedSpark(seed: number, up: boolean): number[] {
@@ -97,8 +90,6 @@ function FilterBar({
   setAssetFilter,
   chainFilter,
   setChainFilter,
-  tvlMin,
-  setTvlMin,
   query,
   setQuery,
   assets,
@@ -108,8 +99,6 @@ function FilterBar({
   setAssetFilter: (v: string) => void;
   chainFilter: string;
   setChainFilter: (v: string) => void;
-  tvlMin: number;
-  setTvlMin: (v: number) => void;
   query: string;
   setQuery: (v: string) => void;
   assets: string[];
@@ -169,17 +158,6 @@ function FilterBar({
             </button>
           ))}
         </div>
-        <div className="fb-chips">
-          {TVL_PRESETS.map((p) => (
-            <button
-              key={p.min}
-              className={`fb-chip${tvlMin === p.min ? " active" : ""}`}
-              onClick={() => setTvlMin(p.min)}
-            >
-              {p.label}
-            </button>
-          ))}
-        </div>
       </div>
     </div>
   );
@@ -199,7 +177,6 @@ export function VaultTable({
   const [sortDir, setSortDir] = useState<SortDir>("desc");
   const [assetFilter, setAssetFilter] = useState("All");
   const [chainFilter, setChainFilter] = useState("All");
-  const [tvlMin, setTvlMin] = useState(0);
   const [query, setQuery] = useState("");
 
   const assets = useMemo(() => {
@@ -216,7 +193,6 @@ export function VaultTable({
     return vaults.filter((v) => {
       if (assetFilter !== "All" && v.asset !== assetFilter) return false;
       if (chainFilter !== "All" && v.chain !== chainFilter) return false;
-      if (tvlMin > 0 && v.tvl < tvlMin) return false;
       if (
         query &&
         !(v.productName + v.asset + v.category)
@@ -226,7 +202,7 @@ export function VaultTable({
         return false;
       return true;
     });
-  }, [vaults, assetFilter, chainFilter, tvlMin, query]);
+  }, [vaults, assetFilter, chainFilter, query]);
 
   const sorted = useMemo(() => {
     const copy = [...filtered];
@@ -293,8 +269,6 @@ export function VaultTable({
         setAssetFilter={setAssetFilter}
         chainFilter={chainFilter}
         setChainFilter={setChainFilter}
-        tvlMin={tvlMin}
-        setTvlMin={setTvlMin}
         query={query}
         setQuery={setQuery}
         assets={assets}
