@@ -3,6 +3,12 @@
 import { YieldVault } from "@/lib/types";
 import { VaultTable } from "./vault-table";
 
-export function VaultList({ vaults }: { vaults: YieldVault[] }) {
-  return <VaultTable vaults={vaults} />;
+export function VaultList({
+  vaults,
+  sparklines,
+}: {
+  vaults: YieldVault[];
+  sparklines?: Record<string, number[]>;
+}) {
+  return <VaultTable vaults={vaults} sparklines={sparklines} />;
 }

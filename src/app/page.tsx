@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 import Link from "next/link";
-import { getVaults } from "@/lib/data";
+import { getVaults, getAllSparklines } from "@/lib/data";
 import { SITE_NAME, SITE_DESCRIPTION, SITE_URL } from "@/lib/constants";
 import { VaultList } from "@/components/vault-list";
 import { formatAPY, formatTVL } from "@/lib/format";
@@ -88,6 +88,7 @@ const ASSET_PAGES = new Set(["USDC", "USDT", "ETH", "BTC"]);
 
 export default async function Home() {
   const vaults = await getVaults();
+  const sparklines = await getAllSparklines();
   const stats = computeStats(vaults);
   const categories = computeCategories(vaults);
   const featuredAssets = computeFeaturedAssets(vaults);
@@ -150,7 +151,7 @@ export default async function Home() {
           </div>
         }
       >
-        <VaultList vaults={vaults} />
+        <VaultList vaults={vaults} sparklines={sparklines} />
       </Suspense>
 
       {/* ——— Featured assets ——— */}

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { Metadata } from "next";
-import { getVaults } from "@/lib/data";
+import { getVaults, getAllSparklines } from "@/lib/data";
 import { VaultList } from "@/components/vault-list";
 import { AssetIcon } from "@/components/token-icons";
 import { formatAPY, formatTVL } from "@/lib/format";
@@ -26,6 +26,7 @@ export const metadata: Metadata = {
 
 export default async function UsdcAssetPage() {
   const allVaults = await getVaults();
+  const sparklines = await getAllSparklines();
   const vaults = allVaults.filter((v) => v.asset === ASSET);
 
   const totalTvl = vaults.reduce((s, v) => s + v.tvl, 0);
@@ -90,7 +91,7 @@ export default async function UsdcAssetPage() {
       </div>
 
       {vaults.length > 0 ? (
-        <VaultList vaults={vaults} />
+        <VaultList vaults={vaults} sparklines={sparklines} />
       ) : (
         <div
           style={{

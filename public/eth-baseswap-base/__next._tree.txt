@@ -1,3 +1,3 @@
 :HL["/_next/static/chunks/05~d-~8-3vmj..css","style"]
 :HL["/_next/static/media/ETH.09gnhlwpku~zq.png","image"]
-0:{"tree":{"name":"","param":null,"prefetchHints":16,"slots":{"children":{"name":"slug","param":{"type":"d","key":"eth-baseswap-base","siblings":null},"prefetchHints":0,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":0,"slots":null}}}}},"staleTime":300,"buildId":"JeyQTMejfgPjWfI0gvDVv"}
+0:{"tree":{"name":"","param":null,"prefetchHints":16,"slots":{"children":{"name":"slug","param":{"type":"d","key":"eth-baseswap-base","siblings":null},"prefetchHints":0,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":0,"slots":null}}}}},"staleTime":300,"buildId":"XhSXu58u08LPC3uIg1V5R"}

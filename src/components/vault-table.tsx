@@ -187,7 +187,13 @@ function FilterBar({
 
 /* ——— VaultTable ——— */
 
-export function VaultTable({ vaults }: { vaults: YieldVault[] }) {
+export function VaultTable({
+  vaults,
+  sparklines,
+}: {
+  vaults: YieldVault[];
+  sparklines?: Record<string, number[]>;
+}) {
   const router = useRouter();
   const [sortKey, setSortKey] = useState<SortKey>("apy24h");
   const [sortDir, setSortDir] = useState<SortDir>("desc");
@@ -339,10 +345,11 @@ export function VaultTable({ vaults }: { vaults: YieldVault[] }) {
                   </td>
                   <td className="td right mono">{formatTVL(vault.tvl)}</td>
                   <td className="td center">
-                    <Spark
-                      points={seedSpark(index + 1, up)}
-                      up={up}
-                    />
+                    {(() => {
+                      const real = sparklines?.[vault.contractAddress];
+                      const pts = real && real.length >= 2 ? real : seedSpark(index + 1, up);
+                      return <Spark points={pts} up={up} />;
+                    })()}
                   </td>
                   <td className="td right">
                     <button
