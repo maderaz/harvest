@@ -1,3 +1,3 @@
 :HL["/_next/static/chunks/0r5zcx8w2qeg~.css","style"]
 :HL["/_next/static/media/USDT.17ar2gk8s7uyj.png","image"]
-0:{"tree":{"name":"","param":null,"prefetchHints":16,"slots":{"children":{"name":"slug","param":{"type":"d","key":"usdt-fluid-ethereum","siblings":null},"prefetchHints":0,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":0,"slots":null}}}}},"staleTime":300,"buildId":"csOg-zwdml7LKYwa3IlDx"}
+0:{"tree":{"name":"","param":null,"prefetchHints":16,"slots":{"children":{"name":"slug","param":{"type":"d","key":"usdt-fluid-ethereum","siblings":null},"prefetchHints":0,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":0,"slots":null}}}}},"staleTime":300,"buildId":"0dC5OTspShox4EIAjN7gi"}

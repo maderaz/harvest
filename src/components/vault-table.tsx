@@ -83,86 +83,6 @@ function Spark({
 type SortKey = "apy24h" | "apy30d" | "tvl" | "momentum" | "chain";
 type SortDir = "asc" | "desc";
 
-/* ——— FilterBar ——— */
-
-function FilterBar({
-  assetFilter,
-  setAssetFilter,
-  chainFilter,
-  setChainFilter,
-  query,
-  setQuery,
-  assets,
-  chains,
-}: {
-  assetFilter: string;
-  setAssetFilter: (v: string) => void;
-  chainFilter: string;
-  setChainFilter: (v: string) => void;
-  query: string;
-  setQuery: (v: string) => void;
-  assets: string[];
-  chains: string[];
-}) {
-  return (
-    <div className="filterbar">
-      {/* Row 1: Asset tabs */}
-      <div className="fb-row">
-        <div className="fb-tabs">
-          <button
-            className={`fb-tab${assetFilter === "All" ? " active" : ""}`}
-            onClick={() => setAssetFilter("All")}
-          >
-            All
-          </button>
-          {assets.map((a) => (
-            <button
-              key={a}
-              className={`fb-tab${assetFilter === a ? " active" : ""}`}
-              onClick={() => setAssetFilter(a)}
-            >
-              <AssetIcon asset={a} size={16} />
-              {a}
-            </button>
-          ))}
-        </div>
-        <label className="search-box small">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <circle cx="11" cy="11" r="7" /><path d="M20 20l-3.5-3.5" />
-          </svg>
-          <input
-            placeholder="Search vaults..."
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-          />
-        </label>
-      </div>
-
-      {/* Row 2: Chain icons + TVL presets */}
-      <div className="fb-row fb-row-secondary">
-        <div className="fb-chips">
-          <button
-            className={`fb-chip${chainFilter === "All" ? " active" : ""}`}
-            onClick={() => setChainFilter("All")}
-          >
-            All chains
-          </button>
-          {chains.map((c) => (
-            <button
-              key={c}
-              className={`fb-chip${chainFilter === c ? " active" : ""}`}
-              onClick={() => setChainFilter(c)}
-            >
-              <ChainIcon chain={c} size={14} />
-              {c}
-            </button>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-}
-
 /* ——— VaultTable ——— */
 
 export function VaultTable({
@@ -231,16 +151,62 @@ export function VaultTable({
 
   return (
     <>
-      <FilterBar
-        assetFilter={assetFilter}
-        setAssetFilter={setAssetFilter}
-        chainFilter={chainFilter}
-        setChainFilter={setChainFilter}
-        query={query}
-        setQuery={setQuery}
-        assets={assets}
-        chains={chains}
-      />
+      <div className="filterbar">
+        <div className="fb-row">
+          <div className="fb-tabs">
+            <button
+              type="button"
+              className={`fb-tab${assetFilter === "All" ? " active" : ""}`}
+              onClick={() => setAssetFilter("All")}
+            >
+              All
+            </button>
+            {assets.map((a) => (
+              <button
+                key={a}
+                type="button"
+                className={`fb-tab${assetFilter === a ? " active" : ""}`}
+                onClick={() => setAssetFilter(a)}
+              >
+                <AssetIcon asset={a} size={16} />
+                {a}
+              </button>
+            ))}
+          </div>
+          <label className="search-box small">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <circle cx="11" cy="11" r="7" /><path d="M20 20l-3.5-3.5" />
+            </svg>
+            <input
+              placeholder="Search vaults..."
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+            />
+          </label>
+        </div>
+        <div className="fb-row fb-row-secondary">
+          <div className="fb-chips">
+            <button
+              type="button"
+              className={`fb-chip${chainFilter === "All" ? " active" : ""}`}
+              onClick={() => setChainFilter("All")}
+            >
+              All chains
+            </button>
+            {chains.map((c) => (
+              <button
+                key={c}
+                type="button"
+                className={`fb-chip${chainFilter === c ? " active" : ""}`}
+                onClick={() => setChainFilter(c)}
+              >
+                <ChainIcon chain={c} size={14} />
+                {c}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
       <div className="table-wrap">
         <table className="ranking">
           <thead>
