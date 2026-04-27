@@ -14,7 +14,6 @@ import { YieldBreakdown } from "@/components/yield-breakdown";
 import { VaultStatistics } from "@/components/vault-statistics";
 import { ConsistencyScore } from "@/components/consistency-score";
 import { VaultHistoryTable } from "@/components/vault-history-table";
-import { EarningsCalculator } from "@/components/earnings-calculator";
 import { DepositCard } from "@/components/deposit-card";
 import { TableOfContents } from "@/components/table-of-contents";
 import { SidebarFacts } from "@/components/sidebar-facts";
@@ -311,7 +310,6 @@ export default async function ProductPage({
     { id: "consistency", label: "APY consistency" },
     { id: "statistics", label: "30-day statistics" },
     ...(vault.apyBreakdown.length > 0 ? [{ id: "sources", label: "Yield sources" }] : []),
-    { id: "calculator", label: "Earnings calculator" },
     { id: "history", label: "Historical data" },
     { id: "details", label: "Contract details" },
     { id: "faq", label: "FAQ" },
@@ -420,10 +418,6 @@ export default async function ProductPage({
             {/* Statistics Block */}
             <VaultStatistics history={history} currentTvl={vault.tvl} />
 
-            {/* Earnings Calculator */}
-            <EarningsCalculator apy={vault.apy24h} asset={vault.asset} />
-
-            {/* History Table */}
             {/* Historical Stats */}
             <HistoricalStats history={history} />
 

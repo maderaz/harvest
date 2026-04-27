@@ -52,6 +52,26 @@ export function HistoricalStats({ history }: { history: FullVaultHistory }) {
     current: tvl30d[tvl30d.length - 1]?.value || 0,
   } : null;
 
+  // When TVL stats exist, render APY + TVL side by side. Otherwise split the
+  // APY table into two columns so the section uses the full width.
+  const apyRows = apyStats
+    ? [
+        { label: "30D Low", value: formatAPY(apyStats.low) },
+        { label: "30D High", value: formatAPY(apyStats.high) },
+        { label: "30D Average", value: formatAPY(apyStats.avg) },
+        { label: `Lifetime avg (${apyStats.dataPoints}d)`, value: formatAPY(apyStats.lifetimeAvg) },
+        { label: "Median APY", value: formatAPY(apyStats.med) },
+        { label: "Best day", value: `${formatAPY(apyStats.bestDay.apy)} · ${formatDate(apyStats.bestDay.timestamp)}` },
+        { label: "Worst day", value: `${formatAPY(apyStats.worstDay.apy)} · ${formatDate(apyStats.worstDay.timestamp)}` },
+        { label: "Volatility", value: `${apyStats.vol.toFixed(2)} ${apyStats.vol > 5 ? "High" : apyStats.vol > 2 ? "Medium" : "Low"}` },
+        { label: "APY range", value: `${apyStats.range.toFixed(2)}pp` },
+        { label: "Data points", value: `${apyStats.dataPoints} days` },
+      ]
+    : [];
+
+  const split = !tvlStats && apyRows.length >= 4;
+  const apyHalf = split ? Math.ceil(apyRows.length / 2) : apyRows.length;
+
   return (
     <section className="pp-section" id="history">
       <h2>Historical statistics</h2>
@@ -61,16 +81,21 @@ export function HistoricalStats({ history }: { history: FullVaultHistory }) {
             <h3>Historical APY statistics</h3>
             <table className="hist-table">
               <tbody>
-                <tr><th>30D Low</th><td>{formatAPY(apyStats.low)}</td></tr>
-                <tr><th>30D High</th><td>{formatAPY(apyStats.high)}</td></tr>
-                <tr><th>30D Average</th><td>{formatAPY(apyStats.avg)}</td></tr>
-                <tr><th>Lifetime avg ({apyStats.dataPoints}d)</th><td>{formatAPY(apyStats.lifetimeAvg)}</td></tr>
-                <tr><th>Median APY</th><td>{formatAPY(apyStats.med)}</td></tr>
-                <tr><th>Best day</th><td>{formatAPY(apyStats.bestDay.apy)} · {formatDate(apyStats.bestDay.timestamp)}</td></tr>
-                <tr><th>Worst day</th><td>{formatAPY(apyStats.worstDay.apy)} · {formatDate(apyStats.worstDay.timestamp)}</td></tr>
-                <tr><th>Volatility</th><td>{apyStats.vol.toFixed(2)} {apyStats.vol > 5 ? "High" : apyStats.vol > 2 ? "Medium" : "Low"}</td></tr>
-                <tr><th>APY range</th><td>{apyStats.range.toFixed(2)}pp</td></tr>
-                <tr><th>Data points</th><td>{apyStats.dataPoints} days</td></tr>
+                {apyRows.slice(0, apyHalf).map((r) => (
+                  <tr key={r.label}><th>{r.label}</th><td>{r.value}</td></tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+        {apyStats && split && (
+          <div className="hist-block">
+            <h3>&nbsp;</h3>
+            <table className="hist-table">
+              <tbody>
+                {apyRows.slice(apyHalf).map((r) => (
+                  <tr key={r.label}><th>{r.label}</th><td>{r.value}</td></tr>
+                ))}
               </tbody>
             </table>
           </div>
