@@ -21,6 +21,7 @@ import { CopyAddressButton } from "@/components/copy-address-button";
 import { VaultHero } from "@/components/vault-hero";
 import { MarketBenchmark, EcosystemContext } from "@/components/market-sections";
 import { HistoricalStats } from "@/components/historical-stats";
+import { HistoricalNarrative } from "@/components/historical-narrative";
 
 export async function generateStaticParams() {
   const slugs = await getAllSlugs();
@@ -310,6 +311,7 @@ export default async function ProductPage({
     { id: "consistency", label: "APY consistency" },
     { id: "statistics", label: "30-day statistics" },
     ...(vault.apyBreakdown.length > 0 ? [{ id: "sources", label: "Yield sources" }] : []),
+    { id: "long-term", label: "Long-term performance" },
     { id: "history", label: "Historical data" },
     { id: "details", label: "Contract details" },
     { id: "faq", label: "FAQ" },
@@ -417,6 +419,11 @@ export default async function ProductPage({
 
             {/* Statistics Block */}
             <VaultStatistics history={history} currentTvl={vault.tvl} />
+
+            {/* Long-term performance narrative — flowing prose for the
+                CAGR / drawdown / best-month story. Lives between the 30-day
+                stats and the deeper Historical statistics tables. */}
+            <HistoricalNarrative history={history} />
 
             {/* Historical Stats */}
             <HistoricalStats history={history} />
