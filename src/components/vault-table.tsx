@@ -240,7 +240,7 @@ export function VaultTable({
               <th></th>
             </tr>
           </thead>
-          <tbody>
+          <tbody key={`${assetFilter}|${chainFilter}|${query}|${sortKey}|${sortDir}`}>
             {sorted.map((vault, index) => {
               const up = vault.apy24h >= vault.apy30d;
               return (

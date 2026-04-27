@@ -168,12 +168,19 @@ async function fetchHarvestVaults() {
   const seenSlugs = new Set(Object.values(persistedSlugs));
   const newSlugMap = { ...persistedSlugs };
   const allResults = [];
+  // Track contract addresses already assigned to a group so a vault that
+  // matches multiple token sets (e.g. USDC-WETH LP) only appears once.
+  // First-match wins; ASSET_GROUPS order defines priority.
+  const claimedAddresses = new Set();
 
   for (const group of ASSET_GROUPS) {
     const tokenSet = new Set(group.tokens.map((t) => t.toUpperCase()));
     const matched = activeVaults.filter((v) => {
+      if (claimedAddresses.has(v.vaultAddress)) return false;
       const names = v.tokenNames || [];
-      return names.some((n) => tokenSet.has(String(n).toUpperCase()));
+      const hit = names.some((n) => tokenSet.has(String(n).toUpperCase()));
+      if (hit) claimedAddresses.add(v.vaultAddress);
+      return hit;
     });
     log(`[harvest-api] ${group.asset} vaults: ${matched.length}`);
 
