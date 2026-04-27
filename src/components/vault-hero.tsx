@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { YieldVault } from "@/lib/types";
-import { formatAPY, formatTVL } from "@/lib/format";
+import { formatTVL } from "@/lib/format";
 import type { FullVaultHistory } from "@/lib/history-api";
 import { AssetIcon } from "./token-icons";
 import { CopyAddressButton } from "./copy-address-button";

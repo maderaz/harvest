@@ -147,10 +147,6 @@ export async function fetchVaultHistory(
   return { apyHistory, tvlHistory, apy24h, apy30d };
 }
 
-export function getChainKey(sourceChain: string): string {
-  return sourceChain;
-}
-
 /**
  * Reverse mapping from chain display name (e.g. "Base") to chain key (e.g. "base").
  */
