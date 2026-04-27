@@ -22,6 +22,7 @@ import { VaultHero } from "@/components/vault-hero";
 import { MarketBenchmark, EcosystemContext } from "@/components/market-sections";
 import { HistoricalStats } from "@/components/historical-stats";
 import { HistoricalNarrative } from "@/components/historical-narrative";
+import { VaultRisks } from "@/components/vault-risks";
 
 export async function generateStaticParams() {
   const slugs = await getAllSlugs();
@@ -61,18 +62,179 @@ export async function generateMetadata({
   };
 }
 
-function StructuredData({ vault }: { vault: YieldVault }) {
-  const jsonLd = {
+function StructuredData({
+  vault,
+  history,
+}: {
+  vault: YieldVault;
+  history: FullVaultHistory;
+}) {
+  // AggregateRating derived from APY consistency. Lower coefficient of
+  // variation (CV = stdDev / mean) maps to a higher star rating. Only
+  // emitted when we have at least 30 valid APY data points so the rating
+  // reflects real observed behaviour, and the same score is rendered
+  // visibly via the Consistency Score component on the page.
+  const validApy = history.apyHistory.filter((p) => p.apy >= 0);
+  let aggregateRating:
+    | {
+        "@type": string;
+        ratingValue: string;
+        bestRating: number;
+        worstRating: number;
+        ratingCount: number;
+      }
+    | undefined;
+
+  if (validApy.length >= 30) {
+    const values = validApy.map((p) => p.apy);
+    const mean = values.reduce((s, v) => s + v, 0) / values.length;
+    const variance =
+      values.reduce((s, v) => s + (v - mean) ** 2, 0) / values.length;
+    const sd = Math.sqrt(variance);
+    const cv = mean > 0 ? sd / mean : 1;
+    const stars = Math.max(1, Math.min(5, 5 - cv * 2));
+    aggregateRating = {
+      "@type": "AggregateRating",
+      ratingValue: stars.toFixed(1),
+      bestRating: 5,
+      worstRating: 1,
+      ratingCount: validApy.length,
+    };
+  }
+
+  const jsonLd: Record<string, unknown> = {
     "@context": "https://schema.org",
-    "@type": "FinancialProduct",
+    "@type": ["FinancialProduct", "Product"],
     name: `${vault.productName} by ${vault.protocol.name}`,
     description: vault.description,
     provider: {
       "@type": "Organization",
       name: vault.protocol.name,
     },
+    brand: {
+      "@type": "Brand",
+      name: vault.protocol.name,
+    },
     category: vault.category,
     url: `${SITE_URL}/${vault.slug}`,
+    offers: {
+      "@type": "Offer",
+      price: "0",
+      priceCurrency: "USD",
+      availability: "https://schema.org/InStock",
+      url: "https://app.harvest.finance",
+    },
+  };
+  if (aggregateRating) jsonLd.aggregateRating = aggregateRating;
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+    />
+  );
+}
+
+function HowToSchema({ vault }: { vault: YieldVault }) {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    name: `How to deposit into ${vault.productName}`,
+    description: `Steps to deposit ${vault.asset} into the ${vault.productName} vault on ${vault.chain} via Harvest Finance.`,
+    step: [
+      {
+        "@type": "HowToStep",
+        position: 1,
+        name: "Connect your wallet",
+        text: `Visit app.harvest.finance and connect a Web3 wallet on the ${vault.chain} network.`,
+      },
+      {
+        "@type": "HowToStep",
+        position: 2,
+        name: `Approve ${vault.asset}`,
+        text: `Approve the vault contract to spend your ${vault.asset} from the connected wallet.`,
+      },
+      {
+        "@type": "HowToStep",
+        position: 3,
+        name: "Deposit",
+        text: `Enter the amount of ${vault.asset} to deposit and confirm the transaction.`,
+      },
+      {
+        "@type": "HowToStep",
+        position: 4,
+        name: "Earn yield",
+        text: `${vault.vaultType === "Autocompounder" ? "The vault automatically harvests rewards and reinvests them — no further action required." : "The vault automatically reallocates your deposit across optimized strategies — no further action required."}`,
+      },
+      {
+        "@type": "HowToStep",
+        position: 5,
+        name: "Withdraw",
+        text: `Withdraw your share of ${vault.asset} at any time via the Harvest Finance app.`,
+      },
+    ],
+  };
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+    />
+  );
+}
+
+function DatasetSchema({
+  vault,
+  history,
+}: {
+  vault: YieldVault;
+  history: FullVaultHistory;
+}) {
+  if (history.apyHistory.length < 30 && history.tvlHistory.length < 30) {
+    return null;
+  }
+
+  const allTs: number[] = [
+    ...history.apyHistory.map((p) => p.timestamp),
+    ...history.tvlHistory.map((p) => p.timestamp),
+    ...history.sharePriceHistory.map((p) => p.timestamp),
+  ];
+  const startDate = new Date(Math.min(...allTs) * 1000)
+    .toISOString()
+    .split("T")[0];
+  const endDate = new Date(Math.max(...allTs) * 1000)
+    .toISOString()
+    .split("T")[0];
+
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Dataset",
+    name: `${vault.productName} historical APY, TVL and share-price data`,
+    description: `Daily APY (${history.apyHistory.length} points), TVL (${history.tvlHistory.length} points) and share-price (${history.sharePriceHistory.length} points) history for the ${vault.productName} vault on ${vault.chain}, indexed by ${SITE_NAME}.`,
+    url: `${SITE_URL}/${vault.slug}#history`,
+    creator: {
+      "@type": "Organization",
+      name: SITE_NAME,
+      url: SITE_URL,
+    },
+    temporalCoverage: `${startDate}/${endDate}`,
+    keywords: [
+      vault.asset,
+      vault.chain,
+      vault.protocol.name,
+      vault.category,
+      "DeFi",
+      "yield",
+      "APY",
+      "TVL",
+    ],
+    license: "https://creativecommons.org/licenses/by/4.0/",
+    isAccessibleForFree: true,
+    distribution: {
+      "@type": "DataDownload",
+      encodingFormat: "text/html",
+      contentUrl: `${SITE_URL}/${vault.slug}#history`,
+    },
   };
 
   return (
@@ -314,6 +476,7 @@ export default async function ProductPage({
     { id: "long-term", label: "Long-term performance" },
     { id: "history", label: "Historical data" },
     { id: "details", label: "Contract details" },
+    { id: "risks", label: "Risks" },
     { id: "faq", label: "FAQ" },
     ...(relatedVaults.length > 0 ? [{ id: "more", label: `More ${vault.asset} vaults` }] : []),
   ];
@@ -326,9 +489,11 @@ export default async function ProductPage({
 
   return (
     <>
-      <StructuredData vault={vault} />
+      <StructuredData vault={vault} history={history} />
       <BreadcrumbSchema vault={vault} />
       <FaqSchema items={faqItems} />
+      <HowToSchema vault={vault} />
+      <DatasetSchema vault={vault} history={history} />
 
       <VaultHero vault={vault} history={history} allVaults={allVaults} />
 
@@ -476,6 +641,9 @@ export default async function ProductPage({
                 </div>
               </div>
             </section>
+
+            {/* Risks — standardized boilerplate, smaller font */}
+            <VaultRisks vault={vault} />
 
             {/* FAQ */}
             <VaultFaq

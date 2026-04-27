@@ -632,6 +632,21 @@ button { font-family: inherit; cursor: pointer; }
 
 /* Section heading */
 .pp-section { margin: 24px 0 0; }
+/* Risks: standardized boilerplate disclosure, lower visual hierarchy
+   so it reads as a disclaimer (and signals to crawlers it's not the
+   page's primary content). */
+.pp-risks-prose {
+  font-size: 12px;
+  color: var(--ink-3);
+  line-height: 1.55;
+  max-width: 70ch;
+}
+.pp-risks-prose p { margin: 0 0 8px; font-size: 12px; color: var(--ink-3); }
+.pp-risks-disclaimer {
+  font-style: italic;
+  color: var(--ink-4) !important;
+  font-size: 11px !important;
+}
 .pp-section:first-child { margin-top: 0; }
 .pp-section h2 {
   font-family: var(--display);
