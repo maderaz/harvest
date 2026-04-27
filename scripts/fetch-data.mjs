@@ -125,6 +125,20 @@ async function fetchHarvestVaults() {
   const activeVaults = allVaults.filter((v) => !v.inactive);
   log(`[harvest-api] active vaults: ${activeVaults.length}`);
 
+  // ── Token discovery: log every unique tokenName and how many vaults use it
+  const tokenCounts = new Map();
+  for (const v of activeVaults) {
+    for (const tn of v.tokenNames || []) {
+      const key = String(tn).toUpperCase();
+      tokenCounts.set(key, (tokenCounts.get(key) || 0) + 1);
+    }
+  }
+  const sortedTokens = [...tokenCounts.entries()].sort((a, b) => b[1] - a[1]);
+  log(`[harvest-api] ── TOKEN DISCOVERY (${sortedTokens.length} unique tokens) ──`);
+  for (const [token, count] of sortedTokens) {
+    log(`  ${token}: ${count} vaults`);
+  }
+
   // Asset groups — each maps a YieldVault.asset enum value to the underlying
   // tokens it covers. tokenNames from the API are matched case-insensitively.
   const ASSET_GROUPS = [
