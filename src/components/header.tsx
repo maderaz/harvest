@@ -4,7 +4,9 @@ export function Header() {
   const navItems = [
     { label: "Discover", href: "/" },
     { label: "USDC", href: "/USDC" },
+    { label: "USDT", href: "/USDT" },
     { label: "ETH", href: "/ETH" },
+    { label: "BTC", href: "/BTC" },
   ];
 
   return (

@@ -18,6 +18,7 @@ const ASSET_ICONS: Record<string, { src: string }> = {
   USDT: usdtIcon,
   ETH: ethIcon,
   WETH: ethIcon,
+  BTC: wbtcIcon,
   WBTC: wbtcIcon,
   wBTC: wbtcIcon,
   cbBTC: cbbtcIcon,

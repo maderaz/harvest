@@ -148,9 +148,19 @@ async function fetchHarvestVaults() {
       slugPrefix: "usdc",
     },
     {
+      asset: "USDT",
+      tokens: ["USDT"],
+      slugPrefix: "usdt",
+    },
+    {
       asset: "ETH",
       tokens: ["ETH", "WETH", "stETH", "wstETH", "rETH", "cbETH", "weETH", "frxETH", "sfrxETH"],
       slugPrefix: "eth",
+    },
+    {
+      asset: "BTC",
+      tokens: ["BTC", "WBTC", "cbBTC", "tBTC", "LBTC", "sBTC"],
+      slugPrefix: "btc",
     },
   ];
 

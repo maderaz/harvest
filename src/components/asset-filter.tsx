@@ -8,10 +8,9 @@ import { useCallback } from "react";
 const ASSETS: Array<{ key: Asset | "All"; label: string }> = [
   { key: "All", label: "All" },
   { key: "USDC", label: "USDC" },
-  { key: "ETH", label: "ETH" },
   { key: "USDT", label: "USDT" },
-  { key: "cbBTC", label: "cbBTC" },
-  { key: "WBTC", label: "WBTC" },
+  { key: "ETH", label: "ETH" },
+  { key: "BTC", label: "BTC" },
   { key: "EURC", label: "EURC" },
 ];
 

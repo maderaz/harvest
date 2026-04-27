@@ -4,8 +4,7 @@ export const ASSET_COLORS: Record<Asset, string> = {
   USDC: "bg-blue-500",
   USDT: "bg-emerald-500",
   ETH: "bg-indigo-500",
-  WBTC: "bg-orange-500",
-  cbBTC: "bg-blue-600",
+  BTC: "bg-orange-500",
   EURC: "bg-blue-400",
 };
 

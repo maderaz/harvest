@@ -5,8 +5,7 @@ const ASSET_DEPEG_LABEL: Record<string, string> = {
   USDT: "USDT depeg",
   EURC: "EURC depeg",
   ETH: "underlying token depeg (LSTs and wrapped ETH derivatives)",
-  WBTC: "WBTC depeg or custodial event",
-  cbBTC: "cbBTC depeg or custodial event",
+  BTC: "underlying token depeg or custodial event (WBTC, cbBTC, tBTC and other wrapped variants)",
 };
 
 export function VaultRisks({ vault }: { vault: YieldVault }) {

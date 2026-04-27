@@ -1,4 +1,4 @@
-export type Asset = "USDC" | "USDT" | "ETH" | "WBTC" | "cbBTC" | "EURC";
+export type Asset = "USDC" | "USDT" | "ETH" | "BTC" | "EURC";
 
 export type VaultType = "Autocompounder" | "Autopilot";
 
