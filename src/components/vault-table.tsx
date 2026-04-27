@@ -1,7 +1,7 @@
 "use client";
 
 /* eslint-disable @next/next/no-img-element */
-import { useState, useMemo } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { YieldVault } from "@/lib/types";
 import { formatAPY, formatTVL } from "@/lib/format";
@@ -179,57 +179,40 @@ export function VaultTable({
   const [chainFilter, setChainFilter] = useState("All");
   const [query, setQuery] = useState("");
 
-  const assets = useMemo(() => {
-    const set = new Set(vaults.map((v) => v.asset));
-    return Array.from(set).sort();
-  }, [vaults]);
+  const assets = Array.from(new Set(vaults.map((v) => v.asset))).sort();
+  const chains = Array.from(new Set(vaults.map((v) => v.chain))).sort();
 
-  const chains = useMemo(() => {
-    const set = new Set(vaults.map((v) => v.chain));
-    return Array.from(set).sort();
-  }, [vaults]);
+  const lcQuery = query.trim().toLowerCase();
+  const filtered = vaults.filter((v) => {
+    if (assetFilter !== "All" && v.asset !== assetFilter) return false;
+    if (chainFilter !== "All" && v.chain !== chainFilter) return false;
+    if (lcQuery) {
+      const hay = (v.productName + " " + v.asset + " " + v.category).toLowerCase();
+      if (!hay.includes(lcQuery)) return false;
+    }
+    return true;
+  });
 
-  const filtered = useMemo(() => {
-    return vaults.filter((v) => {
-      if (assetFilter !== "All" && v.asset !== assetFilter) return false;
-      if (chainFilter !== "All" && v.chain !== chainFilter) return false;
-      if (
-        query &&
-        !(v.productName + v.asset + v.category)
-          .toLowerCase()
-          .includes(query.toLowerCase())
-      )
-        return false;
-      return true;
-    });
-  }, [vaults, assetFilter, chainFilter, query]);
-
-  const sorted = useMemo(() => {
-    const copy = [...filtered];
-    copy.sort((a, b) => {
-      let va: string | number;
-      let vb: string | number;
-      if (sortKey === "chain") {
-        va = a.chain;
-        vb = b.chain;
-      } else if (sortKey === "momentum") {
-        va = a.apy24h - a.apy30d;
-        vb = b.apy24h - b.apy30d;
-      } else {
-        va = a[sortKey];
-        vb = b[sortKey];
-      }
-      if (typeof va === "string" && typeof vb === "string") {
-        return sortDir === "asc"
-          ? va.localeCompare(vb)
-          : vb.localeCompare(va);
-      }
-      return sortDir === "desc"
-        ? (vb as number) - (va as number)
-        : (va as number) - (vb as number);
-    });
-    return copy;
-  }, [filtered, sortKey, sortDir]);
+  const sorted = [...filtered].sort((a, b) => {
+    let va: string | number;
+    let vb: string | number;
+    if (sortKey === "chain") {
+      va = a.chain;
+      vb = b.chain;
+    } else if (sortKey === "momentum") {
+      va = a.apy24h - a.apy30d;
+      vb = b.apy24h - b.apy30d;
+    } else {
+      va = a[sortKey];
+      vb = b[sortKey];
+    }
+    if (typeof va === "string" && typeof vb === "string") {
+      return sortDir === "asc" ? va.localeCompare(vb) : vb.localeCompare(va);
+    }
+    return sortDir === "desc"
+      ? (vb as number) - (va as number)
+      : (va as number) - (vb as number);
+  });
 
   function toggleSort(key: SortKey) {
     if (sortKey === key) {
