@@ -68,7 +68,42 @@ export function MarketBenchmark({ vault, allVaults }: Props) {
           <span></span>
         </div>
       </div>
+
+      <ClosingBenchmark vault={vault} sameAsset={sameAsset} rank={rank} />
     </section>
+  );
+}
+
+function ClosingBenchmark({
+  vault,
+  sameAsset,
+  rank,
+}: {
+  vault: YieldVault;
+  sameAsset: YieldVault[];
+  rank: number;
+}) {
+  const outperformPct = Math.round(
+    ((sameAsset.length - rank) / sameAsset.length) * 100,
+  );
+
+  const tvlSorted = [...sameAsset].sort((a, b) => b.tvl - a.tvl);
+  const tvlRank = tvlSorted.findIndex((v) => v.id === vault.id) + 1;
+  const topTvl = tvlSorted[0];
+  const tvlComparison =
+    topTvl && topTvl.id !== vault.id && topTvl.tvl > vault.tvl * 2
+      ? ` However, with ${formatTVL(vault.tvl)} TVL it holds significantly less capital than ${topTvl.productName} (${formatTVL(topTvl.tvl)}).`
+      : tvlRank <= 3
+        ? ` By TVL it ranks #${tvlRank}, making it one of the most established ${vault.asset} vaults.`
+        : "";
+
+  return (
+    <p style={{ marginTop: 14 }}>
+      {vault.productName} currently ranks #{rank} among{" "}
+      {sameAsset.length} monitored {vault.asset} strategies, outperforming{" "}
+      {outperformPct}% of tracked {vault.asset} opportunities.
+      {tvlComparison}
+    </p>
   );
 }
 
@@ -131,6 +166,34 @@ export function EcosystemContext({ vault, allVaults }: Props) {
           <span className="er-apy mono dim">{formatAPY(networkAvg)}</span>
         </div>
       </div>
+
+      <ClosingEcosystem vault={vault} sameChain={sameChain} rank={rank} />
     </section>
+  );
+}
+
+function ClosingEcosystem({
+  vault,
+  sameChain,
+  rank,
+}: {
+  vault: YieldVault;
+  sameChain: YieldVault[];
+  rank: number;
+}) {
+  const tvlSorted = [...sameChain].sort((a, b) => b.tvl - a.tvl);
+  const tvlRank = tvlSorted.findIndex((v) => v.id === vault.id) + 1;
+
+  const isTop = rank === 1;
+  const topLabel = isTop
+    ? `Currently the highest-yielding ${vault.asset} opportunity on ${vault.chain} among ${sameChain.length} tracked products.`
+    : `By TVL, this product ranks #${tvlRank} of ${sameChain.length} ${vault.asset} strategies on ${vault.chain}.`;
+
+  return (
+    <p style={{ marginTop: 14 }}>
+      {topLabel} This strategy is operated by {vault.protocol.name} and
+      competes against {sameChain.length - 1} other {vault.asset} strategies
+      on the {vault.chain} network.
+    </p>
   );
 }

@@ -71,9 +71,53 @@ export function HistoricalStats({ history }: { history: FullVaultHistory }) {
   const split = !tvlStats && apyRows.length >= 4;
   const apyHalf = split ? Math.ceil(apyRows.length / 2) : apyRows.length;
 
+  // Narrative intro paragraph — trend direction over lifetime
+  const narratives: string[] = [];
+
+  if (apyStats && apyStats.dataPoints >= 30) {
+    const sorted = [...allApy].sort((a, b) => a.timestamp - b.timestamp);
+    const firstQuarter = sorted.slice(0, Math.ceil(sorted.length / 4));
+    const lastQuarter = sorted.slice(-Math.ceil(sorted.length / 4));
+    const earlyAvg = firstQuarter.reduce((s, p) => s + p.apy, 0) / firstQuarter.length;
+    const lateAvg = lastQuarter.reduce((s, p) => s + p.apy, 0) / lastQuarter.length;
+    const changePct = earlyAvg > 0 ? ((lateAvg - earlyAvg) / earlyAvg) * 100 : 0;
+    if (Math.abs(changePct) > 10) {
+      const dir = changePct > 0 ? "an upward" : "a downward";
+      const verb = changePct > 0 ? "expanding" : "contracting";
+      narratives.push(
+        `Over the past ${apyStats.dataPoints} days, this vault's yield has shown ${dir} trend, with yields ${verb} from ${earlyAvg.toFixed(2)}% to ${lateAvg.toFixed(2)}%, a ${Math.abs(changePct).toFixed(1)}% ${changePct > 0 ? "increase" : "decrease"}.`,
+      );
+    }
+  }
+
+  if (tvlStats) {
+    const sorted = [...history.tvlHistory]
+      .filter((p) => p.value > 0)
+      .sort((a, b) => a.timestamp - b.timestamp);
+    if (sorted.length >= 10) {
+      const first = sorted[0].value;
+      const last = sorted[sorted.length - 1].value;
+      const changePct = first > 0 ? ((last - first) / first) * 100 : 0;
+      if (Math.abs(changePct) > 10) {
+        const dir = changePct > 0 ? "growth" : "contraction";
+        const verb = changePct > 0 ? "increasing" : "declining";
+        narratives.push(
+          `Total value locked has experienced ${dir}, ${verb} from ${formatTVL(first)} to ${formatTVL(last)}, a ${Math.abs(changePct).toFixed(1)}% ${changePct > 0 ? "increase" : "reduction"}.`,
+        );
+      }
+    }
+  }
+
   return (
     <section className="pp-section" id="history">
       <h2>Historical statistics</h2>
+      {narratives.length > 0 && (
+        <div className="about-prose" style={{ marginBottom: 16 }}>
+          {narratives.map((text, i) => (
+            <p key={i}>{text}</p>
+          ))}
+        </div>
+      )}
       <div className="hist-grid">
         {apyStats && (
           <div className="hist-block">

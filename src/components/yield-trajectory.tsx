@@ -1,0 +1,133 @@
+import { formatAPY } from "@/lib/format";
+import type { FullVaultHistory } from "@/lib/history-api";
+
+interface Props {
+  history: FullVaultHistory;
+  productName: string;
+  apy24h: number;
+}
+
+function mean(vals: number[]): number {
+  return vals.length > 0 ? vals.reduce((s, v) => s + v, 0) / vals.length : 0;
+}
+
+function formatDate(ts: number): string {
+  return new Date(ts * 1000).toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+  });
+}
+
+export function YieldTrajectory({ history, productName, apy24h }: Props) {
+  const now = Math.floor(Date.now() / 1000);
+  const validApy = history.apyHistory
+    .filter((p) => p.apy >= 0)
+    .sort((a, b) => a.timestamp - b.timestamp);
+
+  if (validApy.length < 14) return null;
+
+  const thirtyDaysAgo = now - 30 * 86400;
+  const recent30d = validApy.filter((p) => p.timestamp >= thirtyDaysAgo);
+  if (recent30d.length < 7) return null;
+
+  // Current streak: count consecutive days with same direction from latest
+  const desc = [...validApy].reverse();
+  let streakLen = 1;
+  let streakDir: "up" | "down" | "flat" = "flat";
+  if (desc.length >= 2) {
+    const diff = desc[0].apy - desc[1].apy;
+    streakDir = Math.abs(diff) < 0.05 ? "flat" : diff > 0 ? "up" : "down";
+    for (let i = 2; i < desc.length; i++) {
+      const d = desc[i - 1].apy - desc[i].apy;
+      const dir = Math.abs(d) < 0.05 ? "flat" : d > 0 ? "up" : "down";
+      if (dir === streakDir) streakLen++;
+      else break;
+    }
+  }
+  const streakLabel =
+    streakDir === "up" ? "rising" : streakDir === "down" ? "declining" : "flat";
+  const streakFrom = desc[Math.min(streakLen - 1, desc.length - 1)].apy;
+  const streakTo = desc[0].apy;
+
+  // Days with positive yield out of last 30d
+  const daysWithYield = recent30d.filter((p) => p.apy > 0).length;
+
+  // Week-over-week change
+  const sevenDaysAgo = now - 7 * 86400;
+  const fourteenDaysAgo = now - 14 * 86400;
+  const thisWeek = validApy.filter((p) => p.timestamp >= sevenDaysAgo);
+  const lastWeek = validApy.filter(
+    (p) => p.timestamp >= fourteenDaysAgo && p.timestamp < sevenDaysAgo,
+  );
+  const thisWeekAvg = mean(thisWeek.map((p) => p.apy));
+  const lastWeekAvg = mean(lastWeek.map((p) => p.apy));
+  const wow =
+    lastWeekAvg > 0 ? ((thisWeekAvg - lastWeekAvg) / lastWeekAvg) * 100 : 0;
+
+  // Best / worst 7-day rolling window within 30d data
+  let bestWindow = { start: 0, end: 0, avg: -Infinity };
+  let worstWindow = { start: 0, end: 0, avg: Infinity };
+  if (recent30d.length >= 7) {
+    for (let i = 0; i <= recent30d.length - 7; i++) {
+      const window = recent30d.slice(i, i + 7);
+      const avg = mean(window.map((p) => p.apy));
+      if (avg > bestWindow.avg) {
+        bestWindow = {
+          start: window[0].timestamp,
+          end: window[window.length - 1].timestamp,
+          avg,
+        };
+      }
+      if (avg < worstWindow.avg) {
+        worstWindow = {
+          start: window[0].timestamp,
+          end: window[window.length - 1].timestamp,
+          avg,
+        };
+      }
+    }
+  }
+
+  // vs 30d average
+  const avg30d = mean(recent30d.map((p) => p.apy));
+  const vs30d = avg30d > 0 ? ((apy24h - avg30d) / avg30d) * 100 : 0;
+
+  const sentences: string[] = [];
+
+  sentences.push(
+    `${productName} has been on a ${streakLen}-day ${streakLabel} streak, with APY moving from ${formatAPY(streakFrom)} to ${formatAPY(streakTo)} over this period.`,
+  );
+
+  sentences.push(
+    `Over the past 30 days, the vault delivered positive yields on ${daysWithYield} out of ${recent30d.length} days.`,
+  );
+
+  if (lastWeek.length >= 3 && thisWeek.length >= 3) {
+    const wowDir = wow >= 0 ? "increased" : "declined";
+    sentences.push(
+      `Week-over-week, yields have ${wowDir} by ${Math.abs(wow).toFixed(1)}%.`,
+    );
+  }
+
+  if (bestWindow.avg > -Infinity && worstWindow.avg < Infinity) {
+    sentences.push(
+      `The strongest 7-day period was ${formatDate(bestWindow.start)}–${formatDate(bestWindow.end)} averaging ${bestWindow.avg.toFixed(2)}%, while the weakest was ${formatDate(worstWindow.start)}–${formatDate(worstWindow.end)} at ${worstWindow.avg.toFixed(2)}%.`,
+    );
+  }
+
+  if (Math.abs(vs30d) > 5) {
+    const dir = vs30d > 0 ? "above" : "below";
+    sentences.push(
+      `Current 24h APY of ${formatAPY(apy24h)} is ${Math.abs(vs30d).toFixed(1)}% ${dir} the product's own 30-day average.`,
+    );
+  }
+
+  return (
+    <section className="pp-section" id="trajectory">
+      <h2>Yield trajectory</h2>
+      <div className="about-prose">
+        <p>{sentences.join(" ")}</p>
+      </div>
+    </section>
+  );
+}

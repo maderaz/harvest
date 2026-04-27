@@ -23,6 +23,7 @@ import { MarketBenchmark, EcosystemContext } from "@/components/market-sections"
 import { HistoricalStats } from "@/components/historical-stats";
 import { HistoricalNarrative } from "@/components/historical-narrative";
 import { VaultRisks } from "@/components/vault-risks";
+import { YieldTrajectory } from "@/components/yield-trajectory";
 
 export async function generateStaticParams() {
   const slugs = await getAllSlugs();
@@ -470,6 +471,7 @@ export default async function ProductPage({
     { id: "about", label: "About this vault" },
     ...(hasCharts ? [{ id: "performance", label: "Performance history" }] : []),
     { id: "overview", label: "Performance overview" },
+    { id: "trajectory", label: "Yield trajectory" },
     { id: "consistency", label: "APY consistency" },
     { id: "statistics", label: "30-day statistics" },
     ...(vault.apyBreakdown.length > 0 ? [{ id: "sources", label: "Yield sources" }] : []),
@@ -570,6 +572,13 @@ export default async function ProductPage({
 
             {/* Ecosystem Context */}
             <EcosystemContext vault={vault} allVaults={allVaults} />
+
+            {/* Yield Trajectory — dense numerical narrative */}
+            <YieldTrajectory
+              history={history}
+              productName={vault.productName}
+              apy24h={vault.apy24h}
+            />
 
             {/* Consistency Score */}
             <ConsistencyScore history={history} spotAPY={vault.apy24h} />
