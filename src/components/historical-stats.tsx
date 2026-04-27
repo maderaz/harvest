@@ -44,8 +44,9 @@ export function HistoricalStats({ history }: { history: FullVaultHistory }) {
   } : null;
 
   const tvlValues = tvl30d.filter((p) => p.value > 0).map((p) => p.value);
-  // Largest daily change in TVL — pulled in from the now-removed
-  // VaultStatistics component so all TVL data lives in one place.
+  const allTvl = history.tvlHistory.filter((p) => p.value > 0);
+  const allTvlValues = allTvl.map((p) => p.value);
+
   let tvlLargestChange = 0;
   if (tvl30d.length >= 2) {
     const chronological = [...tvl30d]
@@ -61,9 +62,13 @@ export function HistoricalStats({ history }: { history: FullVaultHistory }) {
     low: Math.min(...tvlValues),
     high: Math.max(...tvlValues),
     avg: tvlValues.reduce((s, v) => s + v, 0) / tvlValues.length,
+    lifetimeAvg: allTvlValues.length > 0 ? allTvlValues.reduce((s, v) => s + v, 0) / allTvlValues.length : 0,
     med: median(tvlValues),
     current: tvl30d[tvl30d.length - 1]?.value || 0,
     largestChange: tvlLargestChange,
+    bestDay: tvl30d.filter((p) => p.value > 0).reduce((best, p) => p.value > best.value ? p : best, tvl30d[0]),
+    worstDay: tvl30d.filter((p) => p.value > 0).reduce((worst, p) => p.value < worst.value ? p : worst, tvl30d[0]),
+    dataPoints: allTvl.length,
   } : null;
 
   const apyRows = apyStats
@@ -82,11 +87,14 @@ export function HistoricalStats({ history }: { history: FullVaultHistory }) {
 
   const tvlRows = tvlStats
     ? [
-        { label: "Current TVL", value: formatTVL(tvlStats.current) },
         { label: "30D Low", value: formatTVL(tvlStats.low) },
         { label: "30D High", value: formatTVL(tvlStats.high) },
         { label: "30D Average", value: formatTVL(tvlStats.avg) },
+        { label: `Lifetime avg (${tvlStats.dataPoints}d)`, value: formatTVL(tvlStats.lifetimeAvg) },
         { label: "Median TVL", value: formatTVL(tvlStats.med) },
+        { label: "Best day", value: `${formatTVL(tvlStats.bestDay.value)} · ${formatDate(tvlStats.bestDay.timestamp)}` },
+        { label: "Worst day", value: `${formatTVL(tvlStats.worstDay.value)} · ${formatDate(tvlStats.worstDay.timestamp)}` },
+        { label: "Current TVL", value: formatTVL(tvlStats.current) },
         { label: "Largest daily change", value: formatTVL(tvlStats.largestChange) },
       ]
     : [];
