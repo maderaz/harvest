@@ -1,4 +1,5 @@
 import { Suspense } from "react";
+import Link from "next/link";
 import { getVaults } from "@/lib/data";
 import { SITE_NAME, SITE_DESCRIPTION, SITE_URL } from "@/lib/constants";
 import { VaultList } from "@/components/vault-list";
@@ -81,6 +82,8 @@ function computeFeaturedAssets(vaults: { asset: string; apy24h: number; tvl: num
 
 import { AssetIcon } from "@/components/token-icons";
 
+const ASSET_PAGES = new Set(["ETH"]);
+
 /* ——— Page component ——— */
 
 export default async function Home() {
@@ -157,27 +160,37 @@ export default async function Home() {
       </div>
       <div className="card section">
         <div className="feat-grid">
-          {featuredAssets.map((a) => (
-            <div key={a.asset} className="feat">
-              <div className="feat-head">
-                <AssetIcon asset={a.asset} size={28} />
-                <div>
-                  <div className="feat-name">{a.asset}</div>
-                  <div className="feat-sub mono dim">{a.poolCount} pool{a.poolCount !== 1 ? "s" : ""}</div>
+          {featuredAssets.map((a) => {
+            const hasPage = ASSET_PAGES.has(a.asset);
+            const inner = (
+              <>
+                <div className="feat-head">
+                  <AssetIcon asset={a.asset} size={28} />
+                  <div>
+                    <div className="feat-name">{a.asset}</div>
+                    <div className="feat-sub mono dim">{a.poolCount} pool{a.poolCount !== 1 ? "s" : ""}</div>
+                  </div>
                 </div>
-              </div>
-              <div className="feat-body">
-                <div>
-                  <div className="feat-label mono dim">Best APY</div>
-                  <div className="feat-val mono">{formatAPY(a.bestApy)}</div>
+                <div className="feat-body">
+                  <div>
+                    <div className="feat-label mono dim">Best APY</div>
+                    <div className="feat-val mono">{formatAPY(a.bestApy)}</div>
+                  </div>
+                  <div>
+                    <div className="feat-label mono dim">Total TVL</div>
+                    <div className="feat-val mono">{formatTVL(a.totalTvl)}</div>
+                  </div>
                 </div>
-                <div>
-                  <div className="feat-label mono dim">Total TVL</div>
-                  <div className="feat-val mono">{formatTVL(a.totalTvl)}</div>
-                </div>
-              </div>
-            </div>
-          ))}
+              </>
+            );
+            return hasPage ? (
+              <Link key={a.asset} href={`/${a.asset}`} className="feat feat-link">
+                {inner}
+              </Link>
+            ) : (
+              <div key={a.asset} className="feat">{inner}</div>
+            );
+          })}
         </div>
       </div>
 

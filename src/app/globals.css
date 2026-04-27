@@ -392,6 +392,13 @@ button { font-family: inherit; cursor: pointer; }
   background: var(--panel);
   padding: 14px;
 }
+.feat-link {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+  transition: background 0.12s ease;
+}
+.feat-link:hover { background: var(--bg-2); }
 .feat-head {
   display: grid;
   grid-template-columns: auto 1fr auto;

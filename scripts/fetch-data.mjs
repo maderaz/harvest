@@ -125,109 +125,140 @@ async function fetchHarvestVaults() {
   const activeVaults = allVaults.filter((v) => !v.inactive);
   log(`[harvest-api] active vaults: ${activeVaults.length}`);
 
-  const usdcVaults = activeVaults.filter((v) => {
-    const names = v.tokenNames || [];
-    return names.some((n) => n.toUpperCase() === "USDC");
-  });
-
-  log(`[harvest-api] USDC vaults: ${usdcVaults.length}`);
-
-  // Fetch historical APY data for top vaults (limit to top 20 by TVL)
-  const sortedByTvl = [...usdcVaults].sort(
-    (a, b) => parseNumber(b.totalValueLocked) - parseNumber(a.totalValueLocked)
-  );
-  const topVaults = sortedByTvl.slice(0, 20);
-  const historyMap = new Map();
-
-  const historyResults = await Promise.all(
-    topVaults.map((v) => fetchVaultHistoryShort(v.vaultAddress, v._sourceChain))
-  );
-  topVaults.forEach((v, i) => {
-    historyMap.set(v.vaultAddress, {
-      apy24h: historyResults[i].apy24h,
-      apy30d: historyResults[i].apy30d,
-    });
-  });
+  // Asset groups — each maps a YieldVault.asset enum value to the underlying
+  // tokens it covers. tokenNames from the API are matched case-insensitively.
+  const ASSET_GROUPS = [
+    {
+      asset: "USDC",
+      tokens: ["USDC"],
+      slugPrefix: "usdc",
+    },
+    {
+      asset: "ETH",
+      tokens: ["ETH", "WETH", "stETH", "wstETH", "rETH", "cbETH", "weETH", "frxETH", "sfrxETH"],
+      slugPrefix: "eth",
+    },
+  ];
 
   const persistedSlugs = loadSlugMap();
   const seenSlugs = new Set(Object.values(persistedSlugs));
   const newSlugMap = { ...persistedSlugs };
+  const allResults = [];
 
-  const results = usdcVaults.map((v) => {
-    const chain = CHAIN_NAMES[v._sourceChain] || v._sourceChain;
-    const platform = v.platform?.[0] || "Harvest";
+  for (const group of ASSET_GROUPS) {
+    const tokenSet = new Set(group.tokens.map((t) => t.toUpperCase()));
+    const matched = activeVaults.filter((v) => {
+      const names = v.tokenNames || [];
+      return names.some((n) => tokenSet.has(String(n).toUpperCase()));
+    });
+    log(`[harvest-api] ${group.asset} vaults: ${matched.length}`);
 
-    const platformParts = platform.split(" - ");
-    const protocol = platformParts[0].trim();
-    const strategy =
-      platformParts.length > 1
-        ? platformParts.slice(1).join(" - ").trim()
-        : "";
-    const productName = strategy ? `USDC ${strategy}` : `USDC ${protocol}`;
-    const categoryDisplay = `${protocol} - ${chain}`;
-    const currentApy = parseNumber(v.estimatedApy);
-    const tvl = parseNumber(v.totalValueLocked);
-    const history = historyMap.get(v.vaultAddress);
+    if (matched.length === 0) continue;
 
-    // Use persisted slug if vault was seen before (URL stability)
-    let slug;
-    if (persistedSlugs[v.vaultAddress]) {
-      slug = persistedSlugs[v.vaultAddress];
-    } else {
-      const strategySlug = strategy
-        ? slugify(strategy.replace(/\s*V\d+$/i, ""))
-        : slugify(protocol);
-      const baseSlug = `usdc-${strategySlug}-${slugify(chain)}`;
-      slug = baseSlug;
-      let counter = 1;
-      while (seenSlugs.has(slug)) {
-        counter++;
-        slug = `${baseSlug}-${counter}`;
+    // Fetch historical APY data for top vaults (limit to top 20 by TVL)
+    const sortedByTvl = [...matched].sort(
+      (a, b) => parseNumber(b.totalValueLocked) - parseNumber(a.totalValueLocked)
+    );
+    const topVaults = sortedByTvl.slice(0, 20);
+    const historyMap = new Map();
+
+    const historyResults = await Promise.all(
+      topVaults.map((v) => fetchVaultHistoryShort(v.vaultAddress, v._sourceChain))
+    );
+    topVaults.forEach((v, i) => {
+      historyMap.set(v.vaultAddress, {
+        apy24h: historyResults[i].apy24h,
+        apy30d: historyResults[i].apy30d,
+      });
+    });
+
+    const groupResults = matched.map((v) => {
+      const chain = CHAIN_NAMES[v._sourceChain] || v._sourceChain;
+      const platform = v.platform?.[0] || "Harvest";
+
+      const platformParts = platform.split(" - ");
+      const protocol = platformParts[0].trim();
+      const strategy =
+        platformParts.length > 1
+          ? platformParts.slice(1).join(" - ").trim()
+          : "";
+
+      // Surface the actual underlying token (e.g. wstETH) instead of the
+      // group name, so users can tell apart ETH vs wstETH vs stETH vaults.
+      const matchedToken =
+        (v.tokenNames || []).find((n) => tokenSet.has(String(n).toUpperCase())) ||
+        group.asset;
+
+      const productName = strategy
+        ? `${matchedToken} ${strategy}`
+        : `${matchedToken} ${protocol}`;
+      const categoryDisplay = `${protocol} - ${chain}`;
+      const currentApy = parseNumber(v.estimatedApy);
+      const tvl = parseNumber(v.totalValueLocked);
+      const history = historyMap.get(v.vaultAddress);
+
+      // Use persisted slug if vault was seen before (URL stability)
+      let slug;
+      if (persistedSlugs[v.vaultAddress]) {
+        slug = persistedSlugs[v.vaultAddress];
+      } else {
+        const strategySlug = strategy
+          ? slugify(strategy.replace(/\s*V\d+$/i, ""))
+          : slugify(protocol);
+        const baseSlug = `${group.slugPrefix}-${strategySlug}-${slugify(chain)}`;
+        slug = baseSlug;
+        let counter = 1;
+        while (seenSlugs.has(slug)) {
+          counter++;
+          slug = `${baseSlug}-${counter}`;
+        }
+        seenSlugs.add(slug);
+        newSlugMap[v.vaultAddress] = slug;
       }
-      seenSlugs.add(slug);
-      newSlugMap[v.vaultAddress] = slug;
-    }
 
-    const breakdownValues = v.estimatedApyBreakdown || [];
-    const tokenSymbols = v.apyTokenSymbols || [];
-    const apyBreakdown = breakdownValues.map((val, i) => ({
-      source:
-        tokenSymbols[i] ||
-        (breakdownValues.length === 1 ? "Base Rate" : `Source ${i + 1}`),
-      apy: parseNumber(val),
-    }));
+      const breakdownValues = v.estimatedApyBreakdown || [];
+      const tokenSymbols = v.apyTokenSymbols || [];
+      const apyBreakdown = breakdownValues.map((val, i) => ({
+        source:
+          tokenSymbols[i] ||
+          (breakdownValues.length === 1 ? "Base Rate" : `Source ${i + 1}`),
+        apy: parseNumber(val),
+      }));
 
-    const boostedApy = v.boostedEstimatedAPY
-      ? parseNumber(v.boostedEstimatedAPY)
-      : null;
+      const boostedApy = v.boostedEstimatedAPY
+        ? parseNumber(v.boostedEstimatedAPY)
+        : null;
 
-    return {
-      id: v.vaultAddress,
-      slug,
-      asset: "USDC",
-      productName,
-      protocol: { name: "Harvest Finance", slug: "harvest-finance" },
-      vaultType: v.tags?.some((t) => t.toLowerCase().includes("pilot"))
-        ? "Autopilot"
-        : "Autocompounder",
-      apy24h: history?.apy24h ?? currentApy,
-      apy30d: history?.apy30d ?? currentApy,
-      tvl,
-      description: `${productName} on ${protocol} (${chain}) — automatically optimizes your USDC yield via Harvest Finance.`,
-      chain,
-      contractAddress: v.vaultAddress,
-      riskLevel: "low",
-      category: categoryDisplay,
-      launchDate: "",
-      apyBreakdown,
-      boostedApy: boostedApy && boostedApy > 0 ? boostedApy : null,
-    };
-  });
+      return {
+        id: v.vaultAddress,
+        slug,
+        asset: group.asset,
+        productName,
+        protocol: { name: "Harvest Finance", slug: "harvest-finance" },
+        vaultType: v.tags?.some((t) => t.toLowerCase().includes("pilot"))
+          ? "Autopilot"
+          : "Autocompounder",
+        apy24h: history?.apy24h ?? currentApy,
+        apy30d: history?.apy30d ?? currentApy,
+        tvl,
+        description: `${productName} on ${protocol} (${chain}) — automatically optimizes your ${matchedToken} yield via Harvest Finance.`,
+        chain,
+        contractAddress: v.vaultAddress,
+        riskLevel: "low",
+        category: categoryDisplay,
+        launchDate: "",
+        apyBreakdown,
+        boostedApy: boostedApy && boostedApy > 0 ? boostedApy : null,
+      };
+    });
 
-  results.sort((a, b) => b.apy24h - a.apy24h);
+    allResults.push(...groupResults);
+  }
 
-  log(`[harvest-api] final count: ${results.length}`);
-  return { vaults: results, slugMap: newSlugMap };
+  allResults.sort((a, b) => b.apy24h - a.apy24h);
+
+  log(`[harvest-api] final count: ${allResults.length}`);
+  return { vaults: allResults, slugMap: newSlugMap };
 }
 
 // ─── Short history (30d APY only, for vault listing) ─────────────────────────
