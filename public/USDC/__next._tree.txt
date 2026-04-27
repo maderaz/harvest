@@ -1,3 +1,3 @@
 :HL["/_next/static/chunks/0w2i1ki9ar.4q.css","style"]
 :HL["/_next/static/media/USDC.055.tii03o3mr.png","image"]
-0:{"tree":{"name":"","param":null,"prefetchHints":16,"slots":{"children":{"name":"USDC","param":null,"prefetchHints":0,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":0,"slots":null}}}}},"staleTime":300,"buildId":"KiBS7E3lX5DTR9fZVXWvt"}
+0:{"tree":{"name":"","param":null,"prefetchHints":16,"slots":{"children":{"name":"USDC","param":null,"prefetchHints":0,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":0,"slots":null}}}}},"staleTime":300,"buildId":"a2d3WIceFa6qDhJE-YOpi"}

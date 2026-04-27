@@ -79,7 +79,7 @@ function Spark({
 
 /* ——— Sort types ——— */
 
-type SortKey = "apy24h" | "apy30d" | "tvl" | "productName" | "chain";
+type SortKey = "apy24h" | "apy30d" | "tvl" | "momentum" | "chain";
 type SortDir = "asc" | "desc";
 
 /* ——— FilterBar ——— */
@@ -195,12 +195,12 @@ export function VaultTable({ vaults }: { vaults: YieldVault[] }) {
     copy.sort((a, b) => {
       let va: string | number;
       let vb: string | number;
-      if (sortKey === "productName") {
-        va = a.productName;
-        vb = b.productName;
-      } else if (sortKey === "chain") {
+      if (sortKey === "chain") {
         va = a.chain;
         vb = b.chain;
+      } else if (sortKey === "momentum") {
+        va = a.apy24h - a.apy30d;
+        vb = b.apy24h - b.apy30d;
       } else {
         va = a[sortKey];
         vb = b[sortKey];
@@ -248,15 +248,6 @@ export function VaultTable({ vaults }: { vaults: YieldVault[] }) {
     );
   }
 
-  // Compute reward from apyBreakdown
-  function getReward(vault: YieldVault): number {
-    if (!vault.apyBreakdown || vault.apyBreakdown.length <= 1) return 0;
-    // Sum all non-first sources (first is typically the base rate)
-    return vault.apyBreakdown
-      .slice(1)
-      .reduce((sum, b) => sum + b.apy, 0);
-  }
-
   return (
     <>
       <FilterBar
@@ -274,21 +265,17 @@ export function VaultTable({ vaults }: { vaults: YieldVault[] }) {
           <thead>
             <tr>
               <th className="left">#</th>
-              <Head k="productName" align="left">
-                Protocol / Pool
-              </Head>
+              <th className="left">Product Name</th>
               <Head k="apy24h">APY</Head>
-              <th className="right td-hide-mobile">7d avg</th>
-              <Head k="apy30d">30D APY Trend</Head>
+              <Head k="apy30d">30D APY</Head>
               <Head k="tvl">TVL</Head>
-              <th className="center td-hide-mobile">30d</th>
+              <Head k="momentum" align="center">30d trend</Head>
               <th></th>
             </tr>
           </thead>
           <tbody>
             {sorted.map((vault, index) => {
               const up = vault.apy24h >= vault.apy30d;
-              const reward = getReward(vault);
               return (
                 <tr
                   key={vault.id}
@@ -313,14 +300,11 @@ export function VaultTable({ vaults }: { vaults: YieldVault[] }) {
                       {formatAPY(vault.apy24h)}
                     </span>
                   </td>
-                  <td className="td right mono dim td-hide-mobile">
-                    {formatAPY(vault.apy24h)}
-                  </td>
                   <td className="td right mono dim">
                     {formatAPY(vault.apy30d)}
                   </td>
                   <td className="td right mono">{formatTVL(vault.tvl)}</td>
-                  <td className="td center td-hide-mobile">
+                  <td className="td center">
                     <Spark
                       points={seedSpark(index + 1, up)}
                       up={up}
