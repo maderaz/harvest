@@ -3,6 +3,7 @@ import Link from "next/link";
 export function Header() {
   const navItems = [
     { label: "Discover", href: "/" },
+    { label: "USDC", href: "/USDC" },
     { label: "ETH", href: "/ETH" },
   ];
 

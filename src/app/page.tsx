@@ -82,7 +82,7 @@ function computeFeaturedAssets(vaults: { asset: string; apy24h: number; tvl: num
 
 import { AssetIcon } from "@/components/token-icons";
 
-const ASSET_PAGES = new Set(["ETH"]);
+const ASSET_PAGES = new Set(["USDC", "ETH"]);
 
 /* ——— Page component ——— */
 
