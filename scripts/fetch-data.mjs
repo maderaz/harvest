@@ -369,7 +369,7 @@ async function fetchFullVaultHistory(vaultAddress, chainKey) {
     tvls(
       where: { vault: "${addr}" }
       orderBy: timestamp
-      orderDirection: asc
+      orderDirection: desc
       first: 1000
     ) {
       value
@@ -378,7 +378,7 @@ async function fetchFullVaultHistory(vaultAddress, chainKey) {
     vaultHistories(
       where: { vault: "${addr}" }
       orderBy: timestamp
-      orderDirection: asc
+      orderDirection: desc
       first: 1000
     ) {
       sharePrice
@@ -387,7 +387,7 @@ async function fetchFullVaultHistory(vaultAddress, chainKey) {
     apyAutoCompounds(
       where: { vault: "${addr}" }
       orderBy: timestamp
-      orderDirection: asc
+      orderDirection: desc
       first: 1000
     ) {
       apy
