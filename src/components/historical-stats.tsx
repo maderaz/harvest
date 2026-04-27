@@ -43,17 +43,29 @@ export function HistoricalStats({ history }: { history: FullVaultHistory }) {
     range: Math.max(...apyValues) - Math.min(...apyValues),
   } : null;
 
-  const tvlValues = tvl30d.map((p) => p.value);
+  const tvlValues = tvl30d.filter((p) => p.value > 0).map((p) => p.value);
+  // Largest daily change in TVL — pulled in from the now-removed
+  // VaultStatistics component so all TVL data lives in one place.
+  let tvlLargestChange = 0;
+  if (tvl30d.length >= 2) {
+    const chronological = [...tvl30d]
+      .filter((p) => p.value > 0)
+      .sort((a, b) => a.timestamp - b.timestamp);
+    for (let i = 1; i < chronological.length; i++) {
+      const change = Math.abs(chronological[i].value - chronological[i - 1].value);
+      if (change > tvlLargestChange) tvlLargestChange = change;
+    }
+  }
+
   const tvlStats = tvlValues.length >= 2 ? {
     low: Math.min(...tvlValues),
     high: Math.max(...tvlValues),
     avg: tvlValues.reduce((s, v) => s + v, 0) / tvlValues.length,
     med: median(tvlValues),
     current: tvl30d[tvl30d.length - 1]?.value || 0,
+    largestChange: tvlLargestChange,
   } : null;
 
-  // When TVL stats exist, render APY + TVL side by side. Otherwise split the
-  // APY table into two columns so the section uses the full width.
   const apyRows = apyStats
     ? [
         { label: "30D Low", value: formatAPY(apyStats.low) },
@@ -68,8 +80,23 @@ export function HistoricalStats({ history }: { history: FullVaultHistory }) {
       ]
     : [];
 
-  const split = !tvlStats && apyRows.length >= 4;
-  const apyHalf = split ? Math.ceil(apyRows.length / 2) : apyRows.length;
+  const tvlRows = tvlStats
+    ? [
+        { label: "Current TVL", value: formatTVL(tvlStats.current) },
+        { label: "30D Low", value: formatTVL(tvlStats.low) },
+        { label: "30D High", value: formatTVL(tvlStats.high) },
+        { label: "30D Average", value: formatTVL(tvlStats.avg) },
+        { label: "Median TVL", value: formatTVL(tvlStats.med) },
+        { label: "Largest daily change", value: formatTVL(tvlStats.largestChange) },
+      ]
+    : [];
+
+  // Split a single block into two columns when the other block is absent
+  // so the section fills the full width.
+  const splitApy = apyStats && !tvlStats && apyRows.length >= 4;
+  const splitTvl = tvlStats && !apyStats && tvlRows.length >= 4;
+  const apyHalf = splitApy ? Math.ceil(apyRows.length / 2) : apyRows.length;
+  const tvlHalf = splitTvl ? Math.ceil(tvlRows.length / 2) : tvlRows.length;
 
   // Narrative intro paragraph — trend direction over lifetime
   const narratives: string[] = [];
@@ -131,7 +158,7 @@ export function HistoricalStats({ history }: { history: FullVaultHistory }) {
             </table>
           </div>
         )}
-        {apyStats && split && (
+        {apyStats && splitApy && (
           <div className="hist-block">
             <h3>&nbsp;</h3>
             <table className="hist-table">
@@ -148,11 +175,21 @@ export function HistoricalStats({ history }: { history: FullVaultHistory }) {
             <h3>Historical TVL statistics</h3>
             <table className="hist-table">
               <tbody>
-                <tr><th>30D Low</th><td>{formatTVL(tvlStats.low)}</td></tr>
-                <tr><th>30D High</th><td>{formatTVL(tvlStats.high)}</td></tr>
-                <tr><th>30D Average</th><td>{formatTVL(tvlStats.avg)}</td></tr>
-                <tr><th>Median TVL</th><td>{formatTVL(tvlStats.med)}</td></tr>
-                <tr><th>Current TVL</th><td>{formatTVL(tvlStats.current)}</td></tr>
+                {tvlRows.slice(0, tvlHalf).map((r) => (
+                  <tr key={r.label}><th>{r.label}</th><td>{r.value}</td></tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+        {tvlStats && splitTvl && (
+          <div className="hist-block">
+            <h3>&nbsp;</h3>
+            <table className="hist-table">
+              <tbody>
+                {tvlRows.slice(tvlHalf).map((r) => (
+                  <tr key={r.label}><th>{r.label}</th><td>{r.value}</td></tr>
+                ))}
               </tbody>
             </table>
           </div>

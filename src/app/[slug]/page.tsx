@@ -11,7 +11,6 @@ import { PerformanceHistory } from "@/components/performance-history";
 import { VaultCommentary } from "@/components/vault-commentary";
 import { VaultFaq } from "@/components/vault-faq";
 import { YieldBreakdown } from "@/components/yield-breakdown";
-import { VaultStatistics } from "@/components/vault-statistics";
 import { ConsistencyScore } from "@/components/consistency-score";
 import { VaultHistoryTable } from "@/components/vault-history-table";
 import { DepositCard } from "@/components/deposit-card";
@@ -473,7 +472,6 @@ export default async function ProductPage({
     { id: "overview", label: "Performance overview" },
     { id: "trajectory", label: "Yield trajectory" },
     { id: "consistency", label: "APY consistency" },
-    { id: "statistics", label: "30-day statistics" },
     ...(vault.apyBreakdown.length > 0 ? [{ id: "sources", label: "Yield sources" }] : []),
     { id: "long-term", label: "Long-term performance" },
     { id: "history", label: "Historical data" },
@@ -591,12 +589,9 @@ export default async function ProductPage({
               />
             )}
 
-            {/* Statistics Block */}
-            <VaultStatistics history={history} currentTvl={vault.tvl} />
-
             {/* Long-term performance narrative — flowing prose for the
-                CAGR / drawdown / best-month story. Lives between the 30-day
-                stats and the deeper Historical statistics tables. */}
+                CAGR / drawdown / best-month story. Lives before the
+                Historical statistics tables. */}
             <HistoricalNarrative history={history} />
 
             {/* Historical Stats */}
