@@ -62,6 +62,20 @@ export function VaultHero({ vault, history, allVaults }: Props) {
 
   const nameLen = vault.productName.length > 38 ? "long" : vault.productName.length > 22 ? "medium" : "short";
 
+  // Tracked-for / live-since signal: derived from the earliest observed
+  // apyHistory timestamp (falls back to tvlHistory / sharePriceHistory).
+  const earliestTs = (() => {
+    const candidates: number[] = [];
+    if (history.apyHistory.length > 0) candidates.push(Math.min(...history.apyHistory.map((p) => p.timestamp)));
+    if (history.tvlHistory.length > 0) candidates.push(Math.min(...history.tvlHistory.map((p) => p.timestamp)));
+    if (history.sharePriceHistory.length > 0) candidates.push(Math.min(...history.sharePriceHistory.map((p) => p.timestamp)));
+    return candidates.length > 0 ? Math.min(...candidates) : null;
+  })();
+  const trackedDays = earliestTs ? Math.round((now - earliestTs) / 86400) : 0;
+  const liveSince = earliestTs
+    ? new Date(earliestTs * 1000).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })
+    : null;
+
   return (
     <section className="vault-hero">
       <div className="vault-hero-inner">
@@ -124,6 +138,13 @@ export function VaultHero({ vault, history, allVaults }: Props) {
         </div>
 
         <div className="vh-actions">
+          <div className="vh-actions-left">
+            {trackedDays > 0 && liveSince && (
+              <span className="vh-meta-pill">
+                Tracked for {trackedDays} days · live since {liveSince}
+              </span>
+            )}
+          </div>
           <div className="vh-actions-right">
             <CopyAddressButton address={vault.contractAddress} />
             <a href="https://app.harvest.finance" target="_blank" rel="noopener noreferrer" className="vh-btn-primary">
