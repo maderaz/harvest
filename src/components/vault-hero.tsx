@@ -83,7 +83,6 @@ export function VaultHero({ vault, history, allVaults }: Props) {
               </span>
               <span className="vh-tag">{vault.chain}</span>
               <span className="vh-tag">{vault.vaultType}</span>
-              <span className="vh-tag live"><span className="dot" /> Live</span>
               {rank > 0 && (
                 <span className="vh-tag solid">#{rank} of {sameAsset.length} {vault.asset} vaults</span>
               )}
@@ -125,9 +124,6 @@ export function VaultHero({ vault, history, allVaults }: Props) {
         </div>
 
         <div className="vh-actions">
-          <div className="vh-actions-left">
-            <span className="vh-meta-pill"><span className="dot" /> Live</span>
-          </div>
           <div className="vh-actions-right">
             <CopyAddressButton address={vault.contractAddress} />
             <a href="https://app.harvest.finance" target="_blank" rel="noopener noreferrer" className="vh-btn-primary">

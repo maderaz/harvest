@@ -2010,13 +2010,12 @@ button { font-family: inherit; cursor: pointer; }
 .vh-actions {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
   gap: 16px;
   padding-top: 22px;
   border-top: 1px solid #1f1f1c;
   flex-wrap: wrap;
 }
-.vh-actions-left { display: flex; gap: 8px; flex-wrap: wrap; }
 .vh-actions-right { display: flex; gap: 8px; align-items: center; }
 .vh-meta-pill {
   display: inline-flex; align-items: center; gap: 6px;
