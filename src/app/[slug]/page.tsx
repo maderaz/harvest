@@ -642,9 +642,6 @@ export default async function ProductPage({
               </div>
             </section>
 
-            {/* Risks — standardized boilerplate, smaller font */}
-            <VaultRisks vault={vault} />
-
             {/* FAQ */}
             <VaultFaq
               productName={vault.productName}
@@ -701,6 +698,9 @@ export default async function ProductPage({
             <TableOfContents items={tocItems} />
           </div>
         </div>
+
+        {/* Risks — full width, at the very bottom of the page */}
+        <VaultRisks vault={vault} />
       </main>
     </>
   );
