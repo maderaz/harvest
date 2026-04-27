@@ -141,6 +141,7 @@ export function VaultHero({ vault, history, allVaults }: Props) {
           <div className="vh-actions-left">
             {trackedDays > 0 && liveSince && (
               <span className="vh-meta-pill">
+                <span className="dot" />
                 Tracked for {trackedDays} days · live since {liveSince}
               </span>
             )}
