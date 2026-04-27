@@ -357,13 +357,14 @@ button { font-family: inherit; cursor: pointer; }
   letter-spacing: 0.02em;
   text-transform: uppercase;
   user-select: none;
-  cursor: pointer;
   white-space: nowrap;
 }
 .ranking thead th.left { text-align: left; }
 .ranking thead th.center { text-align: center; }
+.ranking thead th.sortable { cursor: pointer; }
+.ranking thead th.sortable:hover { color: var(--ink); }
 .ranking thead th.sorted { color: var(--ink); }
-.caret { margin-left: 4px; font-size: 9px; }
+.caret { font-size: 9px; }
 
 .row { border-bottom: 1px solid var(--line); transition: background 0.1s; }
 .row:hover { background: var(--bg-2); }

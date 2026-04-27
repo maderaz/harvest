@@ -223,27 +223,11 @@ export function VaultTable({
     }
   }
 
-  function Head({
-    k,
-    children,
-    align = "right",
-  }: {
-    k: SortKey;
-    children: React.ReactNode;
-    align?: string;
-  }) {
-    return (
-      <th
-        className={`${align}${sortKey === k ? " sorted" : ""}`}
-        onClick={() => toggleSort(k)}
-      >
-        {children}
-        {sortKey === k && (
-          <span className="caret">{sortDir === "desc" ? "▾" : "▴"}</span>
-        )}
-      </th>
-    );
-  }
+  const sortHeaderProps = (k: SortKey, align: "left" | "right" | "center" = "right") => ({
+    className: `${align} sortable${sortKey === k ? " sorted" : ""}`,
+    onClick: () => toggleSort(k),
+    style: { cursor: "pointer" as const },
+  });
 
   return (
     <>
@@ -263,10 +247,30 @@ export function VaultTable({
             <tr>
               <th className="left">#</th>
               <th className="left">Product Name</th>
-              <Head k="apy24h">APY</Head>
-              <Head k="apy30d">30D APY</Head>
-              <Head k="tvl">TVL</Head>
-              <Head k="momentum" align="center">30d trend</Head>
+              <th {...sortHeaderProps("apy24h")}>
+                APY
+                {sortKey === "apy24h" && (
+                  <span className="caret">{sortDir === "desc" ? " ▾" : " ▴"}</span>
+                )}
+              </th>
+              <th {...sortHeaderProps("apy30d")}>
+                30D APY
+                {sortKey === "apy30d" && (
+                  <span className="caret">{sortDir === "desc" ? " ▾" : " ▴"}</span>
+                )}
+              </th>
+              <th {...sortHeaderProps("tvl")}>
+                TVL
+                {sortKey === "tvl" && (
+                  <span className="caret">{sortDir === "desc" ? " ▾" : " ▴"}</span>
+                )}
+              </th>
+              <th {...sortHeaderProps("momentum", "center")}>
+                30d trend
+                {sortKey === "momentum" && (
+                  <span className="caret">{sortDir === "desc" ? " ▾" : " ▴"}</span>
+                )}
+              </th>
               <th></th>
             </tr>
           </thead>
