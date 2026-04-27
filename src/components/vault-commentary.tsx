@@ -47,7 +47,7 @@ export function VaultCommentary({
         ((sorted.length - rank) / sorted.length) * 100,
       );
       paragraphs.push(
-        `This vault's ${formatAPY(vault.apy24h)} APY ranks #${rank} out of ${sorted.length} ${vault.asset} vaults, outperforming ${outperformPct}% of ${vault.asset} vaults on Harvest.`,
+        `This vault's ${formatAPY(vault.apy24h)} APY ranks #${rank} out of ${sorted.length} ${vault.asset} vaults, outperforming ${outperformPct}% of ${vault.asset} vaults listed.`,
       );
     }
   }
