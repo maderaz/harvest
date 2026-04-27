@@ -7,7 +7,7 @@ interface VaultHistoryTableProps {
   history: FullVaultHistory;
 }
 
-type TabMode = "apy" | "tvl";
+type TabMode = "apy" | "tvl" | "sharePrice";
 
 const ROWS_PER_PAGE = 7;
 
@@ -32,6 +32,12 @@ function formatDollar(value: number): string {
   return `$${value.toFixed(0)}`;
 }
 
+function formatSharePrice(value: number): string {
+  if (value === 0) return "—";
+  if (value >= 1) return value.toFixed(4);
+  return value.toFixed(6);
+}
+
 function computeSummary(values: number[]) {
   if (values.length === 0) return null;
   const sum = values.reduce((s, v) => s + v, 0);
@@ -42,12 +48,28 @@ function computeSummary(values: number[]) {
   return { avg, high, low, count: values.length };
 }
 
+function relativeTime(ts: number): string {
+  const diff = Math.floor(Date.now() / 1000) - ts;
+  if (diff < 3600) return `${Math.floor(diff / 60)}m ago`;
+  if (diff < 86400) return `${Math.floor(diff / 3600)}h ago`;
+  if (diff < 86400 * 30) return `${Math.floor(diff / 86400)}d ago`;
+  if (diff < 86400 * 365) return `${Math.floor(diff / (86400 * 30))}mo ago`;
+  return `${(diff / (86400 * 365)).toFixed(1)}y ago`;
+}
+
+const TAB_CONFIG: Record<
+  TabMode,
+  { label: string; header: string }
+> = {
+  apy: { label: "APY", header: "APY" },
+  tvl: { label: "TVL", header: "TVL" },
+  sharePrice: { label: "Share Price", header: "Share Price" },
+};
+
 export function VaultHistoryTable({ history }: VaultHistoryTableProps) {
   const [tab, setTab] = useState<TabMode>("apy");
   const [page, setPage] = useState(0);
 
-  // Each series shows its own full history; the chart uses the same
-  // unfiltered data, so the table now matches what's plotted above.
   const apyData = useMemo(
     () =>
       [...history.apyHistory]
@@ -62,8 +84,22 @@ export function VaultHistoryTable({ history }: VaultHistoryTableProps) {
         .sort((a, b) => b.timestamp - a.timestamp),
     [history.tvlHistory],
   );
+  const spData = useMemo(
+    () =>
+      [...history.sharePriceHistory]
+        .filter((p) => p.sharePrice > 0)
+        .sort((a, b) => b.timestamp - a.timestamp),
+    [history.sharePriceHistory],
+  );
 
-  const currentData = tab === "apy" ? apyData : tvlData;
+  const dataMap = { apy: apyData, tvl: tvlData, sharePrice: spData };
+  const currentData =
+    tab === "apy"
+      ? apyData.map((p) => ({ ts: p.timestamp, v: p.apy }))
+      : tab === "tvl"
+        ? tvlData.map((p) => ({ ts: p.timestamp, v: p.value }))
+        : spData.map((p) => ({ ts: p.timestamp, v: p.sharePrice }));
+
   const totalPages = Math.max(1, Math.ceil(currentData.length / ROWS_PER_PAGE));
   const safePage = Math.min(page, totalPages - 1);
   const pageItems = currentData.slice(
@@ -71,18 +107,48 @@ export function VaultHistoryTable({ history }: VaultHistoryTableProps) {
     (safePage + 1) * ROWS_PER_PAGE,
   );
 
-  const summary =
+  const summary = computeSummary(currentData.map((p) => p.v));
+  const formatFn =
     tab === "apy"
-      ? computeSummary(apyData.map((p) => p.apy))
-      : computeSummary(tvlData.map((p) => p.value));
+      ? formatPercent
+      : tab === "tvl"
+        ? formatDollar
+        : formatSharePrice;
 
-  const formatFn = tab === "apy" ? formatPercent : formatDollar;
+  // Data freshness: latest timestamp across all series
+  const latestTs = Math.max(
+    apyData[0]?.timestamp ?? 0,
+    tvlData[0]?.timestamp ?? 0,
+    spData[0]?.timestamp ?? 0,
+  );
+  const isStale =
+    latestTs > 0 && Math.floor(Date.now() / 1000) - latestTs > 7 * 86400;
 
-  if (apyData.length === 0 && tvlData.length === 0) return null;
+  // Available tabs (only show tabs with data)
+  const tabs = (["apy", "tvl", "sharePrice"] as TabMode[]).filter(
+    (t) => dataMap[t].length > 0,
+  );
+
+  if (tabs.length === 0) return null;
 
   return (
     <div className="pp-section" id="history">
       <h2>Historical Data</h2>
+
+      {isStale && latestTs > 0 && (
+        <p
+          style={{
+            fontSize: 12,
+            color: "var(--ink-4)",
+            margin: "0 0 10px",
+            fontStyle: "italic",
+          }}
+        >
+          Last data point: {formatDate(latestTs)} ({relativeTime(latestTs)}).
+          Some on-chain data feeds update at different intervals.
+        </p>
+      )}
+
       <div
         style={{
           border: "1px solid var(--line)",
@@ -93,18 +159,18 @@ export function VaultHistoryTable({ history }: VaultHistoryTableProps) {
       >
         {/* Tabs */}
         <div className="chart-data-tabs" style={{ margin: "12px 14px" }}>
-          <button
-            className={tab === "apy" ? "active" : ""}
-            onClick={() => { setTab("apy"); setPage(0); }}
-          >
-            APY
-          </button>
-          <button
-            className={tab === "tvl" ? "active" : ""}
-            onClick={() => { setTab("tvl"); setPage(0); }}
-          >
-            TVL
-          </button>
+          {tabs.map((t) => (
+            <button
+              key={t}
+              className={tab === t ? "active" : ""}
+              onClick={() => {
+                setTab(t);
+                setPage(0);
+              }}
+            >
+              {TAB_CONFIG[t].label}
+            </button>
+          ))}
         </div>
 
         {/* Summary */}
@@ -121,9 +187,24 @@ export function VaultHistoryTable({ history }: VaultHistoryTableProps) {
               color: "var(--ink-3)",
             }}
           >
-            <span>Lifetime Avg: <strong style={{ color: "var(--ink)" }}>{formatFn(summary.avg)}</strong></span>
-            <span>High: <strong style={{ color: "var(--ink)" }}>{formatFn(summary.high)}</strong></span>
-            <span>Low: <strong style={{ color: "var(--ink)" }}>{formatFn(summary.low)}</strong></span>
+            <span>
+              Lifetime Avg:{" "}
+              <strong style={{ color: "var(--ink)" }}>
+                {formatFn(summary.avg)}
+              </strong>
+            </span>
+            <span>
+              High:{" "}
+              <strong style={{ color: "var(--ink)" }}>
+                {formatFn(summary.high)}
+              </strong>
+            </span>
+            <span>
+              Low:{" "}
+              <strong style={{ color: "var(--ink)" }}>
+                {formatFn(summary.low)}
+              </strong>
+            </span>
             <span>{summary.count} data points</span>
           </div>
         )}
@@ -134,28 +215,28 @@ export function VaultHistoryTable({ history }: VaultHistoryTableProps) {
             <thead>
               <tr>
                 <th>Date</th>
-                <th className="r">{tab === "apy" ? "APY" : "TVL"}</th>
+                <th className="r">{TAB_CONFIG[tab].header}</th>
               </tr>
             </thead>
             <tbody>
-              {pageItems.map((item, i) => {
-                const ts = item.timestamp;
-                const value =
-                  tab === "apy"
-                    ? (item as (typeof apyData)[0]).apy
-                    : (item as (typeof tvlData)[0]).value;
-                return (
-                  <tr key={ts}>
-                    <td>{formatDate(ts)}</td>
-                    <td className="r">{formatFn(value)}</td>
-                  </tr>
-                );
-              })}
+              {pageItems.map((item) => (
+                <tr key={item.ts}>
+                  <td>{formatDate(item.ts)}</td>
+                  <td className="r">{formatFn(item.v)}</td>
+                </tr>
+              ))}
             </tbody>
           </table>
         ) : (
-          <div style={{ padding: "32px 14px", textAlign: "center", color: "var(--ink-4)", fontSize: 13 }}>
-            No {tab.toUpperCase()} history available for this vault.
+          <div
+            style={{
+              padding: "32px 14px",
+              textAlign: "center",
+              color: "var(--ink-4)",
+              fontSize: 13,
+            }}
+          >
+            No {TAB_CONFIG[tab].label} history available for this vault.
           </div>
         )}
 
