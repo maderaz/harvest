@@ -12,14 +12,6 @@ export function Header() {
     <header className="topnav">
       <div className="topnav-inner">
         <Link href="/" className="brand">
-          <div className="brand-mark" aria-hidden="true">
-            <svg viewBox="0 0 20 20" width="20" height="20">
-              <rect x="1" y="11" width="3" height="7" fill="currentColor" />
-              <rect x="6" y="7" width="3" height="11" fill="currentColor" />
-              <rect x="11" y="3" width="3" height="15" fill="currentColor" />
-              <rect x="16" y="8" width="3" height="10" fill="currentColor" opacity="0.5" />
-            </svg>
-          </div>
           <span className="brand-name">Harvest</span>
         </Link>
         <nav className="navlinks">
