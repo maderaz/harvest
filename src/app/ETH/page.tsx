@@ -8,14 +8,15 @@ import { SITE_NAME, SITE_URL } from "@/lib/constants";
 
 const ASSET = "ETH" as const;
 const ASSET_LABEL = "ETH";
+const META_TITLE = "Best ETH Yield — Top APY Ranking";
 const ASSET_DESCRIPTION =
-  "Compare ETH-denominated yield strategies across every chain Harvest indexes. Includes vaults built on ETH, WETH and major liquid staking tokens (stETH, wstETH, rETH, cbETH, weETH).";
+  "Find the highest ETH yields across DeFi. Compare ETH, WETH, stETH, wstETH and liquid staking strategies ranked by 24-hour APY. Live data across Base, Ethereum, Arbitrum and more.";
 
 export const metadata: Metadata = {
-  title: `${ASSET_LABEL} Yield Vaults — ${SITE_NAME}`,
+  title: META_TITLE,
   description: ASSET_DESCRIPTION,
   openGraph: {
-    title: `${ASSET_LABEL} Yield Vaults — ${SITE_NAME}`,
+    title: META_TITLE,
     description: ASSET_DESCRIPTION,
     url: `${SITE_URL}/${ASSET_LABEL}`,
     siteName: SITE_NAME,
@@ -50,13 +51,13 @@ export default async function EthAssetPage() {
           <h1>
             <span style={{ display: "inline-flex", alignItems: "center", gap: 12 }}>
               <AssetIcon asset={ASSET_LABEL} size={36} />
-              {ASSET_LABEL} Yield Vaults
+              Best ETH Yields
             </span>
             <br />
             <span className="dim">
               {vaults.length > 0
-                ? `${vaults.length} ${ASSET_LABEL}-denominated strategies across ${chainCount} chain${chainCount !== 1 ? "s" : ""}.`
-                : `${ASSET_LABEL} vaults are populating — check back shortly.`}
+                ? `Compare ${vaults.length} ETH-denominated strategies ranked by APY across ${chainCount} chain${chainCount !== 1 ? "s" : ""}.`
+                : `ETH yield strategies are populating — check back shortly.`}
             </span>
           </h1>
           <div className="hero-actions">
@@ -86,8 +87,8 @@ export default async function EthAssetPage() {
       </section>
 
       <div className="section-title-bar">
-        <h2>{ASSET_LABEL} vaults ranked by APY</h2>
-        <span className="mono dim">Live · sorted by 24H APY</span>
+        <h2>Top ETH yields by APY</h2>
+        <span className="mono dim">Live · ranked across {chainCount} chains</span>
       </div>
 
       {vaults.length > 0 ? (

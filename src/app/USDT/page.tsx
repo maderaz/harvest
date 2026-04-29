@@ -8,14 +8,15 @@ import { SITE_NAME, SITE_URL } from "@/lib/constants";
 
 const ASSET = "USDT" as const;
 const ASSET_LABEL = "USDT";
+const META_TITLE = "Best USDT Yield — Top APY Ranking";
 const ASSET_DESCRIPTION =
-  "Compare USDT yield strategies across every chain Harvest indexes. Autocompounders and Autopilot vaults sorted by 24-hour APY.";
+  "Find the highest USDT yields across DeFi. Compare USDT autocompounder and autopilot strategies ranked by 24-hour APY across multiple chains. Live data, updated hourly.";
 
 export const metadata: Metadata = {
-  title: `${ASSET_LABEL} Yield Vaults — ${SITE_NAME}`,
+  title: META_TITLE,
   description: ASSET_DESCRIPTION,
   openGraph: {
-    title: `${ASSET_LABEL} Yield Vaults — ${SITE_NAME}`,
+    title: META_TITLE,
     description: ASSET_DESCRIPTION,
     url: `${SITE_URL}/${ASSET_LABEL}`,
     siteName: SITE_NAME,
@@ -50,13 +51,13 @@ export default async function UsdtAssetPage() {
           <h1>
             <span style={{ display: "inline-flex", alignItems: "center", gap: 12 }}>
               <AssetIcon asset={ASSET_LABEL} size={36} />
-              {ASSET_LABEL} Yield Vaults
+              Best USDT Yields
             </span>
             <br />
             <span className="dim">
               {vaults.length > 0
-                ? `${vaults.length} ${ASSET_LABEL} strategies across ${chainCount} chain${chainCount !== 1 ? "s" : ""}.`
-                : `${ASSET_LABEL} vaults are populating — check back shortly.`}
+                ? `Compare ${vaults.length} USDT strategies ranked by APY across ${chainCount} chain${chainCount !== 1 ? "s" : ""}.`
+                : `USDT yield strategies are populating — check back shortly.`}
             </span>
           </h1>
           <div className="hero-actions">
@@ -86,8 +87,8 @@ export default async function UsdtAssetPage() {
       </section>
 
       <div className="section-title-bar">
-        <h2>{ASSET_LABEL} vaults ranked by APY</h2>
-        <span className="mono dim">Live · sorted by 24H APY</span>
+        <h2>Top USDT yields by APY</h2>
+        <span className="mono dim">Live · ranked across {chainCount} chains</span>
       </div>
 
       {vaults.length > 0 ? (

@@ -7,7 +7,7 @@ import "./globals.css";
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: `${SITE_NAME} — Compare DeFi Yield Sources`,
+    default: "Best DeFi Yields — Compare Top APY Rankings | Harvest",
     template: `%s | ${SITE_NAME}`,
   },
   description: SITE_DESCRIPTION,

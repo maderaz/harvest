@@ -7,11 +7,11 @@ import { TickerStrip } from "@/components/ticker-strip";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: `${SITE_NAME} — Compare DeFi Yield Sources`,
-  description: SITE_DESCRIPTION,
+  title: "Best DeFi Yields — Compare Top APY Rankings | Harvest",
+  description: "Find the highest DeFi yields for USDC, ETH, BTC and USDT. Compare 150+ autocompounder and autopilot strategies ranked by APY across 6 chains. Live data, updated hourly.",
   openGraph: {
-    title: `${SITE_NAME} — Compare DeFi Yield Sources`,
-    description: SITE_DESCRIPTION,
+    title: "Best DeFi Yields — Compare Top APY Rankings | Harvest",
+    description: "Find the highest DeFi yields for USDC, ETH, BTC and USDT. Compare 150+ strategies ranked by APY across 6 chains. Live data, updated hourly.",
     url: SITE_URL,
     siteName: SITE_NAME,
     type: "website",
