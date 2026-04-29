@@ -2,7 +2,7 @@
 
 /* eslint-disable @next/next/no-img-element */
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { YieldVault } from "@/lib/types";
 import { formatAPY, formatTVL } from "@/lib/format";
 import { AssetIcon, ChainIcon } from "./token-icons";
@@ -92,7 +92,6 @@ export function VaultTable({
   vaults: YieldVault[];
   sparklines?: Record<string, number[]>;
 }) {
-  const router = useRouter();
   const [sortKey, setSortKey] = useState<SortKey>("apy24h");
   const [sortDir, setSortDir] = useState<SortDir>("desc");
   const [assetFilter, setAssetFilter] = useState("All");
@@ -247,15 +246,17 @@ export function VaultTable({
                 <tr
                   key={vault.id}
                   className="row"
-                  style={{ cursor: "pointer" }}
-                  onClick={() => router.push(`/${vault.slug}`)}
                 >
                   <td className="td rank mono">{index + 1}</td>
                   <td className="td">
                     <div className="proto">
                       <AssetDot asset={vault.asset} size={28} />
                       <div>
-                        <div className="proto-name">{vault.productName}</div>
+                        <div className="proto-name">
+                          <Link href={`/${vault.slug}`} className="row-link">
+                            {vault.productName}
+                          </Link>
+                        </div>
                         <div className="proto-sub mono">
                           {vault.category}
                         </div>
@@ -279,15 +280,9 @@ export function VaultTable({
                     })()}
                   </td>
                   <td className="td right">
-                    <button
-                      className="row-cta"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        router.push(`/${vault.slug}`);
-                      }}
-                    >
+                    <Link href={`/${vault.slug}`} className="row-cta" style={{ position: "relative", zIndex: 2 }}>
                       View
-                    </button>
+                    </Link>
                   </td>
                 </tr>
               );
