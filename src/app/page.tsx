@@ -100,11 +100,10 @@ export default async function Home() {
       <section className="hero">
         <div>
           <h1>
-            Earn the best yield onchain.
+            Best DeFi Yields.
             <br />
             <span className="dim">
-              Discover USDC, ETH and Bitcoin opportunities across{" "}
-              {stats.chainCount} chain{stats.chainCount !== 1 ? "s" : ""}.
+              Compare {stats.vaultCount} strategies ranked by APY across USDC, USDT, ETH and Bitcoin — {stats.chainCount} chain{stats.chainCount !== 1 ? "s" : ""}, refreshed hourly.
             </span>
           </h1>
           <div className="hero-actions">
