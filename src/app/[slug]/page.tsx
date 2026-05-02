@@ -14,8 +14,6 @@ import { YieldBreakdown } from "@/components/yield-breakdown";
 import { ConsistencyScore } from "@/components/consistency-score";
 import { VaultHistoryTable } from "@/components/vault-history-table";
 import { DepositCard } from "@/components/deposit-card";
-import { TableOfContents } from "@/components/table-of-contents";
-import { SidebarFacts } from "@/components/sidebar-facts";
 import { CopyAddressButton } from "@/components/copy-address-button";
 import { VaultHero } from "@/components/vault-hero";
 import { MarketBenchmark, EcosystemContext } from "@/components/market-sections";
@@ -466,26 +464,20 @@ export default async function ProductPage({
 
   const faqItems = generateFaqItems(vault);
 
-  const tocItems = [
-    { id: "about", label: "About this vault" },
-    ...(hasCharts ? [{ id: "performance", label: "Performance history" }] : []),
-    { id: "overview", label: "Performance overview" },
-    { id: "trajectory", label: "Yield trajectory" },
-    { id: "consistency", label: "APY consistency" },
-    ...(vault.apyBreakdown.length > 0 ? [{ id: "sources", label: "Yield sources" }] : []),
-    { id: "long-term", label: "Long-term performance" },
-    { id: "history", label: "Historical data" },
-    { id: "details", label: "Contract details" },
-    { id: "risks", label: "Risks" },
-    { id: "faq", label: "FAQ" },
-    ...(relatedVaults.length > 0 ? [{ id: "more", label: `More ${vault.asset} vaults` }] : []),
-  ];
-
   const apyDelta = computeApyDelta(vault);
   const apyStdDev = computeApyStdDev(history);
   const peakTvl = computePeakTvl(history);
   const sharePriceGrowth = computeSharePriceGrowth(history);
   const explorerUrl = getExplorerUrl(vault.chain, vault.contractAddress);
+
+  const validApyForTracked = history.apyHistory.filter((p) => p.apy >= 0);
+  let trackedDays = 0;
+  if (validApyForTracked.length > 0) {
+    const sortedApy = [...validApyForTracked].sort((a, b) => a.timestamp - b.timestamp);
+    trackedDays = Math.round(
+      (sortedApy[sortedApy.length - 1].timestamp - sortedApy[0].timestamp) / 86400,
+    );
+  }
 
   return (
     <>
@@ -600,12 +592,16 @@ export default async function ProductPage({
             {/* Daily History Table */}
             <VaultHistoryTable history={history} />
 
-            {/* Contract Details */}
+            {/* Strategy details */}
             <section className="pp-section" id="details">
-              <h2>Contract Details</h2>
+              <h2>Strategy details</h2>
               <div className="contract-details-grid">
                 <div className="cd-row">
-                  <span className="cd-label">Chain</span>
+                  <span className="cd-label">Strategy</span>
+                  <span className="cd-val">{vault.category}</span>
+                </div>
+                <div className="cd-row">
+                  <span className="cd-label">Network</span>
                   <span className="cd-val">{vault.chain}</span>
                 </div>
                 <div className="cd-row">
@@ -613,13 +609,19 @@ export default async function ProductPage({
                   <span className="cd-val">{vault.vaultType}</span>
                 </div>
                 <div className="cd-row">
-                  <span className="cd-label">Asset</span>
+                  <span className="cd-label">Underlying</span>
                   <span className="cd-val">{vault.asset}</span>
                 </div>
                 <div className="cd-row">
-                  <span className="cd-label">Strategy</span>
-                  <span className="cd-val">{vault.category}</span>
+                  <span className="cd-label">Operator</span>
+                  <span className="cd-val">{vault.protocol.name}</span>
                 </div>
+                {trackedDays > 0 && (
+                  <div className="cd-row">
+                    <span className="cd-label">Tracked for</span>
+                    <span className="cd-val">{trackedDays} days</span>
+                  </div>
+                )}
                 <div className="cd-row cd-row-full">
                   <span className="cd-label">Contract Address</span>
                   <div className="cd-addr-wrap">
@@ -698,8 +700,6 @@ export default async function ProductPage({
               apy30d={vault.apy30d}
               asset={vault.asset}
             />
-            <SidebarFacts vault={vault} history={history} />
-            <TableOfContents items={tocItems} />
           </div>
         </div>
 
