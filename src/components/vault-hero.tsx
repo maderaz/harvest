@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { YieldVault } from "@/lib/types";
-import { formatTVL } from "@/lib/format";
+import { formatTVL, stripChainSuffix } from "@/lib/format";
 import type { FullVaultHistory } from "@/lib/history-api";
 import { AssetIcon } from "./token-icons";
 import { CopyAddressButton } from "./copy-address-button";
@@ -106,7 +106,7 @@ export function VaultHero({ vault, history, allVaults }: Props) {
             <h1 className="vh-title" data-len={nameLen}>{vault.productName}</h1>
             <div className="vh-by">
               by <b>{vault.protocol.name}</b> &nbsp;·&nbsp;
-              Strategy <b>{vault.category}</b> &nbsp;·&nbsp;
+              Strategy <b>{stripChainSuffix(vault.category, vault.chain)}</b> &nbsp;·&nbsp;
               {vault.vaultType}
             </div>
           </div>

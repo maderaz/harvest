@@ -15,3 +15,15 @@ export function formatAPY(value: number): string {
   if (value === 0) return "-";
   return `${value.toFixed(2)}%`;
 }
+
+const KNOWN_CHAINS = ["Ethereum", "Polygon", "Arbitrum", "Base", "zkSync", "HyperEVM"];
+
+export function stripChainSuffix(category: string, chain?: string): string {
+  if (!category) return category;
+  const targets = chain ? [chain, ...KNOWN_CHAINS] : KNOWN_CHAINS;
+  for (const c of targets) {
+    const suffix = ` - ${c}`;
+    if (category.endsWith(suffix)) return category.slice(0, -suffix.length);
+  }
+  return category;
+}

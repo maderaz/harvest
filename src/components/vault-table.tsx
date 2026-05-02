@@ -4,7 +4,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { YieldVault } from "@/lib/types";
-import { formatAPY, formatTVL } from "@/lib/format";
+import { formatAPY, formatTVL, stripChainSuffix } from "@/lib/format";
 import { AssetIcon, ChainIcon } from "./token-icons";
 
 import usdcIcon from "@/assets/icons/USDC.png";
@@ -269,7 +269,7 @@ export function VaultTable({
                           </Link>
                         </div>
                         <div className="proto-sub mono">
-                          {vault.category}
+                          {stripChainSuffix(vault.category, vault.chain)}
                         </div>
                       </div>
                     </div>

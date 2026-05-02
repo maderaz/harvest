@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import type { Metadata } from "next";
 import { getVaults, getVaultBySlug, getAllSlugs, getVaultHistory } from "@/lib/data";
-import { formatAPY, formatTVL } from "@/lib/format";
+import { formatAPY, formatTVL, stripChainSuffix } from "@/lib/format";
 import { AssetBadge } from "@/components/asset-badge";
 import { SITE_NAME, SITE_URL } from "@/lib/constants";
 import { YieldVault } from "@/lib/types";
@@ -499,7 +499,7 @@ export default async function ProductPage({
                 <p>
                   <strong>{vault.productName}</strong> is a {vault.vaultType.toLowerCase()} vault on{" "}
                   <strong>{vault.chain}</strong> that accepts {vault.asset} deposits and routes them
-                  into the {vault.category} strategy.{" "}
+                  into the {stripChainSuffix(vault.category, vault.chain)} strategy.{" "}
                   {vault.vaultType === "Autocompounder"
                     ? `The vault automatically harvests rewards, swaps them back into ${vault.asset} and redeposits, compounding returns over time without manual harvesting or restaking.`
                     : `It automatically allocates ${vault.asset} deposits across optimized yield strategies, rebalancing to capture the best available rates.`}
@@ -598,7 +598,7 @@ export default async function ProductPage({
               <div className="contract-details-grid">
                 <div className="cd-row">
                   <span className="cd-label">Strategy</span>
-                  <span className="cd-val">{vault.category}</span>
+                  <span className="cd-val">{stripChainSuffix(vault.category, vault.chain)}</span>
                 </div>
                 <div className="cd-row">
                   <span className="cd-label">Network</span>

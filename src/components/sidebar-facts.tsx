@@ -1,5 +1,6 @@
 import { YieldVault } from "@/lib/types";
 import type { FullVaultHistory } from "@/lib/history-api";
+import { stripChainSuffix } from "@/lib/format";
 
 interface Props {
   vault: YieldVault;
@@ -21,7 +22,7 @@ export function SidebarFacts({ vault, history }: Props) {
       <div className="sf-title">Strategy details</div>
       <div className="sf-row">
         <span className="sf-label">Strategy</span>
-        <span className="sf-val">{vault.category}</span>
+        <span className="sf-val">{stripChainSuffix(vault.category, vault.chain)}</span>
       </div>
       <div className="sf-row">
         <span className="sf-label">Network</span>
