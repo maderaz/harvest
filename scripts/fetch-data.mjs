@@ -260,6 +260,11 @@ async function fetchHarvestVaults() {
         ? parseNumber(v.boostedEstimatedAPY)
         : null;
 
+      const iconUrls = v.apyIconUrls || [];
+      const rewardTokens = tokenSymbols
+        .map((sym, i) => ({ symbol: sym, logoUrl: iconUrls[i] || "" }))
+        .filter((r) => r.symbol && r.logoUrl);
+
       return {
         id: v.vaultAddress,
         slug,
@@ -280,6 +285,10 @@ async function fetchHarvestVaults() {
         launchDate: "",
         apyBreakdown,
         boostedApy: boostedApy && boostedApy > 0 ? boostedApy : null,
+        strategyAddress: v.strategyAddress || undefined,
+        tokenAddress: v.tokenAddress || undefined,
+        underlyingLogos: Array.isArray(v.logoUrl) ? v.logoUrl.filter(Boolean) : undefined,
+        rewardTokens: rewardTokens.length > 0 ? rewardTokens : undefined,
       };
     });
 

@@ -1438,6 +1438,25 @@ button { font-family: inherit; cursor: pointer; }
   color: var(--ink);
   font-weight: 500;
 }
+.cd-token-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.cd-logo-stack {
+  display: inline-flex;
+  align-items: center;
+}
+.cd-logo-stack .cd-logo + .cd-logo { margin-left: -6px; }
+.cd-logo {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--bg-2);
+  border: 1.5px solid var(--panel);
+  object-fit: contain;
+  flex-shrink: 0;
+}
 .cd-addr-wrap {
   display: flex;
   align-items: center;

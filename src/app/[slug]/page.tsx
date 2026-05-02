@@ -616,8 +616,32 @@ export default async function ProductPage({
                 </div>
                 <div className="cd-row">
                   <span className="cd-label">Underlying</span>
-                  <span className="cd-val">{vault.asset}</span>
+                  <span className="cd-val cd-token-row">
+                    {vault.underlyingLogos && vault.underlyingLogos.length > 0 && (
+                      <span className="cd-logo-stack">
+                        {vault.underlyingLogos.map((url, i) => (
+                          // eslint-disable-next-line @next/next/no-img-element
+                          <img key={i} src={url} alt="" className="cd-logo" />
+                        ))}
+                      </span>
+                    )}
+                    <span>{vault.asset}</span>
+                  </span>
                 </div>
+                {vault.rewardTokens && vault.rewardTokens.length > 0 && (
+                  <div className="cd-row">
+                    <span className="cd-label">Rewards</span>
+                    <span className="cd-val cd-token-row">
+                      <span className="cd-logo-stack">
+                        {vault.rewardTokens.map((r, i) => (
+                          // eslint-disable-next-line @next/next/no-img-element
+                          <img key={i} src={r.logoUrl} alt={r.symbol} title={r.symbol} className="cd-logo" />
+                        ))}
+                      </span>
+                      <span>{vault.rewardTokens.map((r) => r.symbol).join(", ")}</span>
+                    </span>
+                  </div>
+                )}
                 <div className="cd-row">
                   <span className="cd-label">Operator</span>
                   <span className="cd-val">{vault.protocol.name}</span>
@@ -629,7 +653,7 @@ export default async function ProductPage({
                   </div>
                 )}
                 <div className="cd-row cd-row-full">
-                  <span className="cd-label">Contract Address</span>
+                  <span className="cd-label">Vault contract</span>
                   <div className="cd-addr-wrap">
                     <span className="cd-addr mono">{vault.contractAddress}</span>
                     <CopyAddressButton address={vault.contractAddress} compact />
@@ -651,6 +675,56 @@ export default async function ProductPage({
                     )}
                   </div>
                 </div>
+                {vault.strategyAddress && (
+                  <div className="cd-row cd-row-full">
+                    <span className="cd-label">Strategy contract</span>
+                    <div className="cd-addr-wrap">
+                      <span className="cd-addr mono">{vault.strategyAddress}</span>
+                      <CopyAddressButton address={vault.strategyAddress} compact />
+                      {getExplorerUrl(vault.chain, vault.strategyAddress) && (
+                        <a
+                          href={getExplorerUrl(vault.chain, vault.strategyAddress)!}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="cd-explorer"
+                          aria-label="View strategy on explorer"
+                          title="View on block explorer"
+                        >
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                            <polyline points="15 3 21 3 21 9" />
+                            <line x1="10" y1="14" x2="21" y2="3" />
+                          </svg>
+                        </a>
+                      )}
+                    </div>
+                  </div>
+                )}
+                {vault.tokenAddress && (
+                  <div className="cd-row cd-row-full">
+                    <span className="cd-label">Underlying token</span>
+                    <div className="cd-addr-wrap">
+                      <span className="cd-addr mono">{vault.tokenAddress}</span>
+                      <CopyAddressButton address={vault.tokenAddress} compact />
+                      {getExplorerUrl(vault.chain, vault.tokenAddress) && (
+                        <a
+                          href={getExplorerUrl(vault.chain, vault.tokenAddress)!}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="cd-explorer"
+                          aria-label="View token on explorer"
+                          title="View on block explorer"
+                        >
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                            <polyline points="15 3 21 3 21 9" />
+                            <line x1="10" y1="14" x2="21" y2="3" />
+                          </svg>
+                        </a>
+                      )}
+                    </div>
+                  </div>
+                )}
               </div>
             </section>
 

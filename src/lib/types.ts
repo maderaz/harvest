@@ -25,6 +25,10 @@ export interface YieldVault {
   launchDate: string;
   apyBreakdown: { source: string; apy: number }[];
   boostedApy: number | null;
+  strategyAddress?: string;
+  tokenAddress?: string;
+  underlyingLogos?: string[];
+  rewardTokens?: { symbol: string; logoUrl: string }[];
 }
 
 export interface VaultConfig {
