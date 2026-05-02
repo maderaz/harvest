@@ -103,7 +103,7 @@ export default async function Home() {
             Best DeFi Yields.
             <br />
             <span className="dim">
-              Compare {stats.vaultCount} strategies ranked by APY across USDC, USDT, ETH and Bitcoin — {stats.chainCount} chain{stats.chainCount !== 1 ? "s" : ""}, refreshed hourly.
+              Compare {stats.vaultCount} strategies ranked by APY across USDC, USDT, ETH and Bitcoin.
             </span>
           </h1>
           <div className="hero-actions">
