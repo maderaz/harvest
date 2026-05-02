@@ -1,18 +1,22 @@
 import type { MetadataRoute } from "next";
 import { getAllSlugs } from "@/lib/data";
+import { getCanonicalSlugs } from "@/lib/canonical-vaults";
 import { SITE_URL } from "@/lib/constants";
 
 export const dynamic = "force-static";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const slugs = await getAllSlugs();
+  const canonical = await getCanonicalSlugs();
 
-  const vaultPages = slugs.map((slug) => ({
-    url: `${SITE_URL}/${slug}`,
-    lastModified: new Date(),
-    changeFrequency: "daily" as const,
-    priority: 0.8,
-  }));
+  const vaultPages = slugs
+    .filter((s) => canonical.has(s))
+    .map((slug) => ({
+      url: `${SITE_URL}/${slug}`,
+      lastModified: new Date(),
+      changeFrequency: "daily" as const,
+      priority: 0.8,
+    }));
 
   return [
     {

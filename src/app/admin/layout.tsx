@@ -32,6 +32,12 @@ export default function AdminLayout({
                   SEO Overview
                 </Link>
                 <Link
+                  href="/admin/products"
+                  className="text-sm font-medium text-gray-700 hover:text-gray-900"
+                >
+                  Products
+                </Link>
+                <Link
                   href="/admin/changelog"
                   className="text-sm font-medium text-gray-700 hover:text-gray-900"
                 >

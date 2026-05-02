@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import type { Metadata } from "next";
 import { getVaults, getVaultBySlug, getAllSlugs, getVaultHistory } from "@/lib/data";
+import { isCanonicalSlug } from "@/lib/canonical-vaults";
 import { formatAPY, formatTVL, stripChainSuffix } from "@/lib/format";
 import { AssetBadge } from "@/components/asset-badge";
 import { SITE_NAME, SITE_URL } from "@/lib/constants";
@@ -39,9 +40,14 @@ export async function generateMetadata({
   const title = `${vault.productName} by ${vault.protocol.name}: ${formatAPY(vault.apy24h)} APY | ${SITE_NAME}`;
   const description = `${vault.productName} on ${vault.protocol.name} offers ${formatAPY(vault.apy24h)} APY (24h) with ${formatTVL(vault.tvl)} TVL. ${vault.description}`;
 
+  const canonical = await isCanonicalSlug(slug);
+
   return {
     title,
     description,
+    robots: canonical
+      ? { index: true, follow: true }
+      : { index: false, follow: true },
     openGraph: {
       title,
       description,
