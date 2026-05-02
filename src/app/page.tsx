@@ -40,23 +40,30 @@ function computeStats(vaults: { apy24h: number; tvl: number; chain: string; asse
   return { totalTVL, avgAPY, vaultCount, chainCount };
 }
 
-function computeCategories(vaults: { category: string; apy24h: number }[]) {
-  const map = new Map<string, { count: number; totalApy: number }>();
+function platformFromCategory(category: string): string {
+  if (!category) return "Other";
+  return category.split(" - ")[0].trim() || "Other";
+}
+
+function computePlatforms(vaults: { category: string; apy24h: number; tvl: number }[]) {
+  const map = new Map<string, { count: number; totalApy: number; totalTvl: number }>();
   for (const v of vaults) {
-    const cat = v.category || "Other";
-    const entry = map.get(cat) || { count: 0, totalApy: 0 };
+    const platform = platformFromCategory(v.category);
+    const entry = map.get(platform) || { count: 0, totalApy: 0, totalTvl: 0 };
     entry.count++;
     entry.totalApy += v.apy24h;
-    map.set(cat, entry);
+    entry.totalTvl += v.tvl;
+    map.set(platform, entry);
   }
   return Array.from(map.entries())
-    .map(([name, { count, totalApy }]) => ({
+    .map(([name, { count, totalApy, totalTvl }]) => ({
       name,
       count,
       avgApy: count > 0 ? totalApy / count : 0,
+      totalTvl,
     }))
-    .sort((a, b) => b.avgApy - a.avgApy)
-    .slice(0, 8);
+    .sort((a, b) => b.totalTvl - a.totalTvl)
+    .slice(0, 12);
 }
 
 function computeFeaturedAssets(vaults: { asset: string; apy24h: number; tvl: number }[]) {
@@ -89,7 +96,7 @@ export default async function Home() {
   const vaults = await getVaults();
   const sparklines = await getAllSparklines();
   const stats = computeStats(vaults);
-  const categories = computeCategories(vaults);
+  const platforms = computePlatforms(vaults);
   const featuredAssets = computeFeaturedAssets(vaults);
 
   return (
@@ -185,21 +192,21 @@ export default async function Home() {
         </div>
       </div>
 
-      {/* === Category grid === */}
+      {/* === Platform grid === */}
       <div className="section-title-bar">
-        <h2>Browse by strategy</h2>
-        <span className="mono dim">{categories.length} categories</span>
+        <h2>Browse by Platform</h2>
+        <span className="mono dim">{platforms.length} platforms</span>
       </div>
       <div className="card section">
         <div className="cat-grid">
-          {categories.map((c) => (
-            <div key={c.name} className="cat-tile">
+          {platforms.map((p) => (
+            <div key={p.name} className="cat-tile">
               <div className="cat-top">
-                <span className="cat-name">{c.name}</span>
-                <span className="cat-count mono dim">{c.count}</span>
+                <span className="cat-name">{p.name}</span>
+                <span className="cat-count mono dim">{p.count}</span>
               </div>
-              <div className="cat-apy mono">{formatAPY(c.avgApy)}</div>
-              <div className="cat-foot dim mono">avg APY</div>
+              <div className="cat-apy mono">{formatAPY(p.avgApy)}</div>
+              <div className="cat-foot dim mono">avg APY &middot; {formatTVL(p.totalTvl)} TVL</div>
             </div>
           ))}
         </div>

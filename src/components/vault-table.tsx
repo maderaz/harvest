@@ -97,6 +97,9 @@ export function VaultTable({
   const [assetFilter, setAssetFilter] = useState("All");
   const [chainFilter, setChainFilter] = useState("All");
   const [query, setQuery] = useState("");
+  const [page, setPage] = useState(0);
+
+  const PAGE_SIZE = 50;
 
   const assets = Array.from(new Set(vaults.map((v) => v.asset))).sort();
   const chains = Array.from(new Set(vaults.map((v) => v.chain))).sort();
@@ -133,7 +136,14 @@ export function VaultTable({
       : (va as number) - (vb as number);
   });
 
+  const totalPages = Math.max(1, Math.ceil(sorted.length / PAGE_SIZE));
+  const safePage = Math.min(page, totalPages - 1);
+  const pageStart = safePage * PAGE_SIZE;
+  const pageEnd = Math.min(pageStart + PAGE_SIZE, sorted.length);
+  const visible = sorted.slice(pageStart, pageEnd);
+
   function toggleSort(key: SortKey) {
+    setPage(0);
     if (sortKey === key) {
       setSortDir((d) => (d === "desc" ? "asc" : "desc"));
     } else {
@@ -156,7 +166,7 @@ export function VaultTable({
             <button
               type="button"
               className={`fb-tab${assetFilter === "All" ? " active" : ""}`}
-              onClick={() => setAssetFilter("All")}
+              onClick={() => { setAssetFilter("All"); setPage(0); }}
             >
               All
             </button>
@@ -165,7 +175,7 @@ export function VaultTable({
                 key={a}
                 type="button"
                 className={`fb-tab${assetFilter === a ? " active" : ""}`}
-                onClick={() => setAssetFilter(a)}
+                onClick={() => { setAssetFilter(a); setPage(0); }}
               >
                 <AssetIcon asset={a} size={16} />
                 {a}
@@ -179,7 +189,7 @@ export function VaultTable({
             <input
               placeholder="Search vaults..."
               value={query}
-              onChange={(e) => setQuery(e.target.value)}
+              onChange={(e) => { setQuery(e.target.value); setPage(0); }}
             />
           </label>
         </div>
@@ -188,7 +198,7 @@ export function VaultTable({
             <button
               type="button"
               className={`fb-chip${chainFilter === "All" ? " active" : ""}`}
-              onClick={() => setChainFilter("All")}
+              onClick={() => { setChainFilter("All"); setPage(0); }}
             >
               All chains
             </button>
@@ -197,7 +207,7 @@ export function VaultTable({
                 key={c}
                 type="button"
                 className={`fb-chip${chainFilter === c ? " active" : ""}`}
-                onClick={() => setChainFilter(c)}
+                onClick={() => { setChainFilter(c); setPage(0); }}
               >
                 <ChainIcon chain={c} size={14} />
                 {c}
@@ -239,15 +249,16 @@ export function VaultTable({
               <th></th>
             </tr>
           </thead>
-          <tbody key={`${assetFilter}|${chainFilter}|${query}|${sortKey}|${sortDir}`}>
-            {sorted.map((vault, index) => {
+          <tbody key={`${assetFilter}|${chainFilter}|${query}|${sortKey}|${sortDir}|${safePage}`}>
+            {visible.map((vault, index) => {
               const up = vault.apy24h >= vault.apy30d;
+              const overallIndex = pageStart + index;
               return (
                 <tr
                   key={vault.id}
                   className="row"
                 >
-                  <td className="td rank mono">{index + 1}</td>
+                  <td className="td rank mono">{overallIndex + 1}</td>
                   <td className="td">
                     <div className="proto">
                       <AssetDot asset={vault.asset} size={28} />
@@ -275,7 +286,7 @@ export function VaultTable({
                   <td className="td center">
                     {(() => {
                       const real = sparklines?.[vault.contractAddress];
-                      const pts = real && real.length >= 2 ? real : seedSpark(index + 1, up);
+                      const pts = real && real.length >= 2 ? real : seedSpark(overallIndex + 1, up);
                       return <Spark points={pts} up={up} />;
                     })()}
                   </td>
@@ -291,8 +302,33 @@ export function VaultTable({
         </table>
         <div className="table-foot">
           <span className="mono dim">
-            Showing {sorted.length} of {vaults.length} vaults
+            {sorted.length === 0
+              ? "No vaults match the current filters"
+              : `Showing ${pageStart + 1}-${pageEnd} of ${sorted.length}${sorted.length !== vaults.length ? ` (${vaults.length} total)` : ""}`}
           </span>
+          {totalPages > 1 && (
+            <div className="table-pager">
+              <button
+                type="button"
+                className="pager-btn"
+                onClick={() => setPage((p) => Math.max(0, p - 1))}
+                disabled={safePage === 0}
+              >
+                Prev
+              </button>
+              <span className="mono dim pager-info">
+                Page {safePage + 1} of {totalPages}
+              </span>
+              <button
+                type="button"
+                className="pager-btn"
+                onClick={() => setPage((p) => Math.min(totalPages - 1, p + 1))}
+                disabled={safePage >= totalPages - 1}
+              >
+                Next
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </>
