@@ -1088,6 +1088,30 @@ button { font-family: inherit; cursor: pointer; }
 }
 .about-prose p:last-child { margin-bottom: 0; }
 .about-prose strong { color: var(--ink); font-weight: 600; }
+.about-prose-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 10px;
+}
+.about-prose-item {
+  display: grid;
+  grid-template-columns: 20px minmax(0, 1fr);
+  align-items: start;
+  gap: 10px;
+  color: var(--ink-2);
+  font-size: 14px;
+  line-height: 1.65;
+}
+.about-prose-icon {
+  margin-top: 1px;
+  font-size: 13px;
+  font-weight: 600;
+}
+.about-prose-icon--up { color: var(--up); }
+.about-prose-icon--down { color: var(--down); }
+.about-prose-icon--sideways { color: var(--ink-3); }
 
 /* ——— Sidebar facts box ——— */
 .sidebar-facts {

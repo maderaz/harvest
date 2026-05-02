@@ -10,7 +10,10 @@ interface Props {
 // signals. Each paragraph only renders when the underlying data is rich
 // enough for the narrative to be meaningful.
 export function HistoricalNarrative({ history }: Props) {
-  const paragraphs: string[] = [];
+  const items: Array<{
+    text: string;
+    trajectory: "up" | "down" | "sideways";
+  }> = [];
 
   // Share-price CAGR (annualized compounding rate)
   if (history.sharePriceHistory.length >= 2) {
@@ -24,9 +27,10 @@ export function HistoricalNarrative({ history }: Props) {
     if (first > 0 && daySpan >= 30) {
       const totalReturn = (last - first) / first;
       const cagr = (Math.pow(1 + totalReturn, 365 / daySpan) - 1) * 100;
-      paragraphs.push(
-        `Share price has compounded at an annualized rate of ${cagr.toFixed(2)}% over ${Math.round(daySpan)} days, growing from ${first.toFixed(4)} to ${last.toFixed(4)}.`,
-      );
+      items.push({
+        text: `Share price has compounded at an annualized rate of ${cagr.toFixed(2)}% over ${Math.round(daySpan)} days, growing from ${first.toFixed(4)} to ${last.toFixed(4)}.`,
+        trajectory: cagr >= 0 ? "up" : "down",
+      });
     }
   }
 
@@ -64,17 +68,20 @@ export function HistoricalNarrative({ history }: Props) {
       const atPeak = currentTvl >= peakVal * 0.9;
 
       if (atPeak) {
-        paragraphs.push(
-          `TVL fell ${maxDrawdownPct.toFixed(0)}% from its ${formatTVL(peakVal)} peak over ${daysDown} days before recovering to its current ${formatTVL(currentTvl)}.`,
-        );
+        items.push({
+          text: `TVL fell ${maxDrawdownPct.toFixed(0)}% from its ${formatTVL(peakVal)} peak over ${daysDown} days before recovering to its current ${formatTVL(currentTvl)}.`,
+          trajectory: "sideways",
+        });
       } else if (recoveryPct > 10) {
-        paragraphs.push(
-          `TVL experienced a ${maxDrawdownPct.toFixed(0)}% drawdown from its ${formatTVL(peakVal)} peak, bottoming at ${formatTVL(troughVal)} over ${daysDown} days. It has since recovered ${recoveryPct.toFixed(0)}% to ${formatTVL(currentTvl)}.`,
-        );
+        items.push({
+          text: `TVL experienced a ${maxDrawdownPct.toFixed(0)}% drawdown from its ${formatTVL(peakVal)} peak, bottoming at ${formatTVL(troughVal)} over ${daysDown} days. It has since recovered ${recoveryPct.toFixed(0)}% to ${formatTVL(currentTvl)}.`,
+          trajectory: recoveryPct > maxDrawdownPct * 0.5 ? "sideways" : "down",
+        });
       } else {
-        paragraphs.push(
-          `TVL drew down ${maxDrawdownPct.toFixed(0)}% from a peak of ${formatTVL(peakVal)} to ${formatTVL(troughVal)} over ${daysDown} days and currently stands at ${formatTVL(currentTvl)}.`,
-        );
+        items.push({
+          text: `TVL drew down ${maxDrawdownPct.toFixed(0)}% from a peak of ${formatTVL(peakVal)} to ${formatTVL(troughVal)} over ${daysDown} days and currently stands at ${formatTVL(currentTvl)}.`,
+          trajectory: "down",
+        });
       }
     }
   }
@@ -108,23 +115,38 @@ export function HistoricalNarrative({ history }: Props) {
         });
       };
       if (best.key !== worst.key) {
-        paragraphs.push(
-          `Best performing month was ${fmtMonth(best.key)} at ${best.avg.toFixed(2)}% average APY; weakest was ${fmtMonth(worst.key)} at ${worst.avg.toFixed(2)}%.`,
-        );
+        items.push({
+          text: `Best performing month was ${fmtMonth(best.key)} at ${best.avg.toFixed(2)}% average APY; weakest was ${fmtMonth(worst.key)} at ${worst.avg.toFixed(2)}%.`,
+          trajectory: best.avg >= worst.avg ? "up" : "sideways",
+        });
       }
     }
   }
 
-  if (paragraphs.length === 0) return null;
+  if (items.length === 0) return null;
+
+  const trajectoryIcon: Record<"up" | "down" | "sideways", string> = {
+    up: "↗",
+    down: "↘",
+    sideways: "→",
+  };
 
   return (
     <section className="pp-section" id="long-term">
       <h2>Long-term performance</h2>
-      <div className="about-prose">
-        {paragraphs.map((text, i) => (
-          <p key={i}>{text}</p>
+      <ul className="about-prose about-prose-list">
+        {items.map((item, i) => (
+          <li key={i} className="about-prose-item">
+            <span
+              className={`about-prose-icon about-prose-icon--${item.trajectory}`}
+              aria-hidden="true"
+            >
+              {trajectoryIcon[item.trajectory]}
+            </span>
+            <span>{item.text}</span>
+          </li>
         ))}
-      </div>
+      </ul>
     </section>
   );
 }
