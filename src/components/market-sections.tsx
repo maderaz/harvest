@@ -27,10 +27,10 @@ export function MarketBenchmark({ vault, allVaults }: Props) {
     <section className="pp-section" id="benchmark">
       <h2>Market benchmarking</h2>
       <p>
-        Within the tracked {vault.asset} ecosystem, this product ranks <strong>#{rank} of {sameAsset.length}</strong> strategies.
-        Its {formatAPY(vault.apy24h)} yield is{" "}
+        Among the {sameAsset.length} {vault.asset} strategies we currently monitor, this product ranks <strong>#{rank}</strong>.
+        Its {formatAPY(vault.apy24h)} yield runs{" "}
         <strong>{Math.abs(vsAvg).toFixed(1)}% {vsAvg >= 0 ? "higher" : "lower"}</strong> than
-        the tracked market average of {formatAPY(avgApy)}.
+        the cohort average of {formatAPY(avgApy)}.
       </p>
 
       <div className="bench-stats">
@@ -94,14 +94,14 @@ function ClosingBenchmark({
     topTvl && topTvl.id !== vault.id && topTvl.tvl > vault.tvl * 2
       ? ` However, with ${formatTVL(vault.tvl)} TVL it holds significantly less capital than ${topTvl.productName} (${formatTVL(topTvl.tvl)}).`
       : tvlRank <= 3
-        ? ` By TVL it ranks #${tvlRank}, making it one of the most established tracked ${vault.asset} vaults.`
+        ? ` By TVL it ranks #${tvlRank}, putting it among the most established ${vault.asset} vaults in our index.`
         : "";
 
   return (
     <p style={{ marginTop: 14 }}>
-      {vault.productName} currently ranks #{rank} among{" "}
-      {sameAsset.length} tracked {vault.asset} strategies, outperforming{" "}
-      {outperformPct}% of tracked {vault.asset} opportunities.
+      {vault.productName} currently ranks #{rank} among the{" "}
+      {sameAsset.length} {vault.asset} strategies we follow, outperforming{" "}
+      {outperformPct}% of them by APY.
       {tvlComparison}
     </p>
   );
@@ -129,10 +129,10 @@ export function EcosystemContext({ vault, allVaults }: Props) {
     <section className="pp-section" id="ecosystem">
       <h2>Ecosystem context</h2>
       <p>
-        Positioned within the tracked {vault.chain} ecosystem, this product{"'"}s yield is{" "}
+        On {vault.chain}, this product{"'"}s yield runs{" "}
         <strong>{Math.abs(vsNetAvg).toFixed(1)}% {vsNetAvg >= 0 ? "higher" : "lower"}</strong> than
-        the tracked network average for {vault.asset} strategies. By APY it ranks{" "}
-        <strong>#{rank} of {sameChain.length}</strong> tracked {vault.asset} strategies on {vault.chain}.
+        the network average across the {vault.asset} strategies we monitor. By APY it ranks{" "}
+        <strong>#{rank} of {sameChain.length}</strong> in that set.
       </p>
 
       <div className="eco-rank-head">
@@ -186,14 +186,14 @@ function ClosingEcosystem({
 
   const isTop = rank === 1;
   const topLabel = isTop
-    ? `Currently the highest-yielding tracked ${vault.asset} opportunity on ${vault.chain} among ${sameChain.length} tracked products.`
-    : `By TVL, this product ranks #${tvlRank} of ${sameChain.length} tracked ${vault.asset} strategies on ${vault.chain}.`;
+    ? `Currently the top-yielding ${vault.asset} opportunity on ${vault.chain} across the ${sameChain.length} products we monitor.`
+    : `By TVL, this product ranks #${tvlRank} of ${sameChain.length} ${vault.asset} strategies on ${vault.chain} in our index.`;
 
   return (
     <p style={{ marginTop: 14 }}>
       {topLabel} This strategy is operated by {vault.protocol.name} and
-      competes against {sameChain.length - 1} other tracked {vault.asset} strategies
-      on the {vault.chain} network.
+      competes against {sameChain.length - 1} other {vault.asset} strategies
+      we follow on the {vault.chain} network.
     </p>
   );
 }

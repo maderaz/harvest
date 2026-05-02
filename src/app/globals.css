@@ -1457,7 +1457,6 @@ button { font-family: inherit; cursor: pointer; }
   font-family: var(--mono);
   color: var(--ink-3);
 }
-.vc-peak-label { color: var(--ink-3); font-size: 11px; letter-spacing: 0.04em; }
 .vc-peak-value { color: var(--ink); font-weight: 600; font-variant-numeric: tabular-nums; }
 .vc-peak-sep { color: var(--ink-4); }
 .vc-peak-date { color: var(--ink-3); }

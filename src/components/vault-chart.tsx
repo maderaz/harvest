@@ -152,13 +152,6 @@ export function VaultChart({ data, format, color = "#3b82f6" }: VaultChartProps)
     };
   }, [filtered]);
 
-  const peak = useMemo(() => {
-    if (filtered.length === 0) return null;
-    let best = filtered[0];
-    for (const d of filtered) if (d.value > best.value) best = d;
-    return best;
-  }, [filtered]);
-
   const toX = useCallback(
     (ts: number) => (calc ? PL + ((ts - calc.minTs) / calc.tsRange) * DRAW_W : 0),
     [calc],
@@ -170,7 +163,7 @@ export function VaultChart({ data, format, color = "#3b82f6" }: VaultChartProps)
     [calc],
   );
 
-  if (!calc || filtered.length < 2 || !peak) return null;
+  if (!calc || filtered.length < 2) return null;
 
   const last = filtered[filtered.length - 1];
   const pts = filtered.map((d) => ({ x: toX(d.timestamp), y: toY(d.value) }));
@@ -234,12 +227,11 @@ export function VaultChart({ data, format, color = "#3b82f6" }: VaultChartProps)
             </>
           ) : (
             <>
-              <span className="vc-peak-label">Peak:</span>
               <span className="vc-peak-value" style={{ color }}>
-                {formatValue(peak.value, format)}
+                {formatValue(last.value, format)}
               </span>
               <span className="vc-peak-sep">·</span>
-              <span className="vc-peak-date">{formatDateFull(peak.timestamp)}</span>
+              <span className="vc-peak-date">{formatDateFull(last.timestamp)}</span>
             </>
           )}
         </div>
