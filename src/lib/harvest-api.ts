@@ -166,11 +166,16 @@ export async function fetchHarvestVaults(): Promise<YieldVault[]> {
       const tvl = parseNumber(v.totalValueLocked);
       const history = historyMap.get(v.vaultAddress);
 
-      // Clean slug: /usdc-{strategy}-{chain}
+      // Slug uses the actual underlying token symbol (cbbtc, wsteth, ...)
+      // so ETH and wstETH variants of the same strategy get distinct URLs.
+      const matchedToken =
+        (v.tokenNames || []).find((n) =>
+          Object.prototype.hasOwnProperty.call(SUPPORTED_ASSETS, n),
+        ) || "USDC";
       const strategySlug = strategy
         ? slugify(strategy.replace(/\s*V\d+$/i, ""))
         : slugify(protocol);
-      const baseSlug = `usdc-${strategySlug}-${slugify(chain)}`;
+      const baseSlug = `${slugify(matchedToken)}-${strategySlug}-${slugify(chain)}`;
 
       // Deduplicate with -2, -3 etc
       let slug = baseSlug;

@@ -10,9 +10,10 @@ interface VaultSeoRow {
   chain: string;
   apy: string;
   tvl: string;
+  indexed: boolean;
 }
 
-type SortKey = "slug" | "title" | "description" | "chain" | "apy" | "tvl";
+type SortKey = "slug" | "title" | "description" | "chain" | "apy" | "tvl" | "indexed";
 type SortDir = "asc" | "desc";
 
 function CharCount({ count, limit }: { count: number; limit: number }) {
@@ -91,8 +92,13 @@ export function SeoTable({
   const sorted = useMemo(() => {
     const copy = [...filtered];
     copy.sort((a, b) => {
-      let av = a[sortKey];
-      let bv = b[sortKey];
+      if (sortKey === "indexed") {
+        const an = a.indexed ? 1 : 0;
+        const bn = b.indexed ? 1 : 0;
+        return sortDir === "asc" ? an - bn : bn - an;
+      }
+      let av = a[sortKey] as string;
+      let bv = b[sortKey] as string;
       // For apy and tvl, sort numerically by stripping non-numeric chars
       if (sortKey === "apy" || sortKey === "tvl") {
         const an = parseFloat(av.replace(/[^0-9.\-]/g, "")) || 0;
@@ -188,6 +194,13 @@ export function SeoTable({
                 onClick={handleSort}
                 className="hidden md:table-cell"
               />
+              <SortHeader
+                label="Index"
+                sortKey="indexed"
+                currentKey={sortKey}
+                currentDir={sortDir}
+                onClick={handleSort}
+              />
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-100">
@@ -236,6 +249,17 @@ export function SeoTable({
                   </td>
                   <td className="hidden whitespace-nowrap px-3 py-2 md:table-cell">
                     {row.tvl}
+                  </td>
+                  <td className="whitespace-nowrap px-3 py-2">
+                    <span
+                      className={`inline-block rounded-full px-2 py-0.5 text-xs font-medium ${
+                        row.indexed
+                          ? "bg-green-100 text-green-800"
+                          : "bg-red-100 text-red-800"
+                      }`}
+                    >
+                      {row.indexed ? "index" : "noindex"}
+                    </span>
                   </td>
                 </tr>
               );

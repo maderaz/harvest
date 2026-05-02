@@ -1,4 +1,5 @@
 import { getVaults } from "@/lib/data";
+import { getCanonicalSlugs } from "@/lib/canonical-vaults";
 import { formatAPY, formatTVL } from "@/lib/format";
 import { SITE_NAME } from "@/lib/constants";
 import { SeoTable } from "@/components/seo-table";
@@ -7,6 +8,7 @@ import { join } from "path";
 
 export default async function AdminPage() {
   const vaults = await getVaults();
+  const canonical = await getCanonicalSlugs();
 
   // Generate the same title/description that [slug]/page.tsx uses
   const rows = vaults.map((vault) => ({
@@ -16,6 +18,7 @@ export default async function AdminPage() {
     chain: vault.chain,
     apy: formatAPY(vault.apy24h),
     tvl: formatTVL(vault.tvl),
+    indexed: canonical.has(vault.slug),
   }));
 
   // Get last modified time of vaults data file

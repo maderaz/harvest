@@ -236,7 +236,7 @@ async function fetchHarvestVaults() {
         const strategySlug = strategy
           ? slugify(strategy.replace(/\s*V\d+$/i, ""))
           : slugify(protocol);
-        const baseSlug = `${group.slugPrefix}-${strategySlug}-${slugify(chain)}`;
+        const baseSlug = `${slugify(matchedToken)}-${strategySlug}-${slugify(chain)}`;
         slug = baseSlug;
         let counter = 1;
         while (seenSlugs.has(slug)) {
