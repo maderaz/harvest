@@ -15,6 +15,7 @@ import { VaultStatistics } from "@/components/vault-statistics";
 import { ConsistencyScore } from "@/components/consistency-score";
 import { VaultHistoryTable } from "@/components/vault-history-table";
 import { EarningsCalculator } from "@/components/earnings-calculator";
+import { VaultLongTerm } from "@/components/vault-long-term";
 
 export async function generateStaticParams() {
   const slugs = await getAllSlugs();
@@ -379,6 +380,9 @@ export default async function ProductPage({
           allVaults={allVaults}
           history={history}
         />
+
+        {/* Long-term Performance */}
+        <VaultLongTerm history={history} />
 
         {/* Consistency Score */}
         <ConsistencyScore history={history} spotAPY={vault.apy24h} />
