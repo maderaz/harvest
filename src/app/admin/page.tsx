@@ -11,7 +11,7 @@ export default async function AdminPage() {
   // Generate the same title/description that [slug]/page.tsx uses
   const rows = vaults.map((vault) => ({
     slug: vault.slug,
-    title: `${vault.productName} by ${vault.protocol.name} — ${formatAPY(vault.apy24h)} APY | ${SITE_NAME}`,
+    title: `${vault.productName} by ${vault.protocol.name}: ${formatAPY(vault.apy24h)} APY | ${SITE_NAME}`,
     description: `${vault.productName} on ${vault.protocol.name} offers ${formatAPY(vault.apy24h)} APY (24h) with ${formatTVL(vault.tvl)} TVL. ${vault.description}`,
     chain: vault.chain,
     apy: formatAPY(vault.apy24h),

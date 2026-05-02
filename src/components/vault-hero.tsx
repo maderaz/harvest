@@ -129,9 +129,9 @@ export function VaultHero({ vault, history, allVaults }: Props) {
             </div>
             <div className="vh-kpi">
               <div className="vh-k-label">Share price</div>
-              <div className="vh-k-val">{lastSp ? lastSp.toFixed(4) : "—"}</div>
+              <div className="vh-k-val">{lastSp ? lastSp.toFixed(4) : "-"}</div>
               <div className={`vh-k-sub${spGrowth && spGrowth >= 0 ? " up" : ""}`}>
-                {spGrowth !== null ? `${spGrowth >= 0 ? "+" : ""}${spGrowth.toFixed(2)}% since inception` : "—"}
+                {spGrowth !== null ? `${spGrowth >= 0 ? "+" : ""}${spGrowth.toFixed(2)}% since inception` : "-"}
               </div>
             </div>
           </div>

@@ -36,7 +36,7 @@ export async function generateMetadata({
   const vault = await getVaultBySlug(slug);
   if (!vault) return {};
 
-  const title = `${vault.productName} by ${vault.protocol.name} — ${formatAPY(vault.apy24h)} APY | ${SITE_NAME}`;
+  const title = `${vault.productName} by ${vault.protocol.name}: ${formatAPY(vault.apy24h)} APY | ${SITE_NAME}`;
   const description = `${vault.productName} on ${vault.protocol.name} offers ${formatAPY(vault.apy24h)} APY (24h) with ${formatTVL(vault.tvl)} TVL. ${vault.description}`;
 
   return {
@@ -162,7 +162,7 @@ function HowToSchema({ vault }: { vault: YieldVault }) {
         "@type": "HowToStep",
         position: 4,
         name: "Earn yield",
-        text: `${vault.vaultType === "Autocompounder" ? "The vault automatically harvests rewards and reinvests them — no further action required." : "The vault automatically reallocates your deposit across optimized strategies — no further action required."}`,
+        text: `${vault.vaultType === "Autocompounder" ? "The vault automatically harvests rewards and reinvests them. No further action required." : "The vault automatically reallocates your deposit across optimized strategies. No further action required."}`,
       },
       {
         "@type": "HowToStep",
@@ -563,7 +563,7 @@ export default async function ProductPage({
             {/* Ecosystem Context */}
             <EcosystemContext vault={vault} allVaults={allVaults} />
 
-            {/* Yield Trajectory — dense numerical narrative */}
+            {/* Yield Trajectory: dense numerical narrative */}
             <YieldTrajectory
               history={history}
               productName={vault.productName}
@@ -581,7 +581,7 @@ export default async function ProductPage({
               />
             )}
 
-            {/* Long-term performance narrative — flowing prose for the
+            {/* Long-term performance narrative: flowing prose for the
                 CAGR / drawdown / best-month story. Lives before the
                 Historical statistics tables. */}
             <HistoricalNarrative history={history} />
@@ -703,7 +703,7 @@ export default async function ProductPage({
           </div>
         </div>
 
-        {/* Risks — full width, at the very bottom of the page */}
+        {/* Risks: full width, at the very bottom of the page */}
         <VaultRisks vault={vault} />
       </main>
     </>

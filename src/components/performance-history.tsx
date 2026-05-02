@@ -56,7 +56,7 @@ export function PerformanceHistory({
     {
       key: "apy",
       label: "APY History",
-      value: currentApy > 0 ? formatApy(currentApy) : "—",
+      value: currentApy > 0 ? formatApy(currentApy) : "-",
       sub: "current",
       color: "#16a34a",
       enabled: apyData.length >= 2,
@@ -64,7 +64,7 @@ export function PerformanceHistory({
     {
       key: "tvl",
       label: "TVL History",
-      value: currentTvl > 0 ? formatTvl(currentTvl) : "—",
+      value: currentTvl > 0 ? formatTvl(currentTvl) : "-",
       sub: "current",
       color: "#3b82f6",
       enabled: tvlData.length >= 2,
@@ -72,7 +72,7 @@ export function PerformanceHistory({
     {
       key: "share",
       label: "Share Price",
-      value: currentSharePrice ? formatShare(currentSharePrice) : "—",
+      value: currentSharePrice ? formatShare(currentSharePrice) : "-",
       sub:
         sharePriceGrowth != null
           ? `${sharePriceGrowth >= 0 ? "+" : ""}${sharePriceGrowth.toFixed(2)}% all time`

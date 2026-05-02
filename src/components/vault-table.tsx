@@ -31,7 +31,7 @@ function AssetDot({ asset, size = 22 }: { asset: string; size?: number }) {
   );
 }
 
-/* ——— Spark chart ——— */
+/* === Spark chart === */
 
 function seedSpark(seed: number, up: boolean): number[] {
   const out: number[] = [];
@@ -78,12 +78,12 @@ function Spark({
   );
 }
 
-/* ——— Sort types ——— */
+/* === Sort types === */
 
 type SortKey = "apy24h" | "apy30d" | "tvl" | "momentum" | "chain";
 type SortDir = "asc" | "desc";
 
-/* ——— VaultTable ——— */
+/* === VaultTable === */
 
 export function VaultTable({
   vaults,

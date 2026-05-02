@@ -106,7 +106,7 @@ export function HistoricalStats({ history }: { history: FullVaultHistory }) {
   const apyHalf = splitApy ? Math.ceil(apyRows.length / 2) : apyRows.length;
   const tvlHalf = splitTvl ? Math.ceil(tvlRows.length / 2) : tvlRows.length;
 
-  // Narrative intro paragraph — trend direction over lifetime
+  // Narrative intro paragraph: trend direction over lifetime
   const narratives: string[] = [];
 
   if (apyStats && apyStats.dataPoints >= 30) {

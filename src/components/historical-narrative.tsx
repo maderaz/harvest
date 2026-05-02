@@ -5,7 +5,7 @@ interface Props {
   history: FullVaultHistory;
 }
 
-// Flowing prose for the long-term performance story — distinct from the
+// Flowing prose for the long-term performance story, distinct from the
 // numbered Performance Overview bullets which surface short-term critical
 // signals. Each paragraph only renders when the underlying data is rich
 // enough for the narrative to be meaningful.
@@ -34,7 +34,7 @@ export function HistoricalNarrative({ history }: Props) {
     }
   }
 
-  // TVL drawdown story — peak to trough, optional recovery
+  // TVL drawdown story: peak to trough, optional recovery
   if (history.tvlHistory.length >= 10) {
     const sorted = [...history.tvlHistory].sort(
       (a, b) => a.timestamp - b.timestamp,

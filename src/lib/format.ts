@@ -12,6 +12,6 @@ export function formatTVL(value: number): string {
 }
 
 export function formatAPY(value: number): string {
-  if (value === 0) return "—";
+  if (value === 0) return "-";
   return `${value.toFixed(2)}%`;
 }

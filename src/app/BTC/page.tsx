@@ -8,7 +8,7 @@ import { SITE_NAME, SITE_URL } from "@/lib/constants";
 
 const ASSET = "BTC" as const;
 const ASSET_LABEL = "BTC";
-const META_TITLE = "Best Bitcoin Yield — Top BTC APY Ranking";
+const META_TITLE = "Best Bitcoin Yield: Top BTC APY Ranking";
 const ASSET_DESCRIPTION =
   "Find the highest Bitcoin yields across DeFi. Compare WBTC, cbBTC, tBTC and wrapped BTC strategies ranked by 24-hour APY. Live data across Base, Ethereum, Arbitrum and more.";
 
@@ -57,7 +57,7 @@ export default async function BtcAssetPage() {
             <span className="dim">
               {vaults.length > 0
                 ? `Compare ${vaults.length} Bitcoin-denominated strategies ranked by APY across ${chainCount} chain${chainCount !== 1 ? "s" : ""}.`
-                : `Bitcoin yield strategies are populating — check back shortly.`}
+                : `Bitcoin yield strategies are populating, check back shortly.`}
             </span>
           </h1>
           <div className="hero-actions">
@@ -73,11 +73,11 @@ export default async function BtcAssetPage() {
           </div>
           <div className="stat-tile">
             <div className="stat-label">Best APY</div>
-            <div className="stat-val mono">{bestApy > 0 ? formatAPY(bestApy) : "—"}</div>
+            <div className="stat-val mono">{bestApy > 0 ? formatAPY(bestApy) : "-"}</div>
           </div>
           <div className="stat-tile">
             <div className="stat-label">Avg APY</div>
-            <div className="stat-val mono">{avgApy > 0 ? formatAPY(avgApy) : "—"}</div>
+            <div className="stat-val mono">{avgApy > 0 ? formatAPY(avgApy) : "-"}</div>
           </div>
           <div className="stat-tile">
             <div className="stat-label">Chains</div>

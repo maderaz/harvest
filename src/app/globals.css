@@ -5,7 +5,7 @@
   --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
 }
 
-/* ——— Design System CSS Variables ——— */
+/* === Design System CSS Variables === */
 
 :root {
   --bg: #fafaf9;
@@ -30,7 +30,7 @@
   --radius: 10px;
   --radius-sm: 6px;
 
-  /* Shared content shell — used by topnav, page, hero, tabs, footer
+  /* Shared content shell, used by topnav, page, hero, tabs, footer
      so every section's left/right edge lines up vertically. */
   --shell-max: 1480px;
   --shell-pad: 32px;
@@ -55,7 +55,7 @@ button { font-family: inherit; cursor: pointer; }
 .mono { font-family: var(--mono); font-feature-settings: "tnum"; }
 .dim  { color: var(--ink-3); }
 
-/* ——— top nav ——— */
+/* === top nav === */
 .topnav {
   position: sticky; top: 0; z-index: 30;
   background: var(--panel);
@@ -119,7 +119,7 @@ button { font-family: inherit; cursor: pointer; }
   color: var(--ink-3);
 }
 
-/* ——— shared ——— */
+/* === shared === */
 .page {
   max-width: var(--shell-max);
   margin: 0 auto;
@@ -146,7 +146,7 @@ button { font-family: inherit; cursor: pointer; }
 .delta.down { color: var(--down); }
 .delta.neutral { color: var(--ink-4); }
 
-/* ——— ticker strip ——— */
+/* === ticker strip === */
 .ticker {
   border-bottom: 1px solid var(--line);
   overflow: hidden;
@@ -174,7 +174,7 @@ button { font-family: inherit; cursor: pointer; }
   to { transform: translateX(-50%); }
 }
 
-/* ——— hero ——— */
+/* === hero === */
 .hero {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 760px);
@@ -235,7 +235,7 @@ button { font-family: inherit; cursor: pointer; }
   margin-bottom: 4px;
 }
 
-/* ——— filter bar ——— */
+/* === filter bar === */
 .section-title-bar {
   display: flex; align-items: baseline; justify-content: space-between;
   padding: 24px 0 12px;
@@ -247,7 +247,7 @@ button { font-family: inherit; cursor: pointer; }
   letter-spacing: -0.015em;
   margin: 0;
 }
-/* ——— Filter bar ——— */
+/* === Filter bar === */
 .filterbar {
   display: flex;
   flex-direction: column;
@@ -272,7 +272,7 @@ button { font-family: inherit; cursor: pointer; }
   background: var(--bg);
 }
 
-/* Asset tabs — top row */
+/* Asset tabs (top row) */
 .fb-tabs {
   display: flex;
   align-items: center;
@@ -304,7 +304,7 @@ button { font-family: inherit; cursor: pointer; }
   box-shadow: 0 1px 3px rgba(0,0,0,0.06);
 }
 
-/* Chain + TVL chips — bottom row */
+/* Chain + TVL chips (bottom row) */
 .fb-chips {
   display: flex;
   align-items: center;
@@ -335,7 +335,7 @@ button { font-family: inherit; cursor: pointer; }
 }
 .fb-chip img { border-radius: 50%; }
 
-/* ——— ranking table ——— */
+/* === ranking table === */
 .table-wrap {
   background: var(--panel);
   border: 1px solid var(--line);
@@ -418,7 +418,7 @@ button { font-family: inherit; cursor: pointer; }
 
 .spark { display: inline-block; vertical-align: middle; }
 
-/* ——— sections ——— */
+/* === sections === */
 .card {
   background: var(--panel);
   border: 1px solid var(--line);
@@ -428,7 +428,7 @@ button { font-family: inherit; cursor: pointer; }
 .link { font-size: 12px; color: var(--ink-3); }
 .link:hover { color: var(--ink); }
 
-/* ——— category grid ——— */
+/* === category grid === */
 .cat-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -451,7 +451,7 @@ button { font-family: inherit; cursor: pointer; }
 .cat-apy { font-size: 18px; font-weight: 600; letter-spacing: -0.01em; color: var(--up); }
 .cat-foot { font-size: 10.5px; margin-top: 2px; }
 
-/* ——— featured assets ——— */
+/* === featured assets === */
 .feat-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -490,7 +490,7 @@ button { font-family: inherit; cursor: pointer; }
 .feat-label { font-size: 10.5px; letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 3px; }
 .feat-val { font-size: 16px; font-weight: 600; letter-spacing: -0.01em; }
 
-/* ——— buttons ——— */
+/* === buttons === */
 .btn-primary {
   background: var(--ink);
   color: var(--bg);
@@ -513,7 +513,7 @@ button { font-family: inherit; cursor: pointer; }
 }
 .row-cta:hover { background: var(--ink); color: var(--bg); border-color: var(--ink); }
 
-/* ——— footer ——— */
+/* === footer === */
 .foot {
   margin-top: 40px;
   border-top: 1px solid var(--line);
@@ -529,7 +529,7 @@ button { font-family: inherit; cursor: pointer; }
 .foot-links a { color: var(--ink-3); }
 .foot-links a:hover { color: var(--ink); }
 
-/* ——— responsive ——— */
+/* === responsive === */
 @media (max-width: 1280px) {
   .hero { grid-template-columns: 1fr; }
   .hero-right { grid-template-columns: repeat(2, 1fr); }
@@ -550,7 +550,7 @@ button { font-family: inherit; cursor: pointer; }
   .hero-right { grid-template-columns: repeat(2, 1fr); }
 }
 
-/* ——— Product Page ——— */
+/* === Product Page === */
 
 .pp-page { max-width: var(--shell-max); margin: 0 auto; padding: 0 var(--shell-pad) 60px; }
 
@@ -1078,7 +1078,7 @@ button { font-family: inherit; cursor: pointer; }
 @media (max-width: 700px) {
   .more-vaults { grid-template-columns: 1fr; }
 }
-/* ——— About prose (full width) ——— */
+/* === About prose (full width) === */
 .about-prose p {
   margin: 0 0 12px;
   line-height: 1.65;
@@ -1113,7 +1113,7 @@ button { font-family: inherit; cursor: pointer; }
 .about-prose-icon--down { color: var(--down); }
 .about-prose-icon--sideways { color: var(--ink-3); }
 
-/* ——— Sidebar facts box ——— */
+/* === Sidebar facts box === */
 .sidebar-facts {
   background: var(--panel);
   border: 1px solid var(--line);
@@ -1140,7 +1140,7 @@ button { font-family: inherit; cursor: pointer; }
 .sf-label { color: var(--ink-3); font-size: 12px; }
 .sf-val { color: var(--ink); font-weight: 500; text-align: right; }
 
-/* ——— Deposit calculator card (sidebar) ——— */
+/* === Deposit calculator card (sidebar) === */
 .dep-calc-card {
   background: var(--panel);
   border: 1px solid var(--line);
@@ -1280,7 +1280,7 @@ button { font-family: inherit; cursor: pointer; }
   font-family: var(--mono);
 }
 
-/* ——— Contract details: full address with copy + explorer ——— */
+/* === Contract details: full address with copy + explorer === */
 .contract-details-grid {
   background: var(--panel);
   border: 1px solid var(--line);
@@ -1349,8 +1349,8 @@ button { font-family: inherit; cursor: pointer; }
   .cd-label { font-size: 11px; }
 }
 
-/* ——— New chart card layout: single-line header ——— */
-/* ——— Performance History card (3 tiles + 1 chart) ——— */
+/* === New chart card layout: single-line header === */
+/* === Performance History card (3 tiles + 1 chart) === */
 .perf-card {
   background: var(--panel);
   border: 1px solid var(--line);
@@ -1411,7 +1411,7 @@ button { font-family: inherit; cursor: pointer; }
   font-family: var(--mono);
 }
 
-/* ——— Vault Chart ——— */
+/* === Vault Chart === */
 .vc-wrap {
   display: flex;
   flex-direction: column;
@@ -1665,9 +1665,9 @@ button { font-family: inherit; cursor: pointer; }
   .eco-row { grid-template-columns: 30px 2fr 2fr 60px; gap: 8px; font-size: 12px; }
 }
 
-/* ——————————————————————————————————————————————
+/* =============================================
    Vault dark hero band
-   —————————————————————————————————————————————— */
+   ============================================= */
 .vault-hero {
   background: #0a0a0a;
   color: #f4f4f1;
@@ -1783,7 +1783,7 @@ button { font-family: inherit; cursor: pointer; }
 }
 .vh-by b { color: #d4d4cc; font-weight: 500; }
 
-/* KPI stack — vertical, right-aligned, mono */
+/* KPI stack, vertical, right-aligned, mono */
 .vh-kpi-stack {
   display: grid;
   grid-template-columns: 1fr 1fr;

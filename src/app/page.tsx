@@ -7,10 +7,10 @@ import { TickerStrip } from "@/components/ticker-strip";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Best DeFi Yields — Compare Top APY Rankings | Harvest",
+  title: "Best DeFi Yields: Compare Top APY Rankings | Harvest",
   description: "Find the highest DeFi yields for USDC, ETH, BTC and USDT. Compare 150+ autocompounder and autopilot strategies ranked by APY across 6 chains. Live data, updated hourly.",
   openGraph: {
-    title: "Best DeFi Yields — Compare Top APY Rankings | Harvest",
+    title: "Best DeFi Yields: Compare Top APY Rankings | Harvest",
     description: "Find the highest DeFi yields for USDC, ETH, BTC and USDT. Compare 150+ strategies ranked by APY across 6 chains. Live data, updated hourly.",
     url: SITE_URL,
     siteName: SITE_NAME,
@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: `${SITE_NAME} — Compare DeFi Yield Sources`,
+    title: `${SITE_NAME}: Compare DeFi Yield Sources`,
     description: SITE_DESCRIPTION,
   },
   alternates: {
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
   },
 };
 
-/* ——— Stat computation helpers ——— */
+/* === Stat computation helpers === */
 
 function computeStats(vaults: { apy24h: number; tvl: number; chain: string; asset: string; category: string }[]) {
   const totalTVL = vaults.reduce((sum, v) => sum + v.tvl, 0);
@@ -83,7 +83,7 @@ import { AssetIcon } from "@/components/token-icons";
 
 const ASSET_PAGES = new Set(["USDC", "USDT", "ETH", "BTC"]);
 
-/* ——— Page component ——— */
+/* === Page component === */
 
 export default async function Home() {
   const vaults = await getVaults();
@@ -96,7 +96,7 @@ export default async function Home() {
     <>
     <TickerStrip vaults={vaults} />
     <main className="page">
-      {/* ——— Hero ——— */}
+      {/* === Hero === */}
       <section className="hero">
         <div>
           <h1>
@@ -133,7 +133,7 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* ——— Ranking table ——— */}
+      {/* === Ranking table === */}
       <div className="section-title-bar">
         <h2>Top yields by APY</h2>
         <span className="mono dim">
@@ -144,7 +144,7 @@ export default async function Home() {
 
         <VaultList vaults={vaults} sparklines={sparklines} />
 
-      {/* ——— Featured assets ——— */}
+      {/* === Featured assets === */}
       <div className="section-title-bar">
         <h2>Featured assets</h2>
         <span className="mono dim">Supply the majors</span>
@@ -185,7 +185,7 @@ export default async function Home() {
         </div>
       </div>
 
-      {/* ——— Category grid ——— */}
+      {/* === Category grid === */}
       <div className="section-title-bar">
         <h2>Browse by strategy</h2>
         <span className="mono dim">{categories.length} categories</span>

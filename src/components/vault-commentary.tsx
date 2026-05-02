@@ -36,7 +36,7 @@ export function VaultCommentary({
   const nowSeconds = Math.floor(Date.now() / 1000);
   const thirtyDaysAgo = nowSeconds - 30 * 24 * 60 * 60;
 
-  // 1. APY Ranking — is this competitive?
+  // 1. APY Ranking: is this competitive?
   if (vault.apy24h > 0 && sameAssetVaults.length > 1) {
     const sorted = [...sameAssetVaults]
       .filter((v) => v.apy24h > 0)
@@ -52,7 +52,7 @@ export function VaultCommentary({
     }
   }
 
-  // 2. APY Stability — is this APY reliable?
+  // 2. APY Stability: is this APY reliable?
   if (history.apyHistory.length >= 5) {
     const validApy = history.apyHistory.filter((p) => p.apy >= 0);
     const recent30d = validApy.filter((p) => p.timestamp >= thirtyDaysAgo);
@@ -71,7 +71,7 @@ export function VaultCommentary({
     }
   }
 
-  // 3. APY Percentile — is now a good time?
+  // 3. APY Percentile: is now a good time?
   if (vault.apy24h > 0 && history.apyHistory.length >= 30) {
     const allValid = history.apyHistory
       .filter((p) => p.apy >= 0)
@@ -97,7 +97,7 @@ export function VaultCommentary({
     }
   }
 
-  // 4. TVL Trend — is money flowing in or out?
+  // 4. TVL Trend: is money flowing in or out?
   if (history.tvlHistory.length >= 2) {
     const recent = [...history.tvlHistory]
       .filter((p) => p.timestamp >= thirtyDaysAgo && p.value > 0)

@@ -207,7 +207,7 @@ export async function fetchHarvestVaults(): Promise<YieldVault[]> {
         apy24h: history?.apy24h ?? currentApy,
         apy30d: history?.apy30d ?? currentApy,
         tvl,
-        description: `${productName} on ${protocol} (${chain}) — automatically optimizes your USDC yield via Harvest Finance.`,
+        description: `${productName} on ${protocol} (${chain}) automatically optimizes your USDC yield via Harvest Finance.`,
         chain,
         contractAddress: v.vaultAddress,
         riskLevel: "low" as const,
