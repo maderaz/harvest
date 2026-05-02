@@ -98,7 +98,7 @@ export function VaultHero({ vault, history, allVaults }: Props) {
               <span className="vh-tag">{vault.chain}</span>
               <span className="vh-tag">{vault.vaultType}</span>
               {rank > 0 && (
-                <span className="vh-tag solid">#{rank} of {sameAsset.length} {vault.asset} vaults</span>
+                <span className="vh-tag solid">#{rank} of {sameAsset.length} tracked {vault.asset} vaults</span>
               )}
             </div>
             <h1 className="vh-title" data-len={nameLen}>{vault.productName}</h1>

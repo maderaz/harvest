@@ -27,10 +27,10 @@ export function MarketBenchmark({ vault, allVaults }: Props) {
     <section className="pp-section" id="benchmark">
       <h2>Market benchmarking</h2>
       <p>
-        Within the {vault.asset} ecosystem, this product ranks <strong>#{rank} of {sameAsset.length}</strong> strategies.
+        Within the tracked {vault.asset} ecosystem, this product ranks <strong>#{rank} of {sameAsset.length}</strong> strategies.
         Its {formatAPY(vault.apy24h)} yield is{" "}
         <strong>{Math.abs(vsAvg).toFixed(1)}% {vsAvg >= 0 ? "higher" : "lower"}</strong> than
-        the asset-wide market average of {formatAPY(avgApy)}.
+        the tracked market average of {formatAPY(avgApy)}.
       </p>
 
       <div className="bench-stats">
@@ -62,7 +62,7 @@ export function MarketBenchmark({ vault, allVaults }: Props) {
         })}
         <div className="bt-row avg">
           <span></span>
-          <span className="dim">{vault.asset} market average</span>
+          <span className="dim">Tracked {vault.asset} market average</span>
           <span></span>
           <span className="r mono dim">{formatAPY(avgApy)}</span>
           <span></span>
@@ -94,13 +94,13 @@ function ClosingBenchmark({
     topTvl && topTvl.id !== vault.id && topTvl.tvl > vault.tvl * 2
       ? ` However, with ${formatTVL(vault.tvl)} TVL it holds significantly less capital than ${topTvl.productName} (${formatTVL(topTvl.tvl)}).`
       : tvlRank <= 3
-        ? ` By TVL it ranks #${tvlRank}, making it one of the most established ${vault.asset} vaults.`
+        ? ` By TVL it ranks #${tvlRank}, making it one of the most established tracked ${vault.asset} vaults.`
         : "";
 
   return (
     <p style={{ marginTop: 14 }}>
       {vault.productName} currently ranks #{rank} among{" "}
-      {sameAsset.length} monitored {vault.asset} strategies, outperforming{" "}
+      {sameAsset.length} tracked {vault.asset} strategies, outperforming{" "}
       {outperformPct}% of tracked {vault.asset} opportunities.
       {tvlComparison}
     </p>
@@ -129,10 +129,10 @@ export function EcosystemContext({ vault, allVaults }: Props) {
     <section className="pp-section" id="ecosystem">
       <h2>Ecosystem context</h2>
       <p>
-        Positioned within the {vault.chain} ecosystem, this product{"'"}s yield is{" "}
+        Positioned within the tracked {vault.chain} ecosystem, this product{"'"}s yield is{" "}
         <strong>{Math.abs(vsNetAvg).toFixed(1)}% {vsNetAvg >= 0 ? "higher" : "lower"}</strong> than
-        the network average for {vault.asset} strategies. By APY it ranks{" "}
-        <strong>#{rank} of {sameChain.length}</strong> {vault.asset} strategies on {vault.chain}.
+        the tracked network average for {vault.asset} strategies. By APY it ranks{" "}
+        <strong>#{rank} of {sameChain.length}</strong> tracked {vault.asset} strategies on {vault.chain}.
       </p>
 
       <div className="eco-rank-head">
@@ -159,7 +159,7 @@ export function EcosystemContext({ vault, allVaults }: Props) {
         })}
         <div className="eco-row baseline">
           <span></span>
-          <span className="dim">Network average</span>
+          <span className="dim">Tracked network average</span>
           <span className="er-bar">
             <span style={{ width: `${(networkAvg / maxApy) * 100}%`, background: "var(--ink-4)" }} />
           </span>
@@ -186,13 +186,13 @@ function ClosingEcosystem({
 
   const isTop = rank === 1;
   const topLabel = isTop
-    ? `Currently the highest-yielding ${vault.asset} opportunity on ${vault.chain} among ${sameChain.length} tracked products.`
-    : `By TVL, this product ranks #${tvlRank} of ${sameChain.length} ${vault.asset} strategies on ${vault.chain}.`;
+    ? `Currently the highest-yielding tracked ${vault.asset} opportunity on ${vault.chain} among ${sameChain.length} tracked products.`
+    : `By TVL, this product ranks #${tvlRank} of ${sameChain.length} tracked ${vault.asset} strategies on ${vault.chain}.`;
 
   return (
     <p style={{ marginTop: 14 }}>
       {topLabel} This strategy is operated by {vault.protocol.name} and
-      competes against {sameChain.length - 1} other {vault.asset} strategies
+      competes against {sameChain.length - 1} other tracked {vault.asset} strategies
       on the {vault.chain} network.
     </p>
   );
