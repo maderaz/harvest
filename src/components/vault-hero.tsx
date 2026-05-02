@@ -184,6 +184,7 @@ export function VaultHero({ vault, history, allVaults }: Props) {
           <a href="#benchmark" className="vh-tab">Benchmarks</a>
           <a href="#history" className="vh-tab">History</a>
           <a href="#faq" className="vh-tab">FAQ</a>
+          <a href="#details" className="vh-tab"><span className="vh-tab-long">Contract details</span><span className="vh-tab-short">Details</span></a>
           <span className="vh-tabs-spacer" />
           <span className="vh-tabs-meta mono">{truncateAddress(vault.contractAddress)}</span>
         </div>

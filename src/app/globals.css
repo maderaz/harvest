@@ -1909,11 +1909,21 @@ button { font-family: inherit; cursor: pointer; }
 }
 .vh-btn-primary:hover { background: oklch(0.78 0.18 155); border-color: oklch(0.78 0.18 155); }
 .vh-btn-icon { opacity: 0.7; }
+.vh-actions-right .pp-copy-btn {
+  color: #c8c8c0;
+  border-color: #2f2f2a;
+  background: transparent;
+}
+.vh-actions-right .pp-copy-btn:hover {
+  color: #f4f4f1;
+  border-color: #4a4a45;
+  background: #1a1a17;
+}
 
 /* Sticky tabs strip */
 .vh-tabs {
   position: sticky;
-  top: 0;
+  top: 52px;
   z-index: 20;
   background: #0a0a0a;
   border-top: 1px solid #1f1f1c;
@@ -1945,6 +1955,7 @@ button { font-family: inherit; cursor: pointer; }
   color: #f4f4f1;
   border-bottom-color: oklch(0.72 0.18 155);
 }
+.vh-tab-short { display: none; }
 .vh-tabs-spacer { flex: 1; }
 .vh-tabs-meta {
   font-size: 11px;
@@ -1965,6 +1976,9 @@ button { font-family: inherit; cursor: pointer; }
   .vault-hero-inner { padding: 18px 20px 28px; }
   .vh-title { font-size: 48px; }
   .vh-tabs-inner { padding: 0 20px; }
+  .vh-tabs { top: 52px; }
+  .vh-tab-long { display: none; }
+  .vh-tab-short { display: inline; }
   .vh-actions { flex-direction: column; align-items: stretch; }
   .vh-actions-right { justify-content: flex-end; }
 }
