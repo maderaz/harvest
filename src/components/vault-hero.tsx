@@ -78,6 +78,7 @@ export function VaultHero({ vault, history, allVaults }: Props) {
     : null;
 
   return (
+    <>
     <section className="vault-hero">
       <div className="vault-hero-inner">
         <nav className="vh-crumbs">
@@ -176,8 +177,9 @@ export function VaultHero({ vault, history, allVaults }: Props) {
           </div>
         </div>
       </div>
+    </section>
 
-      <nav className="vh-tabs">
+    <nav className="vh-tabs">
         <div className="vh-tabs-inner">
           <a href="#about" className="vh-tab active">Overview</a>
           <a href="#performance" className="vh-tab">Performance</a>
@@ -189,6 +191,6 @@ export function VaultHero({ vault, history, allVaults }: Props) {
           <span className="vh-tabs-meta mono">{truncateAddress(vault.contractAddress)}</span>
         </div>
       </nav>
-    </section>
+    </>
   );
 }
