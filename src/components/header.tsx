@@ -1,12 +1,26 @@
 import Link from "next/link";
+import { getVaults } from "@/lib/data";
+import { SearchBox, type SearchItem } from "./search-box";
 
-export function Header() {
+export async function Header() {
   const navItems = [
     { label: "USDC", href: "/USDC" },
     { label: "USDT", href: "/USDT" },
     { label: "ETH", href: "/ETH" },
     { label: "BTC", href: "/BTC" },
   ];
+
+  const vaults = await getVaults();
+  const items: SearchItem[] = vaults.map((v) => ({
+    slug: v.slug,
+    productName: v.productName,
+    asset: v.asset,
+    chain: v.chain,
+    protocol: v.protocol.name,
+    category: v.category,
+    apy24h: v.apy24h,
+    tvl: v.tvl,
+  }));
 
   return (
     <header className="topnav">
@@ -22,13 +36,7 @@ export function Header() {
           ))}
         </nav>
         <div className="nav-right">
-          <label className="search-box">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <circle cx="11" cy="11" r="7" /><path d="M20 20l-3.5-3.5" />
-            </svg>
-            <input placeholder="Search pool, protocol, asset..." readOnly />
-            <kbd>&#8984;K</kbd>
-          </label>
+          <SearchBox items={items} />
         </div>
       </div>
     </header>
