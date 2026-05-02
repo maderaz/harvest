@@ -4,6 +4,7 @@ import { formatTVL } from "@/lib/format";
 import type { FullVaultHistory } from "@/lib/history-api";
 import { AssetIcon } from "./token-icons";
 import { CopyAddressButton } from "./copy-address-button";
+import { harvestAppUrl } from "@/lib/harvest-app";
 
 function stdDev(values: number[]): number {
   if (values.length < 2) return 0;
@@ -148,8 +149,29 @@ export function VaultHero({ vault, history, allVaults }: Props) {
           </div>
           <div className="vh-actions-right">
             <CopyAddressButton address={vault.contractAddress} />
-            <a href="https://app.harvest.finance" target="_blank" rel="noopener noreferrer" className="vh-btn-primary">
-              Connect Wallet →
+            <a
+              href={harvestAppUrl(vault.chain, vault.contractAddress)}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="vh-btn-primary"
+            >
+              View Strategy
+              <svg
+                className="vh-btn-icon"
+                width="13"
+                height="13"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden="true"
+              >
+                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                <polyline points="15 3 21 3 21 9" />
+                <line x1="10" y1="14" x2="21" y2="3" />
+              </svg>
             </a>
           </div>
         </div>

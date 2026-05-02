@@ -1289,7 +1289,10 @@ button { font-family: inherit; cursor: pointer; }
   color: var(--up);
 }
 .dc-cta {
-  display: block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
   width: 100%;
   padding: 11px 14px;
   background: var(--ink);
@@ -1303,6 +1306,7 @@ button { font-family: inherit; cursor: pointer; }
   transition: background .15s;
 }
 .dc-cta:hover { background: var(--ink-2); }
+.dc-cta-icon { opacity: 0.85; }
 .dc-note {
   margin-top: 10px;
   font-size: 10.5px;
@@ -1889,6 +1893,9 @@ button { font-family: inherit; cursor: pointer; }
   background: oklch(0.72 0.18 155);
 }
 .vh-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
   background: #f4f4f1;
   color: #0a0a0a;
   border: 1px solid #f4f4f1;
@@ -1898,8 +1905,10 @@ button { font-family: inherit; cursor: pointer; }
   font-weight: 500;
   font-family: var(--sans);
   transition: all .15s;
+  text-decoration: none;
 }
 .vh-btn-primary:hover { background: oklch(0.78 0.18 155); border-color: oklch(0.78 0.18 155); }
+.vh-btn-icon { opacity: 0.7; }
 
 /* Sticky tabs strip */
 .vh-tabs {

@@ -699,6 +699,8 @@ export default async function ProductPage({
               apy24h={vault.apy24h}
               apy30d={vault.apy30d}
               asset={vault.asset}
+              chain={vault.chain}
+              contractAddress={vault.contractAddress}
             />
           </div>
         </div>
