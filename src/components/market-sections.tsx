@@ -1,5 +1,6 @@
 import { YieldVault } from "@/lib/types";
 import { formatAPY, formatTVL } from "@/lib/format";
+import { depositRef, apyToMonthly, fmtEarnings, tvlPercentileLabel, benchmarkQualifier } from "@/lib/contextualize";
 
 interface Props {
   vault: YieldVault;
@@ -26,12 +27,7 @@ export function MarketBenchmark({ vault, allVaults }: Props) {
   return (
     <section className="pp-section" id="benchmark">
       <h2>Market benchmarking</h2>
-      <p>
-        Among the {sameAsset.length} {vault.asset} strategies we currently monitor, this product ranks <strong>#{rank}</strong>.
-        Its {formatAPY(vault.apy24h)} yield runs{" "}
-        <strong>{Math.abs(vsAvg).toFixed(1)}% {vsAvg >= 0 ? "higher" : "lower"}</strong> than
-        the cohort average of {formatAPY(avgApy)}.
-      </p>
+      <BenchmarkIntro vault={vault} rank={rank} sameAssetCount={sameAsset.length} avgApy={avgApy} vsAvg={vsAvg} />
 
       <div className="bench-stats">
         <div><div className="bs-l">Asset average APY</div><div className="bs-v mono">{formatAPY(avgApy)}</div></div>
@@ -74,6 +70,46 @@ export function MarketBenchmark({ vault, allVaults }: Props) {
   );
 }
 
+function BenchmarkIntro({
+  vault,
+  rank,
+  sameAssetCount,
+  avgApy,
+  vsAvg,
+}: {
+  vault: YieldVault;
+  rank: number;
+  sameAssetCount: number;
+  avgApy: number;
+  vsAvg: number;
+}) {
+  const ref = depositRef(vault.asset);
+  const vaultMonthly = apyToMonthly(vault.apy24h, ref.amount);
+  const avgMonthly = apyToMonthly(avgApy, ref.amount);
+  const monthlyDiff = Math.abs(vaultMonthly - avgMonthly);
+  const diffDir = vsAvg >= 0 ? "more" : "less";
+
+  // Contextualization (#5): omit if diff < $0.50/mo; use $/year if < $1/mo
+  let ctx = "";
+  if (monthlyDiff >= 0.5) {
+    if (monthlyDiff < 1) {
+      const yearlyDiff = monthlyDiff * 12;
+      ctx = ` On a ${ref.label} deposit, that's ${fmtEarnings(yearlyDiff, vault.asset)} per year ${diffDir} than the cohort average.`;
+    } else {
+      ctx = ` On a ${ref.label} deposit, that's ${fmtEarnings(monthlyDiff, vault.asset)} per month ${diffDir} than the cohort average.`;
+    }
+  }
+
+  return (
+    <p>
+      Among the {sameAssetCount} {vault.asset} strategies we currently monitor, this product ranks <strong>#{rank}</strong>.
+      Its {formatAPY(vault.apy24h)} yield runs{" "}
+      <strong>{Math.abs(vsAvg).toFixed(1)}% {vsAvg >= 0 ? "higher" : "lower"}</strong> than
+      the cohort average of {formatAPY(avgApy)}.{ctx}
+    </p>
+  );
+}
+
 function ClosingBenchmark({
   vault,
   sameAsset,
@@ -90,12 +126,20 @@ function ClosingBenchmark({
   const tvlSorted = [...sameAsset].sort((a, b) => b.tvl - a.tvl);
   const tvlRank = tvlSorted.findIndex((v) => v.id === vault.id) + 1;
   const topTvl = tvlSorted[0];
-  const tvlComparison =
-    topTvl && topTvl.id !== vault.id && topTvl.tvl > vault.tvl * 2
-      ? ` However, with ${formatTVL(vault.tvl)} TVL it holds significantly less capital than ${topTvl.productName} (${formatTVL(topTvl.tvl)}).`
-      : tvlRank <= 3
-        ? ` By TVL it ranks #${tvlRank}, putting it among the most established ${vault.asset} vaults in our index.`
-        : "";
+
+  // TVL context (#6)
+  let tvlComparison = "";
+  if (vault.tvl < 1000) {
+    // Under $1k: replace closing sentence's TVL part with small-vault note
+    tvlComparison = ` This vault is currently small, holding under $1,000 in deposits. It is not representative of strategy capacity at scale.`;
+  } else if (tvlRank <= 5) {
+    tvlComparison = ` By TVL it ranks #${tvlRank}, putting it among the most established ${vault.asset} vaults in our index. That makes it one of the largest ${vault.asset} strategies in the index by capital deployed.`;
+  } else if (tvlRank <= 3) {
+    tvlComparison = ` By TVL it ranks #${tvlRank}, putting it among the most established ${vault.asset} vaults in our index.`;
+  } else if (topTvl && topTvl.id !== vault.id && topTvl.tvl > vault.tvl * 2) {
+    const percentileLabel = tvlPercentileLabel(tvlRank, sameAsset.length);
+    tvlComparison = ` However, with ${formatTVL(vault.tvl)} TVL it holds significantly less capital than ${topTvl.productName} (${formatTVL(topTvl.tvl)}). That places it in the ${percentileLabel} of ${vault.asset} strategies by capital deployed.`;
+  }
 
   return (
     <p style={{ marginTop: 14 }}>
@@ -128,12 +172,7 @@ export function EcosystemContext({ vault, allVaults }: Props) {
   return (
     <section className="pp-section" id="ecosystem">
       <h2>Ecosystem context</h2>
-      <p>
-        On {vault.chain}, this product{"'"}s yield runs{" "}
-        <strong>{Math.abs(vsNetAvg).toFixed(1)}% {vsNetAvg >= 0 ? "higher" : "lower"}</strong> than
-        the network average across the {vault.asset} strategies we monitor. By APY it ranks{" "}
-        <strong>#{rank} of {sameChain.length}</strong> in that set.
-      </p>
+      <EcosystemIntro vault={vault} rank={rank} sameChainCount={sameChain.length} networkAvg={networkAvg} vsNetAvg={vsNetAvg} />
 
       <div className="eco-rank-head">
         <span>{vault.asset} on {vault.chain}</span>
@@ -169,6 +208,33 @@ export function EcosystemContext({ vault, allVaults }: Props) {
 
       <ClosingEcosystem vault={vault} sameChain={sameChain} rank={rank} />
     </section>
+  );
+}
+
+function EcosystemIntro({
+  vault,
+  rank,
+  sameChainCount,
+  networkAvg,
+  vsNetAvg,
+}: {
+  vault: YieldVault;
+  rank: number;
+  sameChainCount: number;
+  networkAvg: number;
+  vsNetAvg: number;
+}) {
+  // Contextualization (#7): qualify position relative to network avg
+  const qualifier = benchmarkQualifier(vsNetAvg);
+  const ctx = ` Yields on ${vault.chain} for ${vault.asset} have averaged ${networkAvg.toFixed(2)}% in our index - this strategy is delivering ${qualifier} that benchmark.`;
+
+  return (
+    <p>
+      On {vault.chain}, this product{"'"}s yield runs{" "}
+      <strong>{Math.abs(vsNetAvg).toFixed(1)}% {vsNetAvg >= 0 ? "higher" : "lower"}</strong> than
+      the network average across the {vault.asset} strategies we monitor. By APY it ranks{" "}
+      <strong>#{rank} of {sameChainCount}</strong> in that set.{ctx}
+    </p>
   );
 }
 

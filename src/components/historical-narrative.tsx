@@ -1,21 +1,21 @@
 import { formatTVL } from "@/lib/format";
+import { depositRef, apyToMonthly, fmtEarnings } from "@/lib/contextualize";
 import type { FullVaultHistory } from "@/lib/history-api";
 
 interface Props {
   history: FullVaultHistory;
+  asset: string;
 }
 
-// Flowing prose for the long-term performance story, distinct from the
-// numbered Performance Overview bullets which surface short-term critical
-// signals. Each paragraph only renders when the underlying data is rich
-// enough for the narrative to be meaningful.
-export function HistoricalNarrative({ history }: Props) {
+export function HistoricalNarrative({ history, asset }: Props) {
+  const ref = depositRef(asset);
+
   const items: Array<{
     text: string;
     trajectory: "up" | "down" | "sideways";
   }> = [];
 
-  // Share-price CAGR (annualized compounding rate)
+  // Share-price CAGR (#1)
   if (history.sharePriceHistory.length >= 2) {
     const sorted = [...history.sharePriceHistory].sort(
       (a, b) => a.timestamp - b.timestamp,
@@ -27,14 +27,27 @@ export function HistoricalNarrative({ history }: Props) {
     if (first > 0 && daySpan >= 30) {
       const totalReturn = (last - first) / first;
       const cagr = (Math.pow(1 + totalReturn, 365 / daySpan) - 1) * 100;
-      items.push({
-        text: `Share price has compounded at an annualized rate of ${cagr.toFixed(2)}% over ${Math.round(daySpan)} days, growing from ${first.toFixed(4)} to ${last.toFixed(4)}.`,
-        trajectory: cagr >= 0 ? "up" : "down",
-      });
+
+      let text = `Share price has compounded at an annualized rate of ${cagr.toFixed(2)}% over ${Math.round(daySpan)} days, growing from ${first.toFixed(4)} to ${last.toFixed(4)}.`;
+
+      // Contextualization: omit if tracked < 90 days
+      if (daySpan >= 90) {
+        const gainPerRef = (last - first) * ref.amount;
+        if (last < 1.0) {
+          const lossPerRef = (1 - last) * ref.amount;
+          text += ` This represents a ${fmtEarnings(lossPerRef, asset)} loss per ${ref.label} deposited at inception.`;
+        } else if (gainPerRef < 5) {
+          text += ` This represents minimal returns per ${asset === "ETH" || asset === "BTC" ? ref.label : "dollar"} deposited at inception.`;
+        } else {
+          text += ` This represents ${fmtEarnings(gainPerRef, asset)} in returns per ${ref.label} deposited at inception.`;
+        }
+      }
+
+      items.push({ text, trajectory: cagr >= 0 ? "up" : "down" });
     }
   }
 
-  // TVL drawdown story: peak to trough, optional recovery
+  // TVL drawdown story (#12)
   if (history.tvlHistory.length >= 10) {
     const sorted = [...history.tvlHistory].sort(
       (a, b) => a.timestamp - b.timestamp,
@@ -67,26 +80,40 @@ export function HistoricalNarrative({ history }: Props) {
         troughVal > 0 ? ((currentTvl - troughVal) / troughVal) * 100 : 0;
       const atPeak = currentTvl >= peakVal * 0.9;
 
+      let text: string;
+      let trajectory: "up" | "down" | "sideways";
+
       if (atPeak) {
-        items.push({
-          text: `TVL fell ${maxDrawdownPct.toFixed(0)}% from its ${formatTVL(peakVal)} peak over ${daysDown} days before recovering to its current ${formatTVL(currentTvl)}.`,
-          trajectory: "sideways",
-        });
+        // At or near peak: use simplified sentence
+        text = `TVL currently sits at or near its historical peak of ${formatTVL(peakVal)}.`;
+        trajectory = "sideways";
       } else if (recoveryPct > 10) {
-        items.push({
-          text: `TVL experienced a ${maxDrawdownPct.toFixed(0)}% drawdown from its ${formatTVL(peakVal)} peak, bottoming at ${formatTVL(troughVal)} over ${daysDown} days. It has since recovered ${recoveryPct.toFixed(0)}% to ${formatTVL(currentTvl)}.`,
-          trajectory: recoveryPct > maxDrawdownPct * 0.5 ? "sideways" : "down",
-        });
+        text = `TVL experienced a ${maxDrawdownPct.toFixed(0)}% drawdown from its ${formatTVL(peakVal)} peak, bottoming at ${formatTVL(troughVal)} over ${daysDown} days. It has since recovered ${recoveryPct.toFixed(0)}% to ${formatTVL(currentTvl)}.`;
+        trajectory = recoveryPct > maxDrawdownPct * 0.5 ? "sideways" : "down";
+        // Add contextualization for 30-70% drawdown
+        if (maxDrawdownPct >= 30 && maxDrawdownPct <= 70) {
+          text += " TVL is materially below its historical peak.";
+        } else if (maxDrawdownPct > 90) {
+          const troughDate = new Date(troughTs * 1000).toLocaleDateString("en-US", { month: "short", year: "numeric" });
+          text += ` Most depositors had withdrawn by ${troughDate}; the strategy currently operates at a small fraction of its historical scale.`;
+        }
       } else {
-        items.push({
-          text: `TVL drew down ${maxDrawdownPct.toFixed(0)}% from a peak of ${formatTVL(peakVal)} to ${formatTVL(troughVal)} over ${daysDown} days and currently stands at ${formatTVL(currentTvl)}.`,
-          trajectory: "down",
-        });
+        text = `TVL drew down ${maxDrawdownPct.toFixed(0)}% from a peak of ${formatTVL(peakVal)} to ${formatTVL(troughVal)} over ${daysDown} days and currently stands at ${formatTVL(currentTvl)}.`;
+        trajectory = "down";
+        // Add contextualization
+        if (maxDrawdownPct >= 30 && maxDrawdownPct <= 70) {
+          text += " TVL is materially below its historical peak.";
+        } else if (maxDrawdownPct > 90) {
+          const troughDate = new Date(troughTs * 1000).toLocaleDateString("en-US", { month: "short", year: "numeric" });
+          text += ` Most depositors had withdrawn by ${troughDate}; the strategy currently operates at a small fraction of its historical scale.`;
+        }
       }
+
+      items.push({ text, trajectory });
     }
   }
 
-  // Best / worst month by average APY
+  // Best / worst month (#13)
   if (history.apyHistory.length >= 60) {
     const validApy = history.apyHistory.filter((p) => p.apy >= 0);
     const monthMap = new Map<string, number[]>();
@@ -114,9 +141,24 @@ export function HistoricalNarrative({ history }: Props) {
           year: "numeric",
         });
       };
+
+      // Estimate total days tracked from sorted apy data
+      const sortedApy = [...validApy].sort((a, b) => a.timestamp - b.timestamp);
+      const totalDays = sortedApy.length >= 2
+        ? (sortedApy[sortedApy.length - 1].timestamp - sortedApy[0].timestamp) / 86400
+        : 0;
+
       if (best.key !== worst.key) {
+        let text = `Best performing month was ${fmtMonth(best.key)} at ${best.avg.toFixed(2)}% average APY; weakest was ${fmtMonth(worst.key)} at ${worst.avg.toFixed(2)}%.`;
+
+        // Contextualization: omit if <90 days tracked or spread <5pp
+        if (totalDays >= 90 && best.avg - worst.avg >= 5) {
+          const spreadMonthly = apyToMonthly(best.avg - worst.avg, ref.amount);
+          text += ` The spread between best and worst months represents ${fmtEarnings(spreadMonthly, asset)} per ${ref.label} per month.`;
+        }
+
         items.push({
-          text: `Best performing month was ${fmtMonth(best.key)} at ${best.avg.toFixed(2)}% average APY; weakest was ${fmtMonth(worst.key)} at ${worst.avg.toFixed(2)}%.`,
+          text,
           trajectory: best.avg >= worst.avg ? "up" : "sideways",
         });
       }

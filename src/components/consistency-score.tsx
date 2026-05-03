@@ -1,8 +1,10 @@
+import { depositRef, apyToMonthly, fmtEarnings } from "@/lib/contextualize";
 import type { FullVaultHistory } from "@/lib/history-api";
 
 interface ConsistencyScoreProps {
   history: FullVaultHistory;
   spotAPY: number;
+  asset: string;
 }
 
 const DAY = 24 * 60 * 60;
@@ -53,12 +55,17 @@ function computeScore(history: FullVaultHistory, spotAPY: number) {
   const staleDays = Math.floor((nowSeconds - latestTs) / DAY);
   const isStale = staleDays > STALE_THRESHOLD_DAYS;
 
+  const minApy = Math.min(...values);
+  const maxApy = Math.max(...values);
+
   return {
     score,
     label,
     cv,
     mean,
     stdDev,
+    minApy,
+    maxApy,
     dataPoints: values.length,
     latestTs,
     isStale,
@@ -69,6 +76,7 @@ function computeScore(history: FullVaultHistory, spotAPY: number) {
 export function ConsistencyScore({
   history,
   spotAPY,
+  asset,
 }: ConsistencyScoreProps) {
   const result = computeScore(history, spotAPY);
 
@@ -91,12 +99,26 @@ export function ConsistencyScore({
     ? `the 30 days ending ${new Date(result.latestTs * 1000).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}`
     : "the past 30 days";
 
-  const explanation =
+  const baseExplanation =
     result.score >= 70
       ? `Over ${windowLabel}, APY averaged ${result.mean.toFixed(2)}% across ${result.dataPoints} data points with a standard deviation of ${result.stdDev.toFixed(2)}%, indicating reliable, repeatable yield generation.`
       : result.score >= 40
         ? `Over ${windowLabel}, APY averaged ${result.mean.toFixed(2)}% with a standard deviation of ${result.stdDev.toFixed(2)}% across ${result.dataPoints} data points, showing moderate fluctuation.`
         : `Over ${windowLabel}, APY averaged ${result.mean.toFixed(2)}% but showed ${result.stdDev.toFixed(2)}% standard deviation across ${result.dataPoints} data points, indicating significant rate volatility.`;
+
+  // Contextualization (#11)
+  const ref = depositRef(asset);
+  let ctx = "";
+  if (result.cv < 0.1) {
+    // Very Consistent: fixed wording
+    ctx = ` In practice, monthly earnings on ${ref.label} have varied by less than ${asset === "ETH" || asset === "BTC" ? `0.001 ${asset}` : "$1"} over this window.`;
+  } else {
+    const lowMonthly = apyToMonthly(result.minApy, ref.amount);
+    const highMonthly = apyToMonthly(result.maxApy, ref.amount);
+    ctx = ` In practice, ${ref.label} deposited has earned anywhere from ${fmtEarnings(lowMonthly, asset)} to ${fmtEarnings(highMonthly, asset)} per month over this window.`;
+  }
+
+  const explanation = baseExplanation + ctx;
 
   const r = 38;
   const c = 2 * Math.PI * r;

@@ -392,10 +392,11 @@ export default async function ProductPage({
               history={history}
               productName={vault.productName}
               apy24h={vault.apy24h}
+              asset={vault.asset}
             />
 
             {/* Consistency Score */}
-            <ConsistencyScore history={history} spotAPY={vault.apy24h} />
+            <ConsistencyScore history={history} spotAPY={vault.apy24h} asset={vault.asset} />
 
             {/* Yield Breakdown */}
             {vault.apyBreakdown.length > 0 && (
@@ -408,10 +409,10 @@ export default async function ProductPage({
             {/* Long-term performance narrative: flowing prose for the
                 CAGR / drawdown / best-month story. Lives before the
                 Historical statistics tables. */}
-            <HistoricalNarrative history={history} />
+            <HistoricalNarrative history={history} asset={vault.asset} />
 
             {/* Historical Stats */}
-            <HistoricalStats history={history} />
+            <HistoricalStats history={history} asset={vault.asset} />
 
             {/* Daily History Table */}
             <VaultHistoryTable history={history} />

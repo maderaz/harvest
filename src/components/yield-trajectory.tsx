@@ -1,10 +1,12 @@
 import { formatAPY } from "@/lib/format";
+import { depositRef, apyToMonthly, fmtEarnings } from "@/lib/contextualize";
 import type { FullVaultHistory } from "@/lib/history-api";
 
 interface Props {
   history: FullVaultHistory;
   productName: string;
   apy24h: number;
+  asset: string;
 }
 
 function mean(vals: number[]): number {
@@ -18,8 +20,11 @@ function formatDate(ts: number): string {
   });
 }
 
-export function YieldTrajectory({ history, productName, apy24h }: Props) {
+export function YieldTrajectory({ history, productName, apy24h, asset }: Props) {
   const now = Math.floor(Date.now() / 1000);
+  const ref = depositRef(asset);
+  const isNativeAsset = asset === "ETH" || asset === "BTC";
+
   const validApy = history.apyHistory
     .filter((p) => p.apy >= 0)
     .sort((a, b) => a.timestamp - b.timestamp);
@@ -94,25 +99,62 @@ export function YieldTrajectory({ history, productName, apy24h }: Props) {
 
   const sentences: string[] = [];
 
-  sentences.push(
-    `${productName} has been on a ${streakLen}-day ${streakLabel} streak, with APY moving from ${formatAPY(streakFrom)} to ${formatAPY(streakTo)} over this period.`,
-  );
+  // #8 Streak sentence with contextualization
+  const streakPrefix = streakLen === 1
+    ? `${productName}, in the latest update,`
+    : `${productName} has been on a ${streakLen}-day ${streakLabel} streak,`;
+  let streakSentence = `${streakPrefix} with APY moving from ${formatAPY(streakFrom)} to ${formatAPY(streakTo)} over this period.`;
+
+  const fromMonthly = apyToMonthly(streakFrom, ref.amount);
+  const toMonthly = apyToMonthly(streakTo, ref.amount);
+  const swing = Math.abs(fromMonthly - toMonthly);
+  if (swing >= 1) {
+    streakSentence += ` On a ${ref.label} deposit, that's a swing from earning ${fmtEarnings(fromMonthly, asset)}/mo to ${fmtEarnings(toMonthly, asset)}/mo.`;
+  }
+  sentences.push(streakSentence);
 
   sentences.push(
     `Over the past 30 days, the vault delivered positive yields on ${daysWithYield} out of ${recent30d.length} days.`,
   );
 
+  // #9 WoW with contextualization
   if (lastWeek.length >= 3 && thisWeek.length >= 3) {
-    const wowDir = wow >= 0 ? "increased" : "declined";
-    sentences.push(
-      `Week-over-week, yields have ${wowDir} by ${Math.abs(wow).toFixed(1)}%.`,
-    );
+    let wowSentence: string;
+    if (Math.abs(wow) > 100) {
+      const dir = wow > 0 ? "more than doubled" : "dropped by more than half";
+      wowSentence = `Week-over-week, yields have ${dir}.`;
+    } else {
+      const wowDir = wow >= 0 ? "increased" : "declined";
+      wowSentence = `Week-over-week, yields have ${wowDir} by ${Math.abs(wow).toFixed(1)}%.`;
+    }
+
+    // Contextualization: monthly dollar shift
+    const wowMonthlyShift = apyToMonthly(thisWeekAvg - lastWeekAvg, ref.amount);
+    const absShift = Math.abs(wowMonthlyShift);
+    if (absShift >= 0.5) {
+      const sign = wowMonthlyShift >= 0 ? "+" : "-";
+      // fmtEarnings outputs "~$X" — insert sign after ~
+      const formatted = fmtEarnings(absShift, asset);
+      const signedFormatted = isNativeAsset
+        ? `${sign}${formatted}`
+        : formatted.replace("~$", `~${sign}$`);
+      wowSentence += ` That's a shift of ${signedFormatted}/mo per ${ref.label} deposited.`;
+    }
+
+    sentences.push(wowSentence);
   }
 
+  // #10 Best/worst 7-day window with contextualization
   if (bestWindow.avg > -Infinity && worstWindow.avg < Infinity) {
-    sentences.push(
-      `The strongest 7-day period was ${formatDate(bestWindow.start)}–${formatDate(bestWindow.end)} averaging ${bestWindow.avg.toFixed(2)}%, while the weakest was ${formatDate(worstWindow.start)}–${formatDate(worstWindow.end)} at ${worstWindow.avg.toFixed(2)}%.`,
-    );
+    let windowSentence = `The strongest 7-day period was ${formatDate(bestWindow.start)}-${formatDate(bestWindow.end)} averaging ${bestWindow.avg.toFixed(2)}%, while the weakest was ${formatDate(worstWindow.start)}-${formatDate(worstWindow.end)} at ${worstWindow.avg.toFixed(2)}%.`;
+
+    if (bestWindow.avg - worstWindow.avg >= 2) {
+      const highMonthly = apyToMonthly(bestWindow.avg, ref.amount);
+      const lowMonthly = apyToMonthly(worstWindow.avg, ref.amount);
+      windowSentence += ` On ${ref.label}, that's the difference between earning ${fmtEarnings(highMonthly, asset)} and ${fmtEarnings(lowMonthly, asset)} per month.`;
+    }
+
+    sentences.push(windowSentence);
   }
 
   if (Math.abs(vs30d) > 5) {
