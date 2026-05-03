@@ -1,8 +1,8 @@
 import Link from "next/link";
-import { getLiveVaults, getAllSparklines } from "@/lib/data";
+import { getLiveVaults, getAllSparklines, getTrackedDaysMap } from "@/lib/data";
 import { SITE_NAME, SITE_DESCRIPTION, SITE_URL } from "@/lib/constants";
 import { VaultList } from "@/components/vault-list";
-import { formatAPY, formatTVL } from "@/lib/format";
+import { formatAPY, formatTVL, stripChainSuffix } from "@/lib/format";
 import { TickerStrip } from "@/components/ticker-strip";
 import type { Metadata } from "next";
 
@@ -100,56 +100,65 @@ interface FaqItem {
   answer: string;
 }
 
+interface FaqStats {
+  vaultCount: number;
+  chainCount: number;
+  totalTvl: number;
+  avgApy: number;
+  bestApy: number;
+  bestApyVault: string;
+  bestApyProtocol: string;
+  protocolCount: number;
+  topChainsLabel: string;
+  longestTrackedDays: number;
+  longestTrackedName: string;
+  assetBreakdown: string;
+  yearsOperating: number;
+}
+
 // Build a 7-question FAQ that targets broad search intent ("what is the
 // best DeFi yield", "how is APY calculated", "how often is data updated",
 // etc.). Answers cite live counts from the indexed dataset so the visible
 // text on the page always matches the FAQPage schema we emit, which is a
 // hard requirement for Google rich-result eligibility.
-function buildHomepageFaq({
-  vaultCount,
-  chainCount,
-  bestApyAcrossIndex,
-  topAssetSummary,
-}: {
-  vaultCount: number;
-  chainCount: number;
-  bestApyAcrossIndex: number;
-  topAssetSummary: string;
-}): FaqItem[] {
+function buildHomepageFaq(s: FaqStats): FaqItem[] {
   return [
     {
       question: "What is Harvest Finance?",
-      answer: `Harvest is an onchain yield index that tracks ${vaultCount}+ DeFi yield strategies across ${chainCount} networks. We surface APY, TVL and performance history for each strategy so users can compare yield sources side by side. Harvest has been operating onchain since 2020.`,
+      answer: `Harvest is an onchain yield index that currently tracks ${s.vaultCount} DeFi yield strategies across ${s.chainCount} networks, representing ${formatTVL(s.totalTvl)} in tracked TVL. The strategies in the index are spread across ${s.protocolCount} distinct underlying protocols. Harvest has been operating onchain since 2020, ${s.yearsOperating}+ years of continuous on-chain activity.`,
     },
     {
       question: "What is the best DeFi yield right now?",
-      answer: `The single highest 24-hour APY across the strategies we currently index is ${bestApyAcrossIndex.toFixed(2)}%. The top of the ranking changes as on-chain conditions shift; the table on this page is sorted by 24-hour APY by default and updates with every daily build. ${topAssetSummary}`,
+      answer: `The highest 24-hour APY in our index right now is ${s.bestApy.toFixed(2)}%, currently held by ${s.bestApyVault} on ${s.bestApyProtocol}. The average 24-hour APY across all ${s.vaultCount} strategies we follow sits at ${s.avgApy.toFixed(2)}%. The ranking changes as on-chain conditions shift; the table on this page is sorted by 24-hour APY by default and updates with every daily build.`,
     },
     {
       question: "How is APY calculated?",
-      answer:
-        "24-hour APY is the mean of APY records observed in the last 24 hours from our hosted indexer. 30-day APY is the simple arithmetic mean of daily APY observations over the last 30 days, filtering out negative values. APY is not time-weighted and does not account for compounding within the window. Reward tokens contribute at the rates published by the underlying protocol; we do not perform our own USD conversion of reward streams. Full details are on the methodology page.",
+      answer: `24-hour APY is the mean of APY records observed in the last 24 hours from our hosted indexer. 30-day APY is the simple arithmetic mean of daily APY observations over the last 30 days, filtering out negative values. APY is not time-weighted and does not account for compounding within the window. Reward tokens contribute at the rates published by the underlying protocol; we do not perform our own USD conversion of reward streams. The longest continuously-tracked strategy in our current index is ${s.longestTrackedName} at ${s.longestTrackedDays}+ days of APY history. Full methodology details are on the methodology page.`,
     },
     {
       question: "How often is the data updated?",
-      answer:
-        "Strategy data is refetched hourly from the underlying APIs and the site is rebuilt as a static export, so the version a visitor sees can lag the latest fetch by up to one hour. The freshness line in the footer reflects this. Real-time on-page values are not currently provided.",
+      answer: `Strategy data is refetched hourly from the underlying APIs and the site is rebuilt as a static export, so the version a visitor sees can lag the latest fetch by up to one hour. The current build reflects ${s.vaultCount} live strategies across ${s.chainCount} networks. Real-time on-page values are not currently provided; the freshness line in the footer reflects this.`,
     },
     {
       question: "Are these yields safe?",
-      answer:
-        "No DeFi yield strategy is risk-free. Smart-contract risk, oracle risk, liquidity risk, depeg risk and governance risk all apply, and risk profiles vary between protocols and between deployments of the same protocol on different networks. Per-strategy risk levels currently shown on the site are editorial classifications and are not yet derived from a quantitative model. The risk framework page covers the categories in more detail.",
+      answer: `No DeFi yield strategy is risk-free. Smart-contract risk, oracle risk, liquidity risk, depeg risk and governance risk all apply, and risk profiles vary between protocols and between deployments of the same protocol on different networks. Across the ${s.vaultCount} strategies in our index today, all are operated by Harvest Finance, which we disclose openly. Per-strategy risk levels shown on the site are editorial classifications and are not yet derived from a quantitative model; the risk framework page covers the categories in more detail.`,
     },
     {
       question: "What chains and assets does Harvest cover?",
-      answer: `We currently index strategies on ${chainCount} networks, with the largest coverage on Ethereum, Base and Arbitrum. The asset families we track are USDC, USDT, ETH (including WETH and major staking derivatives) and Bitcoin (WBTC, cbBTC, tBTC). Coverage expands as new strategies are added to the index.`,
+      answer: `We currently index strategies on ${s.chainCount} networks, with the largest coverage on ${s.topChainsLabel}. The asset breakdown across the strategies we follow is ${s.assetBreakdown}. ETH coverage includes WETH and major staking derivatives; BTC coverage includes WBTC, cbBTC and tBTC. Coverage expands as new strategies are added to the index.`,
     },
     {
       question: "Is Harvest a DeFi protocol or an aggregator?",
-      answer:
-        "Harvest is both. The indexed strategies on this site are operated by Harvest Finance today, which we disclose openly on the methodology page. Listing and ranking are not influenced by operator status because, at present, all listed strategies share the same operator. Future expansion to third-party operators will preserve neutral ranking.",
+      answer: `Harvest is both. Every one of the ${s.vaultCount} strategies listed on this site today is operated by Harvest Finance, which we disclose openly on the methodology page. Listing and ranking are not influenced by operator status because, at present, all listed strategies share the same operator. Future expansion to third-party operators will preserve neutral ranking.`,
     },
   ];
+}
+
+function humanList(items: string[]): string {
+  if (items.length === 0) return "";
+  if (items.length === 1) return items[0];
+  if (items.length === 2) return `${items[0]} and ${items[1]}`;
+  return `${items.slice(0, -1).join(", ")} and ${items[items.length - 1]}`;
 }
 
 export default async function Home() {
@@ -159,20 +168,73 @@ export default async function Home() {
   const platforms = computePlatforms(vaults);
   const featuredAssets = computeFeaturedAssets(vaults);
 
-  const bestApyAcrossIndex = vaults.reduce(
-    (b, v) => (v.apy24h > b ? v.apy24h : b),
-    0,
-  );
-  const topAsset = featuredAssets[0];
-  const topAssetSummary = topAsset
-    ? `Among the asset families we track, ${topAsset.asset} currently has the deepest coverage at ${topAsset.poolCount} indexed strategies.`
+  // Live stats woven into every FAQ answer so the schema and visible body
+  // always match against the same indexed snapshot.
+  const trackedDaysMap = await getTrackedDaysMap();
+
+  const sortedByApy = [...vaults].sort((a, b) => b.apy24h - a.apy24h);
+  const top = sortedByApy[0];
+  const bestApy = top?.apy24h ?? 0;
+  const bestApyVault = top?.productName ?? "";
+  const bestApyProtocol = top
+    ? stripChainSuffix(top.category, top.chain)
     : "";
+
+  const protocolCount = new Set(
+    vaults.map((v) => stripChainSuffix(v.category, v.chain)),
+  ).size;
+
+  // Top 3 chains by indexed TVL on this network in our cohort
+  const tvlByChain = new Map<string, number>();
+  for (const v of vaults) {
+    tvlByChain.set(v.chain, (tvlByChain.get(v.chain) ?? 0) + v.tvl);
+  }
+  const topChainsLabel = humanList(
+    [...tvlByChain.entries()]
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 3)
+      .map(([c]) => c),
+  );
+
+  // Asset breakdown by strategy count, ordered desc; only assets with
+  // non-zero coverage are surfaced (no "DAI: 0" filler).
+  const assetCounts = new Map<string, number>();
+  for (const v of vaults) {
+    assetCounts.set(v.asset, (assetCounts.get(v.asset) ?? 0) + 1);
+  }
+  const assetBreakdown =
+    [...assetCounts.entries()]
+      .sort((a, b) => b[1] - a[1])
+      .map(([a, c]) => `${a} (${c})`)
+      .join(", ") || "populating";
+
+  // Longest continuously-tracked strategy from cached APY history
+  let longestTrackedDays = 0;
+  let longestTrackedName = "";
+  for (const v of vaults) {
+    const days = trackedDaysMap[v.contractAddress] ?? 0;
+    if (days > longestTrackedDays) {
+      longestTrackedDays = days;
+      longestTrackedName = v.productName;
+    }
+  }
+
+  const yearsOperating = new Date().getUTCFullYear() - 2020;
 
   const faqItems = buildHomepageFaq({
     vaultCount: stats.vaultCount,
     chainCount: stats.chainCount,
-    bestApyAcrossIndex,
-    topAssetSummary,
+    totalTvl: stats.totalTVL,
+    avgApy: stats.avgAPY,
+    bestApy,
+    bestApyVault,
+    bestApyProtocol,
+    protocolCount,
+    topChainsLabel,
+    longestTrackedDays,
+    longestTrackedName,
+    assetBreakdown,
+    yearsOperating,
   });
 
   const faqJsonLd = {
