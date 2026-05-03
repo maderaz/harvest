@@ -1,8 +1,7 @@
 import Link from "next/link";
-import { getLiveVaults, getTrackedDaysMap } from "@/lib/data";
+import { getLiveVaults } from "@/lib/data";
 import { NETWORKS } from "@/lib/networks";
-import { formatTVL, stripChainSuffix } from "@/lib/format";
-import { YieldVault } from "@/lib/types";
+import { formatTVL } from "@/lib/format";
 
 const ASSET_LABELS: Record<string, string> = {
   USDC: "USDC Yield",
@@ -56,8 +55,6 @@ const SOCIAL: { label: string; href: string; icon: React.ReactNode }[] = [
   },
 ];
 
-const TVL_FLOOR = 10_000;
-
 interface AssetEntry {
   asset: string;
   href: string;
@@ -75,7 +72,6 @@ interface NetworkEntry {
 
 export async function Footer() {
   const vaults = await getLiveVaults();
-  const trackedDaysMap = await getTrackedDaysMap();
 
   // === Asset & network columns: live counts, TVL-ordered ============
   const tvlByAsset = new Map<string, number>();
@@ -115,27 +111,6 @@ export async function Footer() {
   // === Brand column live stats ======================================
   const totalTvl = vaults.reduce((s, v) => s + v.tvl, 0);
   const networksWithCoverage = networkEntries.length;
-
-  // === Subsection A: single row of top 5 by 30D APY =================
-  const topByApy = vaults
-    .filter((v) => v.apy30d > 0 && v.tvl >= TVL_FLOOR)
-    .sort((a, b) => b.apy30d - a.apy30d)
-    .slice(0, 5);
-
-  // === Subsection B: notable strategies (3 picks, deterministic) =====
-  // 1) Largest USDC strategy by TVL
-  // 2) Highest 30D APY ETH strategy (TVL floor to avoid micro-vaults)
-  // 3) Longest-tracked BTC family strategy
-  const notableLargestUsdc = [...vaults]
-    .filter((v) => v.asset === "USDC" && v.tvl >= TVL_FLOOR)
-    .sort((a, b) => b.tvl - a.tvl)[0];
-  const notableTopEth = [...vaults]
-    .filter((v) => v.asset === "ETH" && v.tvl >= TVL_FLOOR && v.apy30d > 0)
-    .sort((a, b) => b.apy30d - a.apy30d)[0];
-  const notableOldestBtc = [...vaults]
-    .filter((v) => v.asset === "BTC")
-    .map((v) => ({ v, days: trackedDaysMap[v.contractAddress] ?? 0 }))
-    .sort((a, b) => b.days - a.days)[0];
 
   return (
     <footer className="foot">
@@ -214,85 +189,6 @@ export async function Footer() {
                 {l.label}
               </Link>
             ))}
-          </div>
-        </div>
-
-        {/* === EXPLORE THE INDEX (fat footer, three subsections) === */}
-        <div className="foot-explore">
-          <div className="foot-explore-header mono dim">Explore the index</div>
-
-          {topByApy.length > 0 && (
-            <div className="foot-explore-block">
-              <div className="foot-explore-sub">This week&apos;s top performers</div>
-              <div className="foot-explore-row">
-                {topByApy.map((v, i) => (
-                  <span key={v.id}>
-                    {i > 0 && <span className="foot-explore-sep"> · </span>}
-                    <Link href={`/${v.slug}`}>
-                      {v.productName} on{" "}
-                      {stripChainSuffix(v.category, v.chain)}
-                    </Link>
-                  </span>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {(notableLargestUsdc || notableTopEth || notableOldestBtc?.v) && (
-            <div className="foot-explore-block">
-              <div className="foot-explore-sub">Notable strategies</div>
-              <p className="foot-explore-prose">
-                Currently tracking some notable strategies:
-                {notableLargestUsdc && (
-                  <>
-                    {" "}
-                    <Link href={`/${notableLargestUsdc.slug}`}>
-                      {notableLargestUsdc.productName}
-                    </Link>{" "}
-                    on{" "}
-                    {stripChainSuffix(
-                      notableLargestUsdc.category,
-                      notableLargestUsdc.chain,
-                    )}
-                    , the largest USDC vault by TVL in our index
-                  </>
-                )}
-                {notableTopEth && (
-                  <>
-                    {notableLargestUsdc ? "; " : " "}
-                    <Link href={`/${notableTopEth.slug}`}>
-                      {notableTopEth.productName}
-                    </Link>{" "}
-                    on {notableTopEth.chain}, with the highest 30D average APY
-                    among the ETH strategies we monitor
-                  </>
-                )}
-                {notableOldestBtc?.v && notableOldestBtc.days >= 30 && (
-                  <>
-                    {(notableLargestUsdc || notableTopEth) ? "; and " : " "}
-                    <Link href={`/${notableOldestBtc.v.slug}`}>
-                      {notableOldestBtc.v.productName}
-                    </Link>
-                    , one of the longest-tracked Bitcoin strategies in the
-                    index at {notableOldestBtc.days}+ days
-                  </>
-                )}
-                .
-              </p>
-            </div>
-          )}
-
-          <div className="foot-explore-block">
-            <div className="foot-explore-sub">Browse</div>
-            <div className="foot-explore-row">
-              <Link href="/usdc">Stablecoin yields</Link>
-              <span className="foot-explore-sep"> · </span>
-              <Link href="/eth">Ethereum yields</Link>
-              <span className="foot-explore-sep"> · </span>
-              <Link href="/btc">Bitcoin yields</Link>
-              <span className="foot-explore-sep"> · </span>
-              <Link href="/methodology">Methodology</Link>
-            </div>
           </div>
         </div>
 

@@ -95,6 +95,63 @@ const ASSET_PAGES: Record<string, string> = {
   BTC: "/btc",
 };
 
+interface FaqItem {
+  question: string;
+  answer: string;
+}
+
+// Build a 7-question FAQ that targets broad search intent ("what is the
+// best DeFi yield", "how is APY calculated", "how often is data updated",
+// etc.). Answers cite live counts from the indexed dataset so the visible
+// text on the page always matches the FAQPage schema we emit, which is a
+// hard requirement for Google rich-result eligibility.
+function buildHomepageFaq({
+  vaultCount,
+  chainCount,
+  bestApyAcrossIndex,
+  topAssetSummary,
+}: {
+  vaultCount: number;
+  chainCount: number;
+  bestApyAcrossIndex: number;
+  topAssetSummary: string;
+}): FaqItem[] {
+  return [
+    {
+      question: "What is Harvest Finance?",
+      answer: `Harvest is an onchain yield index that tracks ${vaultCount}+ DeFi yield strategies across ${chainCount} networks. We surface APY, TVL and performance history for each strategy so users can compare yield sources side by side. Harvest has been operating onchain since 2020.`,
+    },
+    {
+      question: "What is the best DeFi yield right now?",
+      answer: `The single highest 24-hour APY across the strategies we currently index is ${bestApyAcrossIndex.toFixed(2)}%. The top of the ranking changes as on-chain conditions shift; the table on this page is sorted by 24-hour APY by default and updates with every daily build. ${topAssetSummary}`,
+    },
+    {
+      question: "How is APY calculated?",
+      answer:
+        "24-hour APY is the mean of APY records observed in the last 24 hours from our hosted indexer. 30-day APY is the simple arithmetic mean of daily APY observations over the last 30 days, filtering out negative values. APY is not time-weighted and does not account for compounding within the window. Reward tokens contribute at the rates published by the underlying protocol; we do not perform our own USD conversion of reward streams. Full details are on the methodology page.",
+    },
+    {
+      question: "How often is the data updated?",
+      answer:
+        "Strategy data is refetched hourly from the underlying APIs and the site is rebuilt as a static export, so the version a visitor sees can lag the latest fetch by up to one hour. The freshness line in the footer reflects this. Real-time on-page values are not currently provided.",
+    },
+    {
+      question: "Are these yields safe?",
+      answer:
+        "No DeFi yield strategy is risk-free. Smart-contract risk, oracle risk, liquidity risk, depeg risk and governance risk all apply, and risk profiles vary between protocols and between deployments of the same protocol on different networks. Per-strategy risk levels currently shown on the site are editorial classifications and are not yet derived from a quantitative model. The risk framework page covers the categories in more detail.",
+    },
+    {
+      question: "What chains and assets does Harvest cover?",
+      answer: `We currently index strategies on ${chainCount} networks, with the largest coverage on Ethereum, Base and Arbitrum. The asset families we track are USDC, USDT, ETH (including WETH and major staking derivatives) and Bitcoin (WBTC, cbBTC, tBTC). Coverage expands as new strategies are added to the index.`,
+    },
+    {
+      question: "Is Harvest a DeFi protocol or an aggregator?",
+      answer:
+        "Harvest is both. The indexed strategies on this site are operated by Harvest Finance today, which we disclose openly on the methodology page. Listing and ranking are not influenced by operator status because, at present, all listed strategies share the same operator. Future expansion to third-party operators will preserve neutral ranking.",
+    },
+  ];
+}
+
 export default async function Home() {
   const vaults = await getLiveVaults();
   const sparklines = await getAllSparklines();
@@ -102,8 +159,38 @@ export default async function Home() {
   const platforms = computePlatforms(vaults);
   const featuredAssets = computeFeaturedAssets(vaults);
 
+  const bestApyAcrossIndex = vaults.reduce(
+    (b, v) => (v.apy24h > b ? v.apy24h : b),
+    0,
+  );
+  const topAsset = featuredAssets[0];
+  const topAssetSummary = topAsset
+    ? `Among the asset families we track, ${topAsset.asset} currently has the deepest coverage at ${topAsset.poolCount} indexed strategies.`
+    : "";
+
+  const faqItems = buildHomepageFaq({
+    vaultCount: stats.vaultCount,
+    chainCount: stats.chainCount,
+    bestApyAcrossIndex,
+    topAssetSummary,
+  });
+
+  const faqJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqItems.map((item) => ({
+      "@type": "Question",
+      name: item.question,
+      acceptedAnswer: { "@type": "Answer", text: item.answer },
+    })),
+  };
+
   return (
     <>
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+    />
     <TickerStrip vaults={vaults} sparklines={sparklines} />
     <main className="page">
       {/* === Hero === */}
@@ -211,6 +298,24 @@ export default async function Home() {
               <div className="cat-apy mono">{formatAPY(p.avgApy)}</div>
               <div className="cat-foot dim mono">avg APY &middot; {formatTVL(p.totalTvl)} TVL</div>
             </div>
+          ))}
+        </div>
+      </div>
+
+      {/* === FAQ === */}
+      <div className="section-title-bar" id="faq">
+        <h2>Frequently Asked Questions</h2>
+        <span className="mono dim">
+          About yield, risk, and our methodology
+        </span>
+      </div>
+      <div className="card section">
+        <div className="faq">
+          {faqItems.map((item, i) => (
+            <details key={i} open={i === 0}>
+              <summary>{item.question}</summary>
+              <p>{item.answer}</p>
+            </details>
           ))}
         </div>
       </div>

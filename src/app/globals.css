@@ -759,45 +759,6 @@ button { font-family: inherit; cursor: pointer; }
 .foot-link:hover { color: var(--ink); }
 .foot-count { color: var(--ink-4); font-variant-numeric: tabular-nums; font-size: 11px; }
 
-.foot-explore {
-  border-top: 1px solid var(--line);
-  padding-top: 22px;
-  display: flex;
-  flex-direction: column;
-  gap: 26px;
-}
-.foot-explore-header {
-  font-size: 10.5px !important;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-}
-.foot-explore-block { display: flex; flex-direction: column; gap: 6px; }
-.foot-explore-sub {
-  font-size: 12.5px;
-  color: var(--ink-2);
-  font-weight: 500;
-}
-.foot-explore-row {
-  font-size: 12px;
-  color: var(--ink-3);
-  line-height: 1.65;
-}
-.foot-explore-row a { color: var(--ink-2); }
-.foot-explore-row a:hover { color: var(--ink); }
-.foot-explore-sep { color: var(--ink-4); }
-.foot-explore-prose {
-  font-size: 12.5px;
-  color: var(--ink-3);
-  line-height: 1.7;
-  margin: 0;
-}
-.foot-explore-prose a {
-  color: var(--ink-2);
-  text-decoration: underline;
-  text-decoration-color: var(--line-2);
-  text-underline-offset: 2px;
-}
-.foot-explore-prose a:hover { color: var(--ink); }
 
 .foot-legal {
   font-size: 11px;
