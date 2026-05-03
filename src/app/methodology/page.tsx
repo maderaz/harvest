@@ -8,7 +8,7 @@ import { METHODOLOGY_VERSION, METHODOLOGY_CHANGELOG, METHODOLOGY_URL } from "@/l
 
 const TITLE = "Methodology: How Harvest Tracks DeFi Yields | Harvest";
 const DESCRIPTION =
-  "How Harvest tracks 150+ DeFi yield sources. APY calculations, data sources, ranking methodology, and update cadence.";
+  "How Harvest tracks DeFi yield sources: APY calculations, data sources, ranking methodology, share price, and update cadence.";
 
 export const metadata: Metadata = {
   title: { absolute: TITLE },
@@ -28,6 +28,7 @@ const SECTIONS = [
   { id: "what-counts", label: "What counts as a yield source" },
   { id: "apy-calculation", label: "APY calculation" },
   { id: "tvl", label: "TVL measurement" },
+  { id: "product-metrics", label: "Product page metrics" },
   { id: "data-freshness", label: "Data freshness" },
   { id: "ranking", label: "Ranking" },
   { id: "consistency", label: "Consistency scoring" },
@@ -69,11 +70,11 @@ const LIMITATIONS = [
   },
   {
     title: "Reward token conversion is upstream",
-    desc: "We do not perform our own USD valuation of reward tokens. If the Harvest API's price source for a reward token is stale or inaccurate, the APY reported on this site reflects that inaccuracy.",
+    desc: "We do not perform our own USD valuation of reward tokens. If the Harvest API's pricing for a reward token is stale or inaccurate, the APY reported on this site reflects that inaccuracy.",
   },
   {
-    title: "Risk levels are editorial",
-    desc: "The low/medium/high classification is not backed by a published quantitative model. It should not be used as the sole basis for assessing the risk of a strategy.",
+    title: "Risk levels are not quantitatively scored",
+    desc: "This site does not publish per-strategy risk ratings or opinions. The risk dimensions listed in the Risk framework section describe the categories of risk present in DeFi vault strategies; they are informational only and do not constitute advice.",
   },
   {
     title: "Third-party operators not yet indexed",
@@ -81,7 +82,7 @@ const LIMITATIONS = [
   },
   {
     title: "No lifetime APY figure",
-    desc: "We do not publish a single annualized figure for the full tracked history of a strategy. Share-price growth since inception is shown instead, which is a more honest representation of compounded returns over time.",
+    desc: "We do not publish a single annualized figure for the full tracked history of a strategy. Share-price growth since the indexer first observed the vault is shown instead, which is a more honest representation of compounded returns over time.",
   },
   {
     title: "Tracked-since date is not deployment date",
@@ -102,8 +103,8 @@ export default async function MethodologyPage() {
   const [allVaults, liveVaults] = await Promise.all([getVaults(), getLiveVaults()]);
 
   const chains = new Set(liveVaults.map((v) => v.chain));
-  const protocols = new Set(liveVaults.map((v) => stripChainSuffix(v.category, v.chain)));
   const assets = new Set(liveVaults.map((v) => v.asset));
+  const inactiveCount = allVaults.length - liveVaults.length;
 
   const crumbs = [
     { name: "Home", url: SITE_URL },
@@ -153,6 +154,10 @@ export default async function MethodologyPage() {
               <span className="meth-stat-val">{liveVaults.length}</span>
               <span className="meth-stat-lbl">live strategies</span>
             </div>
+            <div className="meth-stat meth-stat--dim" role="listitem">
+              <span className="meth-stat-val">{inactiveCount}</span>
+              <span className="meth-stat-lbl">inactive</span>
+            </div>
             <div className="meth-stat" role="listitem">
               <span className="meth-stat-val">{chains.size}</span>
               <span className="meth-stat-lbl">networks</span>
@@ -185,18 +190,26 @@ export default async function MethodologyPage() {
             {/* ── 1. Scope ──────────────────────────────────── */}
             <section id="scope" className="meth-section">
               <h2 className="meth-h2">What the index covers</h2>
+
+              <div className="meth-callout">
+                All {allVaults.length} strategies currently in this index are operated
+                by Harvest Finance. This is not a neutral third-party aggregator -
+                it is Harvest's own product catalog. The index is being expanded to
+                cover strategies from other operators under the same methodology as
+                that infrastructure develops. See the{" "}
+                <a href="#disclosure">Disclosure</a> section for the full picture.
+              </div>
+
               <p>
-                The Harvest yield index currently tracks {allVaults.length} yield strategies
-                across {chains.size} networks, covering {assets.size} asset
-                families ({Array.from(assets).join(", ")}). Of those,{" "}
-                {liveVaults.length} are live at the time of the last data refresh -
-                meaning they have both a positive APY and a positive TVL. The remainder are
-                inactive or flagged by the operator as deprecated.
-              </p>
-              <p>
-                Coverage reflects what is operated on-chain through Harvest Finance today.
-                The intent is to expand the index to include third-party operators under a
-                consistent methodology as that infrastructure is built.
+                Of the {allVaults.length} indexed strategies, {liveVaults.length} are
+                live at the time of the last data refresh (positive APY and positive
+                TVL), spread across {chains.size} networks and {assets.size} asset
+                families ({Array.from(assets).join(", ")}). The remaining{" "}
+                {inactiveCount} are inactive - their APY or TVL is zero at every
+                fetch. Inactive strategies are removed from all ranked listings and
+                hub pages. Their individual product pages remain accessible via
+                direct URL but are not linked from any navigation. Historical data
+                for inactive strategies is retained.
               </p>
             </section>
 
@@ -231,32 +244,50 @@ export default async function MethodologyPage() {
             <section id="apy-calculation" className="meth-section">
               <h2 className="meth-h2">How APY is calculated</h2>
               <p>
-                The primary APY figure on hub and product pages is the 24-hour APY: the
-                arithmetic mean of all valid APY observations recorded in the last 24 hours.
-                A valid observation is one where the recorded value is not negative. If fewer
-                than one data point is available in that window, the system falls back to
-                the earliest valid APY observation in the history record. APY is expressed
-                as an annualized percentage.
+                The 24H APY displayed on hub and product pages is the arithmetic mean of
+                all <code>apyAutoCompound</code> records returned by Harvest's indexer
+                subgraph for timestamps within the past 24 hours. The subgraph can emit
+                multiple records per hour depending on vault activity; the number of data
+                points in any 24-hour window varies by chain and protocol. If no records
+                exist within the window, the system falls back to the most recent valid
+                APY observation on record. APY is expressed as an annualized percentage.
               </p>
               <p>
-                The 30-day APY is the arithmetic mean of all valid daily APY observations
-                from the last 30 days. It is not time-weighted and does not account for
-                compounding within the window. Its purpose is to smooth out single-day
-                spikes.
+                The 30-day APY is the arithmetic mean of all valid <code>apyAutoCompound</code>{" "}
+                subgraph records from the last 30 days. It is not time-weighted and does
+                not account for compounding within the window. Its purpose is to smooth
+                out single-day spikes.
               </p>
               <p>
-                APY values originate from the Harvest API, which derives them from the
-                estimated yield rate of the underlying protocol positions. For strategies
-                where reward tokens contribute to yield (such as AERO or CRV emissions),
-                those reward streams are included at the rate published by the underlying
-                protocol. We do not independently convert reward tokens to USD; the
-                conversion is performed upstream by the protocol or its price feed.
+                APY values in the subgraph originate from Harvest's on-chain strategy
+                contracts, which derive them from the estimated yield rate of the
+                underlying protocol positions. For strategies where reward tokens
+                contribute to yield (such as AERO or CRV emissions), those reward
+                streams are included at the rate computed by Harvest's backend, which
+                converts reward token quantities to USD using its own pricing
+                infrastructure. We do not independently perform this conversion; see{" "}
+                <a href="#data-sources">Data sources</a> for detail on upstream pricing.
+                Reward token contributions are shown separately in the Yield Sources
+                panel on each product page.
               </p>
               <p>
                 There is no lifetime APY figure in the index. Annualizing returns over
                 multi-year periods conflates compounding periods with different market
                 conditions. Lifetime share-price growth is shown instead as a less
                 misleading long-term signal.
+              </p>
+
+              <h3 className="meth-h3">Yield Sources panel</h3>
+              <p>
+                The Yield Sources panel on each product page breaks down the total APY
+                into its contributing streams. Each row corresponds to one entry in
+                the Harvest API's <code>estimatedApyBreakdown</code> array, labeled
+                by the corresponding token symbol from <code>apyTokenSymbols</code>
+                (e.g., "USDC" for the base lending rate, "AERO" for protocol incentives).
+                A "Compounding boost" row appears when <code>boostedEstimatedAPY</code>{" "}
+                is non-zero; it represents additional yield from the autocompounding
+                mechanic itself. The sum of all rows equals the total reported APY
+                for that strategy.
               </p>
             </section>
 
@@ -279,7 +310,63 @@ export default async function MethodologyPage() {
               </p>
             </section>
 
-            {/* ── 5. Data freshness ─────────────────────────── */}
+            {/* ── 5. Product page metrics ───────────────────── */}
+            <section id="product-metrics" className="meth-section">
+              <h2 className="meth-h2">Product page metrics</h2>
+              <p>
+                The following metrics appear on individual product pages and are not
+                covered elsewhere in this methodology.
+              </p>
+
+              <h3 className="meth-h3">Share price</h3>
+              <p>
+                Share price is the redemption rate of one vault share in terms of the
+                underlying token. It is sourced from the Harvest API's{" "}
+                <code>pricePerFullShare</code> field and normalized for the vault's
+                token decimals. When a vault launches, share price is typically 1.0.
+                It increases monotonically as the vault harvests rewards, swaps them
+                back into the underlying token, and compounds. Share price does not
+                decrease in normal operation; a falling share price would indicate
+                a loss event.
+              </p>
+              <p>
+                The "% since inception" figure shown below the share price is computed
+                from the history record as{" "}
+                <code>(latest - earliest) / earliest × 100</code>, where earliest and
+                latest are the first and last <code>sharePriceHistory</code> entries
+                returned by the subgraph for that vault. This reflects growth since
+                our indexer first observed the strategy, not necessarily since the
+                vault's on-chain deployment date.
+              </p>
+
+              <h3 className="meth-h3">Best day and worst day</h3>
+              <p>
+                The Historical statistics table on each product page shows "Best day"
+                and "Worst day" for both APY and TVL. These refer to the single
+                calendar day within the displayed 30-day window with the highest and
+                lowest recorded value, respectively. They are single data points from
+                the subgraph history, not aggregated daily averages. The date shown
+                alongside each value is the timestamp of that subgraph record.
+              </p>
+
+              <h3 className="meth-h3">Market benchmarking rank</h3>
+              <p>
+                The market benchmarking section on each product page shows a rank such
+                as "#3 of 28 tracked USDC strategies." The cohort for this ranking is
+                all strategies in the index with the same underlying asset (USDC, ETH,
+                BTC, or USDT) that have a positive 24H APY at the time of the last
+                data refresh. The rank is determined by 24H APY in descending order.
+                The cohort size changes when strategies become active or inactive
+                between fetches.
+              </p>
+              <p>
+                The "X% higher than the average" comparison is against the arithmetic
+                mean of the same cohort. The cohort average is computed at fetch time
+                and is not smoothed or time-weighted.
+              </p>
+            </section>
+
+            {/* ── 6. Data freshness ─────────────────────────── */}
             <section id="data-freshness" className="meth-section">
               <h2 className="meth-h2">Data freshness and update cadence</h2>
               <p>
@@ -301,7 +388,7 @@ export default async function MethodologyPage() {
               </p>
             </section>
 
-            {/* ── 6. Ranking ────────────────────────────────── */}
+            {/* ── 7. Ranking ────────────────────────────────── */}
             <section id="ranking" className="meth-section">
               <h2 className="meth-h2">Ranking methodology</h2>
               <p>
@@ -322,7 +409,7 @@ export default async function MethodologyPage() {
               </p>
             </section>
 
-            {/* ── 7. Consistency scoring ────────────────────── */}
+            {/* ── 8. Consistency scoring ────────────────────── */}
             <section id="consistency" className="meth-section">
               <h2 className="meth-h2">Volatility and consistency scoring</h2>
               <p>
@@ -330,6 +417,9 @@ export default async function MethodologyPage() {
                 derived from the coefficient of variation (CV) of the strategy's daily
                 APY observations over the last 30 days. CV is the standard deviation
                 divided by the mean - a dimensionless measure of relative variability.
+                The window is anchored to the latest available data point, not the
+                current date, so the score remains meaningful even when the subgraph
+                has not emitted new rows recently.
               </p>
 
               <div className="meth-table-wrap">
@@ -351,18 +441,19 @@ export default async function MethodologyPage() {
               </div>
 
               <p>
-                A separate stability label (very consistent / consistent / moderate /
-                volatile) appears in the 30-day APY sub-label on the hero panel. This uses
-                raw standard deviation with fixed thresholds (0.5 / 1.5 / 3 percentage
-                points). The consistency score is the primary, more nuanced figure.
+                A minimum of 5 data points within the 30-day window is required to
+                produce a score. Strategies below this threshold show a dash.
               </p>
               <p>
-                Strategies with fewer than two APY data points in the 30-day window are
-                shown with a dash.
+                A separate stability label (very consistent / consistent / moderate /
+                volatile) appears in the 30-day APY sub-label on the hero panel. This
+                uses raw standard deviation with fixed thresholds (0.5 / 1.5 / 3
+                percentage points). The consistency score is the primary, more nuanced
+                figure.
               </p>
             </section>
 
-            {/* ── 8. Inclusion ──────────────────────────────── */}
+            {/* ── 9. Inclusion ──────────────────────────────── */}
             <section id="inclusion" className="meth-section">
               <h2 className="meth-h2">Inclusion and exclusion criteria</h2>
               <p>
@@ -386,12 +477,16 @@ export default async function MethodologyPage() {
               </p>
             </section>
 
-            {/* ── 9. Risk framework ─────────────────────────── */}
+            {/* ── 10. Risk framework ────────────────────────── */}
             <section id="risk-framework" className="meth-section">
               <h2 className="meth-h2">Risk framework</h2>
               <p>
-                Each strategy carries a risk-level classification (low, medium, or high).
-                The five risk dimensions considered are:
+                This site does not publish per-strategy risk ratings or opinions. The
+                five dimensions below describe the categories of risk present in DeFi
+                vault strategies generally. They are informational context only and do
+                not constitute financial or investment advice. For any strategy's specific
+                risk profile, consult the operator's own documentation, audit reports,
+                and on-chain contract history.
               </p>
 
               <ul className="meth-risk-list">
@@ -402,41 +497,53 @@ export default async function MethodologyPage() {
                   </li>
                 ))}
               </ul>
-
-              <p>
-                Per-strategy risk levels currently shown on the site are editorial
-                classifications, not derived from a quantitative model. All strategies
-                in the current index are classified as "low" because they have undergone
-                audits and have extended on-chain track records. A more granular,
-                evidence-based scoring model is in development.
-              </p>
             </section>
 
-            {/* ── 10. Data sources ──────────────────────────── */}
+            {/* ── 11. Data sources ──────────────────────────── */}
             <section id="data-sources" className="meth-section">
               <h2 className="meth-h2">Data sources</h2>
               <p>
                 Strategy metadata - vault addresses, token names, platform names, estimated
                 APY, TVL, APY breakdown by source, and reward token information - is sourced
                 from the Harvest Finance API at{" "}
-                <code>https://api.harvest.finance/vaults</code>. This API is operated by
-                Harvest Finance and reflects the state of the protocols as read by their
-                backend infrastructure.
+                <a
+                  href="https://api.harvest.finance/vaults"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="meth-link"
+                >
+                  api.harvest.finance/vaults
+                </a>
+                . This API is operated by Harvest Finance and reflects the state of
+                the protocols as read by their backend infrastructure.
               </p>
               <p>
-                Historical time-series data (daily APY, TVL, share price) is sourced from
-                Harvest's hosted indexer subgraph via GraphQL. Up to 1,000 records are
-                returned per series and deduplicated to one observation per calendar day.
+                Reward token APY contributions (e.g., AERO, CRV) are converted to USD
+                by the Harvest Finance API using its own pricing infrastructure. The
+                specific price sources used - whether DEX quotes, on-chain oracles, or
+                third-party price feeds - are maintained by Harvest Finance and are not
+                separately documented in the API's public reference. If a price source
+                is stale or inaccurate, the APY reported on this site will reflect that
+                inaccuracy.
               </p>
               <p>
-                We do not integrate third-party RPC providers, oracle price feeds, or
-                external aggregation services. All data originates from Harvest's own API
-                and subgraph. Data accuracy on this site is directly dependent on the
-                accuracy of those upstream sources.
+                Historical time-series data (daily APY, TVL, share price) is sourced
+                from Harvest's hosted indexer subgraph, queried via GraphQL per vault
+                address. Up to 500 records per 30-day window are returned per series.
+                For the full history view on product pages, up to 1,000 records are
+                requested per series. Records are not deduplicated to one per day
+                server-side; multiple records per day are averaged or taken as-is
+                depending on the metric.
+              </p>
+              <p>
+                We do not integrate third-party RPC providers or external aggregation
+                services. All data originates from Harvest's own API and subgraph. Data
+                accuracy on this site is therefore directly dependent on the accuracy
+                of those upstream sources.
               </p>
             </section>
 
-            {/* ── 11. Limitations ───────────────────────────── */}
+            {/* ── 12. Limitations ───────────────────────────── */}
             <section id="limitations" className="meth-section">
               <h2 className="meth-h2">Limitations and known gaps</h2>
 
@@ -453,13 +560,15 @@ export default async function MethodologyPage() {
               </ul>
             </section>
 
-            {/* ── 12. Versioning ────────────────────────────── */}
+            {/* ── 13. Versioning ────────────────────────────── */}
             <section id="versioning" className="meth-section">
               <h2 className="meth-h2">Methodology versioning</h2>
               <p>
                 This methodology is versioned. Each meaningful change to how data is
                 collected, calculated, or presented will be logged here. Hourly data
-                refreshes are not methodology changes and are not logged.
+                refreshes are not methodology changes and are not logged. Future version
+                entries will note: (a) what changed, (b) why the change was made, and
+                (c) how it affects historical comparisons or displayed figures.
               </p>
 
               <div className="meth-table-wrap">
@@ -484,7 +593,7 @@ export default async function MethodologyPage() {
               </div>
             </section>
 
-            {/* ── 13. Disclosure ────────────────────────────── */}
+            {/* ── 14. Disclosure ────────────────────────────── */}
             <section id="disclosure" className="meth-section">
               <h2 className="meth-h2">Disclosure</h2>
 

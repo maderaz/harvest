@@ -2256,6 +2256,9 @@ button { font-family: inherit; cursor: pointer; }
   white-space: nowrap;
 }
 
+.meth-stat--dim { background: var(--bg-2); }
+.meth-stat--dim .meth-stat-val { color: var(--ink-3); }
+
 /* Two-column layout ---------------------------------------------- */
 .meth-layout {
   display: grid;
@@ -2325,6 +2328,38 @@ button { font-family: inherit; cursor: pointer; }
   border-left: 2px solid var(--accent);
   line-height: 1.3;
 }
+
+.meth-h3 {
+  font-family: var(--display);
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--ink);
+  margin: 24px 0 10px;
+  letter-spacing: -0.01em;
+}
+
+.meth-callout {
+  background: var(--bg-2);
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--accent);
+  border-radius: var(--radius-sm);
+  padding: 14px 16px;
+  margin: 0 0 18px;
+  font-size: 13px;
+  color: var(--ink-2);
+  line-height: 1.65;
+}
+
+.meth-callout a { color: var(--ink); text-decoration: underline; text-decoration-color: var(--line-2); }
+.meth-callout a:hover { color: var(--accent); text-decoration-color: var(--accent); }
+
+.meth-link {
+  color: var(--ink);
+  text-decoration: underline;
+  text-decoration-color: var(--line-2);
+  text-underline-offset: 2px;
+}
+.meth-link:hover { color: var(--accent); text-decoration-color: var(--accent); }
 
 .meth-body p {
   font-size: 13.5px;
