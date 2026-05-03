@@ -34,7 +34,20 @@ function displayAsset(v: YieldVault): string {
 function AssetDot({ asset, size = 22 }: { asset: string; size?: number }) {
   const icon = ASSET_ICONS[asset];
   if (icon) {
-    return <img src={icon.src} alt={asset} width={size} height={size} style={{ width: size, height: size, borderRadius: "50%" }} />;
+    // lazy: most strategy rows are below the fold even on a 50-row page;
+    // deferring image fetch until scroll keeps initial-load network usage
+    // proportional to what the user actually sees.
+    return (
+      <img
+        src={icon.src}
+        alt={asset}
+        width={size}
+        height={size}
+        loading="lazy"
+        decoding="async"
+        style={{ width: size, height: size, borderRadius: "50%" }}
+      />
+    );
   }
   return (
     <span className="asset-dot" style={{ background: "#999", width: size, height: size, fontSize: size * 0.5 }}>

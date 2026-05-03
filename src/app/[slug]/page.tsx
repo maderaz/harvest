@@ -457,7 +457,16 @@ export default async function ProductPage({
                       <span className="cd-logo-stack">
                         {vault.underlyingLogos.map((url, i) => (
                           // eslint-disable-next-line @next/next/no-img-element
-                          <img key={i} src={url} alt="" className="cd-logo" />
+                          <img
+                            key={i}
+                            src={url}
+                            alt=""
+                            width={18}
+                            height={18}
+                            loading="lazy"
+                            decoding="async"
+                            className="cd-logo"
+                          />
                         ))}
                       </span>
                     )}
@@ -471,7 +480,17 @@ export default async function ProductPage({
                       <span className="cd-logo-stack">
                         {vault.rewardTokens.map((r, i) => (
                           // eslint-disable-next-line @next/next/no-img-element
-                          <img key={i} src={r.logoUrl} alt={r.symbol} title={r.symbol} className="cd-logo" />
+                          <img
+                            key={i}
+                            src={r.logoUrl}
+                            alt={r.symbol}
+                            title={r.symbol}
+                            width={18}
+                            height={18}
+                            loading="lazy"
+                            decoding="async"
+                            className="cd-logo"
+                          />
                         ))}
                       </span>
                       <span>{vault.rewardTokens.map((r) => r.symbol).join(", ")}</span>
