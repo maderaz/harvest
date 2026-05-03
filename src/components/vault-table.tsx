@@ -6,6 +6,7 @@ import Link from "next/link";
 import { YieldVault } from "@/lib/types";
 import { formatAPY, formatTVL, stripChainSuffix } from "@/lib/format";
 import { AssetIcon, ChainIcon } from "./token-icons";
+import { getSubAsset } from "@/lib/sub-asset";
 
 import usdcIcon from "@/assets/icons/USDC.png";
 import usdtIcon from "@/assets/icons/USDT.png";
@@ -18,6 +19,15 @@ const ASSET_ICONS: Record<string, { src: string }> = {
   USDC: usdcIcon, USDT: usdtIcon, ETH: ethIcon, WETH: ethIcon,
   BTC: wbtcIcon, WBTC: wbtcIcon, wBTC: wbtcIcon, cbBTC: cbbtcIcon, EURC: eurcIcon,
 };
+
+// For BTC family vaults, surface the specific sub-asset icon (WBTC, cbBTC,
+// tBTC, etc.) so visually similar wrapped-BTC variants are distinguishable
+// in the table. ETH family vaults keep a single ETH icon for now since
+// staking derivatives (stETH, wstETH, weETH) are visually similar to ETH.
+function displayAsset(v: YieldVault): string {
+  if (v.asset === "BTC") return getSubAsset(v);
+  return v.asset;
+}
 
 function AssetDot({ asset, size = 22 }: { asset: string; size?: number }) {
   const icon = ASSET_ICONS[asset];
@@ -262,7 +272,7 @@ export function VaultTable({
                   <td className="td rank mono">{overallIndex + 1}</td>
                   <td className="td">
                     <div className="proto">
-                      <AssetDot asset={vault.asset} size={28} />
+                      <AssetDot asset={displayAsset(vault)} size={28} />
                       <div>
                         <div className="proto-name">
                           <Link href={`/${vault.slug}`} className="row-link">
