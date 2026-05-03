@@ -23,17 +23,15 @@ const RESOURCES = [
   { label: "Risk Framework", href: "/risk-framework" },
 ];
 
-// Legitimacy-signal pages. Real destinations are pending; the entries
-// remain in the footer so the surfaces are visible to crawlers and
-// users while the pages are being built. Replace href "#" with the
-// real path when each page ships.
+// Legitimacy-signal pages. About and Security still placeholder until
+// those pages ship; the rest now resolve.
 const COMPANY = [
   { label: "About", href: "#" },
-  { label: "Disclosures", href: "#" },
+  { label: "Disclosures", href: "/disclosures" },
   { label: "Security", href: "#" },
-  { label: "Terms", href: "#" },
-  { label: "Privacy", href: "#" },
-  { label: "Contact", href: "#" },
+  { label: "Terms", href: "/terms" },
+  { label: "Privacy", href: "/privacy" },
+  { label: "Contact", href: "/contact" },
 ];
 
 const SOCIAL: { label: string; href: string; icon: React.ReactNode }[] = [
@@ -203,11 +201,17 @@ export async function Footer() {
             <div className="foot-col-label mono dim" style={{ marginTop: 14 }}>
               Company
             </div>
-            {COMPANY.map((l) => (
-              <a key={l.label} href={l.href} className="foot-link">
-                {l.label}
-              </a>
-            ))}
+            {COMPANY.map((l) =>
+              l.href.startsWith("/") ? (
+                <Link key={l.label} href={l.href} className="foot-link">
+                  {l.label}
+                </Link>
+              ) : (
+                <a key={l.label} href={l.href} className="foot-link">
+                  {l.label}
+                </a>
+              ),
+            )}
           </div>
         </div>
 
