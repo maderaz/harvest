@@ -1,4 +1,5 @@
 import { formatAPY, formatTVL } from "@/lib/format";
+import { depositRef, apyToMonthly, fmtEarnings } from "@/lib/contextualize";
 import type { FullVaultHistory } from "@/lib/history-api";
 
 function median(arr: number[]): number {
@@ -17,7 +18,7 @@ function formatDate(ts: number): string {
   return new Date(ts * 1000).toLocaleDateString("en-US", { month: "short", day: "numeric" });
 }
 
-export function HistoricalStats({ history }: { history: FullVaultHistory }) {
+export function HistoricalStats({ history, asset }: { history: FullVaultHistory; asset: string }) {
   const now = Math.floor(Date.now() / 1000);
   const thirtyDaysAgo = now - 30 * 86400;
 
@@ -109,7 +110,8 @@ export function HistoricalStats({ history }: { history: FullVaultHistory }) {
   // Narrative intro paragraph: trend direction over lifetime
   const narratives: string[] = [];
 
-  if (apyStats && apyStats.dataPoints >= 30) {
+  if (apyStats && apyStats.dataPoints >= 60) {
+    const ref = depositRef(asset);
     const sorted = [...allApy].sort((a, b) => a.timestamp - b.timestamp);
     const firstQuarter = sorted.slice(0, Math.ceil(sorted.length / 4));
     const lastQuarter = sorted.slice(-Math.ceil(sorted.length / 4));
@@ -119,9 +121,16 @@ export function HistoricalStats({ history }: { history: FullVaultHistory }) {
     if (Math.abs(changePct) > 10) {
       const dir = changePct > 0 ? "an upward" : "a downward";
       const verb = changePct > 0 ? "expanding" : "contracting";
-      narratives.push(
-        `Over the past ${apyStats.dataPoints} days, this vault's yield has shown ${dir} trend, with yields ${verb} from ${earlyAvg.toFixed(2)}% to ${lateAvg.toFixed(2)}%, a ${Math.abs(changePct).toFixed(1)}% ${changePct > 0 ? "increase" : "decrease"}.`,
-      );
+      let text = `Over the past ${apyStats.dataPoints} days, this vault's yield has shown ${dir} trend, with yields ${verb} from ${earlyAvg.toFixed(2)}% to ${lateAvg.toFixed(2)}%, a ${Math.abs(changePct).toFixed(1)}% ${changePct > 0 ? "increase" : "decrease"}.`;
+
+      // Contextualization (#14): omit if monthly diff < $1
+      const earlyMonthly = apyToMonthly(earlyAvg, ref.amount);
+      const lateMonthly = apyToMonthly(lateAvg, ref.amount);
+      if (Math.abs(earlyMonthly - lateMonthly) >= 1) {
+        text += ` At the start of tracking, ${ref.label} would have earned ${fmtEarnings(earlyMonthly, asset)}/mo at then-current rates; at recent rates, ${fmtEarnings(lateMonthly, asset)}/mo.`;
+      }
+
+      narratives.push(text);
     }
   }
 

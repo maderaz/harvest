@@ -1,5 +1,6 @@
 import { YieldVault } from "@/lib/types";
 import { formatAPY, formatTVL } from "@/lib/format";
+import { depositRef, apyToMonthly, fmtEarnings } from "@/lib/contextualize";
 import type { FullVaultHistory } from "@/lib/history-api";
 
 interface VaultCommentaryProps {
@@ -52,7 +53,7 @@ export function VaultCommentary({
     }
   }
 
-  // 2. APY Stability: is this APY reliable?
+  // 2. APY Stability: is this APY reliable? (#3 contextualization)
   if (history.apyHistory.length >= 5) {
     const validApy = history.apyHistory.filter((p) => p.apy >= 0);
     const recent30d = validApy.filter((p) => p.timestamp >= thirtyDaysAgo);
@@ -65,9 +66,23 @@ export function VaultCommentary({
       const max = Math.max(...apyValues);
       const label = getStabilityLabel(sd);
 
-      paragraphs.push(
-        `Over the past 30 days, APY has been ${label}, averaging ${avg.toFixed(2)}% with a range of ${min.toFixed(2)}% to ${max.toFixed(2)}%.`,
-      );
+      let sentence = `Over the past 30 days, APY has been ${label}, averaging ${avg.toFixed(2)}% with a range of ${min.toFixed(2)}% to ${max.toFixed(2)}%.`;
+
+      // Contextualization: requires >= 14 data points
+      if (recent30d.length >= 14) {
+        const ref = depositRef(vault.asset);
+        const lowMonthly = apyToMonthly(min, ref.amount);
+        const highMonthly = apyToMonthly(max, ref.amount);
+        const rangePct = max - min;
+        if (rangePct < 2) {
+          sentence += ` Earnings on ${ref.label} would have varied between ${fmtEarnings(lowMonthly, vault.asset)} and ${fmtEarnings(highMonthly, vault.asset)} per month over this period.`;
+        } else {
+          const useJust = (vault.asset !== "ETH" && vault.asset !== "BTC") && lowMonthly < 2;
+          sentence += ` At the ${max.toFixed(2)}% high, ${ref.label} would earn ${fmtEarnings(highMonthly, vault.asset)} per month; at the ${min.toFixed(2)}% low, ${useJust ? "just " : ""}${fmtEarnings(lowMonthly, vault.asset)}.`;
+        }
+      }
+
+      paragraphs.push(sentence);
     }
   }
 
