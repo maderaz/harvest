@@ -1,4 +1,4 @@
-:HL["/_next/static/chunks/0036xvu-x3_7f.css","style"]
+:HL["/_next/static/chunks/11ha-ug4e~wxf.css","style"]
 :HL["/_next/static/media/ETH.09gnhlwpku~zq.png","image"]
 :HL["./icons/eth.svg","image"]
-0:{"tree":{"name":"","param":null,"prefetchHints":16,"slots":{"children":{"name":"slug","param":{"type":"d","key":"eth-euler-euler-base-base","siblings":null},"prefetchHints":0,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":0,"slots":null}}}}},"staleTime":300,"buildId":"YYJFjcMOKqkLGrSqJgfWK"}
+0:{"tree":{"name":"","param":null,"prefetchHints":16,"slots":{"children":{"name":"slug","param":{"type":"d","key":"eth-euler-euler-base-base","siblings":null},"prefetchHints":0,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":0,"slots":null}}}}},"staleTime":300,"buildId":"b_dZ0oM6Z7lBior-pKob_"}

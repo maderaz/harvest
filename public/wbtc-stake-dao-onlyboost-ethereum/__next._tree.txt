@@ -1,7 +1,7 @@
-:HL["/_next/static/chunks/0036xvu-x3_7f.css","style"]
+:HL["/_next/static/chunks/11ha-ug4e~wxf.css","style"]
 :HL["/_next/static/media/WBTC.08i29usir9-j1.png","image"]
 :HL["./icons/wbtc.svg","image"]
 :HL["./icons/cbbtc.svg","image"]
 :HL["./icons/hemibtc.svg","image"]
 :HL["./icons/curve.svg","image"]
-0:{"tree":{"name":"","param":null,"prefetchHints":16,"slots":{"children":{"name":"slug","param":{"type":"d","key":"wbtc-stake-dao-onlyboost-ethereum","siblings":null},"prefetchHints":0,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":0,"slots":null}}}}},"staleTime":300,"buildId":"YYJFjcMOKqkLGrSqJgfWK"}
+0:{"tree":{"name":"","param":null,"prefetchHints":16,"slots":{"children":{"name":"slug","param":{"type":"d","key":"wbtc-stake-dao-onlyboost-ethereum","siblings":null},"prefetchHints":0,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":0,"slots":null}}}}},"staleTime":300,"buildId":"b_dZ0oM6Z7lBior-pKob_"}
