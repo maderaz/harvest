@@ -74,6 +74,40 @@ export function itemListSchema(vaults: YieldVault[], hubUrl: string): object {
   };
 }
 
+export function articleSchema({
+  title,
+  description,
+  url,
+  dateModified,
+  datePublished,
+}: {
+  title: string;
+  description: string;
+  url: string;
+  dateModified: string;
+  datePublished: string;
+}): object {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: title,
+    description,
+    url,
+    datePublished,
+    dateModified,
+    author: {
+      "@type": "Organization",
+      name: SITE_NAME,
+      url: SITE_URL,
+    },
+    publisher: {
+      "@type": "Organization",
+      name: SITE_NAME,
+      url: SITE_URL,
+    },
+  };
+}
+
 export function datasetSchema(
   vault: YieldVault,
   history: FullVaultHistory,

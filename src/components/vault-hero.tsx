@@ -123,9 +123,15 @@ export function VaultHero({ vault, history, allVaults }: Props) {
               </div>
             </div>
             <div className="vh-kpi">
-              <div className="vh-k-label">30D APY</div>
+              <div className="vh-k-label">
+                30D APY{" "}
+                <a href="/methodology#apy-calculation" className="meth-ref" title="See methodology">?</a>
+              </div>
               <div className="vh-k-val">{vault.apy30d.toFixed(2)}<span className="pct">%</span></div>
-              <div className="vh-k-sub">σ {sd.toFixed(2)} · {stabilityLabel}</div>
+              <div className="vh-k-sub">
+                σ {sd.toFixed(2)} · {stabilityLabel}{" "}
+                <a href="/methodology#consistency" className="meth-ref" title="See methodology">?</a>
+              </div>
             </div>
             <div className="vh-kpi">
               <div className="vh-k-label">TVL</div>

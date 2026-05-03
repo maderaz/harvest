@@ -18,8 +18,8 @@ const NETWORK_HUBS = [
 
 const RESOURCES = [
   { label: "API", href: "#" },
-  { label: "Methodology", href: "#" },
-  { label: "Risk framework", href: "#" },
+  { label: "Methodology", href: "/methodology" },
+  { label: "Risk framework", href: "/methodology#risk-framework" },
   { label: "Docs", href: "#" },
   { label: "Status", href: "#" },
   { label: "Terms", href: "#" },
@@ -61,7 +61,7 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mono dim foot-copy">&copy; 2026 · Data delayed &le; 60s</div>
+        <div className="mono dim foot-copy">&copy; 2026 · Data refreshed hourly</div>
       </div>
     </footer>
   );
