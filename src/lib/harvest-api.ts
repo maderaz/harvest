@@ -173,14 +173,27 @@ export async function fetchHarvestVaults(): Promise<YieldVault[]> {
           Object.prototype.hasOwnProperty.call(SUPPORTED_ASSETS, n),
         ) || "USDC";
       // Spec: {asset}-{protocol}-{vault-disambiguator}-{network}
-      // Strip leading token name from disambiguator to avoid double-asset in slug.
+      // Always include protocol slot so vaults with the same strategy name
+      // across different protocols stay distinct (no -2/-3 dedup hacks).
       const tokenUpper = matchedToken.toUpperCase();
       const strategyStripped = strategy
         .replace(new RegExp("^" + tokenUpper + "\\s+", "i"), "")
         .trim();
-      const disambiguator = strategyStripped ? slugify(strategyStripped) : "";
+      let disambiguator = strategyStripped ? slugify(strategyStripped) : "";
       const protocolSlug = slugify(protocol);
       const chainSlug = slugify(chain);
+
+      // LP pair fallback: when productName/strategy collides across vaults,
+      // disambiguate by the OTHER token from tokenNames.
+      if (!disambiguator || disambiguator === protocolSlug) {
+        const others = (v.tokenNames || []).filter(
+          (n) => String(n).toUpperCase() !== tokenUpper,
+        );
+        if (others.length > 0) {
+          disambiguator = others.map((n) => slugify(n)).join("-");
+        }
+      }
+
       const baseSlug =
         disambiguator && disambiguator !== protocolSlug
           ? `${slugify(matchedToken)}-${protocolSlug}-${disambiguator}-${chainSlug}`

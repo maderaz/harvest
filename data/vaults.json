@@ -1,7 +1,7 @@
 [
   {
     "id": "0x50c6c553d083232F1994175332Ff5508b81Aeb96",
-    "slug": "eth-baseswap-base",
+    "slug": "eth-baseswap-bswap-base",
     "asset": "ETH",
     "productName": "ETH BaseSwap",
     "protocol": {
@@ -47,7 +47,7 @@
   },
   {
     "id": "0x549fAd7794d331eA0E1675CD7e60cE6931914457",
-    "slug": "eth-onlyboost-ethereum",
+    "slug": "eth-stake-dao-onlyboost-ethereum",
     "asset": "ETH",
     "productName": "ETH OnlyBoost",
     "protocol": {
@@ -85,7 +85,7 @@
   },
   {
     "id": "0xE97a32D05952357C7b5D4EafC70197a0B834f0F7",
-    "slug": "usdc-aerodrome-base",
+    "slug": "usdc-aerodrome-aero-base",
     "asset": "USDC",
     "productName": "USDC Aerodrome",
     "protocol": {
@@ -123,7 +123,7 @@
   },
   {
     "id": "0x9a8c8acAeE07A12b52935f148b35258806d019A0",
-    "slug": "eth-aerodrome-base-2",
+    "slug": "eth-aerodrome-vvv-base",
     "asset": "ETH",
     "productName": "ETH Aerodrome",
     "protocol": {
@@ -200,7 +200,7 @@
   },
   {
     "id": "0xaaD34AA93F987B8B032944Ad52c9b6E41c4152fE",
-    "slug": "eth-yearn-og-base",
+    "slug": "eth-morpho-yearn-og-v2-base",
     "asset": "ETH",
     "productName": "ETH Yearn OG V2",
     "protocol": {
@@ -238,7 +238,7 @@
   },
   {
     "id": "0x60aFd9E8BE2f14C259323056850F9eC0d1804879",
-    "slug": "tbtc-aerodrome-base",
+    "slug": "tbtc-aerodrome-usdbc-base",
     "asset": "BTC",
     "productName": "tBTC Aerodrome",
     "protocol": {
@@ -276,7 +276,7 @@
   },
   {
     "id": "0x4D4b009F6C4a3475F171b33403F3860B88e2401E",
-    "slug": "cbbtc-aerodrome-base-2",
+    "slug": "cbbtc-aerodrome-virtual-base",
     "asset": "BTC",
     "productName": "cbBTC Aerodrome",
     "protocol": {
@@ -315,7 +315,7 @@
   },
   {
     "id": "0x86580B840C45950357872F414F9a7096741E8BCE",
-    "slug": "eth-aerodrome-base-4",
+    "slug": "eth-aerodrome-virtual-base",
     "asset": "ETH",
     "productName": "ETH Aerodrome",
     "protocol": {
@@ -354,7 +354,7 @@
   },
   {
     "id": "0xA0200EEeD8D90aa01dE741DAEfab5F86C09D5785",
-    "slug": "usdc-gauntlet-frontier-base",
+    "slug": "usdc-morpho-gauntlet-frontier-v2-base",
     "asset": "USDC",
     "productName": "USDC Gauntlet Frontier V2",
     "protocol": {
@@ -392,7 +392,7 @@
   },
   {
     "id": "0x284c60490212DB0dc0b8F93503d35744f8053381",
-    "slug": "eth-aerodrome-base",
+    "slug": "eth-aerodrome-genome-base",
     "asset": "ETH",
     "productName": "ETH Aerodrome",
     "protocol": {
@@ -431,7 +431,7 @@
   },
   {
     "id": "0x857a6072754532Ae77AdA617a7d0900B63c1e2A1",
-    "slug": "usdc-theo-frontier-arbitrum",
+    "slug": "usdc-euler-theo-frontier-arbitrum",
     "asset": "USDC",
     "productName": "USDC Theo Frontier",
     "protocol": {
@@ -473,7 +473,7 @@
   },
   {
     "id": "0x99671dbf3D87C0b8f23E7Ea5B20CFAA6175578ca",
-    "slug": "usdc-clearstar-core-ethereum",
+    "slug": "usdc-morpho-clearstar-core-v2-ethereum",
     "asset": "USDC",
     "productName": "USDC Clearstar Core V2",
     "protocol": {
@@ -511,7 +511,7 @@
   },
   {
     "id": "0xb0E5AE2D1Eb9Aac8648C0f89459865Bcb259F6Eb",
-    "slug": "eth-aerodrome-base-3",
+    "slug": "eth-aerodrome-aero-base",
     "asset": "ETH",
     "productName": "ETH Aerodrome",
     "protocol": {
@@ -550,7 +550,7 @@
   },
   {
     "id": "0xE5BEAcb6d013314e3601F45B3Ed226Ffa5f138E2",
-    "slug": "usdc-yearn-og-base",
+    "slug": "usdc-morpho-yearn-og-v2-base",
     "asset": "USDC",
     "productName": "USDC Yearn OG V2",
     "protocol": {
@@ -588,7 +588,7 @@
   },
   {
     "id": "0x9F2B4aB84599791DA372DFEcb0c295e90F8fBc1B",
-    "slug": "cbbtc-aerodrome-base",
+    "slug": "cbbtc-aerodrome-champ-base",
     "asset": "BTC",
     "productName": "cbBTC Aerodrome",
     "protocol": {
@@ -627,7 +627,7 @@
   },
   {
     "id": "0x14d3f3cf49a4948CF3c8a024430bE6a7eFBD7D1A",
-    "slug": "eth-moonwell-flagship-base",
+    "slug": "eth-morpho-moonwell-flagship-base",
     "asset": "ETH",
     "productName": "ETH Moonwell Flagship",
     "protocol": {
@@ -706,7 +706,7 @@
   },
   {
     "id": "0x71EB5907333dD2a768d6D74cBD9054c0A0B16BE9",
-    "slug": "usdc-aerodrome-base-2",
+    "slug": "usdc-aerodrome-base",
     "asset": "USDC",
     "productName": "USDC Aerodrome",
     "protocol": {
@@ -783,7 +783,7 @@
   },
   {
     "id": "0x175d69829Dfe3Aa72a399211885c4Fe1b2ffC2E3",
-    "slug": "eth-aerodrome-base-6",
+    "slug": "eth-aerodrome-well-base",
     "asset": "ETH",
     "productName": "ETH Aerodrome",
     "protocol": {
@@ -822,7 +822,7 @@
   },
   {
     "id": "0x6D84799f874918A7762625805d68Cf3181d8d5f2",
-    "slug": "usdc-alpha-core-ethereum",
+    "slug": "usdc-morpho-alpha-core-v2-ethereum",
     "asset": "USDC",
     "productName": "USDC Alpha Core V2",
     "protocol": {
@@ -860,7 +860,7 @@
   },
   {
     "id": "0xE4BdD09b17e21612717bb0aE9e372Fe9F543620A",
-    "slug": "usdc-felix-hyperevm",
+    "slug": "usdc-morpho-felix-hyperevm",
     "asset": "USDC",
     "productName": "USDC Felix",
     "protocol": {
@@ -898,7 +898,7 @@
   },
   {
     "id": "0xed5A6691a3663045c6D9F12f334FBc796EE12f45",
-    "slug": "usdc-lend-base-2",
+    "slug": "usdc-arcadia-lend-base",
     "asset": "USDC",
     "productName": "USDC Lend",
     "protocol": {
@@ -936,7 +936,7 @@
   },
   {
     "id": "0x094185bc477FbeF37B076d1D1e987D3EB5BB1d69",
-    "slug": "eth-aerodrome-base-5",
+    "slug": "eth-aerodrome-base",
     "asset": "ETH",
     "productName": "ETH Aerodrome",
     "protocol": {
@@ -975,7 +975,7 @@
   },
   {
     "id": "0x8A175AcB05D1F7d8EE29ace0cFB6975DeDe2ae7a",
-    "slug": "usdc-steakhouse-high-yield-instant-base",
+    "slug": "usdc-morpho-steakhouse-high-yield-instant-v2-base",
     "asset": "USDC",
     "productName": "USDC Steakhouse High Yield Instant V2",
     "protocol": {
@@ -1089,7 +1089,7 @@
   },
   {
     "id": "0x8d44eEdB4074E02bd418286b4Af5bD5E47F91A6f",
-    "slug": "eth-aerodrome-base-7",
+    "slug": "eth-aerodrome-well-base-2",
     "asset": "ETH",
     "productName": "ETH Aerodrome",
     "protocol": {
@@ -1127,7 +1127,7 @@
   },
   {
     "id": "0xD02daFa6E9145ce1FAA786F80A50202E8a4255f8",
-    "slug": "usdc-hyperithm-degen-ethereum",
+    "slug": "usdc-morpho-hyperithm-degen-v2-ethereum",
     "asset": "USDC",
     "productName": "USDC Hyperithm Degen V2",
     "protocol": {
@@ -1165,7 +1165,7 @@
   },
   {
     "id": "0x4600c5C9E582B6616A08DE974eb4e37e40a55CA4",
-    "slug": "eth-aerodrome-base-14",
+    "slug": "eth-aerodrome-mseth-base",
     "asset": "ETH",
     "productName": "ETH Aerodrome",
     "protocol": {
@@ -1204,7 +1204,7 @@
   },
   {
     "id": "0xf0358e8c3CD5Fa238a29301d0bEa3D63A17bEdBE",
-    "slug": "usdc-gauntlet-frontier-ethereum",
+    "slug": "usdc-morpho-gauntlet-frontier-v2-ethereum",
     "asset": "USDC",
     "productName": "USDC Gauntlet Frontier V2",
     "protocol": {
@@ -1280,7 +1280,7 @@
   },
   {
     "id": "0xe5e22bf58Af97cd21138AF8Af06AC70b25204454",
-    "slug": "usdc-gauntlet-hyperevm",
+    "slug": "usdc-morpho-gauntlet-hyperevm",
     "asset": "USDC",
     "productName": "USDC Gauntlet",
     "protocol": {
@@ -1356,7 +1356,7 @@
   },
   {
     "id": "0xdeC7011343b2c13AC663A2e56C2C3ae47C64A3A0",
-    "slug": "eth-aerodrome-base-8",
+    "slug": "eth-aerodrome-champ-base",
     "asset": "ETH",
     "productName": "ETH Aerodrome",
     "protocol": {
@@ -1395,7 +1395,7 @@
   },
   {
     "id": "0x67735DC14F14deb8d1acdFf09a41e6bDA7234EBB",
-    "slug": "usdc-smokehouse-ethereum",
+    "slug": "usdc-morpho-smokehouse-ethereum",
     "asset": "USDC",
     "productName": "USDC Smokehouse",
     "protocol": {
@@ -1433,7 +1433,7 @@
   },
   {
     "id": "0xcEa7de485Cf3B69CF3D5f7DFadF9e1df31303988",
-    "slug": "usdc-lend-pool-2-base",
+    "slug": "usdc-extrafi-lend-pool-2-base",
     "asset": "USDC",
     "productName": "USDC Lend Pool #2",
     "protocol": {
@@ -1512,7 +1512,7 @@
   },
   {
     "id": "0x41B1Fce6a7378170235d068421520C02B53bc95f",
-    "slug": "usdc-clearstar-reactor-base",
+    "slug": "usdc-morpho-clearstar-reactor-v2-base",
     "asset": "USDC",
     "productName": "USDC Clearstar Reactor V2",
     "protocol": {
@@ -1588,7 +1588,7 @@
   },
   {
     "id": "0x492A07E2f2BD6a85597052f6497aC830DA0a5f63",
-    "slug": "usdc-curve-base",
+    "slug": "usdc-curve-usdbc-axlusdc-crvusd-base",
     "asset": "USDC",
     "productName": "USDC Curve",
     "protocol": {
@@ -1632,7 +1632,7 @@
   },
   {
     "id": "0x00f281832f74D3eb391C219148EE3b7c8Bb46319",
-    "slug": "usdc-lend-base",
+    "slug": "usdc-extrafi-lend-base",
     "asset": "USDC",
     "productName": "USDC Lend",
     "protocol": {
@@ -1670,7 +1670,7 @@
   },
   {
     "id": "0xB35e6C3c1147897B264642AECE0740870c81CA3f",
-    "slug": "usdc-prime-ethereum",
+    "slug": "usdc-aave-prime-ethereum",
     "asset": "USDC",
     "productName": "USDC Prime",
     "protocol": {
@@ -1708,7 +1708,7 @@
   },
   {
     "id": "0xd6701905c59EE618dc36DC747506BCE0a4AC760A",
-    "slug": "usdc-morpho-base",
+    "slug": "usdc-autopilot-morpho-base",
     "asset": "USDC",
     "productName": "USDC MORPHO",
     "protocol": {
@@ -1782,7 +1782,7 @@
   },
   {
     "id": "0x476E972E5FBD1A8D94e3e5cc09D3833515f58095",
-    "slug": "usdc-clearstar-high-yield-base",
+    "slug": "usdc-morpho-clearstar-high-yield-v2-base",
     "asset": "USDC",
     "productName": "USDC Clearstar High Yield V2",
     "protocol": {
@@ -1820,7 +1820,7 @@
   },
   {
     "id": "0xf00Af0e100Da01Ce122106893d3DDA2dA31ed75A",
-    "slug": "usdc-aerodrome-base-4",
+    "slug": "usdc-aerodrome-eth-base",
     "asset": "USDC",
     "productName": "USDC Aerodrome",
     "protocol": {
@@ -1897,7 +1897,7 @@
   },
   {
     "id": "0x03e0405D89be22F77093e4c6F0eA6F20Fa11056d",
-    "slug": "cbbtc-frontier-yo-base",
+    "slug": "cbbtc-euler-alphagrowth-yo-yobtc-market-base",
     "asset": "BTC",
     "productName": "cbBTC AlphaGrowth YO yoBTC Market",
     "protocol": {
@@ -1935,7 +1935,7 @@
   },
   {
     "id": "0x9C012E4fe655b90839e1b65a461B72813c9ac2A4",
-    "slug": "usdc-moonwell-flagship-base",
+    "slug": "usdc-morpho-moonwell-flagship-base",
     "asset": "USDC",
     "productName": "USDC Moonwell Flagship",
     "protocol": {
@@ -1977,7 +1977,7 @@
   },
   {
     "id": "0xe3E2937327419ea5EaF032bF25E880199cE3DE3C",
-    "slug": "eth-aerodrome-base-12",
+    "slug": "eth-aerodrome-usdbc-base",
     "asset": "ETH",
     "productName": "ETH Aerodrome",
     "protocol": {
@@ -2015,7 +2015,7 @@
   },
   {
     "id": "0x5250bd2C5F05E128883e8BBDB4E6f9f79EA64Cab",
-    "slug": "usdc-wsteth-base",
+    "slug": "usdc-morpho-market-wsteth-base",
     "asset": "USDC",
     "productName": "USDC wstETH",
     "protocol": {
@@ -2053,7 +2053,7 @@
   },
   {
     "id": "0xaD38c006FaBb307C92c5d88Bf644febc13D02c19",
-    "slug": "usdc-cbeth-base",
+    "slug": "usdc-morpho-market-cbeth-base",
     "asset": "USDC",
     "productName": "USDC cbETH",
     "protocol": {
@@ -2091,7 +2091,7 @@
   },
   {
     "id": "0xf6Fad34F7C087489734caC1Bd4e2025aDCC15175",
-    "slug": "usdc-steakhouse-prime-instant-base",
+    "slug": "usdc-morpho-steakhouse-prime-instant-v2-base",
     "asset": "USDC",
     "productName": "USDC Steakhouse Prime Instant V2",
     "protocol": {
@@ -2129,7 +2129,7 @@
   },
   {
     "id": "0xa4Eab2Ba5E7AbF2a327fa27AD232E6D1281acbf0",
-    "slug": "usdc-gauntlet-prime-base",
+    "slug": "usdc-morpho-gauntlet-prime-v2-base",
     "asset": "USDC",
     "productName": "USDC Gauntlet Prime V2",
     "protocol": {
@@ -2167,7 +2167,7 @@
   },
   {
     "id": "0x7DbcF082CD501733F2a84E31e61Ac83953d59cB1",
-    "slug": "usdc-cbbtc-base",
+    "slug": "usdc-morpho-market-cbbtc-base",
     "asset": "USDC",
     "productName": "USDC cbBTC",
     "protocol": {
@@ -2205,7 +2205,7 @@
   },
   {
     "id": "0x90B0B5356A984A98F087e63F375Cc0EB222b465d",
-    "slug": "usdc-weth-base",
+    "slug": "usdc-morpho-market-weth-base",
     "asset": "USDC",
     "productName": "USDC WETH",
     "protocol": {
@@ -2319,7 +2319,7 @@
   },
   {
     "id": "0x01C50255DB0db3524Fdf67A2f3c0d11d5f0572d3",
-    "slug": "usdc-euler-base-base",
+    "slug": "usdc-euler-euler-base-base",
     "asset": "USDC",
     "productName": "USDC Euler Base",
     "protocol": {
@@ -2357,7 +2357,7 @@
   },
   {
     "id": "0xAcb760D36236b487aB4ec48932746844b6339bB5",
-    "slug": "usdc-hyperithm-arbitrum",
+    "slug": "usdc-morpho-hyperithm-arbitrum",
     "asset": "USDC",
     "productName": "USDC Hyperithm",
     "protocol": {
@@ -2437,7 +2437,7 @@
   },
   {
     "id": "0x053c80eA73Dc6941F518a68E2FC52Ac45BDE7c9C",
-    "slug": "usdt-steakhouse-ethereum",
+    "slug": "usdt-morpho-steakhouse-ethereum",
     "asset": "USDT",
     "productName": "USDT Steakhouse",
     "protocol": {
@@ -2475,7 +2475,7 @@
   },
   {
     "id": "0xc4672D771bE351B1DebA458a837f4C833b9242F5",
-    "slug": "usdc-smokehouse-base",
+    "slug": "usdc-morpho-smokehouse-base",
     "asset": "USDC",
     "productName": "USDC Smokehouse",
     "protocol": {
@@ -2551,7 +2551,7 @@
   },
   {
     "id": "0x745cA7DBfe786c58d31d8E142e04308Cd1F38f5f",
-    "slug": "wbtc-onlyboost-ethereum",
+    "slug": "wbtc-stake-dao-onlyboost-ethereum",
     "asset": "BTC",
     "productName": "WBTC OnlyBoost",
     "protocol": {
@@ -2591,7 +2591,7 @@
   },
   {
     "id": "0x84478106F22750F2C69bFfD632EBA22E439B521A",
-    "slug": "usdc-gauntlet-core-base",
+    "slug": "usdc-morpho-gauntlet-core-base",
     "asset": "USDC",
     "productName": "USDC Gauntlet Core",
     "protocol": {
@@ -2629,7 +2629,7 @@
   },
   {
     "id": "0xBb73B0d23E883a7E1a4c62a1B7554939dA4503D2",
-    "slug": "usdc-spark-base",
+    "slug": "usdc-morpho-spark-base",
     "asset": "USDC",
     "productName": "USDC Spark",
     "protocol": {
@@ -2667,7 +2667,7 @@
   },
   {
     "id": "0x94aA414BefB207B869904f3310665A63fBA3AE50",
-    "slug": "usdc-aerodrome-base-3",
+    "slug": "usdc-aerodrome-star-base",
     "asset": "USDC",
     "productName": "USDC Aerodrome",
     "protocol": {
@@ -2743,7 +2743,7 @@
   },
   {
     "id": "0x47B8cdAe3BcEb0DA3236ACF2B288A01A81672AcC",
-    "slug": "usdc-gauntlet-core-ethereum",
+    "slug": "usdc-morpho-gauntlet-core-ethereum",
     "asset": "USDC",
     "productName": "USDC Gauntlet Core",
     "protocol": {
@@ -2827,7 +2827,7 @@
   },
   {
     "id": "0x4292059EA6de854733C38f65259b9e8516FEB214",
-    "slug": "usdc-kpk-prime-ethereum",
+    "slug": "usdc-morpho-kpk-prime-v2-ethereum",
     "asset": "USDC",
     "productName": "USDC kpk Prime V2",
     "protocol": {
@@ -2903,7 +2903,7 @@
   },
   {
     "id": "0x1260Ab63565C4FBD70cb467B9655449dd4DFBEA0",
-    "slug": "eth-aerodrome-base-10",
+    "slug": "eth-aerodrome-ion-base",
     "asset": "ETH",
     "productName": "ETH Aerodrome",
     "protocol": {
@@ -2980,7 +2980,7 @@
   },
   {
     "id": "0xedE9330Aa169f0fEca59E2e62fF443682862a0a4",
-    "slug": "usdc-steakhouse-high-yield-arbitrum",
+    "slug": "usdc-morpho-steakhouse-high-yield-v2-arbitrum",
     "asset": "USDC",
     "productName": "USDC Steakhouse High Yield V2",
     "protocol": {
@@ -3022,7 +3022,7 @@
   },
   {
     "id": "0xbe6A65325A073490D0A2999529633f1Ae88bb091",
-    "slug": "usdc-steakhouse-prime-arbitrum",
+    "slug": "usdc-morpho-steakhouse-prime-arbitrum",
     "asset": "USDC",
     "productName": "USDC Steakhouse Prime",
     "protocol": {
@@ -3064,7 +3064,7 @@
   },
   {
     "id": "0x32DE5CC930A193bdd130E377c38c7053c90EB360",
-    "slug": "usdc-oev-boosted-ethereum",
+    "slug": "usdc-morpho-oev-boosted-ethereum",
     "asset": "USDC",
     "productName": "USDC OEV-boosted",
     "protocol": {
@@ -3102,7 +3102,7 @@
   },
   {
     "id": "0xbf4C718EAEf89bA7ba330a256533d381EeD09Fe3",
-    "slug": "eth-kpk-yield-ethereum",
+    "slug": "eth-morpho-kpk-yield-v2-ethereum",
     "asset": "ETH",
     "productName": "ETH kpk Yield V2",
     "protocol": {
@@ -3140,7 +3140,7 @@
   },
   {
     "id": "0x174F28775913126F649680ED67F5BbD871bEC4aF",
-    "slug": "usdc-steakhouse-base",
+    "slug": "usdc-morpho-steakhouse-base",
     "asset": "USDC",
     "productName": "USDC Steakhouse",
     "protocol": {
@@ -3178,7 +3178,7 @@
   },
   {
     "id": "0xC7F9cb0b28d501661eB7660916ec4609C92923B1",
-    "slug": "eth-gauntlet-balanced-base",
+    "slug": "eth-morpho-gauntlet-balanced-v2-base",
     "asset": "ETH",
     "productName": "ETH Gauntlet Balanced V2",
     "protocol": {
@@ -3216,7 +3216,7 @@
   },
   {
     "id": "0xb441f55Ac9aCd19d9D0C400dd6cE33317961eDd0",
-    "slug": "usdc-yearn-og-arbitrum",
+    "slug": "usdc-morpho-yearn-og-arbitrum",
     "asset": "USDC",
     "productName": "USDC Yearn OG",
     "protocol": {
@@ -3296,7 +3296,7 @@
   },
   {
     "id": "0x7828c3413b10f20DC2F0c0AD1AF87a60FC01831D",
-    "slug": "usdc-yearn-degen-arbitrum",
+    "slug": "usdc-morpho-yearn-degen-arbitrum",
     "asset": "USDC",
     "productName": "USDC Yearn Degen",
     "protocol": {
@@ -3338,7 +3338,7 @@
   },
   {
     "id": "0x3734273c0AD5aB9565f77294335584C904822D4D",
-    "slug": "usdc-avantgarde-core-arbitrum",
+    "slug": "usdc-morpho-avantgarde-core-arbitrum",
     "asset": "USDC",
     "productName": "USDC Avantgarde Core",
     "protocol": {
@@ -3380,7 +3380,7 @@
   },
   {
     "id": "0xE6e61bF3Ec29b4ab1846EA2851FA021C0BE886BA",
-    "slug": "usdc-gauntlet-prime-arbitrum",
+    "slug": "usdc-morpho-gauntlet-prime-v2-arbitrum",
     "asset": "USDC",
     "productName": "USDC Gauntlet Prime V2",
     "protocol": {
@@ -3422,7 +3422,7 @@
   },
   {
     "id": "0x3fB00a58FB4871f84903b6c530b541375c5Cc1bc",
-    "slug": "eth-clearstar-reactor-base",
+    "slug": "eth-morpho-clearstar-reactor-v2-base",
     "asset": "ETH",
     "productName": "ETH Clearstar Reactor V2",
     "protocol": {
@@ -3460,7 +3460,7 @@
   },
   {
     "id": "0x4A8e91248E5602d0D34a5E86A9f1B60E8F2dC721",
-    "slug": "usdc-clearstar-reactor-arbitrum",
+    "slug": "usdc-morpho-clearstar-reactor-arbitrum",
     "asset": "USDC",
     "productName": "USDC Clearstar Reactor",
     "protocol": {
@@ -3502,7 +3502,7 @@
   },
   {
     "id": "0x4E7996aaA1aa8e56017FeFc41CF17D3A244f901f",
-    "slug": "usdc-coinshift-ethereum",
+    "slug": "usdc-morpho-coinshift-ethereum",
     "asset": "USDC",
     "productName": "USDC Coinshift",
     "protocol": {
@@ -3578,7 +3578,7 @@
   },
   {
     "id": "0x34E2110F8C9a635477EFf75FDBe73251Fe02ae4a",
-    "slug": "usdc-gauntlet-balanced-arbitrum",
+    "slug": "usdc-morpho-gauntlet-balanced-v2-arbitrum",
     "asset": "USDC",
     "productName": "USDC Gauntlet Balanced V2",
     "protocol": {
@@ -3620,7 +3620,7 @@
   },
   {
     "id": "0x57080f7Fd7e97D1cd6fb6CdB36b6E7e21A827c8E",
-    "slug": "eth-lend-base",
+    "slug": "eth-arcadia-lend-base",
     "asset": "ETH",
     "productName": "ETH Lend",
     "protocol": {
@@ -3658,7 +3658,7 @@
   },
   {
     "id": "0xD4a3B08A9B952DaAdDB743f246FC33c47A2641D4",
-    "slug": "usdc-re7-arbitrum",
+    "slug": "usdc-morpho-re7-arbitrum",
     "asset": "USDC",
     "productName": "USDC RE7",
     "protocol": {
@@ -3852,7 +3852,7 @@
   },
   {
     "id": "0x3FDFb0fE59Dfba560e2918085AC92da1c25A2e68",
-    "slug": "eth-lend-pool-2-base",
+    "slug": "eth-extrafi-lend-pool-2-base",
     "asset": "ETH",
     "productName": "ETH Lend Pool #2",
     "protocol": {
@@ -3890,7 +3890,7 @@
   },
   {
     "id": "0x73515227DB81b4F506cb24f077d391886DA789c9",
-    "slug": "eth-gauntlet-core-ethereum",
+    "slug": "eth-morpho-gauntlet-core-ethereum",
     "asset": "ETH",
     "productName": "ETH Gauntlet Core",
     "protocol": {
@@ -3936,7 +3936,7 @@
   },
   {
     "id": "0xc14ed8339D3C2A02d860AB4078606A3918C2e294",
-    "slug": "eth-steakhouse-prime-base",
+    "slug": "eth-morpho-steakhouse-prime-v2-base",
     "asset": "ETH",
     "productName": "ETH Steakhouse Prime V2",
     "protocol": {
@@ -3974,7 +3974,7 @@
   },
   {
     "id": "0x180f6E72A19dA2A791d40433c619C553FE268d94",
-    "slug": "usdc-kpk-yield-ethereum",
+    "slug": "usdc-morpho-kpk-yield-v2-ethereum",
     "asset": "USDC",
     "productName": "USDC kpk Yield V2",
     "protocol": {
@@ -4054,7 +4054,7 @@
   },
   {
     "id": "0x7872893e528Fe2c0829e405960db5B742112aa97",
-    "slug": "weth-autopilot-base",
+    "slug": "weth-autopilot-eth-base",
     "asset": "ETH",
     "productName": "WETH Autopilot",
     "protocol": {
@@ -4091,7 +4091,7 @@
   },
   {
     "id": "0xb40f6Deb58c5d3e4bcF2C8Ec5cDe18722ccA573A",
-    "slug": "eth-euler-base-base",
+    "slug": "eth-euler-euler-base-base",
     "asset": "ETH",
     "productName": "ETH Euler Base",
     "protocol": {
@@ -4129,7 +4129,7 @@
   },
   {
     "id": "0x35C42077652a3d1434926ff3ce0fA3442b6C403a",
-    "slug": "eth-lend-base-2",
+    "slug": "eth-extrafi-lend-base",
     "asset": "ETH",
     "productName": "ETH Lend",
     "protocol": {
@@ -4167,7 +4167,7 @@
   },
   {
     "id": "0x03Fef3Bac27e23B21886b503EDBbe4987e02Cda0",
-    "slug": "eth-extrafi-xlend-base",
+    "slug": "eth-morpho-extrafi-xlend-base",
     "asset": "ETH",
     "productName": "ETH Extrafi XLend",
     "protocol": {
@@ -4243,7 +4243,7 @@
   },
   {
     "id": "0xaFE99218186DF27a44F40Da4249e9E5cbDf712A8",
-    "slug": "eth-kpk-prime-ethereum",
+    "slug": "eth-morpho-kpk-prime-v2-ethereum",
     "asset": "ETH",
     "productName": "ETH kpk Prime V2",
     "protocol": {
@@ -4319,7 +4319,7 @@
   },
   {
     "id": "0x9a1B42D54B91a0145C84fBD5529BFb2F12E4Ab2A",
-    "slug": "eth-aerodrome-base-15",
+    "slug": "eth-aerodrome-eurc-base",
     "asset": "ETH",
     "productName": "ETH Aerodrome",
     "protocol": {
@@ -4358,7 +4358,7 @@
   },
   {
     "id": "0xcE4D997A3B404F9Eaa796F89DEae40747D3647B7",
-    "slug": "weth-autopilot-arbitrum",
+    "slug": "weth-autopilot-eth-arbitrum",
     "asset": "ETH",
     "productName": "WETH Autopilot",
     "protocol": {
@@ -4471,7 +4471,7 @@
   },
   {
     "id": "0x05e9Bb4f9e71Aca4750dD759ba3183f73DBCf59F",
-    "slug": "eth-re7-base",
+    "slug": "eth-morpho-re7-v2-base",
     "asset": "ETH",
     "productName": "ETH Re7 V2",
     "protocol": {
@@ -4509,7 +4509,7 @@
   },
   {
     "id": "0x5F2CfC17a76f416Df752b2D1e2b3A0c07Ca977a5",
-    "slug": "eth-alterscope-lrt-base",
+    "slug": "eth-euler-alterscope-lrt-base",
     "asset": "ETH",
     "productName": "ETH Alterscope LRT",
     "protocol": {
@@ -4547,7 +4547,7 @@
   },
   {
     "id": "0xFE09e53A81Fe2808bc493ea64319109B5bAa573e",
-    "slug": "eth-re7-ethereum",
+    "slug": "eth-morpho-re7-v2-ethereum",
     "asset": "ETH",
     "productName": "ETH Re7 V2",
     "protocol": {
@@ -4661,7 +4661,7 @@
   },
   {
     "id": "0x5A04a1904A0685f331015c647ad2430c05725521",
-    "slug": "cbbtc-lend-base",
+    "slug": "cbbtc-arcadia-lend-base",
     "asset": "BTC",
     "productName": "cbBTC Lend",
     "protocol": {
@@ -4737,7 +4737,7 @@
   },
   {
     "id": "0x8C88E410D75e4d7aeF470c95f83fE4d70643073E",
-    "slug": "usdc-compound-polygon",
+    "slug": "usdc-morpho-compound-polygon",
     "asset": "USDC",
     "productName": "USDC Compound",
     "protocol": {
@@ -4779,7 +4779,7 @@
   },
   {
     "id": "0x9351fAFEd159BD51d74e4Bbc5Cbc57785888778F",
-    "slug": "eth-core-arbitrum",
+    "slug": "eth-venus-core-arbitrum",
     "asset": "ETH",
     "productName": "ETH Core",
     "protocol": {
@@ -4854,7 +4854,7 @@
   },
   {
     "id": "0x7e50F45971e6eAE705E915024669c3075Ed381cB",
-    "slug": "usdt-compound-polygon",
+    "slug": "usdt-morpho-compound-polygon",
     "asset": "USDT",
     "productName": "USDT Compound",
     "protocol": {
@@ -4896,7 +4896,7 @@
   },
   {
     "id": "0x58255202c78f96F892CA96F4c73380198e655AAE",
-    "slug": "eth-aerodrome-base-9",
+    "slug": "eth-aerodrome-cbbtc-base",
     "asset": "ETH",
     "productName": "ETH Aerodrome",
     "protocol": {
@@ -4935,7 +4935,7 @@
   },
   {
     "id": "0xF977FF1e9A69BED009be1d0202ad4472fd7e6E1C",
-    "slug": "eth-compound-polygon",
+    "slug": "eth-morpho-compound-polygon",
     "asset": "ETH",
     "productName": "ETH Compound",
     "protocol": {
@@ -4977,7 +4977,7 @@
   },
   {
     "id": "0x32938237AC6212957061917E74Dd2Ab4956Bd2ED",
-    "slug": "eth-aerodrome-base-13",
+    "slug": "eth-aerodrome-tbtc-base",
     "asset": "ETH",
     "productName": "ETH Aerodrome",
     "protocol": {
@@ -5053,7 +5053,7 @@
   },
   {
     "id": "0xcAfb01AB827b6D57eD17fc1db6091E094EF6a1D5",
-    "slug": "cbbtc-moonwell-frontier-base",
+    "slug": "cbbtc-morpho-moonwell-frontier-base",
     "asset": "BTC",
     "productName": "cbBTC Moonwell Frontier",
     "protocol": {
@@ -5133,7 +5133,7 @@
   },
   {
     "id": "0xE2820aeC35bB736c7920950BCA4eda9F671bA5B2",
-    "slug": "eth-aerodrome-base-11",
+    "slug": "eth-aerodrome-base-2",
     "asset": "ETH",
     "productName": "ETH Aerodrome",
     "protocol": {
@@ -5210,7 +5210,7 @@
   },
   {
     "id": "0x408630F637Fa6BDCC6c4de1E1CF9A1CAdE2eF593",
-    "slug": "eth-frontier-yo-base",
+    "slug": "eth-euler-frontier-yo-base",
     "asset": "ETH",
     "productName": "ETH Frontier YO",
     "protocol": {
@@ -5248,7 +5248,7 @@
   },
   {
     "id": "0x52539E9c0eC50EaEEE7D0c518f88C066209090CB",
-    "slug": "cbbtc-lend-base-2",
+    "slug": "cbbtc-extrafi-lend-base",
     "asset": "BTC",
     "productName": "cbBTC Lend",
     "protocol": {
@@ -5323,7 +5323,7 @@
   },
   {
     "id": "0x4092E082Ec9565a5545a7663AFb01D0a35897F2D",
-    "slug": "usdc-openeden-ethereum",
+    "slug": "usdc-euler-openeden-ethereum",
     "asset": "USDC",
     "productName": "USDC OpenEden",
     "protocol": {
@@ -5437,7 +5437,7 @@
   },
   {
     "id": "0xEc0F532F7121c0e8ad32A4f922848eD5bd168D50",
-    "slug": "usdc-mev-pts-ethereum",
+    "slug": "usdc-morpho-mev-pts-ethereum",
     "asset": "USDC",
     "productName": "USDC MEV PTs",
     "protocol": {
@@ -5475,7 +5475,7 @@
   },
   {
     "id": "0xc27bfE32E0a934a12681C1b35acf0DBA0e7460Ba",
-    "slug": "steth-onlyboost-ethereum",
+    "slug": "steth-stake-dao-onlyboost-ethereum",
     "asset": "ETH",
     "productName": "stETH OnlyBoost",
     "protocol": {
@@ -5513,7 +5513,7 @@
   },
   {
     "id": "0x548E84517b2891E0316f604f4f5326a306F1830e",
-    "slug": "eth-quickswap-polygon",
+    "slug": "eth-quickswap-usdc-polygon",
     "asset": "ETH",
     "productName": "ETH Quickswap",
     "protocol": {
@@ -5555,7 +5555,7 @@
   },
   {
     "id": "0x209c865390fF2F0E13CE1Eda1Cf74637f364f29f",
-    "slug": "eth-quickswap-polygon-2",
+    "slug": "eth-quickswap-wbtc-polygon",
     "asset": "ETH",
     "productName": "ETH Quickswap",
     "protocol": {
@@ -5594,7 +5594,7 @@
   },
   {
     "id": "0x7dd768bc86bE6ff410Da79F3E7AEc4cE4c144fCc",
-    "slug": "usdc-spectra-ethereum",
+    "slug": "usdc-morpho-spectra-ethereum",
     "asset": "USDC",
     "productName": "USDC Spectra",
     "protocol": {
@@ -5632,7 +5632,7 @@
   },
   {
     "id": "0x40C0a9789D4C38e1125C540edB664fFff69C83E7",
-    "slug": "usdc-re7-f-x-ethereum",
+    "slug": "usdc-morpho-re7-f-x-v2-ethereum",
     "asset": "USDC",
     "productName": "USDC Re7 f(x) V2",
     "protocol": {
@@ -5670,7 +5670,7 @@
   },
   {
     "id": "0x4500f2B359E030AB15e90F8Ae319420e43c81270",
-    "slug": "usdc-quickswap-polygon",
+    "slug": "usdc-quickswap-eth-polygon",
     "asset": "USDC",
     "productName": "USDC Quickswap",
     "protocol": {
@@ -5709,7 +5709,7 @@
   },
   {
     "id": "0x0F6d1d626fd6284C6C1c1345F30996b89B879689",
-    "slug": "usdc-universal-base",
+    "slug": "usdc-morpho-universal-v2-base",
     "asset": "USDC",
     "productName": "USDC Universal V2",
     "protocol": {
@@ -5747,7 +5747,7 @@
   },
   {
     "id": "0xD3C2586f65261a6f0f6a74a18d3122D9B2dcc05C",
-    "slug": "usdt-quickswap-polygon",
+    "slug": "usdt-quickswap-eth-polygon",
     "asset": "USDT",
     "productName": "USDT Quickswap",
     "protocol": {
@@ -5786,7 +5786,7 @@
   },
   {
     "id": "0xB0EAc31f7F2984d8Ac70b32785cfFcc0c0BC7690",
-    "slug": "usdt-quickswap-polygon-2",
+    "slug": "usdt-quickswap-matic-polygon",
     "asset": "USDT",
     "productName": "USDT Quickswap",
     "protocol": {
@@ -5825,7 +5825,7 @@
   },
   {
     "id": "0x43483723c6b1A8d24a9DbaEEbce02b48adE78951",
-    "slug": "eth-quickswap-polygon-4",
+    "slug": "eth-quickswap-wbtc-polygon-2",
     "asset": "ETH",
     "productName": "ETH Quickswap",
     "protocol": {
@@ -5863,7 +5863,7 @@
   },
   {
     "id": "0x506337cc631726A21788B9fDFb6BE6292bA7A835",
-    "slug": "eth-quickswap-polygon-3",
+    "slug": "eth-quickswap-matic-polygon",
     "asset": "ETH",
     "productName": "ETH Quickswap",
     "protocol": {
@@ -5905,7 +5905,7 @@
   },
   {
     "id": "0xc05374A286143BA88984AF1a103aceD8b587c96b",
-    "slug": "eth-camelot-arbitrum",
+    "slug": "eth-camelot-ifarm-arbitrum",
     "asset": "ETH",
     "productName": "ETH Camelot",
     "protocol": {
@@ -5989,7 +5989,7 @@
   },
   {
     "id": "0xA168884D6f63e0f4B9d9Ff50848183cE61F9eDd0",
-    "slug": "eth-zkswap-zksync",
+    "slug": "eth-zkswap-zk-zksync",
     "asset": "ETH",
     "productName": "ETH zkSwap",
     "protocol": {
@@ -6032,7 +6032,7 @@
   },
   {
     "id": "0x5d9d25c7C457dD82fc8668FFC6B9746b674d4EcB",
-    "slug": "wbtc-re7-ethereum",
+    "slug": "wbtc-morpho-re7-ethereum",
     "asset": "BTC",
     "productName": "WBTC Re7",
     "protocol": {
@@ -6070,7 +6070,7 @@
   },
   {
     "id": "0xdB16a05C8B58D7385bC6fe4d9D5e6E1f261cdF46",
-    "slug": "wbtc-quickswap-polygon",
+    "slug": "wbtc-quickswap-usdc-polygon",
     "asset": "BTC",
     "productName": "WBTC Quickswap",
     "protocol": {
@@ -6108,7 +6108,7 @@
   },
   {
     "id": "0x6243A06f4BB242E43eEDE2DdA211444C82a61C8B",
-    "slug": "cbbtc-gauntlet-core-base",
+    "slug": "cbbtc-morpho-gauntlet-core-base",
     "asset": "BTC",
     "productName": "cbBTC Gauntlet Core",
     "protocol": {

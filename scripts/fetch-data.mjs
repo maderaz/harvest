@@ -228,38 +228,58 @@ async function fetchHarvestVaults() {
       const tvl = parseNumber(v.totalValueLocked);
       const history = historyMap.get(v.vaultAddress);
 
-      // Use persisted slug if vault was seen before (URL stability)
+      // Spec: {asset}-{protocol}-{vault-disambiguator}-{network}
+      // Always recompute the canonical base slug from current data so vaults
+      // with stale persisted slugs (missing protocol name) get migrated.
+      // Strategy is already split from protocol; strip leading token name from
+      // disambiguator to avoid double-asset in slug (e.g. "USDC Steakhouse" -> "Steakhouse").
+      const tokenUpper = matchedToken.toUpperCase();
+      const strategyStripped = strategy
+        .replace(new RegExp("^" + tokenUpper + "\\s+", "i"), "")
+        .trim();
+      let disambiguator = strategyStripped ? slugify(strategyStripped) : "";
+      const protocolSlug = slugify(protocol);
+      const tokenSlug = slugify(matchedToken);
+      const chainSlug = slugify(chain);
+
+      // For LP pair vaults the strategy/productName is identical across many
+      // vaults (e.g. all "ETH Aerodrome" pools). Disambiguate by the OTHER
+      // token in tokenNames so the slug carries pair info instead of -2/-3.
+      if (!disambiguator || disambiguator === protocolSlug) {
+        const others = (v.tokenNames || []).filter(
+          (n) => String(n).toUpperCase() !== tokenUpper,
+        );
+        if (others.length > 0) {
+          disambiguator = others.map((n) => slugify(n)).join("-");
+        }
+      }
+
+      // Drop disambiguator when redundant (equals protocol slug) or absent
+      const baseSlug =
+        disambiguator && disambiguator !== protocolSlug
+          ? `${tokenSlug}-${protocolSlug}-${disambiguator}-${chainSlug}`
+          : `${tokenSlug}-${protocolSlug}-${chainSlug}`;
+
+      // Honor persisted slug only if it shares the canonical base — preserves
+      // URL stability for already-good slugs (including their -2/-3 suffix)
+      // but forces migration for legacy slugs missing the protocol name.
       let slug;
-      if (persistedSlugs[v.vaultAddress]) {
-        slug = persistedSlugs[v.vaultAddress];
+      const persisted = persistedSlugs[v.vaultAddress];
+      if (
+        persisted &&
+        (persisted === baseSlug || persisted.startsWith(baseSlug + "-"))
+      ) {
+        slug = persisted;
       } else {
-        // Spec: {asset}-{protocol}-{vault-disambiguator}-{network}
-        // Strategy is already split from protocol; strip leading token name from
-        // disambiguator to avoid double-asset in slug (e.g. "USDC Steakhouse" -> "Steakhouse").
-        const tokenUpper = matchedToken.toUpperCase();
-        const strategyStripped = strategy
-          .replace(new RegExp("^" + tokenUpper + "\\s+", "i"), "")
-          .trim();
-        const disambiguator = strategyStripped
-          ? slugify(strategyStripped)
-          : "";
-        const protocolSlug = slugify(protocol);
-        const tokenSlug = slugify(matchedToken);
-        const chainSlug = slugify(chain);
-        // Drop disambiguator when redundant (equals protocol slug) or absent
-        const baseSlug =
-          disambiguator && disambiguator !== protocolSlug
-            ? `${tokenSlug}-${protocolSlug}-${disambiguator}-${chainSlug}`
-            : `${tokenSlug}-${protocolSlug}-${chainSlug}`;
         slug = baseSlug;
         let counter = 1;
         while (seenSlugs.has(slug)) {
           counter++;
           slug = `${baseSlug}-${counter}`;
         }
-        seenSlugs.add(slug);
-        newSlugMap[v.vaultAddress] = slug;
       }
+      seenSlugs.add(slug);
+      newSlugMap[v.vaultAddress] = slug;
 
       const breakdownValues = v.estimatedApyBreakdown || [];
       const tokenSymbols = v.apyTokenSymbols || [];
