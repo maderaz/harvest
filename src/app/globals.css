@@ -1616,12 +1616,17 @@ button { font-family: inherit; cursor: pointer; }
 }
 .vc-plot svg { display: block; width: 100%; height: 100%; }
 @media (max-width: 700px) {
-  .perf-tiles { grid-template-columns: 1fr; }
-  .perf-tile { padding: 12px 14px; }
-  .perf-tile-value { font-size: 18px; }
-  .vc-header { gap: 10px; padding: 10px 14px 8px; }
-  .vc-plot { min-height: 240px; }
+  /* Tiles: keep 3-column, compact */
+  .perf-tiles { grid-template-columns: repeat(3, 1fr); }
+  .perf-tile { padding: 10px 8px; gap: 2px; align-items: center; }
+  .perf-tile-label { font-size: 9px; letter-spacing: 0.04em; }
+  .perf-tile-value { font-size: 15px; }
+  .perf-tile-sub { display: none; }
+  /* Chart */
+  .vc-header { gap: 8px; padding: 8px 12px 6px; }
+  .vc-plot { min-height: 180px; }
   .vc-peak { font-size: 11px; }
+  .vc-win-btn { padding: 4px 8px; }
 }
 
 /* Extra product page styles */

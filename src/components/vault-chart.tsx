@@ -1,6 +1,6 @@
 "use client";
 
-import { useId, useMemo, useState, useCallback } from "react";
+import { useId, useMemo, useState, useCallback, useEffect } from "react";
 
 interface DataPoint {
   timestamp: number;
@@ -23,12 +23,12 @@ const WINDOWS = [
 ];
 
 const W = 600;
-const H = 280;
-const PT = 14;
-const PB = 32;
-const PL = 56;
-const PR = 16;
-const DRAW_W = W - PL - PR;
+const H = 260;
+const PT = 12;
+const PB = 28;
+const PL_FULL = 56;
+const PL_COMPACT = 6;
+const PR = 12;
 const DRAW_H = H - PT - PB;
 
 function formatValue(value: number, format: ValueFormat): string {
@@ -128,6 +128,17 @@ export function VaultChart({ data, format, color = "#3b82f6" }: VaultChartProps)
     value: number;
     ts: number;
   } | null>(null);
+  const [showYAxis, setShowYAxis] = useState(true);
+
+  useEffect(() => {
+    const check = () => setShowYAxis(window.innerWidth > 640);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
+
+  const PL = showYAxis ? PL_FULL : PL_COMPACT;
+  const DRAW_W = W - PL - PR;
 
   const filtered = useMemo(() => {
     const win = WINDOWS.find((w) => w.label === activeWindow);
@@ -154,7 +165,7 @@ export function VaultChart({ data, format, color = "#3b82f6" }: VaultChartProps)
 
   const toX = useCallback(
     (ts: number) => (calc ? PL + ((ts - calc.minTs) / calc.tsRange) * DRAW_W : 0),
-    [calc],
+    [calc, PL, DRAW_W],
   );
 
   const toY = useCallback(
@@ -267,9 +278,11 @@ export function VaultChart({ data, format, color = "#3b82f6" }: VaultChartProps)
                 strokeWidth="1"
                 strokeDasharray="2 3"
               />
-              <text x={PL - 6} y={t.y + 4} textAnchor="end" fontSize="10" fill="#9ca3af">
-                {formatAxisVal(t.val, format)}
-              </text>
+              {showYAxis && (
+                <text x={PL - 6} y={t.y + 4} textAnchor="end" fontSize="10" fill="#9ca3af">
+                  {formatAxisVal(t.val, format)}
+                </text>
+              )}
             </g>
           ))}
 
