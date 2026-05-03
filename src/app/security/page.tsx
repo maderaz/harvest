@@ -35,7 +35,7 @@ const AUDITS: Audit[] = [
     reportUrl:
       "https://github.com/harvest-finance/harvest/blob/master/audits/Haechi-Harvest.pdf",
     summary:
-      "Haechi flagged one major-severity issue, originally surfaced by community review and already remediated by the time the report landed, plus five minor-severity findings. Four of the minor findings reflected deliberate decentralization design choices rather than defects; the remaining minor item was patched.",
+      "One major-severity finding and five minor findings. The major finding had been independently surfaced and remediated prior to publication. Of the five minor findings, four were classified as intentional design properties of the protocol's decentralization model rather than defects; the remaining item was remediated.",
   },
   {
     id: "peckshield",
@@ -43,7 +43,7 @@ const AUDITS: Audit[] = [
     reportUrl:
       "https://github.com/harvest-finance/harvest/blob/master/audits/PeckShield-Harvest.pdf",
     summary:
-      "PeckShield's primary finding concerned the privileged role of the 0xf00d deployer address. Following community discussion, timelock mechanisms were introduced so that depositors can exit positions before any deployer action is executed. A separate issue in CRVStrategyStable's depositArbCheck() was caught by community review and patched ahead of the final report. Remaining items were either non-informational or explicit design decisions tied to the project's decentralization model.",
+      "Primary finding addressed the privileged role of the 0xf00d deployer address. A timelock mechanism was introduced in response, providing depositors with a guaranteed exit window before any deployer action takes effect. A separate issue in CRVStrategyStable.depositArbCheck() was identified independently and patched prior to publication of the final report. Remaining items were informational or reflected explicit design decisions in the protocol architecture.",
   },
   {
     id: "certik",
@@ -51,7 +51,7 @@ const AUDITS: Audit[] = [
     reportUrl:
       "https://github.com/harvest-finance/harvest/blob/master/audits/CertiK-Harvest.pdf",
     summary:
-      "CertiK reported one minor-severity finding which was determined to be a false positive: the conditions described could not occur under the production deployment and configuration. Remaining items were optimization suggestions and language-level alternatives with no security impact.",
+      "One minor-severity finding, classified as a false positive after review: the described conditions are not reachable under the production deployment and configuration. Remaining items were optimization recommendations and language-level alternatives with no security impact.",
   },
   {
     id: "least-authority",
@@ -59,7 +59,7 @@ const AUDITS: Audit[] = [
     reportUrl:
       "https://github.com/harvest-finance/harvest/blob/master/audits/LeastAuthority-Harvest.pdf",
     summary:
-      "Least Authority did not identify issues beyond those already known or already remediated. The engagement also covered review of the proposed vault redesign and informed subsequent direction on that work.",
+      "No new findings beyond issues already disclosed or remediated at the time of engagement. The review also covered the proposed vault redesign and informed subsequent architectural direction.",
   },
 ];
 
@@ -111,19 +111,17 @@ export default function SecurityPage() {
           <section id="approach" className="meth-section">
             <h2 className="meth-h2">Approach to security</h2>
             <p>
-              The Harvest contract system has been operating onchain since
-              2020. Across that period the codebase has been reviewed by
-              multiple independent security firms. Findings are summarized
-              below alongside links to the original audit reports, which
-                are published in full so anyone can read the underlying
-              detail rather than only our characterisation of it.
+              The Harvest contract system has been deployed onchain
+              continuously since 2020. Across that period the codebase
+              has been reviewed by four independent security firms. Each
+              report is published in full at the source, linked below
+              alongside a concise summary of the substantive findings.
             </p>
             <p>
-              An audit is one input to security, not a guarantee of it.
-              No audit, including the ones below, certifies that a
-              codebase is free of bugs. Smart-contract risk persists even
-              for audited systems and is one of the categories documented
-              on the{" "}
+              Audits provide point-in-time assurance and are an input to
+              the security posture of a system, not a guarantee of it.
+              Smart-contract risk persists in audited systems and is
+              treated as a standing category on the{" "}
               <Link href="/risk-framework" className="meth-link">
                 risk framework
               </Link>{" "}
@@ -134,7 +132,7 @@ export default function SecurityPage() {
           <section id="audits" className="meth-section">
             <h2 className="meth-h2">Audit reports</h2>
             <p>
-              Reports are linked to the public GitHub mirror under{" "}
+              All reports are published at{" "}
               <a
                 href="https://github.com/harvest-finance/harvest/tree/master/audits"
                 className="meth-link"
@@ -143,9 +141,9 @@ export default function SecurityPage() {
               >
                 harvest-finance/harvest/audits
               </a>
-              . Each summary below describes the substantive findings; for
-              the precise scope and severity classifications used by each
-              firm, refer to the original PDF.
+              . Summaries below cover substantive findings; refer to the
+              source PDF for the full scope, methodology and severity
+              classification used by each firm.
             </p>
 
             {AUDITS.map((a) => (
