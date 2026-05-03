@@ -1842,13 +1842,13 @@ button { font-family: inherit; cursor: pointer; }
   font-size: 11px;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: #7a7a73;
+  color: #9a9a92;
   padding-bottom: 18px;
-  border-bottom: 1px solid #1f1f1c;
+  border-bottom: 1px solid #2e2e2a;
   flex-wrap: wrap;
 }
 .vh-chev {
-  color: #4a4a44;
+  color: #6a6a62;
   font-family: var(--sans);
   font-size: 14px;
   font-weight: 400;
@@ -1856,7 +1856,7 @@ button { font-family: inherit; cursor: pointer; }
   display: inline-block;
   transform: translateY(-0.5px);
 }
-.vh-crumbs a { color: #7a7a73; transition: color .15s; }
+.vh-crumbs a { color: #9a9a92; transition: color .15s; }
 .vh-crumbs a:hover { color: #f4f4f1; }
 .vh-current { color: #f4f4f1; }
 

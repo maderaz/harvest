@@ -1,5 +1,5 @@
-:HL["/_next/static/chunks/11ha-ug4e~wxf.css","style"]
+:HL["/_next/static/chunks/0sfxcs0xb6b57.css","style"]
 :HL["/_next/static/media/USDC.055.tii03o3mr.png","image"]
 :HL["./icons/usdc.svg","image"]
 :HL["./icons/morpho.svg","image"]
-0:{"tree":{"name":"","param":null,"prefetchHints":16,"slots":{"children":{"name":"slug","param":{"type":"d","key":"usdc-morpho-gauntlet-frontier-v2-base","siblings":null},"prefetchHints":0,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":0,"slots":null}}}}},"staleTime":300,"buildId":"b_dZ0oM6Z7lBior-pKob_"}
+0:{"tree":{"name":"","param":null,"prefetchHints":16,"slots":{"children":{"name":"slug","param":{"type":"d","key":"usdc-morpho-gauntlet-frontier-v2-base","siblings":null},"prefetchHints":0,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":0,"slots":null}}}}},"staleTime":300,"buildId":"Ztwiz4RXvjac8NP-icZm2"}
