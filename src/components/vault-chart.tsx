@@ -186,9 +186,9 @@ export function VaultChart({ data, format, color = "#3b82f6" }: VaultChartProps)
     return { val, y: toY(val) };
   });
 
-  const xTicks = Array.from({ length: 4 }, (_, i) => ({
-    label: formatDate(calc.minTs + (i * calc.tsRange) / 3),
-    x: PL + (i * DRAW_W) / 3,
+  const xTicks = Array.from({ length: 6 }, (_, i) => ({
+    label: formatDate(calc.minTs + (i * calc.tsRange) / 5),
+    x: PL + (i * DRAW_W) / 5,
   }));
 
   function findClosest(svgX: number) {
@@ -279,7 +279,7 @@ export function VaultChart({ data, format, color = "#3b82f6" }: VaultChartProps)
                 strokeDasharray="2 3"
               />
               {showYAxis && (
-                <text x={PL - 5} y={t.y + 3.5} textAnchor="end" fontSize="9" fill="#9ca3af">
+                <text x={PL - 5} y={t.y + 3.5} textAnchor="end" fontSize="8" fill="#9ca3af">
                   {formatAxisVal(t.val, format)}
                 </text>
               )}
@@ -325,7 +325,7 @@ export function VaultChart({ data, format, color = "#3b82f6" }: VaultChartProps)
               x={t.x}
               y={H - 6}
               textAnchor={i === 0 ? "start" : i === xTicks.length - 1 ? "end" : "middle"}
-              fontSize="9"
+              fontSize="8"
               fill="#9ca3af"
             >
               {t.label}
