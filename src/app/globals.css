@@ -40,6 +40,11 @@
   --display: 'Inter Tight', 'Inter', system-ui, sans-serif;
 }
 
+/* Responsive shell padding — every layout reads --shell-pad so
+   reducing it here cascades to nav, footer, hero, product page etc. */
+@media (max-width: 768px) { :root { --shell-pad: 20px; } }
+@media (max-width: 480px) { :root { --shell-pad: 16px; } }
+
 html, body {
   background: var(--bg);
   color: var(--ink);
@@ -375,7 +380,11 @@ button { font-family: inherit; cursor: pointer; }
   background: var(--bg-2);
   border-radius: 8px;
   padding: 3px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  flex-shrink: 0;
 }
+.fb-tabs::-webkit-scrollbar { display: none; }
 .fb-tab {
   display: inline-flex;
   align-items: center;
@@ -390,6 +399,7 @@ button { font-family: inherit; cursor: pointer; }
   color: var(--ink-3);
   cursor: pointer;
   white-space: nowrap;
+  flex-shrink: 0;
   transition: background 0.12s, color 0.12s;
 }
 .fb-tab:hover { color: var(--ink); }
@@ -641,19 +651,62 @@ button { font-family: inherit; cursor: pointer; }
 
 /* === footer === */
 .foot {
-  margin-top: 40px;
+  margin-top: 48px;
   border-top: 1px solid var(--line);
-  padding: 24px 0;
+  padding: 36px 0 28px;
 }
 .foot-inner {
-  max-width: var(--shell-max); margin: 0 auto; padding: 0 var(--shell-pad);
-  display: flex; justify-content: space-between; align-items: center;
-  font-size: 12px;
-  flex-wrap: wrap; gap: 16px;
+  max-width: var(--shell-max);
+  margin: 0 auto;
+  padding: 0 var(--shell-pad);
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
 }
-.foot-links { display: flex; gap: 18px; }
-.foot-links a { color: var(--ink-3); }
-.foot-links a:hover { color: var(--ink); }
+.foot-brand {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0;
+  font-size: 13px;
+}
+.foot-grid {
+  display: grid;
+  grid-template-columns: repeat(3, auto);
+  gap: 48px;
+  justify-content: start;
+}
+.foot-col {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  min-width: 0;
+}
+.foot-col-label {
+  font-size: 10px !important;
+  letter-spacing: 0.08em;
+  margin-bottom: 3px;
+}
+.foot-link {
+  font-size: 12.5px;
+  color: var(--ink-3);
+  line-height: 1.4;
+  display: block;
+}
+.foot-link:hover { color: var(--ink); }
+.foot-copy {
+  font-size: 11.5px;
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+}
+
+@media (max-width: 700px) {
+  .foot-grid { grid-template-columns: repeat(2, 1fr); gap: 28px; }
+}
+@media (max-width: 400px) {
+  .foot-grid { grid-template-columns: 1fr 1fr; gap: 20px; }
+  .foot-brand .mono.dim { display: none; }
+}
 
 /* === responsive === */
 @media (max-width: 1280px) {
@@ -672,8 +725,29 @@ button { font-family: inherit; cursor: pointer; }
   .feat-grid { grid-template-columns: 1fr; }
 }
 @media (max-width: 640px) {
-  .filterbar { flex-wrap: wrap; }
+  /* Nav: compress search so brand stays visible */
+  .topnav-inner { gap: 12px; }
+  .search-box { min-width: 140px; }
+  .search-box kbd { display: none; }
+
+  /* Hero */
+  .hero h1 { font-size: 24px; min-height: 0; }
   .hero-right { grid-template-columns: repeat(2, 1fr); }
+  .hero-actions { flex-direction: column; align-items: flex-start; gap: 8px; }
+
+  /* Category grid → 2 columns */
+  .cat-grid { grid-template-columns: repeat(2, 1fr); }
+
+  /* Filter bar */
+  .filterbar { flex-wrap: wrap; }
+}
+@media (max-width: 480px) {
+  /* Nav: search box minimum — just icon + placeholder */
+  .search-box { min-width: 100px; padding: 5px 8px; }
+  .topnav-inner { gap: 8px; }
+
+  /* Category grid → 1 col on tiny screens */
+  .cat-grid { grid-template-columns: 1fr 1fr; }
 }
 
 /* === Product Page === */
@@ -1203,6 +1277,22 @@ button { font-family: inherit; cursor: pointer; }
 }
 @media (max-width: 700px) {
   .more-vaults { grid-template-columns: 1fr; }
+}
+
+/* Ranking table: drop 30d APY (col 4), sparkline (col 6), CTA (col 7) on mobile.
+   Product name + 24h APY + TVL are the essential three. */
+@media (max-width: 640px) {
+  .ranking thead th:nth-child(4),
+  .ranking tbody td:nth-child(4),
+  .ranking thead th:nth-child(6),
+  .ranking tbody td:nth-child(6),
+  .ranking thead th:nth-child(7),
+  .ranking tbody td:nth-child(7) { display: none; }
+  .fb-row { flex-wrap: nowrap; gap: 8px; }
+  .fb-row-secondary { overflow-x: auto; scrollbar-width: none; }
+  .fb-row-secondary::-webkit-scrollbar { display: none; }
+  .fb-chips { flex-wrap: nowrap; }
+  .table-foot { flex-direction: column; align-items: flex-start; gap: 8px; }
 }
 /* === About prose (full width) === */
 .about-prose p {
@@ -1813,9 +1903,34 @@ button { font-family: inherit; cursor: pointer; }
   .hist-grid { grid-template-columns: 1fr; }
 }
 @media (max-width: 700px) {
+  /* Bench table: hide chain col, compress */
   .bt-head, .bt-row { grid-template-columns: 40px 1.6fr 1fr 1fr; gap: 8px; font-size: 12px; }
   .bt-row span:nth-child(3), .bt-head span:nth-child(3) { display: none; }
+  /* Eco rows: compress */
   .eco-row { grid-template-columns: 30px 2fr 2fr 60px; gap: 8px; font-size: 12px; }
+  /* PP section headings */
+  .pp-section h2 { font-size: 18px; }
+  /* Consistency block: stack vertically */
+  .consistency { grid-template-columns: 1fr; gap: 14px; }
+  .consistency-score { width: 72px; height: 72px; }
+  .consistency-score .num { font-size: 22px; }
+  /* Numbered list */
+  .pp-numbered-item { gap: 10px; padding: 12px 0; }
+  /* More vaults */
+  .more-vaults { grid-template-columns: 1fr; }
+}
+@media (max-width: 480px) {
+  /* Bench stats: 2-col already set at 700px, keep */
+  .bench-stats { gap: 10px; padding: 12px 14px; }
+  .bs-v { font-size: 17px; }
+  /* Eco rank: hide bar column on very small screens */
+  .eco-row { grid-template-columns: 28px 1fr 56px; }
+  .er-bar { display: none; }
+  /* Yield sources: compress */
+  .ys-row { grid-template-columns: 80px 1fr auto; gap: 8px; }
+  /* Page padding */
+  .pp-page { padding-left: var(--shell-pad); padding-right: var(--shell-pad); }
+  .pp-page-after-hero > .pp-grid { padding-top: 24px; }
 }
 
 /* =============================================
@@ -2092,14 +2207,28 @@ button { font-family: inherit; cursor: pointer; }
   .vh-kpi-stack { min-width: 0; }
 }
 @media (max-width: 700px) {
-  .vault-hero-inner { padding: 18px 20px 28px; }
-  .vh-title { font-size: 48px; }
-  .vh-tabs-inner { padding: 0 20px; }
+  .vault-hero-inner { padding: 16px var(--shell-pad) 24px; }
+  /* Title already uses clamp() + cqw, so it scales with column width. */
+  .vh-tabs-inner { padding: 0 var(--shell-pad); }
   .vh-tabs { top: 52px; }
   .vh-tab-long { display: none; }
   .vh-tab-short { display: inline; }
-  .vh-actions { flex-direction: column; align-items: stretch; }
-  .vh-actions-right { justify-content: flex-end; }
+  .vh-actions { flex-direction: column; align-items: stretch; gap: 10px; }
+  .vh-actions-left { flex-wrap: wrap; }
+  .vh-actions-right { justify-content: flex-start; }
+  /* KPI: 2×2 grid already, reduce cell padding on small screens */
+  .vh-kpi { padding: 14px 16px; min-height: 80px; }
+  .vh-k-val { font-size: 26px; }
+  .vh-body { padding: 24px 0 20px; gap: 20px; }
+}
+@media (max-width: 480px) {
+  /* KPI stack: go full-width 2-col, reduce value font further */
+  .vh-kpi-stack { grid-template-columns: 1fr 1fr; }
+  .vh-k-val { font-size: 22px; }
+  .vh-k-val .pct { font-size: 14px; }
+  /* Tabs: compress padding */
+  .vh-tab { padding: 12px 10px; font-size: 12px; }
+  .vh-crumbs { font-size: 10px; gap: 6px; padding-bottom: 14px; }
 }
 
 /* === Admin Products === */
@@ -2559,26 +2688,33 @@ button { font-family: inherit; cursor: pointer; }
 
 @media (max-width: 640px) {
   .methodology-page {
-    padding: 0 20px 72px;
+    padding: 0 var(--shell-pad) 72px;
   }
 
   .meth-header {
-    padding: 32px 0 36px;
+    padding: 28px 0 32px;
   }
 
+  .meth-title { font-size: clamp(22px, 7vw, 34px); }
+
+  /* Stats strip: wrap to 2 cols instead of one long row */
   .meth-stats {
     width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
   }
 
   .meth-stat {
-    padding: 12px 0;
-    flex: 1;
-    align-items: center;
+    padding: 12px 14px;
+    min-width: 0;
   }
 
   .meth-stat-val { font-size: 22px; }
 
-  .meth-section { padding: 28px 0; }
+  .meth-section { padding: 24px 0; }
+
+  .meth-h2 { font-size: 15px; }
 
   .meth-risk-item {
     grid-template-columns: 1fr;
@@ -2588,11 +2724,23 @@ button { font-family: inherit; cursor: pointer; }
   .meth-limit-item {
     grid-template-columns: 24px 1fr;
     gap: 10px;
+    padding: 12px 14px;
   }
 
+  /* Table: allow horizontal scroll rather than squish */
+  .meth-table-wrap { overflow-x: auto; }
+  .meth-table { min-width: 480px; }
   .meth-table th,
   .meth-table td { padding: 8px 10px; font-size: 12px; }
 
   .meth-disclosure { padding: 16px 18px; }
+  .meth-callout { padding: 12px 14px; font-size: 12.5px; }
+}
+
+@media (max-width: 400px) {
+  /* Stats strip: 2 cols, equal width */
+  .meth-stats { grid-template-columns: 1fr 1fr; }
+  .meth-stat-val { font-size: 20px; }
+  .meth-stat-lbl { font-size: 9px; }
 }
 .adm-url a:hover { color: var(--ink); }
