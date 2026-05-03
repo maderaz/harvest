@@ -2617,7 +2617,6 @@ button { font-family: inherit; cursor: pointer; }
   color: var(--ink-2);
   line-height: 1.75;
   margin: 0 0 14px;
-  max-width: 68ch;
 }
 .meth-body p:last-child { margin-bottom: 0; }
 
