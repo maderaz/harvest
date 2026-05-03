@@ -2539,6 +2539,35 @@ button { font-family: inherit; cursor: pointer; }
   border-left: 2px solid var(--accent);
   line-height: 1.3;
 }
+.meth-h3 {
+  font-family: var(--display);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink-2);
+  margin: 24px 0 10px;
+  letter-spacing: -0.01em;
+}
+.meth-defs { margin: 0 0 16px; }
+.meth-defs dt {
+  font-weight: 600;
+  color: var(--ink);
+  margin-top: 14px;
+  font-size: 13.5px;
+}
+.meth-defs dt:first-child { margin-top: 0; }
+.meth-defs dd {
+  margin: 4px 0 0;
+  color: var(--ink-2);
+  font-size: 13.5px;
+  line-height: 1.7;
+}
+.meth-list-alpha { padding-left: 24px; }
+.meth-list-alpha li {
+  margin: 6px 0;
+  color: var(--ink-2);
+  font-size: 13.5px;
+  line-height: 1.7;
+}
 
 .meth-h3 {
   font-family: var(--display);
