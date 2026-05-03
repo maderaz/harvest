@@ -23,10 +23,10 @@ const RESOURCES = [
   { label: "Risk Framework", href: "/risk-framework" },
 ];
 
-// Legitimacy-signal pages. About and Security still placeholder until
-// those pages ship; the rest now resolve.
+// Legitimacy-signal pages. Security still placeholder until that page
+// ships; the rest now resolve.
 const COMPANY = [
-  { label: "About", href: "#" },
+  { label: "About", href: "/about" },
   { label: "Disclosures", href: "/disclosures" },
   { label: "Security", href: "#" },
   { label: "Terms", href: "/terms" },
