@@ -1,4 +1,4 @@
-:HL["/_next/static/chunks/0j4lqw.k~nkhi.css","style"]
+:HL["/_next/static/chunks/0036xvu-x3_7f.css","style"]
 :HL["/_next/static/media/WBTC.08i29usir9-j1.png","image"]
 :HL["./icons/cbbtc.svg","image"]
-0:{"tree":{"name":"","param":null,"prefetchHints":16,"slots":{"children":{"name":"slug","param":{"type":"d","key":"cbbtc-arcadia-lend-base","siblings":null},"prefetchHints":0,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":0,"slots":null}}}}},"staleTime":300,"buildId":"3o1G13-y4ezAfbZeq8_hN"}
+0:{"tree":{"name":"","param":null,"prefetchHints":16,"slots":{"children":{"name":"slug","param":{"type":"d","key":"cbbtc-arcadia-lend-base","siblings":null},"prefetchHints":0,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":0,"slots":null}}}}},"staleTime":300,"buildId":"YYJFjcMOKqkLGrSqJgfWK"}
