@@ -18,11 +18,22 @@ const ASSET_HREF: Record<string, string> = {
 };
 
 // Resources column: only links to pages that actually exist on the site.
-// Per the footer-revisions memo, we deliberately do not link to placeholder
-// "#" destinations: footer is global, so dead links propagate site-wide.
 const RESOURCES = [
   { label: "Methodology", href: "/methodology" },
   { label: "Risk Framework", href: "/risk-framework" },
+];
+
+// Legitimacy-signal pages. Real destinations are pending; the entries
+// remain in the footer so the surfaces are visible to crawlers and
+// users while the pages are being built. Replace href "#" with the
+// real path when each page ships.
+const COMPANY = [
+  { label: "About", href: "#" },
+  { label: "Disclosures", href: "#" },
+  { label: "Security", href: "#" },
+  { label: "Terms", href: "#" },
+  { label: "Privacy", href: "#" },
+  { label: "Contact", href: "#" },
 ];
 
 const SOCIAL: { label: string; href: string; icon: React.ReactNode }[] = [
@@ -181,13 +192,21 @@ export async function Footer() {
             ))}
           </div>
 
-          {/* Column 4: Resources */}
+          {/* Column 4: Resources + Company */}
           <div className="foot-col">
             <div className="foot-col-label mono dim">Resources</div>
             {RESOURCES.map((l) => (
               <Link key={l.label} href={l.href} className="foot-link">
                 {l.label}
               </Link>
+            ))}
+            <div className="foot-col-label mono dim" style={{ marginTop: 14 }}>
+              Company
+            </div>
+            {COMPANY.map((l) => (
+              <a key={l.label} href={l.href} className="foot-link">
+                {l.label}
+              </a>
             ))}
           </div>
         </div>
