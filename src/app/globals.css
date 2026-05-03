@@ -347,6 +347,16 @@ button { font-family: inherit; cursor: pointer; }
   letter-spacing: -0.015em;
   margin: 0;
 }
+.browse-by-network {
+  font-size: 13px;
+  color: var(--ink-2);
+  padding: 18px 0 4px;
+  line-height: 1.6;
+}
+.browse-by-network .bbn-label { color: var(--ink-3); margin-right: 4px; }
+.browse-by-network .bbn-sep { color: var(--ink-4); }
+.browse-by-network a { color: var(--ink); border-bottom: 1px dotted var(--line-2); }
+.browse-by-network a:hover { border-bottom-color: var(--ink-3); }
 /* === Filter bar === */
 .filterbar {
   display: flex;

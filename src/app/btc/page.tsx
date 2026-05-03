@@ -13,6 +13,7 @@ import {
 import { breadcrumbSchema, itemListSchema } from "@/lib/jsonld";
 import { getSubAsset } from "@/lib/sub-asset";
 import { SubAssetSections } from "@/components/sub-asset-sections";
+import { BrowseByNetwork } from "@/components/browse-by-network";
 
 const ASSET = "BTC" as const;
 
@@ -115,6 +116,7 @@ export default async function BtcPage() {
         subAssets={subAssets}
         assetLabel="Bitcoin"
       />
+      <BrowseByNetwork asset="Bitcoin" vaults={vaults} />
     </main>
   );
 }

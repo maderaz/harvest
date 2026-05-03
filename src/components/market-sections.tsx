@@ -1,6 +1,8 @@
+import Link from "next/link";
 import { YieldVault } from "@/lib/types";
 import { formatAPY, formatTVL } from "@/lib/format";
 import { depositRef, apyToMonthly, fmtEarnings, tvlPercentileLabel, benchmarkQualifier } from "@/lib/contextualize";
+import { chainToSlug } from "@/lib/networks";
 
 interface Props {
   vault: YieldVault;
@@ -230,7 +232,8 @@ function EcosystemIntro({
 
   return (
     <p>
-      On {vault.chain}, this product{"'"}s yield runs{" "}
+      On <Link href={`/${chainToSlug(vault.chain)}`}>{vault.chain}</Link>, this
+      product{"'"}s yield runs{" "}
       <strong>{Math.abs(vsNetAvg).toFixed(1)}% {vsNetAvg >= 0 ? "higher" : "lower"}</strong> than
       the network average across the {vault.asset} strategies we monitor. By APY it ranks{" "}
       <strong>#{rank} of {sameChainCount}</strong> in that set.{ctx}

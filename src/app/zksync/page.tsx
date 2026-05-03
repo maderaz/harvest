@@ -32,6 +32,7 @@ export default async function zkSyncNetworkPage() {
       networkDisplay={NETWORK_DISPLAY}
       vaults={vaults}
       sparklines={sparklines}
+      allVaults={allVaults}
     />
   );
 }

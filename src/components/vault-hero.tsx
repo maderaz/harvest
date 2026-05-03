@@ -6,6 +6,7 @@ import type { FullVaultHistory } from "@/lib/history-api";
 import { AssetIcon } from "./token-icons";
 import { CopyAddressButton } from "./copy-address-button";
 import { harvestAppUrl } from "@/lib/harvest-app";
+import { chainToSlug } from "@/lib/networks";
 
 function stdDev(values: number[]): number {
   if (values.length < 2) return 0;
@@ -110,7 +111,9 @@ export function VaultHero({ vault, history, allVaults }: Props) {
             <div className="vh-by">
               by <b>{vault.protocol.name}</b> &nbsp;·&nbsp;
               Strategy <b>{stripChainSuffix(vault.category, vault.chain)}</b> &nbsp;·&nbsp;
-              {vault.vaultType}
+              {vault.vaultType} &nbsp;·&nbsp;
+              Operated on{" "}
+              <Link href={`/${chainToSlug(vault.chain)}`}>{vault.chain}</Link>
             </div>
           </div>
 
