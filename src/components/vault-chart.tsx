@@ -23,12 +23,12 @@ const WINDOWS = [
 ];
 
 const W = 600;
-const H = 260;
-const PT = 12;
-const PB = 28;
-const PL_FULL = 56;
+const H = 240;
+const PT = 10;
+const PB = 24;
+const PL_FULL = 44;
 const PL_COMPACT = 6;
-const PR = 12;
+const PR = 10;
 const DRAW_H = H - PT - PB;
 
 function formatValue(value: number, format: ValueFormat): string {
@@ -279,7 +279,7 @@ export function VaultChart({ data, format, color = "#3b82f6" }: VaultChartProps)
                 strokeDasharray="2 3"
               />
               {showYAxis && (
-                <text x={PL - 6} y={t.y + 4} textAnchor="end" fontSize="10" fill="#9ca3af">
+                <text x={PL - 5} y={t.y + 3.5} textAnchor="end" fontSize="9" fill="#9ca3af">
                   {formatAxisVal(t.val, format)}
                 </text>
               )}
@@ -320,7 +320,14 @@ export function VaultChart({ data, format, color = "#3b82f6" }: VaultChartProps)
           )}
 
           {xTicks.map((t, i) => (
-            <text key={i} x={t.x} y={H - 6} textAnchor="middle" fontSize="10" fill="#9ca3af">
+            <text
+              key={i}
+              x={t.x}
+              y={H - 6}
+              textAnchor={i === 0 ? "start" : i === xTicks.length - 1 ? "end" : "middle"}
+              fontSize="9"
+              fill="#9ca3af"
+            >
               {t.label}
             </text>
           ))}
