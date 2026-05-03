@@ -72,6 +72,15 @@ export async function getVaults(): Promise<YieldVault[]> {
   return _vaultCache;
 }
 
+export function isLiveVault(v: YieldVault): boolean {
+  return v.apy24h > 0 && v.tvl > 0;
+}
+
+export async function getLiveVaults(): Promise<YieldVault[]> {
+  const all = await getVaults();
+  return all.filter(isLiveVault);
+}
+
 export async function getVaultHistory(contractAddress: string): Promise<FullVaultHistory> {
   const empty: FullVaultHistory = { tvlHistory: [], sharePriceHistory: [], apyHistory: [] };
 

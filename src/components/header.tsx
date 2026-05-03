@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { getVaults } from "@/lib/data";
+import { getLiveVaults } from "@/lib/data";
 import { SearchBox, type SearchItem } from "./search-box";
 
 export async function Header() {
@@ -10,7 +10,7 @@ export async function Header() {
     { label: "BTC", href: "/BTC" },
   ];
 
-  const vaults = await getVaults();
+  const vaults = await getLiveVaults();
   const items: SearchItem[] = vaults.map((v) => ({
     slug: v.slug,
     productName: v.productName,

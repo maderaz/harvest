@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { getVaults, getAllSparklines } from "@/lib/data";
+import { getLiveVaults, getAllSparklines } from "@/lib/data";
 import { SITE_NAME, SITE_DESCRIPTION, SITE_URL } from "@/lib/constants";
 import { VaultList } from "@/components/vault-list";
 import { formatAPY, formatTVL } from "@/lib/format";
@@ -93,7 +93,7 @@ const ASSET_PAGES = new Set(["USDC", "USDT", "ETH", "BTC"]);
 /* === Page component === */
 
 export default async function Home() {
-  const vaults = await getVaults();
+  const vaults = await getLiveVaults();
   const sparklines = await getAllSparklines();
   const stats = computeStats(vaults);
   const platforms = computePlatforms(vaults);

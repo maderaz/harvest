@@ -106,6 +106,7 @@ export function VaultTable({
 
   const lcQuery = query.trim().toLowerCase();
   const filtered = vaults.filter((v) => {
+    if (v.apy24h <= 0 || v.tvl <= 0) return false;
     if (assetFilter !== "All" && v.asset !== assetFilter) return false;
     if (chainFilter !== "All" && v.chain !== chainFilter) return false;
     if (lcQuery) {

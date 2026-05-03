@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { Metadata } from "next";
-import { getVaults, getAllSparklines } from "@/lib/data";
+import { getLiveVaults, getAllSparklines } from "@/lib/data";
 import { VaultList } from "@/components/vault-list";
 import { AssetIcon } from "@/components/token-icons";
 import { formatAPY, formatTVL } from "@/lib/format";
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
 };
 
 export default async function UsdtAssetPage() {
-  const allVaults = await getVaults();
+  const allVaults = await getLiveVaults();
   const sparklines = await getAllSparklines();
   const vaults = allVaults.filter((v) => v.asset === ASSET);
 

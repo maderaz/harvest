@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import type { Metadata } from "next";
-import { getVaults, getVaultBySlug, getAllSlugs, getVaultHistory } from "@/lib/data";
+import { getLiveVaults, getVaultBySlug, getAllSlugs, getVaultHistory } from "@/lib/data";
 import { isCanonicalSlug } from "@/lib/canonical-vaults";
 import { formatAPY, formatTVL, stripChainSuffix } from "@/lib/format";
 import { AssetBadge } from "@/components/asset-badge";
@@ -463,7 +463,7 @@ export default async function ProductPage({
     apyChartData.length >= 2 ||
     sharePriceChartData.length >= 2;
 
-  const allVaults = await getVaults();
+  const allVaults = await getLiveVaults();
   const relatedVaults = allVaults
     .filter((v) => v.asset === vault.asset && v.id !== vault.id)
     .slice(0, 4);

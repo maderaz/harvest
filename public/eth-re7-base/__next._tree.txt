@@ -2,4 +2,4 @@
 :HL["/_next/static/media/ETH.09gnhlwpku~zq.png","image"]
 :HL["./icons/eth.svg","image"]
 :HL["./icons/morpho.svg","image"]
-0:{"tree":{"name":"","param":null,"prefetchHints":16,"slots":{"children":{"name":"slug","param":{"type":"d","key":"eth-re7-base","siblings":null},"prefetchHints":0,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":0,"slots":null}}}}},"staleTime":300,"buildId":"niJ8jkz-lzYXyo8pyagOz"}
+0:{"tree":{"name":"","param":null,"prefetchHints":16,"slots":{"children":{"name":"slug","param":{"type":"d","key":"eth-re7-base","siblings":null},"prefetchHints":0,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":0,"slots":null}}}}},"staleTime":300,"buildId":"eBhdc1X4RWC0JUCpd5Owe"}
