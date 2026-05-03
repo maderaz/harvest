@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { YieldVault } from "@/lib/types";
 
 const ASSET_DEPEG_LABEL: Record<string, string> = {
@@ -25,8 +26,11 @@ export function VaultRisks({ vault }: { vault: YieldVault }) {
         </p>
         <p className="pp-risks-disclaimer">
           DeFi yields are not insured deposits. Past performance does not
-          guarantee future returns. Always do your own research before
-          depositing.
+          guarantee future returns.{" "}
+          <Link href="/risk-framework">
+            Understand the risk categories
+          </Link>{" "}
+          before depositing.
         </p>
       </div>
     </section>

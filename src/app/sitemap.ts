@@ -48,6 +48,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: "monthly" as const,
       priority: 0.7,
     },
+    {
+      url: `${SITE_URL}/risk-framework`,
+      lastModified: new Date("2026-05-03"),
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
+    },
     ...assetHubPages,
     ...networkHubPages,
     ...vaultPages,
