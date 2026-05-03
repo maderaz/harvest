@@ -1,11 +1,9 @@
 import Link from "next/link";
-import { getLiveVaults } from "@/lib/data";
+import { getLiveVaults, getTrackedDaysMap } from "@/lib/data";
 import { NETWORKS } from "@/lib/networks";
+import { formatTVL, stripChainSuffix } from "@/lib/format";
 import { YieldVault } from "@/lib/types";
 
-// Asset display labels for the "Yield by Asset" column. Long-form for
-// names users search by name, symbol for ticker-dominated assets. Order is
-// computed at build time from indexed TVL.
 const ASSET_LABELS: Record<string, string> = {
   USDC: "USDC Yield",
   USDT: "USDT Yield",
@@ -20,29 +18,14 @@ const ASSET_HREF: Record<string, string> = {
   BTC: "/btc",
 };
 
+// Resources column: only links to pages that actually exist on the site.
+// Per the footer-revisions memo, we deliberately do not link to placeholder
+// "#" destinations: footer is global, so dead links propagate site-wide.
 const RESOURCES = [
   { label: "Methodology", href: "/methodology" },
   { label: "Risk Framework", href: "/risk-framework" },
-  { label: "API", href: "#" },
-  { label: "Coverage", href: "#" },
-  { label: "Glossary", href: "#" },
-  { label: "Changelog", href: "#" },
-  { label: "Status", href: "#" },
 ];
 
-const COMPANY = [
-  { label: "About", href: "#" },
-  { label: "Disclosures", href: "#" },
-  { label: "Security", href: "#" },
-  { label: "Terms", href: "#" },
-  { label: "Privacy", href: "#" },
-  { label: "Contact", href: "#" },
-];
-
-// External / social. Real handles are not hard-coded here because we don't
-// own the source of truth for them in this repo. Replace # with the actual
-// URLs and they will gain rel="me" automatically. Until then we omit the
-// rel="me" attribute so we don't claim ownership of placeholder URLs.
 const SOCIAL: { label: string; href: string; icon: React.ReactNode }[] = [
   {
     label: "Twitter",
@@ -73,6 +56,8 @@ const SOCIAL: { label: string; href: string; icon: React.ReactNode }[] = [
   },
 ];
 
+const TVL_FLOOR = 10_000;
+
 interface AssetEntry {
   asset: string;
   href: string;
@@ -88,17 +73,11 @@ interface NetworkEntry {
   tvl: number;
 }
 
-interface BrowseBlock {
-  heading: string;
-  hubHref: string;
-  vaults: YieldVault[];
-}
-
 export async function Footer() {
   const vaults = await getLiveVaults();
+  const trackedDaysMap = await getTrackedDaysMap();
 
-  // Asset column: only assets that are in our hub map AND have at least one
-  // indexed strategy. Ordered by indexed TVL desc.
+  // === Asset & network columns: live counts, TVL-ordered ============
   const tvlByAsset = new Map<string, number>();
   const countByAsset = new Map<string, number>();
   for (const v of vaults) {
@@ -116,8 +95,6 @@ export async function Footer() {
     }))
     .sort((a, b) => b.tvl - a.tvl);
 
-  // Network column: every network in the registry with at least one indexed
-  // strategy. Ordered by indexed TVL desc.
   const tvlByChain = new Map<string, number>();
   const countByChain = new Map<string, number>();
   for (const v of vaults) {
@@ -135,46 +112,35 @@ export async function Footer() {
     }))
     .sort((a, b) => b.tvl - a.tvl);
 
-  // "Browse yields" cross-link blocks. Top 5 strategies per asset by 24h
-  // APY (with TVL >= $10k to drop micro-cap noise), capped at 5 each.
-  const topVaultsForAsset = (asset: string): YieldVault[] =>
-    vaults
-      .filter((v) => v.asset === asset && v.apy24h > 0 && v.tvl >= 10_000)
-      .sort((a, b) => b.apy24h - a.apy24h)
-      .slice(0, 5);
+  // === Brand column live stats ======================================
+  const totalTvl = vaults.reduce((s, v) => s + v.tvl, 0);
+  const networksWithCoverage = networkEntries.length;
 
-  const browseByAsset: BrowseBlock[] = ["USDC", "ETH", "BTC"]
-    .filter((a) => (countByAsset.get(a) ?? 0) > 0)
-    .map((a) => ({
-      heading: `Top ${ASSET_LABELS[a].replace(" Yield", "")} yield sources`,
-      hubHref: ASSET_HREF[a],
-      vaults: topVaultsForAsset(a),
-    }))
-    .filter((b) => b.vaults.length > 0);
+  // === Subsection A: single row of top 5 by 30D APY =================
+  const topByApy = vaults
+    .filter((v) => v.apy30d > 0 && v.tvl >= TVL_FLOOR)
+    .sort((a, b) => b.apy30d - a.apy30d)
+    .slice(0, 5);
 
-  const topVaultsForChain = (chain: string): YieldVault[] =>
-    vaults
-      .filter((v) => v.chain === chain && v.apy24h > 0 && v.tvl >= 10_000)
-      .sort((a, b) => b.apy24h - a.apy24h)
-      .slice(0, 5);
-
-  const topNetworkSlugsByTvl = networkEntries.slice(0, 2).map((n) => n.slug);
-  const browseByNetwork: BrowseBlock[] = topNetworkSlugsByTvl
-    .map((slug) => {
-      const n = NETWORKS.find((x) => x.slug === slug);
-      if (!n) return null;
-      return {
-        heading: `Top yield sources on ${n.display}`,
-        hubHref: `/${n.slug}`,
-        vaults: topVaultsForChain(n.chain),
-      };
-    })
-    .filter((b): b is BrowseBlock => !!b && b.vaults.length > 0);
+  // === Subsection B: notable strategies (3 picks, deterministic) =====
+  // 1) Largest USDC strategy by TVL
+  // 2) Highest 30D APY ETH strategy (TVL floor to avoid micro-vaults)
+  // 3) Longest-tracked BTC family strategy
+  const notableLargestUsdc = [...vaults]
+    .filter((v) => v.asset === "USDC" && v.tvl >= TVL_FLOOR)
+    .sort((a, b) => b.tvl - a.tvl)[0];
+  const notableTopEth = [...vaults]
+    .filter((v) => v.asset === "ETH" && v.tvl >= TVL_FLOOR && v.apy30d > 0)
+    .sort((a, b) => b.apy30d - a.apy30d)[0];
+  const notableOldestBtc = [...vaults]
+    .filter((v) => v.asset === "BTC")
+    .map((v) => ({ v, days: trackedDaysMap[v.contractAddress] ?? 0 }))
+    .sort((a, b) => b.days - a.days)[0];
 
   return (
     <footer className="foot">
       <div className="foot-inner">
-        {/* === 4-column grid (Brand, Assets, Networks, Resources/Company) === */}
+        {/* === 4-column grid (Brand, Assets, Networks, Resources) === */}
         <div className="foot-grid">
           {/* Column 1: Brand */}
           <div className="foot-col foot-col-brand">
@@ -182,11 +148,27 @@ export async function Footer() {
             <span className="foot-tagline">
               Independent onchain yield index
             </span>
+            <span className="foot-since">
+              Operating since 2020 · 5+ years onchain
+            </span>
             <p className="foot-blurb">
-              Tracking {vaults.length}+ DeFi yield strategies across major
-              networks. APY, TVL and performance data updated daily. See{" "}
-              <Link href="/methodology">methodology</Link> for how we calculate.
+              Harvest is an onchain yield index tracking{" "}
+              {vaults.length}+ DeFi yield strategies across major networks.
+              APY, TVL and performance data are updated daily and derive from
+              our own indexer monitoring vault contracts continuously since
+              2020. See <Link href="/methodology">methodology</Link> for how
+              data is collected and calculated.
             </p>
+            <div className="foot-stats">
+              <span>{formatTVL(totalTvl)} tracked TVL</span>
+              <span className="foot-stats-sep">·</span>
+              <span>{vaults.length} active strategies</span>
+              <span className="foot-stats-sep">·</span>
+              <span>
+                {networksWithCoverage} network
+                {networksWithCoverage !== 1 ? "s" : ""}
+              </span>
+            </div>
             <div className="foot-social" aria-label="Social links">
               {SOCIAL.map((s) => (
                 <a
@@ -224,59 +206,100 @@ export async function Footer() {
             ))}
           </div>
 
-          {/* Column 4: Resources + Company combined */}
+          {/* Column 4: Resources */}
           <div className="foot-col">
             <div className="foot-col-label mono dim">Resources</div>
-            {RESOURCES.map((l) =>
-              l.href.startsWith("/") ? (
-                <Link key={l.label} href={l.href} className="foot-link">
-                  {l.label}
-                </Link>
-              ) : (
-                <a key={l.label} href={l.href} className="foot-link">
-                  {l.label}
-                </a>
-              ),
-            )}
-            <div
-              className="foot-col-label mono dim"
-              style={{ marginTop: 14 }}
-            >
-              Company
-            </div>
-            {COMPANY.map((l) => (
-              <a key={l.label} href={l.href} className="foot-link">
+            {RESOURCES.map((l) => (
+              <Link key={l.label} href={l.href} className="foot-link">
                 {l.label}
-              </a>
+              </Link>
             ))}
           </div>
         </div>
 
-        {/* === Browse yields fat-footer === */}
-        {(browseByAsset.length > 0 || browseByNetwork.length > 0) && (
-          <div className="foot-browse">
-            <div className="foot-browse-label mono dim">Browse yields</div>
-            {browseByAsset.map((b) => (
-              <BrowseRow key={b.heading} block={b} />
-            ))}
-            {browseByNetwork.map((b) => (
-              <BrowseRow key={b.heading} block={b} />
-            ))}
-            <div className="foot-browse-row">
-              <span className="foot-browse-row-head">Browse by intent:</span>{" "}
-              <Link href="/usdc">Best stablecoin yield</Link>
-              <span className="foot-browse-sep"> · </span>
-              <Link href="/btc">Best Bitcoin yield</Link>
-              <span className="foot-browse-sep"> · </span>
-              <Link href="/eth">Best Ethereum yield</Link>
+        {/* === EXPLORE THE INDEX (fat footer, three subsections) === */}
+        <div className="foot-explore">
+          <div className="foot-explore-header mono dim">Explore the index</div>
+
+          {topByApy.length > 0 && (
+            <div className="foot-explore-block">
+              <div className="foot-explore-sub">This week&apos;s top performers</div>
+              <div className="foot-explore-row">
+                {topByApy.map((v, i) => (
+                  <span key={v.id}>
+                    {i > 0 && <span className="foot-explore-sep"> · </span>}
+                    <Link href={`/${v.slug}`}>
+                      {v.productName} on{" "}
+                      {stripChainSuffix(v.category, v.chain)}
+                    </Link>
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {(notableLargestUsdc || notableTopEth || notableOldestBtc?.v) && (
+            <div className="foot-explore-block">
+              <div className="foot-explore-sub">Notable strategies</div>
+              <p className="foot-explore-prose">
+                Currently tracking some notable strategies:
+                {notableLargestUsdc && (
+                  <>
+                    {" "}
+                    <Link href={`/${notableLargestUsdc.slug}`}>
+                      {notableLargestUsdc.productName}
+                    </Link>{" "}
+                    on{" "}
+                    {stripChainSuffix(
+                      notableLargestUsdc.category,
+                      notableLargestUsdc.chain,
+                    )}
+                    , the largest USDC vault by TVL in our index
+                  </>
+                )}
+                {notableTopEth && (
+                  <>
+                    {notableLargestUsdc ? "; " : " "}
+                    <Link href={`/${notableTopEth.slug}`}>
+                      {notableTopEth.productName}
+                    </Link>{" "}
+                    on {notableTopEth.chain}, with the highest 30D average APY
+                    among the ETH strategies we monitor
+                  </>
+                )}
+                {notableOldestBtc?.v && notableOldestBtc.days >= 30 && (
+                  <>
+                    {(notableLargestUsdc || notableTopEth) ? "; and " : " "}
+                    <Link href={`/${notableOldestBtc.v.slug}`}>
+                      {notableOldestBtc.v.productName}
+                    </Link>
+                    , one of the longest-tracked Bitcoin strategies in the
+                    index at {notableOldestBtc.days}+ days
+                  </>
+                )}
+                .
+              </p>
+            </div>
+          )}
+
+          <div className="foot-explore-block">
+            <div className="foot-explore-sub">Browse</div>
+            <div className="foot-explore-row">
+              <Link href="/usdc">Stablecoin yields</Link>
+              <span className="foot-explore-sep"> · </span>
+              <Link href="/eth">Ethereum yields</Link>
+              <span className="foot-explore-sep"> · </span>
+              <Link href="/btc">Bitcoin yields</Link>
+              <span className="foot-explore-sep"> · </span>
+              <Link href="/methodology">Methodology</Link>
             </div>
           </div>
-        )}
+        </div>
 
         {/* === Legal compliance === */}
         <div className="foot-legal">
           <div>
-            Harvest Finance · Independent onchain yield index
+            &copy; 2026 Harvest Finance · Operating onchain since 2020
           </div>
           <div>
             Data refreshed hourly · See{" "}
@@ -287,27 +310,8 @@ export async function Footer() {
             DeFi yields are not insured deposits. Past performance does not
             guarantee future returns.
           </div>
-          <div>&copy; 2026 Harvest Finance.</div>
         </div>
       </div>
     </footer>
-  );
-}
-
-function BrowseRow({ block }: { block: BrowseBlock }) {
-  return (
-    <div className="foot-browse-row">
-      <span className="foot-browse-row-head">{block.heading}:</span>{" "}
-      {block.vaults.map((v, i) => (
-        <span key={v.id}>
-          {i > 0 && <span className="foot-browse-sep"> · </span>}
-          <Link href={`/${v.slug}`}>{v.productName}</Link>
-        </span>
-      ))}
-      <span className="foot-browse-sep"> · </span>
-      <Link href={block.hubHref} className="foot-browse-all">
-        view all
-      </Link>
-    </div>
   );
 }

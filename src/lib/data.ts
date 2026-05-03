@@ -143,3 +143,25 @@ export async function getAllSparklines(): Promise<Record<string, number[]>> {
 
   return result;
 }
+
+// Lifetime tracked-days per vault, derived from the earliest valid APY
+// observation in our hosted indexer. Used for "longest-tracked" footer copy
+// and similar credibility surfaces. Cheap because it reuses the in-process
+// history cache and runs at build time only.
+export async function getTrackedDaysMap(): Promise<Record<string, number>> {
+  if (!_historyCache) {
+    _historyCache = loadHistoryFromFile();
+  }
+  if (!_historyCache) return {};
+
+  const result: Record<string, number> = {};
+  for (const [addr, h] of Object.entries(_historyCache)) {
+    const valid = h.apyHistory.filter((p) => p.apy >= 0);
+    if (valid.length === 0) continue;
+    const sorted = [...valid].sort((a, b) => a.timestamp - b.timestamp);
+    const first = sorted[0].timestamp;
+    const last = sorted[sorted.length - 1].timestamp;
+    result[addr] = Math.round((last - first) / 86400);
+  }
+  return result;
+}

@@ -13,11 +13,13 @@ import usdtIcon from "@/assets/icons/USDT.png";
 import ethIcon from "@/assets/icons/ETH.png";
 import wbtcIcon from "@/assets/icons/WBTC.png";
 import cbbtcIcon from "@/assets/icons/cbBTC.png";
+import tbtcIcon from "@/assets/icons/tBTC.png";
 import eurcIcon from "@/assets/icons/EURC.png";
 
 const ASSET_ICONS: Record<string, { src: string }> = {
   USDC: usdcIcon, USDT: usdtIcon, ETH: ethIcon, WETH: ethIcon,
-  BTC: wbtcIcon, WBTC: wbtcIcon, wBTC: wbtcIcon, cbBTC: cbbtcIcon, EURC: eurcIcon,
+  BTC: wbtcIcon, WBTC: wbtcIcon, wBTC: wbtcIcon, cbBTC: cbbtcIcon,
+  tBTC: tbtcIcon, EURC: eurcIcon,
 };
 
 // For BTC family vaults, surface the specific sub-asset icon (WBTC, cbBTC,
