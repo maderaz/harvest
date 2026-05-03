@@ -104,7 +104,7 @@ export default async function Home() {
 
   return (
     <>
-    <TickerStrip vaults={vaults} />
+    <TickerStrip vaults={vaults} sparklines={sparklines} />
     <main className="page">
       {/* === Hero === */}
       <section className="hero">
