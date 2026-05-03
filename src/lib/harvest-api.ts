@@ -172,10 +172,19 @@ export async function fetchHarvestVaults(): Promise<YieldVault[]> {
         (v.tokenNames || []).find((n) =>
           Object.prototype.hasOwnProperty.call(SUPPORTED_ASSETS, n),
         ) || "USDC";
-      const strategySlug = strategy
-        ? slugify(strategy.replace(/\s*V\d+$/i, ""))
-        : slugify(protocol);
-      const baseSlug = `${slugify(matchedToken)}-${strategySlug}-${slugify(chain)}`;
+      // Spec: {asset}-{protocol}-{vault-disambiguator}-{network}
+      // Strip leading token name from disambiguator to avoid double-asset in slug.
+      const tokenUpper = matchedToken.toUpperCase();
+      const strategyStripped = strategy
+        .replace(new RegExp("^" + tokenUpper + "\\s+", "i"), "")
+        .trim();
+      const disambiguator = strategyStripped ? slugify(strategyStripped) : "";
+      const protocolSlug = slugify(protocol);
+      const chainSlug = slugify(chain);
+      const baseSlug =
+        disambiguator && disambiguator !== protocolSlug
+          ? `${slugify(matchedToken)}-${protocolSlug}-${disambiguator}-${chainSlug}`
+          : `${slugify(matchedToken)}-${protocolSlug}-${chainSlug}`;
 
       // Deduplicate with -2, -3 etc
       let slug = baseSlug;
@@ -218,7 +227,7 @@ export async function fetchHarvestVaults(): Promise<YieldVault[]> {
         apy24h: history?.apy24h ?? currentApy,
         apy30d: history?.apy30d ?? currentApy,
         tvl,
-        description: `${productName} on ${protocol} (${chain}) automatically optimizes your USDC yield via Harvest Finance.`,
+        description: `${productName} on ${protocol} (${chain}). Yield strategy indexed by Harvest.`,
         chain,
         contractAddress: v.vaultAddress,
         riskLevel: "low" as const,

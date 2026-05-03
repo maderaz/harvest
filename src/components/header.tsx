@@ -4,10 +4,10 @@ import { SearchBox, type SearchItem } from "./search-box";
 
 export async function Header() {
   const navItems = [
-    { label: "USDC", href: "/USDC" },
-    { label: "USDT", href: "/USDT" },
-    { label: "ETH", href: "/ETH" },
-    { label: "BTC", href: "/BTC" },
+    { label: "USDC", href: "/usdc" },
+    { label: "USDT", href: "/usdt" },
+    { label: "ETH", href: "/eth" },
+    { label: "BTC", href: "/btc" },
   ];
 
   const vaults = await getLiveVaults();

@@ -1,20 +1,67 @@
+import Link from "next/link";
+
+const ASSET_HUBS = [
+  { label: "USDC Yield", href: "/usdc" },
+  { label: "USDT Yield", href: "/usdt" },
+  { label: "Ethereum Yield", href: "/eth" },
+  { label: "Bitcoin Yield", href: "/btc" },
+];
+
+const NETWORK_HUBS = [
+  { label: "Ethereum", href: "/ethereum" },
+  { label: "Base", href: "/base" },
+  { label: "Arbitrum", href: "/arbitrum" },
+  { label: "Polygon", href: "/polygon" },
+  { label: "HyperEVM", href: "/hyperevm" },
+  { label: "zkSync", href: "/zksync" },
+];
+
+const RESOURCES = [
+  { label: "API", href: "#" },
+  { label: "Methodology", href: "#" },
+  { label: "Risk framework", href: "#" },
+  { label: "Docs", href: "#" },
+  { label: "Status", href: "#" },
+  { label: "Terms", href: "#" },
+];
+
 export function Footer() {
   return (
     <footer className="foot">
       <div className="foot-inner">
-        <div>
+        <div className="foot-brand">
           <span className="brand-name">Harvest</span>
-          <span className="mono dim"> &middot; Independent onchain yield index</span>
+          <span className="mono dim"> · Independent onchain yield index. Updated daily.</span>
         </div>
-        <div className="foot-links mono">
-          <a href="#">API</a>
-          <a href="#">Methodology</a>
-          <a href="#">Risk framework</a>
-          <a href="#">Docs</a>
-          <a href="#">Status</a>
-          <a href="#">Terms</a>
+
+        <div className="foot-grid">
+          <div className="foot-col">
+            <div className="foot-col-label mono dim">Assets</div>
+            {ASSET_HUBS.map((l) => (
+              <Link key={l.href} href={l.href} className="foot-link">
+                {l.label}
+              </Link>
+            ))}
+          </div>
+          <div className="foot-col">
+            <div className="foot-col-label mono dim">Networks</div>
+            {NETWORK_HUBS.map((l) => (
+              <Link key={l.href} href={l.href} className="foot-link">
+                {l.label}
+              </Link>
+            ))}
+          </div>
+          <div className="foot-col">
+            <div className="foot-col-label mono dim">Resources</div>
+            {RESOURCES.map((l) => (
+              <a key={l.label} href={l.href} className="foot-link">
+                {l.label}
+              </a>
+            ))}
+          </div>
         </div>
-        <div className="mono dim">&copy; 2026 &middot; Data delayed &le; 60s</div>
+
+        <div className="mono dim foot-copy">&copy; 2026 · Data delayed &le; 60s</div>
       </div>
     </footer>
   );

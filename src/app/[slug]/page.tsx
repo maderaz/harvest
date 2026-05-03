@@ -6,6 +6,10 @@ import { isCanonicalSlug } from "@/lib/canonical-vaults";
 import { formatAPY, formatTVL, stripChainSuffix } from "@/lib/format";
 import { AssetBadge } from "@/components/asset-badge";
 import { SITE_NAME, SITE_URL } from "@/lib/constants";
+import { productPageTitle, productPageDescription, productPageCrumbs } from "@/lib/seo";
+import { financialProductSchema, breadcrumbSchema, datasetSchema } from "@/lib/jsonld";
+import { isUmbrellaAsset, getSubAssetFamilyName, assetHubPath } from "@/lib/sub-asset";
+import { chainToSlug } from "@/lib/networks";
 import { YieldVault } from "@/lib/types";
 import type { FullVaultHistory } from "@/lib/history-api";
 import { PerformanceHistory } from "@/components/performance-history";
@@ -37,13 +41,23 @@ export async function generateMetadata({
   const vault = await getVaultBySlug(slug);
   if (!vault) return {};
 
-  const title = `${vault.productName} by ${vault.protocol.name}: ${formatAPY(vault.apy24h)} APY | ${SITE_NAME}`;
-  const description = `${vault.productName} on ${vault.protocol.name} offers ${formatAPY(vault.apy24h)} APY (24h) with ${formatTVL(vault.tvl)} TVL. ${vault.description}`;
+  const history = await getVaultHistory(vault.contractAddress);
+  const validApy = history.apyHistory.filter((p) => p.apy >= 0);
+  let trackedDays = 0;
+  if (validApy.length > 0) {
+    const sorted = [...validApy].sort((a, b) => a.timestamp - b.timestamp);
+    trackedDays = Math.round(
+      (sorted[sorted.length - 1].timestamp - sorted[0].timestamp) / 86400,
+    );
+  }
+
+  const title = productPageTitle(vault);
+  const description = productPageDescription(vault, trackedDays);
 
   const canonical = await isCanonicalSlug(slug);
 
   return {
-    title,
+    title: { absolute: title },
     description,
     robots: canonical
       ? { index: true, follow: true }
@@ -66,226 +80,36 @@ export async function generateMetadata({
   };
 }
 
-function StructuredData({
+function ProductSchemas({
   vault,
   history,
 }: {
   vault: YieldVault;
   history: FullVaultHistory;
 }) {
-  // AggregateRating derived from APY consistency. Lower coefficient of
-  // variation (CV = stdDev / mean) maps to a higher star rating. Only
-  // emitted when we have at least 30 valid APY data points so the rating
-  // reflects real observed behaviour, and the same score is rendered
-  // visibly via the Consistency Score component on the page.
-  const validApy = history.apyHistory.filter((p) => p.apy >= 0);
-  let aggregateRating:
-    | {
-        "@type": string;
-        ratingValue: string;
-        bestRating: number;
-        worstRating: number;
-        ratingCount: number;
-      }
-    | undefined;
-
-  if (validApy.length >= 30) {
-    const values = validApy.map((p) => p.apy);
-    const mean = values.reduce((s, v) => s + v, 0) / values.length;
-    const variance =
-      values.reduce((s, v) => s + (v - mean) ** 2, 0) / values.length;
-    const sd = Math.sqrt(variance);
-    const cv = mean > 0 ? sd / mean : 1;
-    const stars = Math.max(1, Math.min(5, 5 - cv * 2));
-    aggregateRating = {
-      "@type": "AggregateRating",
-      ratingValue: stars.toFixed(1),
-      bestRating: 5,
-      worstRating: 1,
-      ratingCount: validApy.length,
-    };
-  }
-
-  const jsonLd: Record<string, unknown> = {
-    "@context": "https://schema.org",
-    "@type": ["FinancialProduct", "Product"],
-    name: `${vault.productName} by ${vault.protocol.name}`,
-    description: vault.description,
-    provider: {
-      "@type": "Organization",
-      name: vault.protocol.name,
-    },
-    brand: {
-      "@type": "Brand",
-      name: vault.protocol.name,
-    },
-    category: vault.category,
-    url: `${SITE_URL}/${vault.slug}`,
-    offers: {
-      "@type": "Offer",
-      price: "0",
-      priceCurrency: "USD",
-      availability: "https://schema.org/InStock",
-      url: "https://app.harvest.finance",
-    },
-  };
-  if (aggregateRating) jsonLd.aggregateRating = aggregateRating;
-
+  const crumbs = productPageCrumbs(vault);
+  const dataset = datasetSchema(vault, history);
   return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-    />
-  );
-}
-
-function HowToSchema({ vault }: { vault: YieldVault }) {
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "HowTo",
-    name: `How to deposit into ${vault.productName}`,
-    description: `Steps to deposit ${vault.asset} into the ${vault.productName} vault on ${vault.chain} via Harvest Finance.`,
-    step: [
-      {
-        "@type": "HowToStep",
-        position: 1,
-        name: "Connect your wallet",
-        text: `Visit app.harvest.finance and connect a Web3 wallet on the ${vault.chain} network.`,
-      },
-      {
-        "@type": "HowToStep",
-        position: 2,
-        name: `Approve ${vault.asset}`,
-        text: `Approve the vault contract to spend your ${vault.asset} from the connected wallet.`,
-      },
-      {
-        "@type": "HowToStep",
-        position: 3,
-        name: "Deposit",
-        text: `Enter the amount of ${vault.asset} to deposit and confirm the transaction.`,
-      },
-      {
-        "@type": "HowToStep",
-        position: 4,
-        name: "Earn yield",
-        text: `${vault.vaultType === "Autocompounder" ? "The vault automatically harvests rewards and reinvests them. No further action required." : "The vault automatically reallocates your deposit across optimized strategies. No further action required."}`,
-      },
-      {
-        "@type": "HowToStep",
-        position: 5,
-        name: "Withdraw",
-        text: `Withdraw your share of ${vault.asset} at any time via the Harvest Finance app.`,
-      },
-    ],
-  };
-
-  return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-    />
-  );
-}
-
-function DatasetSchema({
-  vault,
-  history,
-}: {
-  vault: YieldVault;
-  history: FullVaultHistory;
-}) {
-  if (history.apyHistory.length < 30 && history.tvlHistory.length < 30) {
-    return null;
-  }
-
-  const allTs: number[] = [
-    ...history.apyHistory.map((p) => p.timestamp),
-    ...history.tvlHistory.map((p) => p.timestamp),
-    ...history.sharePriceHistory.map((p) => p.timestamp),
-  ];
-  const startDate = new Date(Math.min(...allTs) * 1000)
-    .toISOString()
-    .split("T")[0];
-  const endDate = new Date(Math.max(...allTs) * 1000)
-    .toISOString()
-    .split("T")[0];
-
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "Dataset",
-    name: `${vault.productName} historical APY, TVL and share-price data`,
-    description: `Daily APY (${history.apyHistory.length} points), TVL (${history.tvlHistory.length} points) and share-price (${history.sharePriceHistory.length} points) history for the ${vault.productName} vault on ${vault.chain}, indexed by ${SITE_NAME}.`,
-    url: `${SITE_URL}/${vault.slug}#history`,
-    creator: {
-      "@type": "Organization",
-      name: SITE_NAME,
-      url: SITE_URL,
-    },
-    temporalCoverage: `${startDate}/${endDate}`,
-    keywords: [
-      vault.asset,
-      vault.chain,
-      vault.protocol.name,
-      vault.category,
-      "DeFi",
-      "yield",
-      "APY",
-      "TVL",
-    ],
-    license: "https://creativecommons.org/licenses/by/4.0/",
-    isAccessibleForFree: true,
-    distribution: {
-      "@type": "DataDownload",
-      encodingFormat: "text/html",
-      contentUrl: `${SITE_URL}/${vault.slug}#history`,
-    },
-  };
-
-  return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-    />
-  );
-}
-
-function BreadcrumbSchema({ vault }: { vault: YieldVault }) {
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [
-      {
-        "@type": "ListItem",
-        position: 1,
-        name: "Home",
-        item: SITE_URL,
-      },
-      {
-        "@type": "ListItem",
-        position: 2,
-        name: `${vault.asset} Vaults`,
-        item: `${SITE_URL}/?asset=${vault.asset}`,
-      },
-      {
-        "@type": "ListItem",
-        position: 3,
-        name: vault.chain,
-        item: `${SITE_URL}/?asset=${vault.asset}&chain=${vault.chain}`,
-      },
-      {
-        "@type": "ListItem",
-        position: 4,
-        name: vault.productName,
-        item: `${SITE_URL}/${vault.slug}`,
-      },
-    ],
-  };
-
-  return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-    />
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(financialProductSchema(vault)),
+        }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(breadcrumbSchema(crumbs)),
+        }}
+      />
+      {dataset && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(dataset) }}
+        />
+      )}
+    </>
   );
 }
 
@@ -334,10 +158,7 @@ function generateFaqItems(vault: YieldVault): FaqItem[] {
 
   items.push({
     question: `How does ${vault.productName} work?`,
-    answer:
-      vault.vaultType === "Autocompounder"
-        ? `${vault.productName} is an Autocompounder vault. It automatically reinvests earned yields back into the vault, compounding returns over time without requiring manual action from depositors. ${vault.description}`
-        : `${vault.productName} is an Autopilot vault. It automatically allocates deposits across optimized yield strategies managed by ${vault.protocol.name}. ${vault.description}`,
+    answer: `${vault.productName} is a yield strategy on ${vault.chain} operated by ${vault.protocol.name}. It accepts ${vault.asset} deposits and automatically manages them to generate yield. ${vault.description}`,
   });
 
   items.push({
@@ -349,8 +170,8 @@ function generateFaqItems(vault: YieldVault): FaqItem[] {
   });
 
   items.push({
-    question: `Is ${vault.productName} an Autocompounder or Autopilot?`,
-    answer: `${vault.productName} is a${vault.vaultType === "Autocompounder" ? "n Autocompounder" : "n Autopilot"} vault. ${vault.vaultType === "Autocompounder" ? "Autocompounder vaults automatically reinvest yields, compounding returns over time." : "Autopilot vaults automatically allocate deposits across optimized yield strategies."}`,
+    question: `Is the yield from ${vault.productName} sustainable?`,
+    answer: `Yield from ${vault.productName} comes from ${vault.apyBreakdown.length > 0 ? vault.apyBreakdown.map((s) => s.source).join(", ") : "the underlying protocol"}. DeFi yields are variable and depend on market conditions, liquidity, and protocol incentives. Past APY is not a guarantee of future returns.`,
   });
 
   items.push({
@@ -466,7 +287,7 @@ export default async function ProductPage({
   const allVaults = await getLiveVaults();
   const relatedVaults = allVaults
     .filter((v) => v.asset === vault.asset && v.id !== vault.id)
-    .slice(0, 4);
+    .slice(0, 6);
 
   const faqItems = generateFaqItems(vault);
 
@@ -487,11 +308,8 @@ export default async function ProductPage({
 
   return (
     <>
-      <StructuredData vault={vault} history={history} />
-      <BreadcrumbSchema vault={vault} />
+      <ProductSchemas vault={vault} history={history} />
       <FaqSchema items={faqItems} />
-      <HowToSchema vault={vault} />
-      <DatasetSchema vault={vault} history={history} />
 
       <VaultHero vault={vault} history={history} allVaults={allVaults} />
 
@@ -742,10 +560,21 @@ export default async function ProductPage({
               faqItems={faqItems}
             />
 
+            {/* Index membership links */}
+            <div className="pp-index-links">
+              <Link href={assetHubPath(vault.asset)}>
+                Part of: {isUmbrellaAsset(vault.asset) ? getSubAssetFamilyName(vault.asset) : vault.asset} yield index
+              </Link>
+              <span className="pp-index-sep">·</span>
+              <Link href={`/${chainToSlug(vault.chain)}`}>
+                {vault.chain} yield index
+              </Link>
+            </div>
+
             {/* Related Vaults */}
             {relatedVaults.length > 0 && (
               <div className="pp-section" id="more">
-                <h2>More {vault.asset} Vaults</h2>
+                <h2>More {vault.asset} yields</h2>
                 <div className="more-vaults">
                   {relatedVaults.map((rv) => (
                     <Link key={rv.id} href={`/${rv.slug}`} className="mv-card">

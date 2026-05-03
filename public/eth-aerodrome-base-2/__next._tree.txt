@@ -3,4 +3,4 @@
 :HL["./icons/vvv.svg","image"]
 :HL["./icons/eth.svg","image"]
 :HL["./icons/aero.svg","image"]
-0:{"tree":{"name":"","param":null,"prefetchHints":16,"slots":{"children":{"name":"slug","param":{"type":"d","key":"eth-aerodrome-base-2","siblings":null},"prefetchHints":0,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":0,"slots":null}}}}},"staleTime":300,"buildId":"eBhdc1X4RWC0JUCpd5Owe"}
+0:{"tree":{"name":"","param":null,"prefetchHints":16,"slots":{"children":{"name":"slug","param":{"type":"d","key":"eth-aerodrome-base-2","siblings":null},"prefetchHints":0,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":0,"slots":null}}}}},"staleTime":300,"buildId":"B8xQ2Qi6uBC2wATaWHWxo"}

@@ -8,10 +8,10 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Best DeFi Yields: Compare Top APY Rankings | Harvest",
-  description: "Find the highest DeFi yields for USDC, ETH, BTC and USDT. Compare 150+ autocompounder and autopilot strategies ranked by APY across 6 chains. Live data, updated hourly.",
+  description: "Track and compare yield sources across DeFi. Find the best APY for USDC, ETH, Bitcoin and USDT across the strategies we index on Ethereum, Base, Arbitrum and more. Updated daily.",
   openGraph: {
     title: "Best DeFi Yields: Compare Top APY Rankings | Harvest",
-    description: "Find the highest DeFi yields for USDC, ETH, BTC and USDT. Compare 150+ strategies ranked by APY across 6 chains. Live data, updated hourly.",
+    description: "Track and compare yield sources across DeFi. Best APY for USDC, ETH, Bitcoin and USDT. Updated daily.",
     url: SITE_URL,
     siteName: SITE_NAME,
     type: "website",
@@ -88,9 +88,12 @@ function computeFeaturedAssets(vaults: { asset: string; apy24h: number; tvl: num
 
 import { AssetIcon } from "@/components/token-icons";
 
-const ASSET_PAGES = new Set(["USDC", "USDT", "ETH", "BTC"]);
-
-/* === Page component === */
+const ASSET_PAGES: Record<string, string> = {
+  USDC: "/usdc",
+  USDT: "/usdt",
+  ETH: "/eth",
+  BTC: "/btc",
+};
 
 export default async function Home() {
   const vaults = await getLiveVaults();
@@ -159,7 +162,6 @@ export default async function Home() {
       <div className="card section">
         <div className="feat-grid">
           {featuredAssets.map((a) => {
-            const hasPage = ASSET_PAGES.has(a.asset);
             const inner = (
               <>
                 <div className="feat-head">
@@ -181,8 +183,9 @@ export default async function Home() {
                 </div>
               </>
             );
-            return hasPage ? (
-              <Link key={a.asset} href={`/${a.asset}`} className="feat feat-link">
+            const href = ASSET_PAGES[a.asset];
+            return href ? (
+              <Link key={a.asset} href={href} className="feat feat-link">
                 {inner}
               </Link>
             ) : (

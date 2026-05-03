@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { YieldVault } from "@/lib/types";
+import { assetHubPath, isUmbrellaAsset, getSubAssetFamilyName } from "@/lib/sub-asset";
 import { formatTVL, stripChainSuffix } from "@/lib/format";
 import type { FullVaultHistory } from "@/lib/history-api";
 import { AssetIcon } from "./token-icons";
@@ -84,9 +85,11 @@ export function VaultHero({ vault, history, allVaults }: Props) {
         <nav className="vh-crumbs">
           <Link href="/">Home</Link>
           <span className="vh-chev">›</span>
-          <Link href={`/?asset=${vault.asset}`}>{vault.asset} Vaults</Link>
-          <span className="vh-chev">›</span>
-          <span>{vault.chain}</span>
+          <Link href={assetHubPath(vault.asset)}>
+            {isUmbrellaAsset(vault.asset)
+              ? `${getSubAssetFamilyName(vault.asset)} Yield`
+              : `${vault.asset} Yield`}
+          </Link>
           <span className="vh-chev">›</span>
           <span className="vh-current">{vault.productName}</span>
         </nav>

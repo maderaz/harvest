@@ -233,10 +233,24 @@ async function fetchHarvestVaults() {
       if (persistedSlugs[v.vaultAddress]) {
         slug = persistedSlugs[v.vaultAddress];
       } else {
-        const strategySlug = strategy
-          ? slugify(strategy.replace(/\s*V\d+$/i, ""))
-          : slugify(protocol);
-        const baseSlug = `${slugify(matchedToken)}-${strategySlug}-${slugify(chain)}`;
+        // Spec: {asset}-{protocol}-{vault-disambiguator}-{network}
+        // Strategy is already split from protocol; strip leading token name from
+        // disambiguator to avoid double-asset in slug (e.g. "USDC Steakhouse" -> "Steakhouse").
+        const tokenUpper = matchedToken.toUpperCase();
+        const strategyStripped = strategy
+          .replace(new RegExp("^" + tokenUpper + "\\s+", "i"), "")
+          .trim();
+        const disambiguator = strategyStripped
+          ? slugify(strategyStripped)
+          : "";
+        const protocolSlug = slugify(protocol);
+        const tokenSlug = slugify(matchedToken);
+        const chainSlug = slugify(chain);
+        // Drop disambiguator when redundant (equals protocol slug) or absent
+        const baseSlug =
+          disambiguator && disambiguator !== protocolSlug
+            ? `${tokenSlug}-${protocolSlug}-${disambiguator}-${chainSlug}`
+            : `${tokenSlug}-${protocolSlug}-${chainSlug}`;
         slug = baseSlug;
         let counter = 1;
         while (seenSlugs.has(slug)) {
@@ -277,7 +291,7 @@ async function fetchHarvestVaults() {
         apy24h: history?.apy24h ?? currentApy,
         apy30d: history?.apy30d ?? currentApy,
         tvl,
-        description: `${productName} on ${protocol} (${chain}) — automatically optimizes your ${matchedToken} yield via Harvest Finance.`,
+        description: `${productName} on ${protocol} (${chain}). Yield strategy indexed by Harvest.`,
         chain,
         contractAddress: v.vaultAddress,
         riskLevel: "low",
