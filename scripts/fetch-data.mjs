@@ -149,7 +149,7 @@ async function fetchHarvestVaults() {
     },
     {
       asset: "USDT",
-      tokens: ["USDT"],
+      tokens: ["USDT", "USDT0"],
       slugPrefix: "usdt",
     },
     {
@@ -216,9 +216,12 @@ async function fetchHarvestVaults() {
 
       // Surface the actual underlying token (e.g. wstETH) instead of the
       // group name, so users can tell apart ETH vs wstETH vs stETH vaults.
-      const matchedToken =
+      // USDT0 is a wrapped form of USDT we treat as plain USDT in the UI.
+      const matchedTokenRaw =
         (v.tokenNames || []).find((n) => tokenSet.has(String(n).toUpperCase())) ||
         group.asset;
+      const matchedToken =
+        String(matchedTokenRaw).toUpperCase() === "USDT0" ? "USDT" : matchedTokenRaw;
 
       const productName = strategy
         ? `${matchedToken} ${strategy}`
