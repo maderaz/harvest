@@ -12,7 +12,8 @@ import {
 } from "@/lib/seo";
 import { breadcrumbSchema, itemListSchema } from "@/lib/jsonld";
 import { getSubAsset } from "@/lib/sub-asset";
-import { SubAssetSections } from "@/components/sub-asset-sections";
+import { VaultList } from "@/components/vault-list";
+import { BrowseByNetwork } from "@/components/browse-by-network";
 
 const ASSET = "BTC" as const;
 
@@ -109,12 +110,35 @@ export default async function BtcPage() {
         </div>
       </section>
 
-      <SubAssetSections
-        vaults={vaults}
-        sparklines={sparklines}
-        subAssets={subAssets}
-        assetLabel="Bitcoin"
-      />
+      <div className="section-title-bar">
+        <h2>Top Bitcoin yields by APY</h2>
+        <span className="mono dim">
+          Live · ranked across {chainCount} chain{chainCount !== 1 ? "s" : ""} we follow
+        </span>
+      </div>
+
+      {vaults.length > 0 ? (
+        <>
+          <VaultList vaults={vaults} sparklines={sparklines} />
+          <BrowseByNetwork asset="Bitcoin" vaults={vaults} />
+        </>
+      ) : (
+        <div
+          style={{
+            padding: "60px 0",
+            textAlign: "center",
+            color: "var(--ink-3)",
+            border: "1px solid var(--line)",
+            borderRadius: "var(--radius)",
+            background: "var(--panel)",
+          }}
+        >
+          <p style={{ margin: 0 }}>No Bitcoin vaults indexed yet.</p>
+          <p style={{ marginTop: 8, fontSize: 13 }}>
+            Data refreshes hourly from the Harvest API.
+          </p>
+        </div>
+      )}
     </main>
   );
 }

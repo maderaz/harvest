@@ -12,6 +12,7 @@ import {
   assetHubCrumbs,
 } from "@/lib/seo";
 import { breadcrumbSchema, itemListSchema } from "@/lib/jsonld";
+import { BrowseByNetwork } from "@/components/browse-by-network";
 
 const ASSET = "USDT" as const;
 
@@ -114,7 +115,10 @@ export default async function UsdtPage() {
       </div>
 
       {vaults.length > 0 ? (
-        <VaultList vaults={vaults} sparklines={sparklines} />
+        <>
+          <VaultList vaults={vaults} sparklines={sparklines} />
+          <BrowseByNetwork asset="USDT" vaults={vaults} />
+        </>
       ) : (
         <div
           style={{

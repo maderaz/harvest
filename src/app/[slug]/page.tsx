@@ -289,6 +289,21 @@ export default async function ProductPage({
     .filter((v) => v.asset === vault.asset && v.id !== vault.id)
     .slice(0, 6);
 
+  // "More yield sources on {Network}": same chain, different asset OR
+  // different protocol from the current strategy (avoiding overlap with the
+  // same-asset block above). Sorted by 30D APY desc, capped at 4.
+  const currentProtocol = stripChainSuffix(vault.category, vault.chain);
+  const sameNetworkRelated = allVaults
+    .filter(
+      (v) =>
+        v.chain === vault.chain &&
+        v.id !== vault.id &&
+        (v.asset !== vault.asset ||
+          stripChainSuffix(v.category, v.chain) !== currentProtocol),
+    )
+    .sort((a, b) => b.apy30d - a.apy30d)
+    .slice(0, 4);
+
   const faqItems = generateFaqItems(vault);
 
   const apyDelta = computeApyDelta(vault);
@@ -427,7 +442,9 @@ export default async function ProductPage({
                 </div>
                 <div className="cd-row">
                   <span className="cd-label">Network</span>
-                  <span className="cd-val">{vault.chain}</span>
+                  <span className="cd-val">
+                    <Link href={`/${chainToSlug(vault.chain)}`}>{vault.chain}</Link>
+                  </span>
                 </div>
                 <div className="cd-row">
                   <span className="cd-label">Type</span>
@@ -436,14 +453,6 @@ export default async function ProductPage({
                 <div className="cd-row">
                   <span className="cd-label">Underlying</span>
                   <span className="cd-val cd-token-row">
-                    {vault.underlyingLogos && vault.underlyingLogos.length > 0 && (
-                      <span className="cd-logo-stack">
-                        {vault.underlyingLogos.map((url, i) => (
-                          // eslint-disable-next-line @next/next/no-img-element
-                          <img key={i} src={url} alt="" className="cd-logo" />
-                        ))}
-                      </span>
-                    )}
                     <span>{vault.asset}</span>
                   </span>
                 </div>
@@ -451,12 +460,6 @@ export default async function ProductPage({
                   <div className="cd-row">
                     <span className="cd-label">Rewards</span>
                     <span className="cd-val cd-token-row">
-                      <span className="cd-logo-stack">
-                        {vault.rewardTokens.map((r, i) => (
-                          // eslint-disable-next-line @next/next/no-img-element
-                          <img key={i} src={r.logoUrl} alt={r.symbol} title={r.symbol} className="cd-logo" />
-                        ))}
-                      </span>
                       <span>{vault.rewardTokens.map((r) => r.symbol).join(", ")}</span>
                     </span>
                   </div>
@@ -578,6 +581,35 @@ export default async function ProductPage({
                 <h2>More {vault.asset} yields</h2>
                 <div className="more-vaults">
                   {relatedVaults.map((rv) => (
+                    <Link key={rv.id} href={`/${rv.slug}`} className="mv-card">
+                      <div className="mv-head">
+                        <AssetBadge asset={rv.asset} iconOnly />
+                        <div>
+                          <div className="mv-name">{rv.productName}</div>
+                          <div className="mv-by">{rv.protocol.name}</div>
+                        </div>
+                      </div>
+                      <div className="mv-stats">
+                        <div>
+                          <div>APY</div>
+                          <div className="mv-num up">{formatAPY(rv.apy24h)}</div>
+                        </div>
+                        <div style={{ textAlign: "right" }}>
+                          <div>TVL</div>
+                          <div className="mv-num">{formatTVL(rv.tvl)}</div>
+                        </div>
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {sameNetworkRelated.length > 0 && (
+              <div className="pp-section" id="more-on-network">
+                <h2>More yield sources on {vault.chain}</h2>
+                <div className="more-vaults">
+                  {sameNetworkRelated.map((rv) => (
                     <Link key={rv.id} href={`/${rv.slug}`} className="mv-card">
                       <div className="mv-head">
                         <AssetBadge asset={rv.asset} iconOnly />

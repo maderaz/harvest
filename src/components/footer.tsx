@@ -1,67 +1,234 @@
 import Link from "next/link";
+import { getLiveVaults } from "@/lib/data";
+import { NETWORKS } from "@/lib/networks";
+import { formatTVL } from "@/lib/format";
 
-const ASSET_HUBS = [
-  { label: "USDC Yield", href: "/usdc" },
-  { label: "USDT Yield", href: "/usdt" },
-  { label: "Ethereum Yield", href: "/eth" },
-  { label: "Bitcoin Yield", href: "/btc" },
-];
+const ASSET_LABELS: Record<string, string> = {
+  USDC: "USDC Yield",
+  USDT: "USDT Yield",
+  ETH: "Ethereum Yield",
+  BTC: "Bitcoin Yield",
+};
 
-const NETWORK_HUBS = [
-  { label: "Ethereum", href: "/ethereum" },
-  { label: "Base", href: "/base" },
-  { label: "Arbitrum", href: "/arbitrum" },
-  { label: "Polygon", href: "/polygon" },
-  { label: "HyperEVM", href: "/hyperevm" },
-  { label: "zkSync", href: "/zksync" },
-];
+const ASSET_HREF: Record<string, string> = {
+  USDC: "/usdc",
+  USDT: "/usdt",
+  ETH: "/eth",
+  BTC: "/btc",
+};
 
+// Resources column: only links to pages that actually exist on the site.
 const RESOURCES = [
-  { label: "API", href: "#" },
   { label: "Methodology", href: "/methodology" },
-  { label: "Risk framework", href: "/risk-framework" },
-  { label: "Docs", href: "#" },
-  { label: "Status", href: "#" },
-  { label: "Terms", href: "#" },
+  { label: "Risk Framework", href: "/risk-framework" },
 ];
 
-export function Footer() {
+// Legitimacy-signal pages.
+const COMPANY = [
+  { label: "About", href: "/about" },
+  { label: "Disclosures", href: "/disclosures" },
+  { label: "Security & Audits", href: "/security" },
+  { label: "Terms", href: "/terms" },
+  { label: "Privacy", href: "/privacy" },
+  { label: "Contact", href: "/contact" },
+];
+
+const SOCIAL: { label: string; href: string; icon: React.ReactNode }[] = [
+  {
+    label: "Twitter",
+    href: "#",
+    icon: (
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+      </svg>
+    ),
+  },
+  {
+    label: "GitHub",
+    href: "#",
+    icon: (
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.1.79-.25.79-.56v-1.97c-3.2.7-3.87-1.54-3.87-1.54-.52-1.32-1.27-1.67-1.27-1.67-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.02 1.75 2.69 1.24 3.34.95.1-.74.4-1.24.72-1.53-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.18-3.1-.12-.29-.51-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11.05 11.05 0 0 1 5.79 0c2.21-1.49 3.18-1.18 3.18-1.18.62 1.59.23 2.76.11 3.05.74.81 1.18 1.84 1.18 3.1 0 4.42-2.69 5.4-5.26 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.66.8.55C20.21 21.39 23.5 17.08 23.5 12 23.5 5.65 18.35.5 12 .5z" />
+      </svg>
+    ),
+  },
+  {
+    label: "Discord",
+    href: "#",
+    icon: (
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path d="M20.317 4.369A19.79 19.79 0 0 0 16.558 3.2a.07.07 0 0 0-.075.035c-.211.375-.444.864-.608 1.249a18.27 18.27 0 0 0-5.487 0 12.5 12.5 0 0 0-.617-1.249.073.073 0 0 0-.075-.035 19.74 19.74 0 0 0-3.762 1.169.066.066 0 0 0-.03.027C2.092 8.045 1.21 11.62 1.65 15.151a.082.082 0 0 0 .031.056 19.9 19.9 0 0 0 5.992 3.029.077.077 0 0 0 .084-.027c.461-.63.873-1.295 1.226-1.994a.076.076 0 0 0-.041-.105 13.13 13.13 0 0 1-1.872-.892.077.077 0 0 1-.008-.128c.126-.094.252-.192.372-.291a.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.061 0a.074.074 0 0 1 .078.009c.12.099.246.198.373.292a.077.077 0 0 1-.006.128 12.3 12.3 0 0 1-1.873.891.077.077 0 0 0-.04.106c.36.699.772 1.363 1.225 1.993a.076.076 0 0 0 .084.028 19.84 19.84 0 0 0 6.002-3.029.077.077 0 0 0 .032-.054c.5-4.087-.838-7.63-3.549-10.755a.06.06 0 0 0-.031-.028zM8.02 13.001c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.418 2.157-2.418 1.21 0 2.176 1.094 2.157 2.418 0 1.334-.956 2.42-2.157 2.42zm7.974 0c-1.183 0-2.156-1.085-2.156-2.419 0-1.333.955-2.418 2.156-2.418 1.21 0 2.176 1.094 2.157 2.418 0 1.334-.946 2.42-2.157 2.42z" />
+      </svg>
+    ),
+  },
+];
+
+interface AssetEntry {
+  asset: string;
+  href: string;
+  label: string;
+  count: number;
+  tvl: number;
+}
+
+interface NetworkEntry {
+  slug: string;
+  display: string;
+  count: number;
+  tvl: number;
+}
+
+export async function Footer() {
+  const vaults = await getLiveVaults();
+
+  // === Asset & network columns: live counts, TVL-ordered ============
+  const tvlByAsset = new Map<string, number>();
+  const countByAsset = new Map<string, number>();
+  for (const v of vaults) {
+    tvlByAsset.set(v.asset, (tvlByAsset.get(v.asset) ?? 0) + v.tvl);
+    countByAsset.set(v.asset, (countByAsset.get(v.asset) ?? 0) + 1);
+  }
+  const assetEntries: AssetEntry[] = Object.keys(ASSET_LABELS)
+    .filter((a) => (countByAsset.get(a) ?? 0) > 0)
+    .map((a) => ({
+      asset: a,
+      href: ASSET_HREF[a],
+      label: ASSET_LABELS[a],
+      count: countByAsset.get(a) ?? 0,
+      tvl: tvlByAsset.get(a) ?? 0,
+    }))
+    .sort((a, b) => b.tvl - a.tvl);
+
+  const tvlByChain = new Map<string, number>();
+  const countByChain = new Map<string, number>();
+  for (const v of vaults) {
+    tvlByChain.set(v.chain, (tvlByChain.get(v.chain) ?? 0) + v.tvl);
+    countByChain.set(v.chain, (countByChain.get(v.chain) ?? 0) + 1);
+  }
+  const networkEntries: NetworkEntry[] = NETWORKS.filter(
+    (n) => (countByChain.get(n.chain) ?? 0) > 0,
+  )
+    .map((n) => ({
+      slug: n.slug,
+      display: n.display,
+      count: countByChain.get(n.chain) ?? 0,
+      tvl: tvlByChain.get(n.chain) ?? 0,
+    }))
+    .sort((a, b) => b.tvl - a.tvl);
+
+  // === Brand column live stats ======================================
+  const totalTvl = vaults.reduce((s, v) => s + v.tvl, 0);
+  const networksWithCoverage = networkEntries.length;
+
   return (
     <footer className="foot">
       <div className="foot-inner">
-        <div className="foot-brand">
-          <span className="brand-name">Harvest</span>
-          <span className="mono dim"> · Independent onchain yield index. Updated daily.</span>
-        </div>
-
+        {/* === 4-column grid (Brand, Assets, Networks, Resources) === */}
         <div className="foot-grid">
+          {/* Column 1: Brand */}
+          <div className="foot-col foot-col-brand">
+            <span className="foot-brand-name">Harvest</span>
+            <span className="foot-tagline">
+              Independent onchain yield index
+            </span>
+            <span className="foot-since">
+              Operating since 2020 · 5+ years onchain
+            </span>
+            <p className="foot-blurb">
+              Harvest is an onchain yield index tracking{" "}
+              {vaults.length}+ DeFi yield strategies across major networks.
+              APY, TVL and performance data are updated daily and derive from
+              our own indexer monitoring vault contracts continuously since
+              2020. See <Link href="/methodology">methodology</Link> for how
+              data is collected and calculated.
+            </p>
+            <div className="foot-stats">
+              <span>{formatTVL(totalTvl)} tracked TVL</span>
+              <span className="foot-stats-sep">·</span>
+              <span>{vaults.length} active strategies</span>
+              <span className="foot-stats-sep">·</span>
+              <span>
+                {networksWithCoverage} network
+                {networksWithCoverage !== 1 ? "s" : ""}
+              </span>
+            </div>
+            <div className="foot-social" aria-label="Social links">
+              {SOCIAL.map((s) => (
+                <a
+                  key={s.label}
+                  href={s.href}
+                  className="foot-social-link"
+                  aria-label={s.label}
+                  title={s.label}
+                  rel={s.href !== "#" ? "me noopener" : "noopener"}
+                  target={s.href !== "#" ? "_blank" : undefined}
+                >
+                  {s.icon}
+                </a>
+              ))}
+            </div>
+          </div>
+
+          {/* Column 2: Assets */}
           <div className="foot-col">
-            <div className="foot-col-label mono dim">Assets</div>
-            {ASSET_HUBS.map((l) => (
-              <Link key={l.href} href={l.href} className="foot-link">
-                {l.label}
+            <div className="foot-col-label mono dim">Yield by Asset</div>
+            {assetEntries.map((e) => (
+              <Link key={e.asset} href={e.href} className="foot-link">
+                {e.label} <span className="foot-count">({e.count})</span>
               </Link>
             ))}
           </div>
+
+          {/* Column 3: Networks */}
           <div className="foot-col">
-            <div className="foot-col-label mono dim">Networks</div>
-            {NETWORK_HUBS.map((l) => (
-              <Link key={l.href} href={l.href} className="foot-link">
-                {l.label}
+            <div className="foot-col-label mono dim">Yield by Network</div>
+            {networkEntries.map((e) => (
+              <Link key={e.slug} href={`/${e.slug}`} className="foot-link">
+                {e.display} <span className="foot-count">({e.count})</span>
               </Link>
             ))}
           </div>
+
+          {/* Column 4: Resources + Company */}
           <div className="foot-col">
             <div className="foot-col-label mono dim">Resources</div>
             {RESOURCES.map((l) => (
-              <a key={l.label} href={l.href} className="foot-link">
+              <Link key={l.label} href={l.href} className="foot-link">
                 {l.label}
-              </a>
+              </Link>
             ))}
+            <div className="foot-col-label mono dim" style={{ marginTop: 14 }}>
+              Company
+            </div>
+            {COMPANY.map((l) =>
+              l.href.startsWith("/") ? (
+                <Link key={l.label} href={l.href} className="foot-link">
+                  {l.label}
+                </Link>
+              ) : (
+                <a key={l.label} href={l.href} className="foot-link">
+                  {l.label}
+                </a>
+              ),
+            )}
           </div>
         </div>
 
-        <div className="mono dim foot-copy">&copy; 2026 · Data refreshed hourly</div>
+        {/* === Legal compliance === */}
+        <div className="foot-legal">
+          <div>
+            &copy; 2026 Harvest Finance · Operating onchain since 2020
+          </div>
+          <div>
+            Data refreshed hourly · See{" "}
+            <Link href="/methodology">methodology</Link> for calculation
+            details.
+          </div>
+          <div>
+            DeFi yields are not insured deposits. Past performance does not
+            guarantee future returns.
+          </div>
+        </div>
       </div>
     </footer>
   );
