@@ -878,7 +878,7 @@ button { font-family: inherit; cursor: pointer; }
 /* Chain badge in KPI */
 
 /* Section heading */
-.pp-section { margin: 24px 0 0; }
+.pp-section { margin: 24px 0 0; scroll-margin-top: 120px; }
 /* Risks: standardized boilerplate disclosure rendered full-width at the
    bottom of the page in lower visual hierarchy so it reads as a footer
    disclaimer (and signals to crawlers it's not the page's primary

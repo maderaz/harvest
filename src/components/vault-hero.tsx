@@ -5,6 +5,7 @@ import { formatTVL, stripChainSuffix } from "@/lib/format";
 import type { FullVaultHistory } from "@/lib/history-api";
 import { AssetIcon } from "./token-icons";
 import { CopyAddressButton } from "./copy-address-button";
+import { VaultTabs } from "./vault-tabs";
 import { harvestAppUrl } from "@/lib/harvest-app";
 import { chainToSlug } from "@/lib/networks";
 
@@ -191,18 +192,7 @@ export function VaultHero({ vault, history, allVaults }: Props) {
       </div>
     </section>
 
-    <nav className="vh-tabs">
-        <div className="vh-tabs-inner">
-          <a href="#about" className="vh-tab active">Overview</a>
-          <a href="#performance" className="vh-tab">Performance</a>
-          <a href="#benchmark" className="vh-tab">Benchmarks</a>
-          <a href="#history" className="vh-tab">History</a>
-          <a href="#faq" className="vh-tab">FAQ</a>
-          <a href="#details" className="vh-tab"><span className="vh-tab-long">Contract details</span><span className="vh-tab-short">Details</span></a>
-          <span className="vh-tabs-spacer" />
-          <span className="vh-tabs-meta mono">{truncateAddress(vault.contractAddress)}</span>
-        </div>
-      </nav>
+    <VaultTabs contractLabel={truncateAddress(vault.contractAddress)} />
     </>
   );
 }
