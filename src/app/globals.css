@@ -1354,7 +1354,11 @@ button { font-family: inherit; cursor: pointer; }
 /* Product page responsive */
 @media (max-width: 1100px) {
   .pp-grid { grid-template-columns: 1fr; }
-  .pp-sidebar { position: static; }
+  /* Keep the sidebar sticky on tablet/mobile too, with extra top offset
+     so the calculator card never kisses the sticky topnav as the user
+     scrolls long product pages. */
+  .pp-sidebar { top: 80px; }
+  .dep-calc-card { scroll-margin-top: 80px; }
   .more-vaults { grid-template-columns: repeat(2, 1fr); }
   .hist-grid { grid-template-columns: 1fr; }
   .pp-contract-grid { grid-template-columns: 1fr; }
