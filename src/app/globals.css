@@ -2662,20 +2662,21 @@ button { font-family: inherit; cursor: pointer; }
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 13px;
-  height: 13px;
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
-  font-size: 8px;
+  font-size: 7px;
   font-family: var(--mono);
-  color: var(--ink-4);
-  border: 1px solid var(--line-2);
-  background: var(--bg-2);
+  color: color-mix(in srgb, var(--ink-4) 55%, transparent);
+  border: 1px solid color-mix(in srgb, var(--line-2) 55%, transparent);
+  background: transparent;
   text-decoration: none;
   vertical-align: middle;
   flex-shrink: 0;
-  transition: color 0.1s, border-color 0.1s;
+  opacity: 0.75;
+  transition: color 0.1s, border-color 0.1s, opacity 0.1s;
 }
-.meth-ref:hover { color: var(--accent); border-color: var(--accent); }
+.meth-ref:hover { color: var(--accent); border-color: var(--accent); opacity: 1; }
 
 /* Mobile --------------------------------------------------------- */
 @media (max-width: 900px) {

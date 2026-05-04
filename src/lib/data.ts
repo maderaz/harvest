@@ -4,6 +4,7 @@ import {
   fetchFullVaultHistory,
   chainNameToKey,
   type FullVaultHistory,
+  type ApyHistoryPoint,
 } from "./history-api";
 import { readFileSync, existsSync } from "fs";
 import { join } from "path";
@@ -76,9 +77,41 @@ export function isLiveVault(v: YieldVault): boolean {
   return v.apy24h > 0 && v.tvl > 0;
 }
 
+const STALE_APY_DAYS = 14;
+
+function isStaleApyHistory(history: ApyHistoryPoint[]): boolean {
+  if (history.length < 2) return false;
+  const sorted = [...history].sort((a, b) => b.timestamp - a.timestamp);
+  const latest = sorted[0];
+  const cutoff = latest.timestamp - STALE_APY_DAYS * 86400;
+  for (const p of sorted) {
+    if (p.apy !== latest.apy) {
+      return p.timestamp <= cutoff;
+    }
+  }
+  const oldest = sorted[sorted.length - 1];
+  return latest.timestamp - oldest.timestamp >= STALE_APY_DAYS * 86400;
+}
+
+let _staleSetCache: Set<string> | null = null;
+
+function getStaleAddresses(): Set<string> {
+  if (_staleSetCache) return _staleSetCache;
+  if (!_historyCache) _historyCache = loadHistoryFromFile();
+  const stale = new Set<string>();
+  if (_historyCache) {
+    for (const [addr, h] of Object.entries(_historyCache)) {
+      if (isStaleApyHistory(h.apyHistory)) stale.add(addr.toLowerCase());
+    }
+  }
+  _staleSetCache = stale;
+  return stale;
+}
+
 export async function getLiveVaults(): Promise<YieldVault[]> {
   const all = await getVaults();
-  return all.filter(isLiveVault);
+  const stale = getStaleAddresses();
+  return all.filter((v) => isLiveVault(v) && !stale.has(v.contractAddress.toLowerCase()));
 }
 
 export async function getVaultHistory(contractAddress: string): Promise<FullVaultHistory> {
