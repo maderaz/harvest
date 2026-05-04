@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { YieldVault } from "@/lib/types";
 import { formatAPY, formatTVL } from "@/lib/format";
 import { AssetIcon } from "./token-icons";
@@ -26,14 +27,14 @@ export function TickerStrip({ vaults }: { vaults: YieldVault[] }) {
     <div className="ticker">
       <div className="ticker-track">
         {items.map((v, i) => (
-          <span key={i} className="ticker-item">
+          <Link key={i} href={`/${v.slug}`} className="ticker-item">
             <AssetIcon asset={v.asset} size={18} />
             <span className="t-name">{v.productName}</span>
             <span className="t-val">{formatAPY(v.apy24h)}</span>
             <span className="t-val" style={{ color: "var(--ink-4)" }}>
               {formatTVL(v.tvl)}
             </span>
-          </span>
+          </Link>
         ))}
       </div>
     </div>

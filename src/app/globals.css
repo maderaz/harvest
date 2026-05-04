@@ -264,10 +264,14 @@ button { font-family: inherit; cursor: pointer; }
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 0 24px;
+  padding: 0 22px;
   border-right: 1px solid var(--line);
   font-size: 12px;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
 }
+.ticker-item:hover { background: color-mix(in srgb, var(--ink) 4%, transparent); }
 .ticker-item .t-name { font-weight: 500; font-size: 12px; }
 .ticker-item .t-val { font-family: var(--mono); color: var(--ink-2); font-size: 12px; }
 @keyframes ticker-scroll {
