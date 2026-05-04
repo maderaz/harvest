@@ -568,13 +568,15 @@ export default async function ProductPage({
 
             {/* Index membership links */}
             <div className="pp-index-links">
-              <Link href={assetHubPath(vault.asset)}>
-                Part of: {isUmbrellaAsset(vault.asset) ? getSubAssetFamilyName(vault.asset) : vault.asset} yield index
-              </Link>
-              <span className="pp-index-sep">·</span>
-              <Link href={`/${chainToSlug(vault.chain)}`}>
-                {vault.chain} yield index
-              </Link>
+              <span className="pp-index-label">Indexed in</span>
+              <div className="pp-index-chips">
+                <Link href={assetHubPath(vault.asset)} className="pp-index-chip">
+                  {isUmbrellaAsset(vault.asset) ? getSubAssetFamilyName(vault.asset) : vault.asset} yield index
+                </Link>
+                <Link href={`/${chainToSlug(vault.chain)}`} className="pp-index-chip">
+                  {vault.chain} yield index
+                </Link>
+              </div>
             </div>
 
             {/* Related Vaults */}
