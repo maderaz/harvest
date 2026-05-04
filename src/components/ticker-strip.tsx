@@ -8,30 +8,16 @@ interface Props {
   sparklines?: Record<string, number[]>;
 }
 
-// NASDAQ-style strip on the homepage. Surface only strategies that:
-//   - have positive APY <= 50% (filter out outliers / errored points),
-//   - hold at least $10k TVL,
-//   - have shown an APY increase since the previous daily observation.
-// We also enforce a per-asset cap so a single asset family can't dominate.
-export function TickerStrip({ vaults, sparklines }: Props) {
-  const apyIncreased = (v: YieldVault): boolean => {
-    const series = sparklines?.[v.contractAddress];
-    if (!series || series.length < 2) return false;
-    return series[series.length - 1] > series[series.length - 2];
-  };
-
+// NASDAQ-style strip on the homepage. Surface live, non-stale strategies
+// (stale-APY filter is already applied upstream in getLiveVaults) sorted
+// by TVL, capped per asset so one family can't dominate.
+export function TickerStrip({ vaults }: Props) {
   const eligible = vaults
-    .filter(
-      (v) =>
-        v.apy24h > 0 &&
-        v.apy24h <= 50 &&
-        v.tvl >= 10_000 &&
-        apyIncreased(v),
-    )
+    .filter((v) => v.apy24h > 0 && v.apy24h <= 50 && v.tvl >= 10_000)
     .sort((a, b) => b.tvl - a.tvl);
 
-  const PER_ASSET_CAP = 3;
-  const MAX_ITEMS = 14;
+  const PER_ASSET_CAP = 4;
+  const MAX_ITEMS = 16;
   const seen = new Map<string, number>();
   const top: YieldVault[] = [];
   for (const v of eligible) {
@@ -44,7 +30,13 @@ export function TickerStrip({ vaults, sparklines }: Props) {
 
   if (top.length === 0) return null;
 
-  const items = [...top, ...top];
+  // Repeat enough copies so even on ultrawide screens the track is at
+  // least 2x the viewport. We render an even number of copies so the
+  // CSS -50% translate produces a seamless loop.
+  const TARGET_TILES = 32;
+  const repeats = Math.max(2, Math.ceil(TARGET_TILES / top.length));
+  const evenRepeats = repeats % 2 === 0 ? repeats : repeats + 1;
+  const items = Array.from({ length: evenRepeats }, () => top).flat();
 
   return (
     <div className="ticker">

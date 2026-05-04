@@ -256,21 +256,22 @@ button { font-family: inherit; cursor: pointer; }
   gap: 0;
   animation: ticker-scroll 60s linear infinite;
   white-space: nowrap;
-  padding: 7px 0;
 }
 .ticker-track:hover { animation-play-state: paused; }
 .ticker-item {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 0 22px;
+  gap: 8px;
+  padding: 9px 22px;
   border-right: 1px solid var(--line);
   font-size: 12px;
   text-decoration: none;
   color: inherit;
   cursor: pointer;
+  transition: background 0.12s, color 0.12s;
 }
-.ticker-item:hover { background: color-mix(in srgb, var(--ink) 4%, transparent); }
+.ticker-item:hover { background: var(--bg-2); color: var(--ink); }
+.ticker-item:hover .t-val { color: var(--ink); }
 .ticker-item .t-name { font-weight: 500; font-size: 12px; }
 .ticker-item .t-val { font-family: var(--mono); color: var(--ink-2); font-size: 12px; }
 @keyframes ticker-scroll {
