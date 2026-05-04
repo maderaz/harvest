@@ -265,6 +265,7 @@ button { font-family: inherit; cursor: pointer; }
   gap: 8px;
   padding: 9px 22px;
   min-width: 240px;
+  flex-shrink: 0;
   border-right: 1px solid var(--line);
   font-size: 12px;
   text-decoration: none;
