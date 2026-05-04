@@ -948,7 +948,9 @@ button { font-family: inherit; cursor: pointer; }
 /* Sidebar column */
 .pp-sidebar {
   position: sticky;
-  top: 70px;
+  /* Clears the 52px topnav + ~44px sticky vault tabs strip with a 16px
+     breathing gap, so the calculator card never tucks under the tabs. */
+  top: 112px;
   display: flex;
   flex-direction: column;
   gap: 18px;
@@ -1355,10 +1357,10 @@ button { font-family: inherit; cursor: pointer; }
 @media (max-width: 1100px) {
   .pp-grid { grid-template-columns: 1fr; }
   /* Keep the sidebar sticky on tablet/mobile too, with extra top offset
-     so the calculator card never kisses the sticky topnav as the user
-     scrolls long product pages. */
-  .pp-sidebar { top: 80px; }
-  .dep-calc-card { scroll-margin-top: 80px; }
+     so the calculator card clears the topnav + vault tabs strip with
+     comfortable breathing room. */
+  .pp-sidebar { top: 112px; }
+  .dep-calc-card { scroll-margin-top: 112px; }
   .more-vaults { grid-template-columns: repeat(2, 1fr); }
   .hist-grid { grid-template-columns: 1fr; }
   .pp-contract-grid { grid-template-columns: 1fr; }
