@@ -60,36 +60,75 @@ function loadHistoryFromFile(): Record<string, FullVaultHistory> | null {
 export async function getVaults(): Promise<YieldVault[]> {
   if (_vaultCache) return _vaultCache;
 
-  // Try file-based cache first
+  let vaults: YieldVault[];
   const fromFile = loadVaultsFromFile();
   if (fromFile) {
-    _vaultCache = fromFile;
-    return _vaultCache;
+    vaults = fromFile;
+  } else {
+    const live = await fetchHarvestVaults();
+    vaults = live.length > 0 ? live : [FALLBACK_VAULT];
   }
 
-  // Fallback to live API (local dev without data files)
-  const live = await fetchHarvestVaults();
-  _vaultCache = live.length > 0 ? live : [FALLBACK_VAULT];
+  // Reconcile each vault's headline APY with the cached daily history
+  // so the displayed 24h/30d numbers always match the chart on the
+  // product page. Upstream sometimes hands us a stale spot value (or
+  // falls back to a single shared "current" reading for both fields,
+  // which made the broken-vault detector trip on healthy entries).
+  if (!_historyCache) _historyCache = loadHistoryFromFile();
+  if (_historyCache) {
+    const cache = _historyCache;
+    vaults = vaults.map((v) => {
+      const h = cache[v.contractAddress] ?? cache[v.contractAddress.toLowerCase()];
+      if (!h || h.apyHistory.length === 0) return v;
+      const derived = deriveApyMetrics(h.apyHistory);
+      if (!derived) return v;
+      return { ...v, apy24h: derived.apy24h, apy30d: derived.apy30d };
+    });
+  }
+
+  _vaultCache = vaults;
   return _vaultCache;
+}
+
+function deriveApyMetrics(history: ApyHistoryPoint[]): { apy24h: number; apy30d: number } | null {
+  if (history.length === 0) return null;
+  const sorted = [...history].sort((a, b) => b.timestamp - a.timestamp);
+  const latest = sorted[0];
+  const apy24h = latest.apy;
+  const cutoff = latest.timestamp - 30 * 86400;
+  const recent = sorted.filter((p) => p.timestamp >= cutoff);
+  const apy30d =
+    recent.length > 0
+      ? recent.reduce((s, p) => s + p.apy, 0) / recent.length
+      : apy24h;
+  return { apy24h, apy30d };
 }
 
 export function isLiveVault(v: YieldVault): boolean {
   return v.apy24h > 0 && v.tvl > 0;
 }
 
-// Sub-$10k TVL with frozen identical 24h/30d APY is a strong signal the
+// Sub-$10k TVL with a flat 30-day APY history is a strong signal the
 // vault is broken (paused harvest, oracle stuck, or never bootstrapped).
-// We delist it from rankings and flag the page noindex to save crawl
-// budget; if the APY ever moves the check resolves false automatically.
+// We require at least 14 distinct daily observations so brand-new
+// vaults aren't false-flagged, then check that every reading inside the
+// 30-day window holds the same exact value. The check resolves false
+// the moment the APY moves, so a recovered vault returns automatically.
 const BROKEN_TVL_THRESHOLD = 10_000;
+const BROKEN_MIN_OBSERVATIONS = 14;
+
 export function isBrokenLowTvlVault(v: YieldVault): boolean {
-  return (
-    v.tvl > 0 &&
-    v.tvl < BROKEN_TVL_THRESHOLD &&
-    v.apy24h > 0 &&
-    v.apy30d > 0 &&
-    v.apy24h === v.apy30d
-  );
+  if (v.tvl <= 0 || v.tvl >= BROKEN_TVL_THRESHOLD) return false;
+  if (!_historyCache) _historyCache = loadHistoryFromFile();
+  const h =
+    _historyCache?.[v.contractAddress] ??
+    _historyCache?.[v.contractAddress.toLowerCase()];
+  if (!h || h.apyHistory.length < BROKEN_MIN_OBSERVATIONS) return false;
+  const sorted = [...h.apyHistory].sort((a, b) => b.timestamp - a.timestamp);
+  const cutoff = sorted[0].timestamp - 30 * 86400;
+  const recent = sorted.filter((p) => p.timestamp >= cutoff);
+  if (recent.length < BROKEN_MIN_OBSERVATIONS) return false;
+  return new Set(recent.map((p) => p.apy)).size === 1;
 }
 
 const STALE_APY_DAYS = 14;
