@@ -77,6 +77,21 @@ export function isLiveVault(v: YieldVault): boolean {
   return v.apy24h > 0 && v.tvl > 0;
 }
 
+// Sub-$10k TVL with frozen identical 24h/30d APY is a strong signal the
+// vault is broken (paused harvest, oracle stuck, or never bootstrapped).
+// We delist it from rankings and flag the page noindex to save crawl
+// budget; if the APY ever moves the check resolves false automatically.
+const BROKEN_TVL_THRESHOLD = 10_000;
+export function isBrokenLowTvlVault(v: YieldVault): boolean {
+  return (
+    v.tvl > 0 &&
+    v.tvl < BROKEN_TVL_THRESHOLD &&
+    v.apy24h > 0 &&
+    v.apy30d > 0 &&
+    v.apy24h === v.apy30d
+  );
+}
+
 const STALE_APY_DAYS = 14;
 
 function isStaleApyHistory(history: ApyHistoryPoint[]): boolean {
@@ -111,7 +126,12 @@ function getStaleAddresses(): Set<string> {
 export async function getLiveVaults(): Promise<YieldVault[]> {
   const all = await getVaults();
   const stale = getStaleAddresses();
-  return all.filter((v) => isLiveVault(v) && !stale.has(v.contractAddress.toLowerCase()));
+  return all.filter(
+    (v) =>
+      isLiveVault(v) &&
+      !stale.has(v.contractAddress.toLowerCase()) &&
+      !isBrokenLowTvlVault(v),
+  );
 }
 
 export async function getVaultHistory(contractAddress: string): Promise<FullVaultHistory> {

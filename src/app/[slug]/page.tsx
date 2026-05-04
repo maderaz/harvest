@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import type { Metadata } from "next";
-import { getLiveVaults, getVaultBySlug, getAllSlugs, getVaultHistory } from "@/lib/data";
+import { getLiveVaults, getVaultBySlug, getAllSlugs, getVaultHistory, isBrokenLowTvlVault } from "@/lib/data";
 import { isCanonicalSlug } from "@/lib/canonical-vaults";
 import { formatAPY, formatTVL, stripChainSuffix } from "@/lib/format";
 import { AssetBadge } from "@/components/asset-badge";
@@ -55,11 +55,13 @@ export async function generateMetadata({
   const description = productPageDescription(vault, trackedDays);
 
   const canonical = await isCanonicalSlug(slug);
+  const broken = isBrokenLowTvlVault(vault);
+  const indexable = canonical && !broken;
 
   return {
     title: { absolute: title },
     description,
-    robots: canonical
+    robots: indexable
       ? { index: true, follow: true }
       : { index: false, follow: true },
     openGraph: {

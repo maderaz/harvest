@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { getAllSlugs } from "@/lib/data";
+import { getVaults, isBrokenLowTvlVault } from "@/lib/data";
 import { getCanonicalSlugs } from "@/lib/canonical-vaults";
 import { SITE_URL } from "@/lib/constants";
 import { NETWORKS } from "@/lib/networks";
@@ -9,11 +9,13 @@ export const dynamic = "force-static";
 const ASSET_HUBS = ["usdc", "usdt", "btc", "eth"];
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const slugs = await getAllSlugs();
+  const vaults = await getVaults();
   const canonical = await getCanonicalSlugs();
+  const brokenSlugs = new Set(vaults.filter(isBrokenLowTvlVault).map((v) => v.slug));
 
-  const vaultPages = slugs
-    .filter((s) => canonical.has(s))
+  const vaultPages = vaults
+    .map((v) => v.slug)
+    .filter((s) => canonical.has(s) && !brokenSlugs.has(s))
     .map((slug) => ({
       url: `${SITE_URL}/${slug}`,
       lastModified: new Date(),
